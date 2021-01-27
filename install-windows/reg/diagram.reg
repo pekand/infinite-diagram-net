@@ -1,0 +1,21 @@
+Windows Registry Editor Version 5.00
+[HKEY_CLASSES_ROOT\.diagram]
+@="diagramfile"
+"Content Type"="text/plain"
+
+[HKEY_CLASSES_ROOT\.diagram\ShellNew]
+"Data"=hex:3c,64,69,61,67,72,61,6d,3e,3c,2f,64,69,61,67,72,61,6d,3e
+
+[HKEY_CLASSES_ROOT\diagramfile]
+@="Diagram File"
+
+[HKEY_CLASSES_ROOT\diagramfile\DefaultIcon]
+@="d:\\Apps\\Diagram\\diagram.ico"
+
+[HKEY_CLASSES_ROOT\diagramfile\shell]
+
+[HKEY_CLASSES_ROOT\diagramfile\shell\open]
+
+[HKEY_CLASSES_ROOT\diagramfile\shell\open\command]
+@="d:\\Programs\\Diagram\\Diagram \"%1\""
+

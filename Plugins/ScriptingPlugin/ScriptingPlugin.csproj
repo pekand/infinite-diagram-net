@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Diagram">
-      <HintPath>..\..\Diagram\bin\Release\Diagram.exe</HintPath>
+    <Reference Include="InfiniteDiagram">
+      <HintPath>..\..\Diagram\bin\Release\InfiniteDiagram.exe</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="IronPython, Version=2.7.11.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">

@@ -31,8 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Diagram">
-      <HintPath>..\..\Diagram\bin\Release\Diagram.exe</HintPath>
+    <Reference Include="InfiniteDiagram">
+      <HintPath>..\..\Diagram\bin\Release\InfiniteDiagram.exe</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="NCalc, Version=1.3.8.0, Culture=neutral, PublicKeyToken=973cde3f1cafed03, processorArchitecture=MSIL">

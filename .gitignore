@@ -17,3 +17,6 @@
 /Plugins/ScriptingPlugin/bin
 /Plugins/ScriptingPlugin/Lib
 /Plugins/ScriptingPlugin/obj
+/install-windows/files
+/install-windows/Output
+/install-windows/plugins

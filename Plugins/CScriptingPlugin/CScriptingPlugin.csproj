@@ -34,8 +34,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Diagram">
-      <HintPath>..\..\Diagram\bin\Release\Diagram.exe</HintPath>
+    <Reference Include="InfiniteDiagram">
+      <HintPath>..\..\Diagram\bin\Release\InfiniteDiagram.exe</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.CodeAnalysis, Version=3.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">

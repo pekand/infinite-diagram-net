@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="diagramico_forms.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="905.91252"
+     inkscape:cy="466.55505"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1004"
+     inkscape:window-x="-4"
+     inkscape:window-y="-4"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Vrstva 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#4d4d4d;fill-opacity:0.38248848;stroke:#000000;stroke-width:4.26696157;stroke-miterlimit:4;stroke-opacity:0;stroke-dasharray:none"
+       id="rect2985-9"
+       width="395.73303"
+       height="395.73303"
+       x="179.31342"
+       y="272.48242"
+       transform="matrix(0.99735622,-0.07266753,0.07266753,0.99735622,0,0)"
+       inkscape:export-filename="Q:\Project\diagram\data\011 Nová ikona programu\rect2987-4-0.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="fill:#000000;stroke:#000000;stroke-width:4.26696157;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect2985"
+       width="395.73303"
+       height="395.73303"
+       x="151.75862"
+       y="247.53093"
+       transform="matrix(0.99735622,-0.07266753,0.07266753,0.99735622,0,0)"
+       inkscape:export-filename="Q:\Project\diagram\data\011 Nová ikona programu\rect2987-4-0.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="fill:#d4ff2a;stroke:#000000;stroke-width:4.28658437999999990;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1"
+       id="rect2987"
+       width="207.28484"
+       height="121.57056"
+       x="175.98273"
+       y="298.54062"
+       transform="matrix(0.99735622,-0.07266753,0.07266753,0.99735622,0,0)"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="fill:#d4ff2a;fill-opacity:1;stroke:#000000;stroke-width:4.28658437999999990;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect2987-7"
+       width="207.28484"
+       height="121.57056"
+       x="305.9827"
+       y="454.54062"
+       transform="matrix(0.99735622,-0.07266753,0.07266753,0.99735622,0,0)"
+       inkscape:export-filename="Q:\Project\diagram\data\011 Nová ikona programu\rect2987-4-0.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="fill:#225500;stroke:#000000;stroke-width:3.15525556000000010;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect2987-4"
+       width="111.27331"
+       height="122.70189"
+       x="402.55988"
+       y="297.4035"
+       transform="matrix(0.99735622,-0.07266753,0.07266753,0.99735622,0,0)"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="fill:#225500;stroke:#000000;stroke-width:3.15525556000000010;stroke-miterlimit:4;stroke-dasharray:none;fill-opacity:1"
+       id="rect2987-4-0"
+       width="111.27331"
+       height="122.70189"
+       x="182.55992"
+       y="454.83212"
+       transform="matrix(0.99735622,-0.07266753,0.07266753,0.99735622,0,0)"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+  </g>
+</svg>

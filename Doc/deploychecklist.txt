@@ -1,0 +1,5 @@
+1. move version in project 
+2. move version in inoo setup file
+3. build release package
+4. update version and signature on home page 
+5. create new release on github with installation file
