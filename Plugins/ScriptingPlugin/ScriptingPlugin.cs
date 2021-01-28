@@ -111,6 +111,13 @@ namespace Plugin
             {
                 string pluginDirectory = Os.GetDirectoryName(this.location);
                 standardLibraryPath = Os.Combine(pluginDirectory, "IronPython.zip");
+
+                if (!Os.FileExists(standardLibraryPath))
+                {
+                    Program.log.Write("ScriptPlugim: standard python librar IronPython.zip not exist");
+                    return null;
+                }
+
             }
 
             return standardLibraryPath;

@@ -29,7 +29,7 @@ copy ..\Diagram\bin\Release\plugins\FindUidPlugin\FindUidPlugin.dll .\plugins\Fi
 copy ..\Diagram\bin\Release\plugins\NcalcPlugin\NCalc.dll .\plugins\NcalcPlugin\
 copy ..\Diagram\bin\Release\plugins\NcalcPlugin\NcalcPlugin.dll .\plugins\NcalcPlugin\
 
-copy ..\packages\IronPython.StdLib.2.7.11\content\IronPython.zip .\plugins\ScriptingPlugin\
+copy ..\Diagram\bin\Release\plugins\ScriptingPlugin\IronPython.zip .\plugins\ScriptingPlugin\
 copy ..\Diagram\bin\Release\plugins\ScriptingPlugin\IronPython.dll .\plugins\ScriptingPlugin\
 copy ..\Diagram\bin\Release\plugins\ScriptingPlugin\IronPython.Modules.dll .\plugins\ScriptingPlugin\
 copy ..\Diagram\bin\Release\plugins\ScriptingPlugin\IronPython.SQLite.dll .\plugins\ScriptingPlugin\

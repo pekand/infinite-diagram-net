@@ -61,6 +61,28 @@ namespace Diagram.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Migrate to .net framework 4.8
+        ///Check version only if diagram is main thread.
+        ///Compare application version before update.
+        ///Check if opened diagram is empty and mark it as signed.
+        ///Check version and show update form.
+        ///Rename assembly to InfiniteDiagram.
+        ///Select node with right click when popup is shown.
+        ///Remove default color from link.
+        ///Remove blinking when add node to slelection.
+        ///Move scaled items wth keyboard.
+        ///Align scaled items.
+        ///Empty file is by default signed.
+        ///Select only visivle nodes.
+        ///Calculate line position ac [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FeaturesList {
+            get {
+                return ResourceManager.GetString("FeaturesList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon ico_diagram {

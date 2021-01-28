@@ -301,6 +301,7 @@
     <None Include="Resources\lock.svg" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="FeaturesList.txt" />
     <Content Include="InfiniteDiagram.ico" />
   </ItemGroup>
   <ItemGroup>

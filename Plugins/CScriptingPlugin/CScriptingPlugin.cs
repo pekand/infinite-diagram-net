@@ -100,8 +100,8 @@ namespace Plugin
                 var asms = AppDomain.CurrentDomain.GetAssemblies();
                 foreach (Assembly asm in asms)
                 {
-
-                    if (asm.ManifestModule.Name == "Diagram.dll") {
+                    Program.log.Write("CSScriptPlugin: " + asm.ManifestModule.Name);
+                    if (asm.ManifestModule.Name == "InfiniteDiagram.exe") {
                         this.scriptOptions = this.scriptOptions.AddReferences(asm);
                     }
                 }
