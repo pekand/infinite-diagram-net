@@ -9,7 +9,6 @@ copy ..\Diagram\bin\Release\Fizzler.dll .\files\
 copy ..\Diagram\bin\Release\Svg.dll .\files\
 
 mkdir plugins
-mkdir plugins\DropPlugin
 mkdir plugins\FindUidPlugin
 mkdir plugins\CreateDirectoryPlugin
 mkdir plugins\NcalcPlugin
@@ -24,7 +23,6 @@ copy ..\Diagram\bin\Release\plugins\CScriptingPlugin\Microsoft.CodeAnalysis.Scri
 copy ..\Diagram\bin\Release\plugins\CScriptingPlugin\Microsoft.CodeAnalysis.dll .\plugins\CScriptingPlugin\
 
 copy ..\Diagram\bin\Release\plugins\CreateDirectoryPlugin\CreateDirectoryPlugin.dll .\plugins\CreateDirectoryPlugin\
-copy ..\Diagram\bin\Release\plugins\DropPlugin\DropPlugin.dll .\plugins\DropPlugin\
 copy ..\Diagram\bin\Release\plugins\FindUidPlugin\FindUidPlugin.dll .\plugins\FindUidPlugin\
 copy ..\Diagram\bin\Release\plugins\NcalcPlugin\NCalc.dll .\plugins\NcalcPlugin\
 copy ..\Diagram\bin\Release\plugins\NcalcPlugin\NcalcPlugin.dll .\plugins\NcalcPlugin\
@@ -42,7 +40,6 @@ copy ..\Diagram\bin\Release\plugins\ScriptingPlugin\ScriptingPlugin.dll .\plugin
 call subscribe "files\InfiniteDiagram.exe"
 call subscribe "files\InfiniteDiagram.dll"
 call subscribe "plugins\CreateDirectoryPlugin\CreateDirectoryPlugin.dll"
-call subscribe "plugins\DropPlugin\DropPlugin.dll"
 call subscribe "plugins\FindUidPlugin\FindUidPlugin.dll"
 call subscribe "plugins\NcalcPlugin\NcalcPlugin.dll"
 call subscribe "plugins\ScriptingPlugin\ScriptingPlugin.dll"

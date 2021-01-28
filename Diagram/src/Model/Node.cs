@@ -91,6 +91,11 @@ namespace Diagram
         public bool protect = false; // protect sensitive data like pasword in node name (show asterisk instead of name)
 
         /*************************************************************************************************************************/
+        // PLUGINS
+
+        public DataStorage dataStorage = new DataStorage(); // extra storage for plugins
+
+        /*************************************************************************************************************************/
         // CONSTRUCTORS
 
         public Node()

@@ -46,8 +46,6 @@ Source: "files\Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 Source: "plugins\CreateDirectoryPlugin\CreateDirectoryPlugin.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CreateDirectoryPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
 
-Source: "plugins\DropPlugin\DropPlugin.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\DropPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
-
 Source: "plugins\FindUidPlugin\FindUidPlugin.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\FindUidPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
 
 Source: "plugins\NcalcPlugin\NcalcPlugin.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\NcalcPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp

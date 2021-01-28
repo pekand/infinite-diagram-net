@@ -178,6 +178,11 @@ namespace Diagram
                 {
                     this.programOptions.skipVersion = option.Value;
                 }
+
+                if (option.Name.ToString() == "data")
+                {
+                    this.programOptions.dataStorage.fromXml(option);
+                }
             }
 
             if (this.programOptions.signatureSecret == null || this.programOptions.signatureSecret.Trim() == "") {
@@ -257,6 +262,12 @@ namespace Diagram
             }
 
             root.Add(recentFilesNode);
+
+            XElement dataStorageElement = new XElement("data");
+
+            this.programOptions.dataStorage.toXml(dataStorageElement);
+
+            root.Add(dataStorageElement);
 
             return root;
         }

@@ -86,6 +86,10 @@ namespace Diagram
         /// skip version for update. Show update dialog when newer version is released.</summary>
         public string skipVersion = null;
 
+        /// <summary>
+        /// extra storage for plugins</summary>
+        public DataStorage dataStorage = new DataStorage();
+
         /*************************************************************************************************************************/
         // Recent files
 

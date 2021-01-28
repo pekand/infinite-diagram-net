@@ -67,7 +67,7 @@ namespace Diagram
         /*************************************************************************************************************************/
         // PLUGINS
 
-        public DataStorage dataStorage = new DataStorage(); // default font
+        public DataStorage dataStorage = new DataStorage();
 
         /*************************************************************************************************************************/
         // CONSTRUCTORS
@@ -301,6 +301,8 @@ namespace Diagram
                     this.signed = Signature.CheckSignature(this.main.programOptions.signatureSecret, signature, diagraxml, signatureIV);
 
                     Program.log.Write("Document is: " + (this.signed ? "SIGNED" : "UNSIGNED"));
+
+                    this.main.plugins.LoadAction(this, diagram);
                 }
 
                 return true;
@@ -339,10 +341,14 @@ namespace Diagram
                             this.LoadInnerXmlLines(lines, nodes, diagram);
                         }
 
+                        if (diagram.Name.ToString() == "data")
+                        {
+                            this.dataStorage.fromXml(diagram);
+                        }
+
                     }
                 }
 
-                this.main.plugins.LoadAction(this, root);
             }
             catch (Exception ex)
             {
@@ -757,6 +763,11 @@ namespace Diagram
                                 R.protect = bool.Parse(el.Value);
                             }
 
+                            if (el.Name.ToString() == "data")
+                            {
+                                R.dataStorage.fromXml(el);
+                            }
+
                         }
                         catch (Exception ex)
                         {
@@ -816,6 +827,11 @@ namespace Diagram
                             if (el.Name.ToString() == "layer")
                             {
                                 L.layer = Int64.Parse(el.Value);
+                            }
+
+                            if (el.Name.ToString() == "data")
+                            {
+                                L.dataStorage.fromXml(el);
                             }
 
                         }
@@ -977,15 +993,17 @@ namespace Diagram
 
             try
             {
-                XElement option = this.SaveInnerXmlOptions();
+                this.main.plugins.SaveAction(this, diagram);
+
+                XElement options = this.SaveInnerXmlOptions();
                 XElement rectangles = this.SaveInnerXmlNodes(this.GetAllNodes());
                 XElement lines = this.SaveInnerXmlLines(this.GetAllLines());
+                XElement dataStorage = this.dataStorage.toXml(new XElement("data"));
 
-                diagram.Add(option);
+                diagram.Add(options);
                 diagram.Add(rectangles);
                 diagram.Add(lines);
-
-                this.main.plugins.SaveAction(this, diagram);
+                diagram.Add(dataStorage);
             }
             catch (Exception ex)
             {
@@ -1101,6 +1119,8 @@ namespace Diagram
                 rectangle.Add(new XElement("timemodify", rec.timemodify));
 
                 rectangles.Add(rectangle);
+
+                rectangle.Add(rec.dataStorage.toXml(new XElement("data")));
             }
             
             return rectangles;
@@ -1119,6 +1139,7 @@ namespace Diagram
                 line.Add(new XElement("color", lin.color));
                 if (lin.width != 1) line.Add(new XElement("width", lin.width));
                 line.Add(new XElement("layer", lin.layer));
+                line.Add(lin.dataStorage.toXml(new XElement("data")));
                 xlines.Add(line);
             }
 

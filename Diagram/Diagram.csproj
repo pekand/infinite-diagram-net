@@ -159,6 +159,7 @@
     <Compile Include="src\Lib\RecentFiles.cs" />
     <Compile Include="src\Lib\Serialization.cs" />
     <Compile Include="src\Lib\Signature.cs" />
+    <Compile Include="src\Lib\DataStorage.cs" />
     <Compile Include="src\Lib\SvgAdapter.cs" />
     <Compile Include="src\Lib\Tick.cs" />
     <Compile Include="src\Lib\Tools.cs" />
@@ -175,7 +176,6 @@
     <Compile Include="src\Model\Options.cs" />
     <Compile Include="src\Model\Position.cs" />
     <Compile Include="src\Model\UndoOperations.cs" />
-    <Compile Include="src\Plugins\DataStorage.cs" />
     <Compile Include="src\Plugins\interfaces\IDiagramPlugin.cs" />
     <Compile Include="src\Plugins\interfaces\IDropPlugin.cs" />
     <Compile Include="src\Plugins\interfaces\IKeyPressPlugin.cs" />
@@ -184,7 +184,6 @@
     <Compile Include="src\Plugins\interfaces\IOpenDiagramPlugin.cs" />
     <Compile Include="src\Plugins\interfaces\IPopupPlugin.cs" />
     <Compile Include="src\Plugins\interfaces\ISavePlugin.cs" />
-    <Compile Include="src\Plugins\interfaces\IStorage.cs" />
     <Compile Include="src\Plugins\Plugin.cs" />
     <Compile Include="src\Plugins\Plugins.cs" />
     <Compile Include="src\Tools\Features.cs" />

@@ -27,6 +27,11 @@
         public long layer = 0; // layer parent node id
 
         /*************************************************************************************************************************/
+        // PLUGINS
+
+        public DataStorage dataStorage = new DataStorage(); // extra storage for plugins
+
+        /*************************************************************************************************************************/
         // CONSTRUCTORS
 
         public Line()
