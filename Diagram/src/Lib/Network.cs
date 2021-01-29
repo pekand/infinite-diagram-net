@@ -218,8 +218,7 @@ namespace Diagram
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                url = url.Replace("&", "^&");
-                Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
+                System.Diagnostics.Process.Start(url);
             }
         }
 		

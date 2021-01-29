@@ -1,3 +1,4 @@
+Add data storage for plugins
 Migrate to .net framework 4.8
 Check version only if diagram is main thread.
 Compare application version before update.
