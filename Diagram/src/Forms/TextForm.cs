@@ -46,7 +46,6 @@ namespace Diagram
             // 
             this.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.SplitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.SplitContainer1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.SplitContainer1.Name = "SplitContainer1";
             this.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -58,20 +57,18 @@ namespace Diagram
             // 
             this.SplitContainer1.Panel2.Controls.Add(this.TextFormLinkTextBox);
             this.SplitContainer1.Panel2.Controls.Add(this.TextFormNoteTextBox);
-            this.SplitContainer1.Size = new System.Drawing.Size(458, 597);
-            this.SplitContainer1.SplitterDistance = 83;
-            this.SplitContainer1.SplitterWidth = 5;
+            this.SplitContainer1.Size = new System.Drawing.Size(393, 517);
+            this.SplitContainer1.SplitterDistance = 71;
             this.SplitContainer1.TabIndex = 0;
             // 
             // TextFormTextBox
             // 
             this.TextFormTextBox.DetectUrls = false;
             this.TextFormTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TextFormTextBox.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TextFormTextBox.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.TextFormTextBox.Location = new System.Drawing.Point(0, 0);
-            this.TextFormTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.TextFormTextBox.Name = "TextFormTextBox";
-            this.TextFormTextBox.Size = new System.Drawing.Size(458, 83);
+            this.TextFormTextBox.Size = new System.Drawing.Size(393, 71);
             this.TextFormTextBox.TabIndex = 0;
             this.TextFormTextBox.Text = "";
             this.TextFormTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextFormTextBox_KeyDown);
@@ -79,34 +76,32 @@ namespace Diagram
             // TextFormLinkTextBox
             // 
             this.TextFormLinkTextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.TextFormLinkTextBox.Location = new System.Drawing.Point(0, 486);
-            this.TextFormLinkTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.TextFormLinkTextBox.Location = new System.Drawing.Point(0, 422);
             this.TextFormLinkTextBox.Name = "TextFormLinkTextBox";
-            this.TextFormLinkTextBox.Size = new System.Drawing.Size(458, 23);
+            this.TextFormLinkTextBox.Size = new System.Drawing.Size(393, 20);
             this.TextFormLinkTextBox.TabIndex = 1;
+            this.TextFormLinkTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextFormLinkTextBox_KeyDown);
             // 
             // TextFormNoteTextBox
             // 
             this.TextFormNoteTextBox.DetectUrls = false;
             this.TextFormNoteTextBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.TextFormNoteTextBox.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.TextFormNoteTextBox.Font = new System.Drawing.Font("Courier New", 12F);
             this.TextFormNoteTextBox.Location = new System.Drawing.Point(0, 0);
-            this.TextFormNoteTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.TextFormNoteTextBox.Name = "TextFormNoteTextBox";
-            this.TextFormNoteTextBox.Size = new System.Drawing.Size(458, 466);
+            this.TextFormNoteTextBox.Size = new System.Drawing.Size(393, 404);
             this.TextFormNoteTextBox.TabIndex = 0;
             this.TextFormNoteTextBox.Text = "";
             this.TextFormNoteTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextFormNoteTextBox_KeyDown);
             // 
             // TextForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(458, 597);
+            this.ClientSize = new System.Drawing.Size(393, 517);
             this.Controls.Add(this.SplitContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "TextForm";
             this.Text = "Edit";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TextForm_FormClosed);
@@ -125,7 +120,9 @@ namespace Diagram
         {
             if (e.Control && e.KeyCode == Keys.V)
             {
-                this.TextFormTextBox.Text += (string)Clipboard.GetData("Text");
+                String insertText = (string)Clipboard.GetData("Text");
+                TextFormTextBox.SelectedText = insertText;
+
                 e.Handled = true;
             }
         }
@@ -135,15 +132,23 @@ namespace Diagram
             if (e.Control && e.KeyCode == Keys.V)
             {
                 String insertText = (string)Clipboard.GetData("Text");
-                var selectionIndex = TextFormNoteTextBox.SelectionStart;
-                TextFormNoteTextBox.Text = TextFormNoteTextBox.Text.Insert(selectionIndex, insertText);
-                TextFormNoteTextBox.SelectionStart = selectionIndex + insertText.Length;
+                TextFormNoteTextBox.SelectedText = insertText;
 
                 e.Handled = true;
             }
         }
 
-        
+        private void TextFormLinkTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.V)
+            {
+                String insertText = (string)Clipboard.GetData("Text");
+                TextFormLinkTextBox.SelectedText = insertText;
+
+                e.Handled = true;
+            }
+        }
+
 
         public void TextForm_Load(object sender, EventArgs e)
         {
@@ -245,5 +250,6 @@ namespace Diagram
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
+        
     }
 }
