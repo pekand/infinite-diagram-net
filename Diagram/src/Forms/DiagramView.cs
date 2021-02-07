@@ -1033,44 +1033,73 @@ namespace Diagram
             // KEY DRAG+MLEFT select nodes with selection rectangle UID0351799057
             if (finishselecting && mousemove)
             {
-                Position a = new Position(this.startMousePos)
-                    .Scale(Tools.GetScale(this.scale))
-                    .Subtract(this.startShift);
+                Position a = this.MouseToDiagramPosition(this.startMousePos);
+                Position b = this.MouseToDiagramPosition(this.actualMousePos);
 
-                Position b = new Position(this.actualMousePos)
-                    .Scale(Tools.GetScale(this.scale))
-                    .Subtract(this.shift);
 
+                // swap inverse mouse position
                 decimal temp;
                 if (b.x < a.x) { temp = a.x; a.x = b.x; b.x = temp; }
                 if (b.y < a.y) { temp = b.y; b.y = a.y; a.y = temp; }
 
                 if (!this.keyshift) this.ClearSelection();
+
                 foreach (Node rec in this.currentLayer.nodes)
                 {
-                    if (
-                        (rec.layer == this.currentLayer.id || rec.id == this.currentLayer.id)
-                        && a.x <= rec.position.x
-                        && rec.position.x + rec.width * Tools.GetScale(rec.scale) <= b.x
-                        && a.y <= rec.position.y
-                        && rec.position.y + rec.height * Tools.GetScale(rec.scale) <= + b.y) // get all nodes in selection rectangle
-                    {
-                        if (keyshift && !keyctrl && !keyalt) // KEY SHIFT+MLEFT Invert selection
+
+                    if (rec.layer == this.currentLayer.id || rec.id == this.currentLayer.id) {
+
+                        decimal nodeScale = Tools.GetScale(rec.scale);
+
+
+                        bool isNodeInSelection = false;
+
+
+                        // check if node is in selection
+                        if (rec.transparent && rec.name == "") // check if empty transparent node is in selection
                         {
-                            if (rec.selected)
+                            decimal sx = rec.position.x + (rec.width / nodeScale) / 2;
+                            decimal sy = rec.position.y + (rec.height / nodeScale) / 2;
+
+                            decimal viewScale = Tools.GetScale(this.scale);
+
+                            if (a.x <= sx - (rec.width / 2 * viewScale) / 2
+                                && sx + (rec.width / 2 * viewScale) <= b.x
+                                && a.y <= sy - (rec.height / 2 * viewScale) / 2
+                                && sy + (rec.height / 2 * viewScale) <= +b.y)
                             {
-                                this.RemoveNodeFromSelection(rec);
+                                isNodeInSelection = true;
                             }
-                            else
+
+                        } else if ( // check if other node is in selection
+                            a.x <= rec.position.x
+                            && rec.position.x + rec.width * nodeScale <= b.x
+                            && a.y <= rec.position.y
+                            && rec.position.y + rec.height * nodeScale <= +b.y)
+                        {
+                            isNodeInSelection = true;
+                        }
+
+
+                        if (isNodeInSelection) {
+                            if (keyshift && !keyctrl && !keyalt) // KEY SHIFT+MLEFT Invert selection
+                            {
+                                if (rec.selected)
+                                {
+                                    this.RemoveNodeFromSelection(rec);
+                                }
+                                else
+                                {
+                                    this.SelectNode(rec);
+                                }
+                            }
+
+                            if (!keyshift && !keyctrl && !keyalt) // KEY MLEFT select nodes
                             {
                                 this.SelectNode(rec);
                             }
                         }
 
-                        if (!keyshift && !keyctrl && !keyalt) // KEY MLEFT select nodes
-                        {
-                            this.SelectNode(rec);
-                        }
                     }
                 }
 
@@ -3783,7 +3812,7 @@ namespace Diagram
                                 );
                             }
 
-                            if (rec.selected && !export)
+                            if (rec.selected && !export && !rec.transparent)
                             {
                                 gfx.DrawEllipse(
                                     (rec.link != "") ? nodeLinkBorder : ((rec.mark) ? nodeMarkBorder : nodeSelectBorder),
@@ -3792,6 +3821,23 @@ namespace Diagram
                                         (float)((this.shift.y + cy + rec.position.y ) / s),
                                         (float)((rec.width) / (s / Tools.GetScale(rec.scale))),
                                         (float)((rec.height) / (s / Tools.GetScale(rec.scale)))
+                                    )
+                                );
+                            }
+
+                            if (rec.selected && !export && rec.transparent)
+                            {
+
+                                float r1x = (float)((this.shift.x + cx + rec.position.x + (rec.width * Tools.GetScale(rec.scale)) / 2) / s);
+                                float r1y = (float)((this.shift.y + cy + rec.position.y + (rec.height * Tools.GetScale(rec.scale)) / 2) / s);
+
+                                gfx.DrawEllipse(
+                                    (rec.link != "") ? nodeLinkBorder : ((rec.mark) ? nodeMarkBorder : nodeSelectBorder),
+                                    new RectangleF(
+                                        r1x - (float)rec.width/2,
+                                        r1y - (float)rec.height/2,
+                                        (float)rec.width,
+                                        (float)rec.height
                                     )
                                 );
                             }
@@ -3925,7 +3971,7 @@ namespace Diagram
                     isvisible = true;
                 }
                 else
-                if ((r1.scale < this.scale - 6 || this.scale + 6 < r1.scale) && (r2.scale < this.scale - 6 || this.scale + 6 < r2.scale)) // remove to small or to big objects
+                if ((r1.scale < this.scale - 16 || this.scale + 16 < r1.scale) && (r2.scale < this.scale - 16 || this.scale + 16 < r2.scale)) // remove to small or to big objects
                 {
                     isvisible = false;
                 }
@@ -3993,15 +4039,17 @@ namespace Diagram
                     else
                     {
                         int linewidth = (int)lin.width;
-                        /*
-                        int linewidth = lin.width * Tools.GetScale(lin.scale) / s > 1 ? (int)(lin.width * Tools.GetScale(lin.scale) / s) : 1;
 
-                        if (linewidth>100) {
-                            linewidth = 100;
+
+                        if (linewidth>1)
+                        {
+                            linewidth = lin.width * Tools.GetScale(lin.scale) / s > 1 ? (int)(lin.width * Tools.GetScale(lin.scale) / s) : 1;
+
+                            if (linewidth > 100) {
+                                linewidth = 100;
+                            }
                         }
-                        */
-
-
+                        
                         PointF[] points =
                          {
                              new PointF(r1x, r1y),
@@ -4293,15 +4341,42 @@ namespace Diagram
         // NODE find node in mouse cursor position
         public Node FindNodeInMousePosition(Position mousePosition, Node skipNode = null)
         {
-            Nodes nodes = this.diagram.FindAllNodesInPosition(
-                this.MouseToDiagramPosition(mousePosition),
-                this.currentLayer.id,
-                skipNode
-            );
+            Nodes nodes = new Nodes();
 
-            foreach (Node node in nodes) {
-                if (this.NodeIsVisible(node)) {
-                    return node;
+            decimal scale;
+
+            Position position = this.MouseToDiagramPosition(mousePosition);
+            long layer = this.currentLayer.id;
+
+            foreach (Node node in this.diagram.layers.GetLayer(layer).nodes.Reverse<Node>()) // Loop through List with foreach
+            {
+                if (layer == node.layer || layer == node.id)
+                {
+                    if (skipNode == null || skipNode.id != node.id) {
+                        if (this.NodeIsVisible(node)) {
+                            scale = Tools.GetScale(node.scale);
+                            if (node.name == "" && node.transparent) {
+
+                                decimal sx = node.position.x + (node.width / scale) / 2;
+                                decimal sy = node.position.y + (node.height / scale) / 2;
+
+                                decimal viewScale = Tools.GetScale(this.scale);
+
+                                if (sx - (node.width/2 * viewScale) / 2 <= position.x && position.x <= sx + (node.width/2 * viewScale) &&
+                                    sy - (node.height/2 * viewScale) / 2 <= position.y && position.y <= sy + (node.height/2 * viewScale) ) {
+                                    return node;
+                                }
+                            }
+                            else if
+                            (
+                                node.position.x <= position.x && position.x <= node.position.x + (node.width * scale) &&
+                                node.position.y <= position.y && position.y <= node.position.y + (node.height * scale)
+                            )
+                            {
+                                return node;
+                            }
+                        }
+                    }
                 }
             }
 

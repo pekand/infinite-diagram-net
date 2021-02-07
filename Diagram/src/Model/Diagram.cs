@@ -1362,33 +1362,6 @@ namespace Diagram
             return null;
         }
 
-        // NODE Najdenie nody podla pozicie myši
-        public Nodes FindAllNodesInPosition(Position position, long layer, Node skipNode = null)
-        {
-
-            Nodes nodes = new Nodes();
-
-            decimal scale;
-
-            foreach (Node node in this.layers.GetLayer(layer).nodes.Reverse<Node>()) // Loop through List with foreach
-            {
-                if (layer == node.layer || layer == node.id)
-                {
-                    scale = Tools.GetScale(node.scale);
-                    if
-                    (
-                        node.position.x <= position.x && position.x <= node.position.x + (node.width * scale) &&
-                        node.position.y <= position.y && position.y <= node.position.y + (node.height * scale) &&
-                        (skipNode == null || skipNode.id != node.id)
-                    )
-                    {
-                        nodes.Add(node);
-                    }
-                }
-            }
-
-            return nodes;
-        }
 
         /*************************************************************************************************************************/
         // NODES DELETE
