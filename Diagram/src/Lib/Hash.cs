@@ -34,8 +34,10 @@ namespace Diagram
                 }
 
             } catch (Exception ex) {
-                return null;
+                Program.log.Write("GetFileHash error: "+ex.Message);
             }
+
+            return "";
         }
     }
 }

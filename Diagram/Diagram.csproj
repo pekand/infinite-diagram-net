@@ -164,6 +164,8 @@
     <Compile Include="src\Lib\Tick.cs" />
     <Compile Include="src\Lib\Tools.cs" />
     <Compile Include="src\Main.cs" />
+    <Compile Include="src\Model\BigInteger.cs" />
+    <Compile Include="src\Model\BigNumber.cs" />
     <Compile Include="src\Model\ColorType.cs" />
     <Compile Include="src\Model\Diagram.cs" />
     <Compile Include="src\Model\DiagramBlock.cs" />

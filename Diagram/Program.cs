@@ -41,7 +41,6 @@ namespace Diagram
         [STAThread]
         private static void Main() //UID4670767500
         {
-
 #if !DEBUG
             System.AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
 #endif
