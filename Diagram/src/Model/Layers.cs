@@ -426,6 +426,10 @@ namespace Diagram
 
             Layer layer = GetLayer(node.layer);
 
+            if (layer == null) {
+                return;
+            }
+
             foreach (Node n in layer.nodes)
             {
                 if (n.shortcut == node.id) // remove shortcut to node

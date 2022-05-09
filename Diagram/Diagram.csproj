@@ -156,6 +156,7 @@
     <Compile Include="src\Lib\Network.cs" />
     <Compile Include="src\Lib\Os.cs" />
     <Compile Include="src\Lib\Patterns.cs" />
+    <Compile Include="src\Lib\WinProcess.cs" />
     <Compile Include="src\Lib\RecentFiles.cs" />
     <Compile Include="src\Lib\Serialization.cs" />
     <Compile Include="src\Lib\Signature.cs" />

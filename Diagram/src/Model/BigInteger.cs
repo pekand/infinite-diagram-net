@@ -96,17 +96,19 @@ namespace Diagram
 
         public BigInteger(BigInteger num, bool absolute = false)
         {
-            if (num != null)
+            if (num == null)
             {
-                this.orientation = absolute ? true : num.orientation;
-
-                this.digits = new List<byte>();
-
-                for (int i = 0; i < num.Length(); i++)
-                {
-                    this.digits.Add(num.get(i));
-                }
+                return;
             }
+
+            this.orientation = absolute ? true : num.orientation;
+
+            this.digits = new List<byte>();
+
+            for (int i = 0; i < num.Length(); i++)
+            {
+                this.digits.Add(num.get(i));
+            }            
         }
 
         public bool validate(string number)

@@ -79,7 +79,6 @@ namespace Diagram
             try
             {
                 Program.log.Write("loadConfigFile: path:" + this.optionsFilePath);
-                string inputJSON = Os.ReadAllText(this.optionsFilePath);
 
                 if (Os.FileExists(this.optionsFilePath))
                 {

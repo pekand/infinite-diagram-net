@@ -48,7 +48,8 @@ namespace Diagram
         public Position startShift = new Position();              // temporary left corner position before change in diagram
 
         // ATTRIBUTES MOUSE
-        public Position startMousePos = new Position();           // start movse position before change
+        public Position startMousePos = new Position();           // start movse position before change, in view coordinates
+        public Position startMousePosInDiagram = new Position();  // start movse position before change, in diagram coordinates
         public Position startNodePos = new Position();            // start node position before change
         public Position vmouse = new Position();                  // vector position in selected node before change
         public Position actualMousePos = new Position();          // actual mouse position in form in drag process
@@ -284,6 +285,8 @@ namespace Diagram
             }
 
             this.BackColor = this.diagram.options.backgroundColor.Get();
+
+            WinProcess.setId();
         }
 
         // FORM Load event - UID0112423443
@@ -805,6 +808,7 @@ namespace Diagram
             }
 
             this.startMousePos.Set(this.actualMousePos);  // starting mouse position
+            this.startMousePosInDiagram.Set(this.MouseToDiagramPosition(this.actualMousePos));  // starting mouse position in diagram coordinates
             this.startShift.Set(this.shift);  // starting indent
 
             this.sourceNode = this.FindNodeInMousePosition(this.actualMousePos);
@@ -1033,9 +1037,8 @@ namespace Diagram
             // KEY DRAG+MLEFT select nodes with selection rectangle UID0351799057
             if (finishselecting && mousemove)
             {
-                Position a = this.MouseToDiagramPosition(this.startMousePos);
+                Position a = this.startMousePosInDiagram.Clone();
                 Position b = this.MouseToDiagramPosition(this.actualMousePos);
-
 
                 // swap inverse mouse position
                 decimal temp;
@@ -1047,60 +1050,62 @@ namespace Diagram
                 foreach (Node rec in this.currentLayer.nodes)
                 {
 
-                    if (rec.layer == this.currentLayer.id || rec.id == this.currentLayer.id) {
+                    if (rec.layer != this.currentLayer.id && rec.id != this.currentLayer.id)
+                    {
+                        continue;
+                    }
 
-                        decimal nodeScale = Tools.GetScale(rec.scale);
+                    decimal nodeScale = Tools.GetScale(rec.scale);
 
 
-                        bool isNodeInSelection = false;
+                    bool isNodeInSelection = false;
 
 
-                        // check if node is in selection
-                        if (rec.transparent && rec.name == "") // check if empty transparent node is in selection
-                        {
-                            decimal sx = rec.position.x + (rec.width / nodeScale) / 2;
-                            decimal sy = rec.position.y + (rec.height / nodeScale) / 2;
+                    // check if node is in selection
+                    if (rec.transparent && rec.name == "") // check if empty transparent node is in selection
+                    {
+                        decimal sx = rec.position.x + (rec.width / nodeScale) / 2;
+                        decimal sy = rec.position.y + (rec.height / nodeScale) / 2;
 
-                            decimal viewScale = Tools.GetScale(this.scale);
+                        decimal viewScale = Tools.GetScale(this.scale);
 
-                            if (a.x <= sx - (rec.width / 2 * viewScale) / 2
-                                && sx + (rec.width / 2 * viewScale) <= b.x
-                                && a.y <= sy - (rec.height / 2 * viewScale) / 2
-                                && sy + (rec.height / 2 * viewScale) <= +b.y)
-                            {
-                                isNodeInSelection = true;
-                            }
-
-                        } else if ( // check if other node is in selection
-                            a.x <= rec.position.x
-                            && rec.position.x + rec.width * nodeScale <= b.x
-                            && a.y <= rec.position.y
-                            && rec.position.y + rec.height * nodeScale <= +b.y)
+                        if (a.x <= sx - (rec.width / 2 * viewScale) / 2
+                            && sx + (rec.width / 2 * viewScale) <= b.x
+                            && a.y <= sy - (rec.height / 2 * viewScale) / 2
+                            && sy + (rec.height / 2 * viewScale) <= +b.y)
                         {
                             isNodeInSelection = true;
                         }
 
+                    } else if ( // check if other node is in selection
+                        a.x <= rec.position.x
+                        && rec.position.x + rec.width * nodeScale <= b.x
+                        && a.y <= rec.position.y
+                        && rec.position.y + rec.height * nodeScale <= b.y)
+                    {
+                        isNodeInSelection = true;
+                    }
 
-                        if (isNodeInSelection) {
-                            if (keyshift && !keyctrl && !keyalt) // KEY SHIFT+MLEFT Invert selection
+
+                    if (isNodeInSelection) {
+                        if (keyshift && !keyctrl && !keyalt) // KEY SHIFT+MLEFT Invert selection
+                        {
+                            if (rec.selected)
                             {
-                                if (rec.selected)
-                                {
-                                    this.RemoveNodeFromSelection(rec);
-                                }
-                                else
-                                {
-                                    this.SelectNode(rec);
-                                }
+                                this.RemoveNodeFromSelection(rec);
                             }
-
-                            if (!keyshift && !keyctrl && !keyalt) // KEY MLEFT select nodes
+                            else
                             {
                                 this.SelectNode(rec);
                             }
                         }
 
+                        if (!keyshift && !keyctrl && !keyalt) // KEY MLEFT select nodes
+                        {
+                            this.SelectNode(rec);
+                        }
                     }
+
                 }
 
                 this.diagram.InvalidateDiagram();

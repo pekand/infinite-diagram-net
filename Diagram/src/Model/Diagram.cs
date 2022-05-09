@@ -2526,7 +2526,7 @@ namespace Diagram
             return new DiagramBlock(NewNodes, createdLines);
         }
 
-        // Get all layers nodes
+        // 
         private void NodesReorderNodes(long layer, Node parent, Nodes nodesIn, Nodes nodesOut)
         {
             foreach (Node node in nodesIn)
@@ -2575,15 +2575,11 @@ namespace Diagram
 
             decimal minx = copy[0].position.x;
             decimal miny = copy[0].position.y;
-            long minid = copy[0].id;
-            long minlayer = copy[0].layer;
 
             foreach (Node node in copy)
             {
                 if (node.position.x < minx) minx = node.position.x;
                 if (node.position.y < miny) miny = node.position.y;
-                if (node.id < minid) minid = node.id;
-                if (node.layer < minlayer) minlayer = node.layer;
             }
 
             foreach (Node rec in copy)
@@ -2603,24 +2599,59 @@ namespace Diagram
             {
                 copy.Add(node.Clone());
             }            
-
-            foreach (Node rec in copy)
-            {
-                rec.id = rec.id - minid + 1;
-                if (rec.shortcut != 0 && rec.shortcut - minid + 1 > 0) rec.shortcut += 1;
-                if (rec.layer != 0 && rec.layer - minlayer >= 0)  rec.layer -= minlayer;
-            }
-            
+           
             Lines lines = new Lines();
-            lines.Copy(this.layers.GetAllLinesFromNodes(nodes));
+            lines.Copy(this.layers.GetAllLinesFromNodes(copy));
+
+            long lastId = 0;
+            Dictionary<long, long> ids = new Dictionary<long, long>();
+
+            foreach (Node node in copy)
+            {
+                if (!ids.ContainsKey(node.id))
+                {
+                    lastId++;
+                    ids.Add(node.id, lastId);
+                    node.id = lastId;
+                }
+                else {
+                    node.id = ids[node.id];
+                }
+
+            }
+
+            foreach (Node node in copy)
+            {
+                if (!ids.ContainsKey(node.layer))
+                {
+                    node.layer = 0;
+                }
+                else
+                {
+                    node.layer = ids[node.layer];
+                }
+            }
+
+
+            foreach (Node node in copy)
+            {
+                if (!ids.ContainsKey(node.shortcut))
+                {
+                    node.shortcut = 0;
+                }
+                else
+                {
+                    node.shortcut = ids[node.shortcut];
+                }
+            }
 
             foreach (Line li in lines)
             {
-                li.start = li.start - minid + 1;
-                li.end = li.end - minid + 1;
-                li.layer = li.layer - minid + 1;
+                li.start = ids[li.start];
+                li.end = ids[li.end];
+                li.layer = !ids.ContainsKey(li.layer) ? 0 : ids[li.layer];
             }
-            
+
             XElement xrectangles = this.SaveInnerXmlNodes(copy);
             XElement xlines = this.SaveInnerXmlLines(lines);
                 
