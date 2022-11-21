@@ -603,15 +603,15 @@ namespace Diagram
             this.passwordForm.Text = Translations.password + " - " + subtitle;
             this.passwordForm.Clear();
             this.passwordForm.ShowDialog();
-            if (!this.passwordForm.cancled)
+            if (this.passwordForm.cancled)
             {
-                password = this.passwordForm.GetPassword();
-                this.passwordForm.Clear();
-            }
-            else 
-            {
+                this.passwordForm = null;
                 return null;
             }
+            
+
+            password = this.passwordForm.GetPassword();
+            this.passwordForm.Clear();
 
             this.passwordForm = null;
 
