@@ -10,6 +10,7 @@ copy ..\Diagram\bin\Release\Svg.dll .\files\
 
 mkdir plugins
 mkdir plugins\FindUidPlugin
+mkdir plugins\CreateDiagramPlugin
 mkdir plugins\CreateDirectoryPlugin
 mkdir plugins\NcalcPlugin
 mkdir plugins\ScriptingPlugin
@@ -22,6 +23,7 @@ copy ..\Diagram\bin\Release\plugins\CScriptingPlugin\Microsoft.CodeAnalysis.CSha
 copy ..\Diagram\bin\Release\plugins\CScriptingPlugin\Microsoft.CodeAnalysis.Scripting.dll .\plugins\CScriptingPlugin\
 copy ..\Diagram\bin\Release\plugins\CScriptingPlugin\Microsoft.CodeAnalysis.dll .\plugins\CScriptingPlugin\
 
+copy ..\Diagram\bin\Release\plugins\CreateDiagramPlugin\CreateDiagramPlugin.dll .\plugins\CreateDiagramPlugin\
 copy ..\Diagram\bin\Release\plugins\CreateDirectoryPlugin\CreateDirectoryPlugin.dll .\plugins\CreateDirectoryPlugin\
 copy ..\Diagram\bin\Release\plugins\FindUidPlugin\FindUidPlugin.dll .\plugins\FindUidPlugin\
 copy ..\Diagram\bin\Release\plugins\NcalcPlugin\NCalc.dll .\plugins\NcalcPlugin\

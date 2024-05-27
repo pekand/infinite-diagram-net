@@ -43,7 +43,7 @@ Source: "files\InfiniteDiagram.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "files\Fizzler.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "files\Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
 
-
+Source: "plugins\CreateDiagramPlugin\CreateDiagramPlugin.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CreateDiagramPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
 Source: "plugins\CreateDirectoryPlugin\CreateDirectoryPlugin.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CreateDirectoryPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
 
 Source: "plugins\FindUidPlugin\FindUidPlugin.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\FindUidPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
