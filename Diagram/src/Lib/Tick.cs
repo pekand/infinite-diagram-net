@@ -27,9 +27,9 @@ namespace Diagram
         /// </code>
         /// </example>
         /// <returns></returns>
-        public static Timer Timer(int interval, EventHandler tick)
+        public static System.Windows.Forms.Timer Timer(int interval, EventHandler tick)
         {
-            Timer timer = new Timer
+            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer
             {
                 Interval = interval
             };

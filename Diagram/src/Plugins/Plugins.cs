@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -20,6 +21,8 @@ namespace Diagram
         public ICollection<IDropPlugin> dropPlugins = new List<IDropPlugin>();
         public ICollection<ISavePlugin> savePlugins = new List<ISavePlugin>();
         public ICollection<ILoadPlugin> loadPlugins = new List<ILoadPlugin>();
+
+        public AssemblyLoadContext loadContext = new AssemblyLoadContext("PluginsContext", isCollectible: true);
 
         /// <summary>
         /// load plugins from path</summary>
@@ -40,13 +43,34 @@ namespace Diagram
                 {
                     try
                     {
-                        AssemblyName an = AssemblyName.GetAssemblyName(dllFile);
-                        Assembly assembly = Assembly.Load(an);
+                        Program.log.Write("Loading plugin from: " + dllFile);
+                        Assembly assembly = loadContext.LoadFromAssemblyPath(dllFile);
+
                         if (assembly != null)
                         {
                             assemblies.Add(assembly);
                         }
-                    } 
+                    }
+                    catch (FileNotFoundException fnfEx)
+                    {
+                        Program.log.Write($"File not found: {fnfEx.Message}");
+                        if (fnfEx.InnerException != null)
+                        {
+                            Program.log.Write($"Inner exception: {fnfEx.InnerException.Message}");
+                        }
+                    }
+                    catch (BadImageFormatException bifEx)
+                    {
+                        Program.log.Write($"Bad image format: {bifEx.Message}");
+                    }
+                    catch (FileLoadException fleEx)
+                    {
+                        Program.log.Write($"File load exception: {fleEx.Message}");
+                        if (fleEx.InnerException != null)
+                        {
+                            Program.log.Write($"Inner exception: {fleEx.InnerException.Message}");
+                        }
+                    }
                     catch (Exception e)
                     {
                         Program.log.Write("Load plugin error: " + dllFile + "  : " + e.Message);

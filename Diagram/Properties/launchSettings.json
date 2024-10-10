@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Diagram": {
+      "commandName": "Project",
+      "commandLineArgs": "\"c:\\Users\\pekar\\Desktop\\test.diagram\" "
+    }
+  }
+}

@@ -132,7 +132,7 @@ namespace Diagram
 
             if (tabControl1.SelectedTab == tabControl1.TabPages["tabFeatures"])//your specific tabname
             {
-                featuresTextBox.Text = Features.GetFeatures();
+                featuresTextBox.Text = "Features"; // TODO add features list
             }
 
         }

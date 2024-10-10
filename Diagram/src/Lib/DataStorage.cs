@@ -34,6 +34,18 @@ namespace Diagram
             return dataStorage;
         }
 
+        public DataStorage removeStorage(string key)
+        {
+            if (!this.storages.ContainsKey(key))
+            {
+                return this;
+            }
+
+            this.storages.Remove(key);
+
+            return this;
+        }
+
         public string getItem(string key, string defaultValue = "")
         {
             if (!this.items.ContainsKey(key)) {
@@ -46,6 +58,18 @@ namespace Diagram
         public DataStorage addItem(string key, string value)
         {
             this.items[key] = value;
+            return this;
+        }
+
+        public DataStorage removeItem(string key)
+        {
+            if (!this.items.ContainsKey(key))
+            {
+                return this;
+            }
+
+            this.items.Remove(key);
+
             return this;
         }
 

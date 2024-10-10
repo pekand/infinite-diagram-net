@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Security.Policy;
 
 namespace Diagram
 {
@@ -191,9 +192,18 @@ namespace Diagram
         {
             try
             {
-                using (var client = new WebClient())
+                /*using (var client = new WebClient())
                 {
                     client.DownloadFile(sourceUrl, pathToSave);
+                }*/
+
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = client.GetAsync(sourceUrl).GetAwaiter().GetResult();
+                    response.EnsureSuccessStatusCode();
+                    byte[] fileBytes = response.Content.ReadAsByteArrayAsync().GetAwaiter().GetResult();
+
+                    File.WriteAllBytes(pathToSave, fileBytes);
                 }
 
                 return true;

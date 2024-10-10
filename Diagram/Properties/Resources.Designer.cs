@@ -19,7 +19,7 @@ namespace Diagram.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -61,28 +61,6 @@ namespace Diagram.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Migrate to .net framework 4.8
-        ///Check version only if diagram is main thread.
-        ///Compare application version before update.
-        ///Check if opened diagram is empty and mark it as signed.
-        ///Check version and show update form.
-        ///Rename assembly to InfiniteDiagram.
-        ///Select node with right click when popup is shown.
-        ///Remove default color from link.
-        ///Remove blinking when add node to slelection.
-        ///Move scaled items wth keyboard.
-        ///Align scaled items.
-        ///Empty file is by default signed.
-        ///Select only visivle nodes.
-        ///Calculate line position ac [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string FeaturesList {
-            get {
-                return ResourceManager.GetString("FeaturesList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon ico_diagram {
@@ -109,16 +87,6 @@ namespace Diagram.Properties {
             get {
                 object obj = ResourceManager.GetObject("ico_diagram_form", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] lock_svg_image {
-            get {
-                object obj = ResourceManager.GetObject("lock_svg_image", resourceCulture);
-                return ((byte[])(obj));
             }
         }
     }

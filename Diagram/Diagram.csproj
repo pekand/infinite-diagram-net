@@ -1,322 +1,41 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5DD50C31-0FBE-4927-93E9-7496774C3DF1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Diagram</RootNamespace>
-    <AssemblyName>InfiniteDiagram</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>AnyCPU;x64</Platforms>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>InfiniteDiagram.ico</ApplicationIcon>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Fizzler, Version=1.2.0.0, Culture=neutral, PublicKeyToken=4ebff4844e382110, processorArchitecture=MSIL">
-      <HintPath>..\packages\Fizzler.1.2.0\lib\netstandard2.0\Fizzler.dll</HintPath>
-    </Reference>
-    <Reference Include="Svg, Version=3.2.0.0, Culture=neutral, PublicKeyToken=12a0bac221edeae2, processorArchitecture=MSIL">
-      <HintPath>..\packages\Svg.3.2.3\lib\net461\Svg.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Core" />
-    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\Components\Breadcrumbs.cs" />
-    <Compile Include="src\Components\EditLinkPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="src\Components\EditPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="src\Components\Popup.cs" />
-    <Compile Include="src\Components\ScrollBar.cs" />
-    <Compile Include="src\Components\SearchPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="src\Forms\AboutForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\ChangePasswordForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\ColorPickerForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\ColorPickerForm.Designer.cs">
-      <DependentUpon>ColorPickerForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Forms\ConfirmTakeOwnership.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\ConfirmTakeOwnership.Designer.cs">
-      <DependentUpon>ConfirmTakeOwnership.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Forms\Console.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\DiagramView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\LineWidthForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\NewPasswordForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\PasswordForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\TextForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\UpdateForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="src\Forms\UpdateForm.Designer.cs">
-      <DependentUpon>UpdateForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Lib\Compress.cs" />
-    <Compile Include="src\Lib\Converter.cs" />
-    <Compile Include="src\Lib\Encrypt.cs" />
-    <Compile Include="src\Lib\Fonts.cs" />
-    <Compile Include="src\Lib\Hash.cs" />
-    <Compile Include="src\Lib\Job.cs" />
-    <Compile Include="src\Lib\Media.cs" />
-    <Compile Include="src\Lib\Network.cs" />
-    <Compile Include="src\Lib\Os.cs" />
-    <Compile Include="src\Lib\Patterns.cs" />
-    <Compile Include="src\Lib\WinProcess.cs" />
-    <Compile Include="src\Lib\RecentFiles.cs" />
-    <Compile Include="src\Lib\Serialization.cs" />
-    <Compile Include="src\Lib\Signature.cs" />
-    <Compile Include="src\Lib\DataStorage.cs" />
-    <Compile Include="src\Lib\SvgAdapter.cs" />
-    <Compile Include="src\Lib\Tick.cs" />
-    <Compile Include="src\Lib\Tools.cs" />
-    <Compile Include="src\Main.cs" />
-    <Compile Include="src\Model\BigInteger.cs" />
-    <Compile Include="src\Model\BigNumber.cs" />
-    <Compile Include="src\Model\ColorType.cs" />
-    <Compile Include="src\Model\Diagram.cs" />
-    <Compile Include="src\Model\DiagramBlock.cs" />
-    <Compile Include="src\Model\Layer.cs" />
-    <Compile Include="src\Model\Layers.cs" />
-    <Compile Include="src\Model\Line.cs" />
-    <Compile Include="src\Model\Lines.cs" />
-    <Compile Include="src\Model\Node.cs" />
-    <Compile Include="src\Model\Nodes.cs" />
-    <Compile Include="src\Model\Options.cs" />
-    <Compile Include="src\Model\Position.cs" />
-    <Compile Include="src\Model\UndoOperations.cs" />
-    <Compile Include="src\Plugins\interfaces\IDiagramPlugin.cs" />
-    <Compile Include="src\Plugins\interfaces\IDropPlugin.cs" />
-    <Compile Include="src\Plugins\interfaces\IKeyPressPlugin.cs" />
-    <Compile Include="src\Plugins\interfaces\ILoadPlugin.cs" />
-    <Compile Include="src\Plugins\interfaces\INodeOpenPlugin.cs" />
-    <Compile Include="src\Plugins\interfaces\IOpenDiagramPlugin.cs" />
-    <Compile Include="src\Plugins\interfaces\IPopupPlugin.cs" />
-    <Compile Include="src\Plugins\interfaces\ISavePlugin.cs" />
-    <Compile Include="src\Plugins\Plugin.cs" />
-    <Compile Include="src\Plugins\Plugins.cs" />
-    <Compile Include="src\Tools\Features.cs" />
-    <Compile Include="src\Tools\KeyMap.cs" />
-    <Compile Include="src\Tools\Log.cs" />
-    <Compile Include="src\Tools\ProgramOptions.cs" />
-    <Compile Include="src\Tools\ProgramOptionsFile.cs" />
-    <Compile Include="src\Tools\Server.cs" />
-    <Compile Include="src\Tools\Translations.cs" />
-    <Compile Include="src\Tools\Update.cs" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <EmbeddedResource Include="src\Components\Breadcrumbs.resx">
-      <DependentUpon>Breadcrumbs.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\Components\EditLinkPanel.resx">
-      <DependentUpon>EditLinkPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\Components\EditPanel.resx">
-      <DependentUpon>EditPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\Components\SearchPanel.resx">
-      <DependentUpon>SearchPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\Forms\AboutForm.resources" />
-    <EmbeddedResource Include="src\Forms\AboutForm.resx">
-      <DependentUpon>AboutForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\Forms\ChangePasswordForm.resources" />
-    <EmbeddedResource Include="src\Forms\ChangePasswordForm.resx">
-      <DependentUpon>ChangePasswordForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\Forms\ColorPickerForm.resx">
-      <DependentUpon>ColorPickerForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\Forms\ConfirmTakeOwnership.resx">
-      <DependentUpon>ConfirmTakeOwnership.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\Forms\Console.resx">
-      <DependentUpon>Console.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\Forms\ConsoleLog.resources" />
-    <EmbeddedResource Include="src\Forms\DiagramView.resources" />
-    <EmbeddedResource Include="src\Forms\DiagramView.resx">
-      <DependentUpon>DiagramView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\Forms\LineWidthForm.resx">
-      <DependentUpon>LineWidthForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\Forms\MacroForm.resources" />
-    <EmbeddedResource Include="src\Forms\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\Forms\NewPasswordForm.resources" />
-    <EmbeddedResource Include="src\Forms\NewPasswordForm.resx">
-      <DependentUpon>NewPasswordForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\Forms\OptionsForm.resources" />
-    <EmbeddedResource Include="src\Forms\PasswordForm.resources" />
-    <EmbeddedResource Include="src\Forms\PasswordForm.resx">
-      <DependentUpon>PasswordForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\Forms\SearchPanel.resources" />
-    <EmbeddedResource Include="src\Forms\TextForm.resources" />
-    <EmbeddedResource Include="src\Forms\TextForm.resx">
-      <DependentUpon>TextForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="src\Forms\UpdateForm.resx">
-      <DependentUpon>UpdateForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
+
   <ItemGroup>
     <COMReference Include="Shell32">
-      <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
       <WrapperTool>tlbimp</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <VersionMinor>0</VersionMinor>
+      <VersionMajor>1</VersionMajor>
+      <Guid>50a7e9b0-70ef-11d1-b75a-00a0c90564fe</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="Resources\ico_diagram.ico" />
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
+
   <ItemGroup>
-    <None Include="Resources\ico_diagram_debug.ico" />
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ico_diagram_form.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\lock.svg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="FeaturesList.txt" />
-    <Content Include="InfiniteDiagram.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.8 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>

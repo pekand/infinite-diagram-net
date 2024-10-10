@@ -28,7 +28,7 @@ namespace Diagram
         public ColorDialog DFontColor;
         public FontDialog DFont;
         public OpenFileDialog DImage;
-        public Timer MoveTimer;
+        public System.Windows.Forms.Timer MoveTimer;
         public FontDialog defaultfontDialog;
         public SaveFileDialog exportFile;
         public SaveFileDialog saveTextFileDialog;
@@ -120,12 +120,12 @@ namespace Diagram
         public Breadcrumbs breadcrumbs = null;
 
         // MOVETIMER
-        private readonly Timer animationTimer = new Timer(); //timer for all animations (goto node animation)
+        private readonly System.Windows.Forms.Timer animationTimer = new System.Windows.Forms.Timer(); //timer for all animations (goto node animation)
         private readonly Position animationTimerStep = new Position();
         private int animationTimerCounter = 0;
 
         // ZOOMTIMER
-        private readonly Timer zoomTimer = new Timer(); //zooming animation
+        private readonly System.Windows.Forms.Timer zoomTimer = new System.Windows.Forms.Timer(); //zooming animation
         public double zoomTimerScale = 1;
         public double zoomTimerStep = 0;
 
@@ -3580,10 +3580,26 @@ namespace Diagram
         // DRAW lock screen  UID7187365714
         private void DrawLockScreen(Graphics gfx)
         {
-            int lockHeight = this.Height / 3;
+            int lockWidth = 200;
+            int lockHeight = 300;
+            using (Bitmap lockimage = new Bitmap(lockWidth, lockHeight))
+            {
+                using (Graphics g = Graphics.FromImage(lockimage))
+                {
+                    g.Clear(Color.White);
+                    g.SmoothingMode = SmoothingMode.AntiAlias;
+                    Rectangle lockBody = new Rectangle(50, 150, 100, 120);
+                    g.FillRectangle(Brushes.Gray, lockBody);
+                    g.DrawRectangle(Pens.Black, lockBody);
+                    Rectangle lockShackle = new Rectangle(50, 50, 100, 100);
+                    g.DrawArc(new Pen(Color.Black, 5), lockShackle, 0, 180);
+                    Rectangle lockShackleInner = new Rectangle(55, 55, 90, 90);
+                    g.DrawArc(new Pen(Color.Gray, 3), lockShackleInner, 0, 180);
+                    g.FillEllipse(Brushes.Black, new Rectangle(90, 200, 20, 40));
+                }
 
-            Bitmap lockimage = SvgAdapter.getLockImage(lockHeight, lockHeight);
-            gfx.DrawImage(lockimage, this.Width / 2- lockHeight / 2, (this.Height - 50) / 2 - lockHeight / 2);
+                gfx.DrawImage(lockimage, this.Width / 2 - lockHeight / 2, (this.Height - 50) / 2 - lockHeight / 2);
+            }
         }
 
         // DRAW diagram mini screen in zoom mode UID9733202717

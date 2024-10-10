@@ -49,7 +49,7 @@ namespace Diagram
         public long delta = 0;
 
         // timer - animation
-        readonly Timer timer = new Timer(); // timer pre animaciu
+        readonly System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer(); // timer pre animaciu
         public long opacity = 0;
         public bool animation = false; // animation is running
         public bool active = false; // scrolbarr is visible
