@@ -5,6 +5,8 @@ using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
+#nullable disable
+
 namespace Diagram
 {
     public class Serialization

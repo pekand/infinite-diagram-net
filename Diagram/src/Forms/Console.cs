@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 
+#nullable disable
+
 namespace Diagram
 {
     public partial class Console : Form //UID4944902991

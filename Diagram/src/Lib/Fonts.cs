@@ -3,6 +3,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Xml.Linq;
 
+#nullable disable
+
 namespace Diagram
 {
     /// <summary>

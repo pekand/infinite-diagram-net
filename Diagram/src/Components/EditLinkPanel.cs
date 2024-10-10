@@ -2,6 +2,8 @@
 using System.Drawing;
 using System.Windows.Forms;
 
+#nullable disable
+
 namespace Diagram
 {
     public class EditLinkPanel : Panel //UID4079765418

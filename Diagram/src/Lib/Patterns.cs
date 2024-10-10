@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
+#nullable disable
+
 namespace Diagram
 {
     /// <summary>

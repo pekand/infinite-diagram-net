@@ -4,6 +4,8 @@ using System.Security.Cryptography;
 using System.Security;
 using System.IO;
 
+#nullable disable
+
 namespace Diagram
 {
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 
+#nullable disable
+
 namespace Diagram
 {
     /// <summary>

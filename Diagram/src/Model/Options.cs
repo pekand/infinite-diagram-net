@@ -1,5 +1,7 @@
 ﻿using System.Drawing;
 
+#nullable disable
+
 namespace Diagram
 {
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 
+#nullable disable
+
 namespace Diagram
 {
     public class SearchPanel : Panel //UID1308094022

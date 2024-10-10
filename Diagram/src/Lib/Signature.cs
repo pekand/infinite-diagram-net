@@ -3,6 +3,8 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
+#nullable disable
+
 namespace Diagram
 {
     class Signature

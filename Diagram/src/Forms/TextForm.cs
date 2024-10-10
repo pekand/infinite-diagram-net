@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 
+#nullable disable
+
 namespace Diagram
 {
     public class TextForm : Form //UID6772159546

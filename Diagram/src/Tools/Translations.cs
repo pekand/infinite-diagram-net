@@ -1,4 +1,6 @@
-﻿namespace Diagram
+﻿#nullable disable
+
+namespace Diagram
 {
     /// <summary>
     /// text translation table</summary> 

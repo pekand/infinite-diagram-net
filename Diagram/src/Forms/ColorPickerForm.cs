@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
+#nullable disable
+
 namespace Diagram
 {
     public partial class ColorPickerForm : Form //UID2354438225

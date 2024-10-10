@@ -6,6 +6,8 @@ using System.Threading;
 using System.Text.RegularExpressions;
 using System.IO;
 
+#nullable disable
+
 namespace Diagram
 {
     /// <summary>

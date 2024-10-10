@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
+#nullable disable
+
 namespace Diagram
 {
     // map node structure for copy paste operation

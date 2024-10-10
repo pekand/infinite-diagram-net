@@ -1,4 +1,6 @@
-﻿namespace Diagram
+﻿#nullable disable
+
+namespace Diagram
 {
     /// <summary>
     /// Line between two nodes in diagram</summary>

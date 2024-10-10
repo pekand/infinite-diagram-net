@@ -5,6 +5,8 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Security.Policy;
 
+#nullable disable
+
 namespace Diagram
 {
     /// <summary>

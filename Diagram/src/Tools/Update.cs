@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
 
+#nullable disable
+
 namespace Diagram
 {
     class Update

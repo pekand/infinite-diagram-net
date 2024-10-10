@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 
+#nullable disable
+
 namespace Diagram
 {
     public static class RecentFiles

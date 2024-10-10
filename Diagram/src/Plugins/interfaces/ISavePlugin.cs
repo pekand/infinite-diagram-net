@@ -1,4 +1,6 @@
-﻿using System.Xml.Linq;
+﻿#nullable disable
+
+using System.Xml.Linq;
 
 namespace Diagram
 {

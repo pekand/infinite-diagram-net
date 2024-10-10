@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Security;
 using Microsoft.Win32;
 
+#nullable disable
 
 namespace Diagram
 {

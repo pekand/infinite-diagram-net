@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Text;
 using Shell32;
 
+#nullable disable
+
 namespace Diagram
 {
     /// <summary>

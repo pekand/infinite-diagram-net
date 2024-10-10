@@ -5,6 +5,8 @@ using System.IO;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 
+#nullable disable
+
 namespace Diagram
 {
 

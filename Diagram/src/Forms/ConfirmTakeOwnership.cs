@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
+#nullable disable
+
 namespace Diagram
 {
     public partial class ConfirmTakeOwnership : Form

@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 
+#nullable disable
+
 namespace Diagram
 {
     [System.ComponentModel.DesignerCategory("Code")]

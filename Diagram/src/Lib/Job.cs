@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 
+#nullable disable
+
 namespace Diagram
 {
     /// <summary>

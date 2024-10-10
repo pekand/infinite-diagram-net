@@ -9,6 +9,8 @@ using System.IO;
 using System.Windows.Forms;
 using System.Security;
 
+#nullable disable
+
 namespace Diagram
 {
     // map node structure for copy paste operation

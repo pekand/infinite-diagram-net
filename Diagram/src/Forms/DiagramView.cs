@@ -9,6 +9,8 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Collections.Specialized;
 
+#nullable disable
+
 #if DEBUG
 using System.Diagnostics;
 #endif

@@ -1,4 +1,6 @@
-﻿namespace Diagram
+﻿#nullable disable
+
+namespace Diagram
 {
     /// <summary>
     /// diagram layer</summary>

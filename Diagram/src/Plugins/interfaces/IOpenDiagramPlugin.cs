@@ -1,4 +1,6 @@
-﻿namespace Diagram 
+﻿#nullable disable
+
+namespace Diagram 
 {
     public interface IOpenDiagramPlugin : IDiagramPlugin  //UID0290845812
     {

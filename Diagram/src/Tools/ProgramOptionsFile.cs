@@ -5,6 +5,8 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
+#nullable disable
+
 namespace Diagram
 {
     /// <summary>    

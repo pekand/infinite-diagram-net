@@ -1,5 +1,7 @@
 ﻿using System.Windows.Forms;
 
+#nullable disable
+
 namespace Diagram 
 {
     public interface IKeyPressPlugin : IDiagramPlugin  //UID0290945802

@@ -1,4 +1,6 @@
-﻿namespace Diagram
+﻿#nullable disable
+
+namespace Diagram
 {
     /// <summary>
     /// container for manipulation with part of diagram</summary> 

@@ -1,5 +1,7 @@
 ﻿using System.Xml.Linq;
 
+#nullable disable
+
 namespace Diagram
 {
     public interface ILoadPlugin : IDiagramPlugin

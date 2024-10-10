@@ -2,6 +2,8 @@
 using System.Security;
 using System.Windows.Forms;
 
+#nullable disable
+
 namespace Diagram
 {
     public class ChangePasswordForm : Form //UID9355910334

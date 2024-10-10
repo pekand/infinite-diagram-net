@@ -7,6 +7,8 @@ using System.Runtime.Loader;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
+#nullable disable
+
 namespace Diagram
 {
     /// <summary>

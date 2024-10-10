@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
+#nullable disable
+
 namespace Diagram
 {
     public class DataStorage
