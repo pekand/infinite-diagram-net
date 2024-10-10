@@ -14,29 +14,6 @@ namespace Diagram
     public class Encrypt //UID5102459625
     {
         /*************************************************************************************************************************/
-        // GENERATOR
-
-        /// <summary>
-        /// get random crypto secure string</summary>
-        public static string GetRandomString()
-        {
-            using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
-            {
-                byte[] tokenData = new byte[128];
-                rng.GetBytes(tokenData);
-
-                string token =
-                    Convert.ToBase64String(tokenData)
-                    .Replace("=", "")
-                    .Replace("/", "")
-                    .Replace("+", "")
-                    .Substring(0, 32);
-
-                return token;
-            }
-        }
-
-        /*************************************************************************************************************************/
         // HASHES
 
         /// <summary>
@@ -114,12 +91,9 @@ namespace Diagram
         /// generate random crypto secure salt</summary>
         public static byte[] CreateSalt(int size)
         {
-            using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
-            {
-                byte[] buff = new byte[size];
-                rng.GetBytes(buff);
-                return buff;
-            }
+            byte[] buff = new byte[size];
+            RandomNumberGenerator.Fill(buff);
+            return buff;
         }
 
         /// <summary>

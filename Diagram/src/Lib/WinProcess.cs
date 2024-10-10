@@ -16,7 +16,7 @@ namespace Diagram
         static extern void SetCurrentProcessExplicitAppUserModelID([MarshalAs(UnmanagedType.LPWStr)] string AppID);
 
         public static void setId() {
-            SetCurrentProcessExplicitAppUserModelID(Encrypt.GetRandomString());
+            SetCurrentProcessExplicitAppUserModelID(Randomizer.GetRandomString());
         }
 
     }

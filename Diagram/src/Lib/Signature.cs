@@ -29,18 +29,16 @@ namespace Diagram
             const int signatureLength = 1024;
             const string validCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 
-            using (RandomNumberGenerator provider = new RNGCryptoServiceProvider())
-            {
-                string signature = "";
-                var randomByte = new byte[signatureLength];
-                provider.GetBytes(randomByte);
 
-                for (int i=0; i < signatureLength; i++) {
-                    signature += validCharacters[randomByte[i] % validCharacters.Length];
-                }
+            string signature = "";
+            var randomByte = new byte[signatureLength];
+            RandomNumberGenerator.Fill(randomByte);
 
-                return signature;
+            for (int i=0; i < signatureLength; i++) {
+                signature += validCharacters[randomByte[i] % validCharacters.Length];
             }
+
+            return signature;
         }
 
         public static string GenerateIV()
