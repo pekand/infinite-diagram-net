@@ -3,6 +3,7 @@ using System.Text;
 using System.Security.Cryptography;
 using System.Security;
 using System.IO;
+using System.Windows.Forms;
 
 #nullable disable
 
@@ -107,15 +108,18 @@ namespace Diagram
             if (string.IsNullOrEmpty(password)) throw new ArgumentNullException("sharedSecret");
 
             string outStr = null;                       // Encrypted string to return
-            RijndaelManaged aesAlg = null;              // RijndaelManaged object used to encrypt the data.
+
+
+            Aes aesAlg = null;              // RijndaelManaged object used to encrypt the data.
 
             try
             {
+                // TODO increas iterations change algoritm and update diagram version
                 // generate the key from the shared secret and the salt
-                Rfc2898DeriveBytes key = new Rfc2898DeriveBytes(Encrypt.CalculateSHA512Hash(password), salt);
+                Rfc2898DeriveBytes key = new Rfc2898DeriveBytes(Encrypt.CalculateSHA512Hash(password), salt, 1000, HashAlgorithmName.SHA1);
 
                 // Create a RijndaelManaged object
-                aesAlg = new RijndaelManaged();
+                aesAlg = Aes.Create();
                 aesAlg.Key = key.GetBytes(aesAlg.KeySize / 8);
 
                 // Create a decryptor to perform the stream transform.
@@ -144,7 +148,6 @@ namespace Diagram
                     aesAlg.Clear();
             }
 
-            // Return the encrypted bytes from the memory stream.
             return outStr;
         }
 
@@ -157,7 +160,7 @@ namespace Diagram
 
             // Declare the RijndaelManaged object
             // used to decrypt the data.
-            RijndaelManaged aesAlg = null;
+            Aes aesAlg = null;
 
             // Declare the string used to hold
             // the decrypted text.
@@ -165,15 +168,16 @@ namespace Diagram
 
             try
             {
+                Rfc2898DeriveBytes key = null;
                 // generate the key from the shared secret and the salt
-                Rfc2898DeriveBytes key = new Rfc2898DeriveBytes(CalculateSHA512Hash(sharedSecret), salt);
+                key = new Rfc2898DeriveBytes(CalculateSHA512Hash(sharedSecret), salt, 1000, HashAlgorithmName.SHA1);
 
                 // Create the streams used for decryption.                
                 byte[] bytes = Convert.FromBase64String(cipherText);
                 using (MemoryStream msDecrypt = new MemoryStream(bytes)) {
                     // Create a RijndaelManaged object
                     // with the specified key and IV.
-                    aesAlg = new RijndaelManaged();
+                    aesAlg = Aes.Create();
                     aesAlg.Key = key.GetBytes(aesAlg.KeySize / 8);
                     // Get the initialization vector from the encrypted stream
                     aesAlg.IV = ReadByteArray(msDecrypt);

@@ -49,7 +49,6 @@ namespace Diagram
             return (title.Trim() == "")? url : title.Trim();
         }
 
-
         /// <summary>
         /// download https page and parse title from it </summary>
         public static string GetWebPage(
@@ -62,7 +61,6 @@ namespace Diagram
             bool skiphttps = false
             )
         {
-
             Program.log.Write("get title from: " + url);
 
             if (skiphttps)
@@ -72,13 +70,17 @@ namespace Diagram
 
             string page = "";
 
+
             try
             {
                 
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                request.AllowAutoRedirect = false;
-                request.UseDefaultCredentials = true;
-                request.Timeout = 2000;
+
+                HttpClientHandler handler = new HttpClientHandler
+                {
+                    AllowAutoRedirect = false,             
+                    UseDefaultCredentials = true
+
+                };
 
                 if (proxy_uri != "" ||
                     proxy_password != "" ||
@@ -86,7 +88,12 @@ namespace Diagram
                     )
                 {
                     // set proxy credentials
-                    WebProxy myProxy = new WebProxy();
+                    WebProxy myProxy = new WebProxy
+                    {
+                        BypassProxyOnLocal = true,
+                        UseDefaultCredentials = true
+                    };
+
                     if (proxy_uri != "")
                     {
                         Uri newUri = new Uri(proxy_uri);
@@ -102,11 +109,11 @@ namespace Diagram
                             proxy_password
                         );
                     }
-                    request.Proxy = myProxy;
+                    handler.Proxy = myProxy;
                 }
                 else
                 {
-                    request.Proxy = WebRequest.GetSystemWebProxy();
+                    handler.Proxy = WebRequest.GetSystemWebProxy();
                 }
 
                 if (cookieContainer == null)
@@ -116,75 +123,43 @@ namespace Diagram
 
                 if (cookieContainer != null)
                 {
-                    request.CookieContainer = cookieContainer;
+                    handler.CookieContainer = cookieContainer;
                 }
 
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
-                if ((int)response.StatusCode >= 300 && (int)response.StatusCode <= 399)
+                using (HttpClient client = new HttpClient(handler))
                 {
-                    string uriString = response.Headers["Location"];
-
-                    if (level < 10)
+                    client.Timeout = TimeSpan.FromMilliseconds(2000);
+                    using (Stream resStream = client.GetStreamAsync(url).GetAwaiter().GetResult())
                     {
-                        return Network.GetWebPage(
-                                uriString,
-                                proxy_uri,
-                                proxy_password,
-                                proxy_username,
-                                level + 1,
-                                cookieContainer,
-                                skiphttps
-                            );
-                    }
-                }
+                    
+                        MemoryStream memoryStream = new MemoryStream();
+                        resStream.CopyTo(memoryStream);
 
-                Stream resStream = response.GetResponseStream();
+                        // read stream with utf8
+                        memoryStream.Seek(0, SeekOrigin.Begin);
+                        using (StreamReader reader = new StreamReader(memoryStream))
+                        {
+                            page = reader.ReadToEnd();
+                        }
 
-                MemoryStream memoryStream = new MemoryStream();
-                resStream.CopyTo(memoryStream);
+                        string encoding = Patterns.MatchWebPageEncoding(page);
 
-                // read stream with utf8
-                memoryStream.Seek(0, SeekOrigin.Begin);
-                using (StreamReader reader = new StreamReader(memoryStream)) {
-                    page = reader.ReadToEnd();
-                }
-
-                string encoding = Patterns.MatchWebPageEncoding(page);
-
-                // try redirect 
-                if (level < 10)
-                {
-                    string redirect = Patterns.MatchWebPageRedirectUrl(page);
-
-                    if (redirect.Trim() != "")
-                    {
-                        Uri.TryCreate(new Uri(url), redirect, out Uri result);
-                        return Network.GetWebPage(
-                            result.ToString(),
-                            proxy_uri,
-                            proxy_password,
-                            proxy_username,
-                            level + 1,
-                            cookieContainer,
-                            skiphttps
-                        );
-                    }
-                }
-
-                // use different encoding
-                if (encoding.Trim() != "" && encoding.ToLower() != "utf-8")
-                {
-                    memoryStream.Seek(0, SeekOrigin.Begin);
-                    using (StreamReader reader2 = new StreamReader(memoryStream, System.Text.Encoding.GetEncoding(encoding)))
-                    {
-                        page = reader2.ReadToEnd();
+                        // use different encoding
+                        if (encoding.Trim() != "" && encoding.ToLower() != "utf-8")
+                        {
+                            memoryStream.Seek(0, SeekOrigin.Begin);
+                            using (StreamReader reader2 = new StreamReader(memoryStream, System.Text.Encoding.GetEncoding(encoding)))
+                            {
+                                page = reader2.ReadToEnd();
+                            }
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Program.log.Write("get link name error: " + ex.Message);
+                Program.log.Write("GetWebPage url:" + url + "error: " + ex.Message);
             }
 
             return page;
@@ -194,11 +169,6 @@ namespace Diagram
         {
             try
             {
-                /*using (var client = new WebClient())
-                {
-                    client.DownloadFile(sourceUrl, pathToSave);
-                }*/
-
                 using (HttpClient client = new HttpClient())
                 {
                     HttpResponseMessage response = client.GetAsync(sourceUrl).GetAwaiter().GetResult();
