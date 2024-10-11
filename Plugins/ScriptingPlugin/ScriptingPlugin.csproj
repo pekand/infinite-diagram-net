@@ -9,18 +9,23 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutputPath>..\..\Diagram\bin\x64\Debug\net8.0-windows\plugins\EmptyPlugin\</OutputPath>
+    <OutputPath>..\..\Diagram\bin\x64\Debug\net8.0-windows\plugins\ScriptingPlugin\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutputPath>..\..\Diagram\bin\x64\Release\net8.0-windows\plugins\EmptyPlugin\</OutputPath>
+    <OutputPath>..\..\Diagram\bin\x64\Release\net8.0-windows\plugins\ScriptingPlugin\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IronPython" Version="3.4.1" />
+    <PackageReference Include="IronPython.StdLib" Version="3.4.1" />
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="Diagram">

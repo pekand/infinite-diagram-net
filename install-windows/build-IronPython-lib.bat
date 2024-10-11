@@ -1,9 +1,5 @@
-cd %~dp0
-cd ..\packages\IronPython.StdLib.2.7.11\content\Lib\
-zip -r ..\IronPython.zip *
-7z a ..\IronPython.zip *
-
-copy  ..\IronPython.zip ..\..\..\..\Diagram\bin\Debug\plugins\ScriptingPlugin\
-copy  ..\IronPython.zip ..\..\..\..\Diagram\bin\Release\plugins\ScriptingPlugin\
+7z a IronPython.zip ..\packages\ironpython.stdlib\3.4.1\content\lib\*
+copy  IronPython.zip ..\Diagram\bin\x64\Debug\net8.0-windows\plugins\ScriptingPlugin\
+copy  IronPython.zip ..\Diagram\bin\x64\Release\net8.0-windows\plugins\ScriptingPlugin\
 pause
 
