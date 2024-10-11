@@ -39,37 +39,53 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "files\InfiniteDiagram.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "files\InfiniteDiagram.ico"; DestDir: "{app}"; Flags: ignoreversion
+Source: "files\InfiniteDiagram.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "files\InfiniteDiagram.deps.json"; DestDir: "{app}"; Flags: ignoreversion
+Source: "files\InfiniteDiagram.pdb"; DestDir: "{app}"; Flags: ignoreversion
+Source: "files\InfiniteDiagram.runtimeconfig.json"; DestDir: "{app}"; Flags: ignoreversion
 
-Source: "files\Fizzler.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "files\Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
-
+Source: "plugins\CreateDiagramPlugin\CreateDiagramPlugin.deps.json"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CreateDiagramPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
 Source: "plugins\CreateDiagramPlugin\CreateDiagramPlugin.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CreateDiagramPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\CreateDiagramPlugin\CreateDiagramPlugin.pdb"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CreateDiagramPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+
+Source: "plugins\CreateDirectoryPlugin\CreateDirectoryPlugin.deps.json"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CreateDirectoryPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
 Source: "plugins\CreateDirectoryPlugin\CreateDirectoryPlugin.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CreateDirectoryPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\CreateDirectoryPlugin\CreateDirectoryPlugin.pdb"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CreateDirectoryPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
 
+Source: "plugins\FindUidPlugin\FindUidPlugin.deps.json"; DestDir: "{userappdata}\InfiniteDiagram\plugins\FindUidPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
 Source: "plugins\FindUidPlugin\FindUidPlugin.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\FindUidPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\FindUidPlugin\FindUidPlugin.pdb"; DestDir: "{userappdata}\InfiniteDiagram\plugins\FindUidPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
 
-Source: "plugins\NcalcPlugin\NcalcPlugin.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\NcalcPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
-Source: "plugins\NcalcPlugin\NCalc.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\NcalcPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\CalcPlugin\CalcPlugin.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CalcPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\CalcPlugin\CalcPlugin.deps.json"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CalcPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\CalcPlugin\CalcPlugin.pdb"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CalcPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\CalcPlugin\Microsoft.CodeAnalysis.CSharp.Scripting.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CalcPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\CalcPlugin\Microsoft.CodeAnalysis.CSharp.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CalcPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\CalcPlugin\Microsoft.CodeAnalysis.Scripting.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CalcPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\CalcPlugin\Microsoft.CodeAnalysis.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CalcPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
 
-Source: "plugins\ScriptingPlugin\ScriptingPlugin.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
-Source: "plugins\ScriptingPlugin\IronPython.zip"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
-Source: "plugins\ScriptingPlugin\IronPython.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
-Source: "plugins\ScriptingPlugin\IronPython.Modules.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
-Source: "plugins\ScriptingPlugin\IronPython.SQLite.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
-Source: "plugins\ScriptingPlugin\IronPython.zip"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
-Source: "plugins\ScriptingPlugin\Microsoft.Dynamic.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
-Source: "plugins\ScriptingPlugin\Microsoft.Scripting.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
-Source: "plugins\ScriptingPlugin\Microsoft.Scripting.Metadata.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
-
+Source: "plugins\CScriptingPlugin\CScriptingPlugin.deps.json"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
 Source: "plugins\CScriptingPlugin\CScriptingPlugin.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
-
+Source: "plugins\CScriptingPlugin\CScriptingPlugin.pdb"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\CScriptingPlugin\Microsoft.CodeAnalysis.CSharp.Scripting.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\CScriptingPlugin\Microsoft.CodeAnalysis.CSharp.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\CScriptingPlugin\Microsoft.CodeAnalysis.Scripting.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
 Source: "plugins\CScriptingPlugin\Microsoft.CodeAnalysis.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
 
-Source: "plugins\CScriptingPlugin\Microsoft.CodeAnalysis.CSharp.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\ScriptingPlugin\IronPython.Modules.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\ScriptingPlugin\IronPython.SQLite.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\ScriptingPlugin\IronPython.Wpf.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\ScriptingPlugin\IronPython.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\ScriptingPlugin\IronPython.zip"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\ScriptingPlugin\Microsoft.Dynamic.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\ScriptingPlugin\Microsoft.Scripting.Metadata.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\ScriptingPlugin\Microsoft.Scripting.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\ScriptingPlugin\Mono.Unix.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\ScriptingPlugin\ScriptingPlugin.deps.json"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\ScriptingPlugin\ScriptingPlugin.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
+Source: "plugins\ScriptingPlugin\ScriptingPlugin.pdb"; DestDir: "{userappdata}\InfiniteDiagram\plugins\ScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
 
-Source: "plugins\CScriptingPlugin\Microsoft.CodeAnalysis.CSharp.Scripting.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
 
-Source: "plugins\CScriptingPlugin\Microsoft.CodeAnalysis.Scripting.dll"; DestDir: "{userappdata}\InfiniteDiagram\plugins\CScriptingPlugin\"; Flags: ignoreversion createallsubdirs recursesubdirs comparetimestamp
 
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files

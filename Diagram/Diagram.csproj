@@ -8,6 +8,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Platforms>AnyCPU;x64</Platforms>
     <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <AssemblyName>InfiniteDiagram</AssemblyName>
+    <ApplicationIcon>InfiniteDiagram.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +22,10 @@
       <Isolated>false</Isolated>
       <EmbedInteropTypes>true</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="InfiniteDiagram.ico" />
   </ItemGroup>
 
   <ItemGroup>

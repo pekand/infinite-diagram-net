@@ -23,10 +23,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Diagram">
-      <HintPath>..\..\Diagram\bin\x64\Debug\net8.0-windows\Diagram.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
+    <ProjectReference Include="..\..\Diagram\Diagram.csproj" />
   </ItemGroup>
 
 
