@@ -114,9 +114,8 @@ namespace Diagram
 
             try
             {
-                // TODO increas iterations change algoritm and update diagram version
                 // generate the key from the shared secret and the salt
-                Rfc2898DeriveBytes key = new Rfc2898DeriveBytes(Encrypt.CalculateSHA512Hash(password), salt, 1000, HashAlgorithmName.SHA1);
+                Rfc2898DeriveBytes key = new Rfc2898DeriveBytes(Encrypt.CalculateSHA512Hash(password), salt, 100000, HashAlgorithmName.SHA512);
 
                 // Create a RijndaelManaged object
                 aesAlg = Aes.Create();
@@ -153,7 +152,7 @@ namespace Diagram
 
         /// <summary>
         /// decrypt cipherText with sharedSecret password using salt</summary>
-        public static string DecryptStringAES(string cipherText, string sharedSecret, byte[] salt = null)
+        public static string DecryptStringAES(string cipherText, string sharedSecret, byte[] salt = null, string version = "3")
         {
             if (string.IsNullOrEmpty(cipherText)) throw new ArgumentNullException("cipherText");
             if (string.IsNullOrEmpty(sharedSecret)) throw new ArgumentNullException("sharedSecret");
@@ -170,7 +169,20 @@ namespace Diagram
             {
                 Rfc2898DeriveBytes key = null;
                 // generate the key from the shared secret and the salt
-                key = new Rfc2898DeriveBytes(CalculateSHA512Hash(sharedSecret), salt, 1000, HashAlgorithmName.SHA1);
+
+                if (version == "3")
+                {
+                    key = new Rfc2898DeriveBytes(CalculateSHA512Hash(sharedSecret), salt, 100000, HashAlgorithmName.SHA512);
+                }
+                else if (version == "2")
+                {
+                    //legacy backward compatibility
+                    key = new Rfc2898DeriveBytes(CalculateSHA512Hash(sharedSecret), salt, 1000, HashAlgorithmName.SHA1);
+                }
+                else
+                {
+                    throw new Exception("Invalid version of DecryptStringAES");
+                }
 
                 // Create the streams used for decryption.                
                 byte[] bytes = Convert.FromBase64String(cipherText);

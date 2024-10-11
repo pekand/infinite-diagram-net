@@ -216,7 +216,7 @@ namespace Diagram
                             try
                             {
                                 this.salt = Encrypt.SetSalt(salt);
-                                string decryptedXml = Encrypt.DecryptStringAES(encrypted, password, this.salt);
+                                string decryptedXml = Encrypt.DecryptStringAES(encrypted, password, this.salt, "2");
                                 diagram = this.StringToXml(decryptedXml);
                                 this.encrypted = true;
                                 this.SetPassword(password);
@@ -258,7 +258,7 @@ namespace Diagram
                 return true;
             }
 
-            if (version == "2" )
+            if (version == "2" || version == "3")
             {
 
                 if (salt != null && encrypted != null) {
@@ -273,7 +273,7 @@ namespace Diagram
                             try
                             {
                                 this.salt = Encrypt.SetSalt(salt);
-                                string decryptedXml = Encrypt.DecryptStringAES(encrypted, password, this.salt);
+                                string decryptedXml = Encrypt.DecryptStringAES(encrypted, password, this.salt, version);
                                 diagram = this.StringToXml(decryptedXml);
                                 this.encrypted = true;
                                 this.SetPassword(password);
@@ -926,7 +926,7 @@ namespace Diagram
         public void SaveXMLFile(string FileName) //UID6023051509
         {
             XElement root = new XElement("diagram");
-            root.Add(new XElement("version", "2"));
+            root.Add(new XElement("version", "3"));
 
             XElement diagram = this.SaveInnerXMLFile();
             string diagraxml = this.XmlToString(diagram);
