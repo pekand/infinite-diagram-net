@@ -9,7 +9,7 @@ namespace Diagram
     {
         public Main main = null;
 
-        
+
 
         public delegate void TextFormSaveEventHandler(Node node);
         public event TextFormSaveEventHandler TextFormSave;
@@ -34,88 +34,94 @@ namespace Diagram
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TextForm));
-            this.SplitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.TextFormTextBox = new System.Windows.Forms.RichTextBox();
-            this.TextFormLinkTextBox = new System.Windows.Forms.TextBox();
-            this.TextFormNoteTextBox = new System.Windows.Forms.RichTextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).BeginInit();
-            this.SplitContainer1.Panel1.SuspendLayout();
-            this.SplitContainer1.Panel2.SuspendLayout();
-            this.SplitContainer1.SuspendLayout();
-            this.SuspendLayout();
+            SplitContainer1 = new SplitContainer();
+            TextFormTextBox = new RichTextBox();
+            TextFormLinkTextBox = new TextBox();
+            TextFormNoteTextBox = new RichTextBox();
+            ((System.ComponentModel.ISupportInitialize)SplitContainer1).BeginInit();
+            SplitContainer1.Panel1.SuspendLayout();
+            SplitContainer1.Panel2.SuspendLayout();
+            SplitContainer1.SuspendLayout();
+            SuspendLayout();
             // 
             // SplitContainer1
             // 
-            this.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.SplitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.SplitContainer1.Name = "SplitContainer1";
-            this.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            SplitContainer1.Dock = DockStyle.Fill;
+            SplitContainer1.Location = new Point(0, 0);
+            SplitContainer1.Margin = new Padding(4, 4, 4, 4);
+            SplitContainer1.Name = "SplitContainer1";
+            SplitContainer1.Orientation = Orientation.Horizontal;
             // 
             // SplitContainer1.Panel1
             // 
-            this.SplitContainer1.Panel1.Controls.Add(this.TextFormTextBox);
+            SplitContainer1.Panel1.Controls.Add(TextFormTextBox);
             // 
             // SplitContainer1.Panel2
             // 
-            this.SplitContainer1.Panel2.Controls.Add(this.TextFormLinkTextBox);
-            this.SplitContainer1.Panel2.Controls.Add(this.TextFormNoteTextBox);
-            this.SplitContainer1.Size = new System.Drawing.Size(393, 517);
-            this.SplitContainer1.SplitterDistance = 71;
-            this.SplitContainer1.TabIndex = 0;
+            SplitContainer1.Panel2.Controls.Add(TextFormLinkTextBox);
+            SplitContainer1.Panel2.Controls.Add(TextFormNoteTextBox);
+            SplitContainer1.Size = new Size(524, 756);
+            SplitContainer1.SplitterDistance = 103;
+            SplitContainer1.SplitterWidth = 6;
+            SplitContainer1.TabIndex = 0;
             // 
             // TextFormTextBox
             // 
-            this.TextFormTextBox.DetectUrls = false;
-            this.TextFormTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TextFormTextBox.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.TextFormTextBox.Location = new System.Drawing.Point(0, 0);
-            this.TextFormTextBox.Name = "TextFormTextBox";
-            this.TextFormTextBox.Size = new System.Drawing.Size(393, 71);
-            this.TextFormTextBox.TabIndex = 0;
-            this.TextFormTextBox.Text = "";
-            this.TextFormTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextFormTextBox_KeyDown);
+            TextFormTextBox.DetectUrls = false;
+            TextFormTextBox.Dock = DockStyle.Fill;
+            TextFormTextBox.Font = new Font("Times New Roman", 12F);
+            TextFormTextBox.Location = new Point(0, 0);
+            TextFormTextBox.Margin = new Padding(4, 4, 4, 4);
+            TextFormTextBox.Name = "TextFormTextBox";
+            TextFormTextBox.Size = new Size(524, 103);
+            TextFormTextBox.TabIndex = 0;
+            TextFormTextBox.Text = "";
+            TextFormTextBox.KeyDown += TextFormTextBox_KeyDown;
             // 
             // TextFormLinkTextBox
             // 
-            this.TextFormLinkTextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.TextFormLinkTextBox.Location = new System.Drawing.Point(0, 422);
-            this.TextFormLinkTextBox.Name = "TextFormLinkTextBox";
-            this.TextFormLinkTextBox.Size = new System.Drawing.Size(393, 20);
-            this.TextFormLinkTextBox.TabIndex = 1;
-            this.TextFormLinkTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextFormLinkTextBox_KeyDown);
+            TextFormLinkTextBox.Dock = DockStyle.Bottom;
+            TextFormLinkTextBox.Location = new Point(0, 621);
+            TextFormLinkTextBox.Margin = new Padding(4, 4, 4, 4);
+            TextFormLinkTextBox.Name = "TextFormLinkTextBox";
+            TextFormLinkTextBox.Size = new Size(524, 26);
+            TextFormLinkTextBox.TabIndex = 1;
+            TextFormLinkTextBox.TextChanged += TextFormLinkTextBox_TextChanged;
+            TextFormLinkTextBox.KeyDown += TextFormLinkTextBox_KeyDown;
             // 
             // TextFormNoteTextBox
             // 
-            this.TextFormNoteTextBox.DetectUrls = false;
-            this.TextFormNoteTextBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.TextFormNoteTextBox.Font = new System.Drawing.Font("Courier New", 12F);
-            this.TextFormNoteTextBox.Location = new System.Drawing.Point(0, 0);
-            this.TextFormNoteTextBox.Name = "TextFormNoteTextBox";
-            this.TextFormNoteTextBox.Size = new System.Drawing.Size(393, 404);
-            this.TextFormNoteTextBox.TabIndex = 0;
-            this.TextFormNoteTextBox.Text = "";
-            this.TextFormNoteTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TextFormNoteTextBox_KeyDown);
+            TextFormNoteTextBox.DetectUrls = false;
+            TextFormNoteTextBox.Dock = DockStyle.Top;
+            TextFormNoteTextBox.Font = new Font("Courier New", 12F);
+            TextFormNoteTextBox.Location = new Point(0, 0);
+            TextFormNoteTextBox.Margin = new Padding(4, 4, 4, 4);
+            TextFormNoteTextBox.Name = "TextFormNoteTextBox";
+            TextFormNoteTextBox.Size = new Size(524, 589);
+            TextFormNoteTextBox.TabIndex = 0;
+            TextFormNoteTextBox.Text = "";
+            TextFormNoteTextBox.KeyDown += TextFormNoteTextBox_KeyDown;
             // 
             // TextForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(393, 517);
-            this.Controls.Add(this.SplitContainer1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.KeyPreview = true;
-            this.Name = "TextForm";
-            this.Text = "Edit";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.TextForm_FormClosed);
-            this.Load += new System.EventHandler(this.TextForm_Load);
-            this.Resize += new System.EventHandler(this.TextForm_Resize);
-            this.SplitContainer1.Panel1.ResumeLayout(false);
-            this.SplitContainer1.Panel2.ResumeLayout(false);
-            this.SplitContainer1.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.SplitContainer1)).EndInit();
-            this.SplitContainer1.ResumeLayout(false);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(8F, 19F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(524, 756);
+            Controls.Add(SplitContainer1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            KeyPreview = true;
+            Margin = new Padding(4, 4, 4, 4);
+            Name = "TextForm";
+            Text = "Edit";
+            FormClosed += TextForm_FormClosed;
+            Load += TextForm_Load;
+            Resize += TextForm_Resize;
+            SplitContainer1.Panel1.ResumeLayout(false);
+            SplitContainer1.Panel2.ResumeLayout(false);
+            SplitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)SplitContainer1).EndInit();
+            SplitContainer1.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         private void TextFormTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -126,6 +132,7 @@ namespace Diagram
                 TextFormTextBox.SelectedText = insertText;
 
                 e.Handled = true;
+                e.SuppressKeyPress = true;
             }
         }
 
@@ -137,6 +144,7 @@ namespace Diagram
                 TextFormNoteTextBox.SelectedText = insertText;
 
                 e.Handled = true;
+                e.SuppressKeyPress = true;
             }
         }
 
@@ -148,6 +156,7 @@ namespace Diagram
                 TextFormLinkTextBox.SelectedText = insertText;
 
                 e.Handled = true;
+                e.SuppressKeyPress = true;
             }
         }
 
@@ -208,13 +217,14 @@ namespace Diagram
                     node.name != this.TextFormTextBox.Text ||
                     node.note != this.TextFormNoteTextBox.Text ||
                     node.link != this.TextFormLinkTextBox.Text
-                ) {
+                )
+                {
                     this.diagram.undoOperations.Add("edit", node, node.position, node.layer);
                     node.name = this.TextFormTextBox.Text;
                     node.note = this.TextFormNoteTextBox.Text;
                     node.link = this.TextFormLinkTextBox.Text;
                     node.Resize();
-                    
+
                     DateTime dt = DateTime.Now;
                     node.timemodify = String.Format("{0:yyyy-M-d HH:mm:ss}", dt);
 
@@ -252,6 +262,9 @@ namespace Diagram
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        
+        private void TextFormLinkTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
