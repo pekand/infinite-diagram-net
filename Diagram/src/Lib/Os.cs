@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Text;
 using Shell32;
+using System.ComponentModel;
 
 #nullable disable
 
@@ -372,10 +373,32 @@ namespace Diagram
 
         /// <summary>
         /// run application in current os </summary>
-        public static void RunProcess(string path)
+        public static void OpenFileInExplorer(string path)
         {
-            path = NormalizePath(path);            
-            System.Diagnostics.Process.Start("explorer.exe", path);
+            try
+            {
+                path = NormalizePath(path);
+
+                if (!File.Exists(path))
+                {
+                    return;
+
+                }
+                string workingDirectory = Path.GetDirectoryName(path);
+                string fileName = Path.GetFileName(path);
+
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.FileName = ("explorer.exe");
+                startInfo.Arguments = fileName;
+                startInfo.WorkingDirectory = workingDirectory;
+                Process process = new Process();
+                process.StartInfo = startInfo;
+                process.Start();
+            }
+            catch (Exception ex)
+            {
+                Program.log.Write("RunProcess open directory: error:" + ex.Message);
+            }
         }
 
         /// <summary>
@@ -445,39 +468,127 @@ namespace Diagram
             }
         }
 
+        static string GetCommandPath(string command)
+        {
+            string commandPath = null;
+
+            string pathVariable = Environment.GetEnvironmentVariable("PATH");
+            if (pathVariable != null)
+            {
+                string[] paths = pathVariable.Split(';'); // Use ':' on Unix-based systems
+                foreach (string path in paths)
+                {
+                    if (path != null && path.Trim() != ""){
+                        string combinedParh = Path.Combine(Path.GetFullPath(path), command);
+                        if (File.Exists(combinedParh)) {
+                            commandPath = combinedParh;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return commandPath;
+        }
+
         /// <summary>
         /// run command in system and wait for output </summary>
         public static void RunCommand(string cmd, string workdir = null) //b39d265706
         {
-            try
-            {
+            Job.DoJob(
+                new DoWorkEventHandler(
+                    delegate (object o, DoWorkEventArgs args)
+                    {
+                        try
+                        {
 
-                Process process = new Process();
-                ProcessStartInfo startInfo = new ProcessStartInfo
-                {
-                    WindowStyle = ProcessWindowStyle.Hidden
-                };
+                            Process process = new Process();
+                            ProcessStartInfo startInfo = new ProcessStartInfo
+                            {
+                                //WindowStyle = ProcessWindowStyle.Hidden
+                            };
 
-                string[] parts = Patterns.SplitCommand(cmd);
-                startInfo.FileName = parts[0];
-                startInfo.Arguments = parts[1];
+                            string[] parts = Patterns.SplitCommand(cmd);
+                            startInfo.FileName = "cmd.exe";
+                            startInfo.Arguments = "/C" + cmd;
 
-                startInfo.WorkingDirectory = workdir;
-                startInfo.UseShellExecute = false;
-                startInfo.RedirectStandardOutput = true;
-                startInfo.RedirectStandardError = true;
-                process.StartInfo = startInfo;
-                process.Start();
-                string output = process.StandardOutput.ReadToEnd();
-                string error = process.StandardError.ReadToEnd();
-                process.WaitForExit();
-                Program.log.Write("output: " + output);
-                Program.log.Write("error: " + error);
-            }
-            catch (Exception ex)
-            {
-                Program.log.Write("exception: " + ex.Message);
-            }
+                            startInfo.WorkingDirectory = workdir;
+                            startInfo.UseShellExecute = true;
+                            startInfo.RedirectStandardOutput = false;
+                            startInfo.RedirectStandardError = false;
+                            startInfo.CreateNoWindow = false;
+                            process.StartInfo = startInfo;
+                            process.Start();
+                            /*string output = process.StandardOutput.ReadToEnd();
+                            string error = process.StandardError.ReadToEnd();
+                            process.WaitForExit();
+                            Program.log.Write("output: " + output);
+                            Program.log.Write("error: " + error);*/
+                        }
+                        catch (Exception ex)
+                        {
+                            Program.log.Write("exception: " + ex.Message);
+                        }
+
+                    }
+                ),
+                new RunWorkerCompletedEventHandler(
+                    delegate (object o, RunWorkerCompletedEventArgs args)
+                    {
+                        
+                    }
+                )
+            );            
+        }
+
+        /// <summary>
+        /// run command in system and wait for output </summary>
+        public static void RunSilentCommand(string cmd, string workdir = null) //b39d265706
+        {
+            Job.DoJob(
+                new DoWorkEventHandler(
+                    delegate (object o, DoWorkEventArgs args)
+                    {
+                        try
+                        {
+
+                            Process process = new Process();
+                            ProcessStartInfo startInfo = new ProcessStartInfo
+                            {
+                                WindowStyle = ProcessWindowStyle.Hidden
+                            };
+
+                            string[] parts = Patterns.SplitCommand(cmd);
+                            startInfo.FileName = "cmd.exe";
+                            startInfo.Arguments = "/C" + cmd;
+
+                            startInfo.WorkingDirectory = workdir;
+                            startInfo.UseShellExecute = true;
+                            startInfo.RedirectStandardOutput = false;
+                            startInfo.RedirectStandardError = false;
+                            startInfo.CreateNoWindow = false;
+                            process.StartInfo = startInfo;
+                            process.Start();
+                            /*string output = process.StandardOutput.ReadToEnd();
+                            string error = process.StandardError.ReadToEnd();
+                            process.WaitForExit();
+                            Program.log.Write("output: " + output);
+                            Program.log.Write("error: " + error);*/
+                        }
+                        catch (Exception ex)
+                        {
+                            Program.log.Write("exception: " + ex.Message);
+                        }
+
+                    }
+                ),
+                new RunWorkerCompletedEventHandler(
+                    delegate (object o, RunWorkerCompletedEventArgs args)
+                    {
+
+                    }
+                )
+            );
         }
 
         /// <summary>
@@ -508,7 +619,7 @@ namespace Diagram
             editFileCmd = editFileCmd.Replace("%LINE%", pos.ToString());
 
             Program.log.Write("diagram: openlink: open file on position " + editFileCmd);
-            Os.RunCommand(editFileCmd);
+            Os.RunSilentCommand(editFileCmd);
         }
         
         /// <summary>

@@ -4539,7 +4539,7 @@ namespace Diagram
                             else
                             {
                                 Program.log.Write("diagram: openlink: open file " + Os.NormalizePath(rec.link));
-                                Os.RunProcess(rec.link);
+                                Os.OpenFileInExplorer(rec.link);
                             }
                         }
                         catch (Exception ex)
@@ -4572,7 +4572,7 @@ namespace Diagram
                             editFileCmd = editFileCmd.Replace("%LINE%", searchString);
 
                             Program.log.Write("diagram: openlink: open file on position " + editFileCmd);
-                            Os.RunCommand(editFileCmd);
+                            Os.RunSilentCommand(editFileCmd);
                         }
                         catch (Exception ex)
                         {

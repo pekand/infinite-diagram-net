@@ -73,7 +73,7 @@ namespace Diagram
 
                                    if (downloadedFileChecksum == signature)
                                    {
-                                       Os.RunProcess(executablePath);
+                                       Os.OpenFileInExplorer(executablePath);
                                    }
                                    else
                                    {

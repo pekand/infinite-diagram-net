@@ -62,7 +62,7 @@ namespace Diagram
 
         /// <summary>
         /// command for open editor on line position</summary>
-        public String texteditor = "subl \"%FILENAME%\":%LINE%";
+        public String texteditor = "sublime_text \"%FILENAME%\":%LINE%";
 
         /// <summary>
         /// recently opened files</summary>

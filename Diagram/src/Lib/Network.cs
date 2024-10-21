@@ -200,7 +200,7 @@ namespace Diagram
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                System.Diagnostics.Process.Start(url);
+                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
             }
         }
 		
