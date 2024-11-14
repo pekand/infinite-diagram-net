@@ -48,7 +48,7 @@ namespace Diagram
             // 
             SplitContainer1.Dock = DockStyle.Fill;
             SplitContainer1.Location = new Point(0, 0);
-            SplitContainer1.Margin = new Padding(4, 4, 4, 4);
+            SplitContainer1.Margin = new Padding(4);
             SplitContainer1.Name = "SplitContainer1";
             SplitContainer1.Orientation = Orientation.Horizontal;
             // 
@@ -69,9 +69,9 @@ namespace Diagram
             // 
             TextFormTextBox.DetectUrls = false;
             TextFormTextBox.Dock = DockStyle.Fill;
-            TextFormTextBox.Font = new Font("Times New Roman", 12F);
+            TextFormTextBox.Font = new Font("Times New Roman", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             TextFormTextBox.Location = new Point(0, 0);
-            TextFormTextBox.Margin = new Padding(4, 4, 4, 4);
+            TextFormTextBox.Margin = new Padding(4);
             TextFormTextBox.Name = "TextFormTextBox";
             TextFormTextBox.Size = new Size(524, 103);
             TextFormTextBox.TabIndex = 0;
@@ -81,10 +81,11 @@ namespace Diagram
             // TextFormLinkTextBox
             // 
             TextFormLinkTextBox.Dock = DockStyle.Bottom;
-            TextFormLinkTextBox.Location = new Point(0, 621);
-            TextFormLinkTextBox.Margin = new Padding(4, 4, 4, 4);
+            TextFormLinkTextBox.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            TextFormLinkTextBox.Location = new Point(0, 608);
+            TextFormLinkTextBox.Margin = new Padding(4);
             TextFormLinkTextBox.Name = "TextFormLinkTextBox";
-            TextFormLinkTextBox.Size = new Size(524, 26);
+            TextFormLinkTextBox.Size = new Size(524, 39);
             TextFormLinkTextBox.TabIndex = 1;
             TextFormLinkTextBox.TextChanged += TextFormLinkTextBox_TextChanged;
             TextFormLinkTextBox.KeyDown += TextFormLinkTextBox_KeyDown;
@@ -93,9 +94,9 @@ namespace Diagram
             // 
             TextFormNoteTextBox.DetectUrls = false;
             TextFormNoteTextBox.Dock = DockStyle.Top;
-            TextFormNoteTextBox.Font = new Font("Courier New", 12F);
+            TextFormNoteTextBox.Font = new Font("Courier New", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             TextFormNoteTextBox.Location = new Point(0, 0);
-            TextFormNoteTextBox.Margin = new Padding(4, 4, 4, 4);
+            TextFormNoteTextBox.Margin = new Padding(4);
             TextFormNoteTextBox.Name = "TextFormNoteTextBox";
             TextFormNoteTextBox.Size = new Size(524, 589);
             TextFormNoteTextBox.TabIndex = 0;
@@ -110,7 +111,7 @@ namespace Diagram
             Controls.Add(SplitContainer1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             Name = "TextForm";
             Text = "Edit";
             FormClosed += TextForm_FormClosed;

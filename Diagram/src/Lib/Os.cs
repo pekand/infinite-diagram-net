@@ -508,7 +508,6 @@ namespace Diagram
                                 //WindowStyle = ProcessWindowStyle.Hidden
                             };
 
-                            string[] parts = Patterns.SplitCommand(cmd);
                             startInfo.FileName = "cmd.exe";
                             startInfo.Arguments = "/C" + cmd;
 
@@ -558,7 +557,6 @@ namespace Diagram
                                 WindowStyle = ProcessWindowStyle.Hidden
                             };
 
-                            string[] parts = Patterns.SplitCommand(cmd);
                             startInfo.FileName = "cmd.exe";
                             startInfo.Arguments = "/C" + cmd;
 
