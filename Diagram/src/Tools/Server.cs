@@ -25,6 +25,8 @@ namespace Diagram
         private TcpListener tcpListener; // server
         private Thread listenThread; // thread for server loop
 
+        Mutex serverMutex = null;
+
         /*************************************************************************************************************************/
         // SERVER LOOP
 
@@ -35,12 +37,30 @@ namespace Diagram
             this.mainProcess = false;
         }
 
+        
 
         public bool ServerExists()
         {
-            if (SendMessage("ping")) // check if server exists
-            { 
-                return true;
+
+            string mutexName = "Global\\InfiniteDiagram-"+ main.programOptions.server_default_port;
+            bool createdNew;
+
+            try
+            {
+                serverMutex = new Mutex(true, mutexName, out createdNew);
+                if (createdNew)
+                {
+                    return false; // created success -> server not exist
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception)
+            {
+
+
             }
 
             return false;

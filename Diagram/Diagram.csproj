@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -43,4 +43,12 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="pwsh.exe $(SolutionDir)tools\postbuild.ps1 $(ConfigurationName) $(SolutionDir) $(OutDir) $(TargetPath)" WorkingDirectory="$(SolutionDir)" />
+  </Target>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="pwsh.exe $(SolutionDir)tools\prebuild.ps1 $(ConfigurationName) $(SolutionDir) $(OutDir) $(TargetPath)" WorkingDirectory="$(SolutionDir)" />
+  </Target>
+  
 </Project>
