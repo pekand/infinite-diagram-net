@@ -505,7 +505,7 @@ namespace Diagram
                             Process process = new Process();
                             ProcessStartInfo startInfo = new ProcessStartInfo
                             {
-                                //WindowStyle = ProcessWindowStyle.Hidden
+                                WindowStyle = ProcessWindowStyle.Hidden
                             };
 
                             startInfo.FileName = "cmd.exe";
@@ -518,11 +518,11 @@ namespace Diagram
                             startInfo.CreateNoWindow = false;
                             process.StartInfo = startInfo;
                             process.Start();
-                            /*string output = process.StandardOutput.ReadToEnd();
-                            string error = process.StandardError.ReadToEnd();
-                            process.WaitForExit();
-                            Program.log.Write("output: " + output);
-                            Program.log.Write("error: " + error);*/
+                            //string output = process.StandardOutput.ReadToEnd();
+                            //string error = process.StandardError.ReadToEnd();
+                            //process.WaitForExit();
+                            //Program.log.Write("output: " + output);
+                            //Program.log.Write("error: " + error);
                         }
                         catch (Exception ex)
                         {
@@ -537,7 +537,7 @@ namespace Diagram
                         
                     }
                 )
-            );            
+            );     
         }
 
         /// <summary>
@@ -837,6 +837,82 @@ namespace Diagram
             }
 
             return clipboard;
+        }
+
+        public static async Task RunCommandWithTimeout(string cmd, string workdir = null)
+        {
+            using var cts = new CancellationTokenSource(TimeSpan.FromMinutes(1));
+
+            try
+            {
+                await RunProcessWithTimeoutAsync(cmd, workdir, cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                Program.log.Write("Process was canceled due to timeout.");
+            }
+            catch (Exception ex)
+            {
+                Program.log.Write($"Process failed: {ex.Message}");
+            }
+        }
+
+        public static async Task RunProcessWithTimeoutAsync(string cmd, string workdir, CancellationToken token)
+        {
+            var tcs = new TaskCompletionSource<bool>();
+
+            Process process = new Process();
+            process.EnableRaisingEvents = true;
+            process.Exited += (sender, e) => tcs.TrySetResult(true);
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                WindowStyle = ProcessWindowStyle.Hidden
+            };
+
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/C" + cmd;
+
+            startInfo.WorkingDirectory = workdir;
+            startInfo.UseShellExecute = false;
+            startInfo.RedirectStandardOutput = true;
+            startInfo.RedirectStandardError = true;
+            startInfo.CreateNoWindow = true;
+            process.StartInfo = startInfo;
+
+            process.OutputDataReceived += (sender, e) =>
+            {
+                if (!string.IsNullOrEmpty(e.Data))
+                {
+
+                    Program.context.Post(_ => Program.log.Write(e.Data), null);
+                }
+            };
+
+            process.ErrorDataReceived += (sender, e) =>
+            {
+                if (!string.IsNullOrEmpty(e.Data))
+                {
+                    Program.context.Post(_ => Program.log.Write(e.Data), null);
+                }
+            };
+
+            process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+
+            var completedTask = await Task.WhenAny(tcs.Task, Task.Delay(Timeout.Infinite, token));
+
+            if (completedTask == tcs.Task)
+            {
+                // Process finished within timeout
+                await tcs.Task;
+            }
+            else
+            {
+                // Timeout or cancellation occurred
+                process.Kill();
+                throw new OperationCanceledException("Process timed out.");
+            }
         }
 
     }

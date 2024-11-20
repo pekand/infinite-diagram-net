@@ -15,7 +15,7 @@ namespace Diagram
         private System.Windows.Forms.Label labelAuthor;
         private System.Windows.Forms.LinkLabel linkLabelMe;
         private System.Windows.Forms.Label labelLicenceType;
-		private System.Windows.Forms.Label labelVersion;
+        private System.Windows.Forms.Label labelVersion;
         private System.Windows.Forms.Label labelVersionNumber;
         private System.Windows.Forms.LinkLabel labelHomepage;
 
@@ -26,144 +26,144 @@ namespace Diagram
 
             this.labelLicenceType.Text = this.main.programOptions.license;
             this.labelVersionNumber.Text = Os.GetThisAssemblyVersion();
-            this.linkLabelMe.Text = this.main.programOptions.author; 
+            this.linkLabelMe.Text = this.main.programOptions.author;
             this.labelHomepage.Text = this.main.programOptions.home_page;
         }
 
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
-            this.labelProgramName = new System.Windows.Forms.Label();
-            this.buttonOk = new System.Windows.Forms.Button();
-            this.labelLicence = new System.Windows.Forms.Label();
-            this.labelLicenceType = new System.Windows.Forms.Label();
-            this.labelAuthor = new System.Windows.Forms.Label();
-            this.linkLabelMe = new System.Windows.Forms.LinkLabel();
-            this.labelVersion = new System.Windows.Forms.Label();
-            this.labelVersionNumber = new System.Windows.Forms.Label();
-            this.labelHomepage = new System.Windows.Forms.LinkLabel();
-            this.SuspendLayout();
+            labelProgramName = new Label();
+            buttonOk = new Button();
+            labelLicence = new Label();
+            labelLicenceType = new Label();
+            labelAuthor = new Label();
+            linkLabelMe = new LinkLabel();
+            labelVersion = new Label();
+            labelVersionNumber = new Label();
+            labelHomepage = new LinkLabel();
+            SuspendLayout();
             // 
             // labelProgramName
             // 
-            this.labelProgramName.AutoSize = true;
-            this.labelProgramName.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelProgramName.Location = new System.Drawing.Point(19, 18);
-            this.labelProgramName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelProgramName.Name = "labelProgramName";
-            this.labelProgramName.Size = new System.Drawing.Size(241, 37);
-            this.labelProgramName.TabIndex = 0;
-            this.labelProgramName.Text = "Infinite Diagram";
+            labelProgramName.AutoSize = true;
+            labelProgramName.Font = new Font("Microsoft Sans Serif", 24F);
+            labelProgramName.Location = new Point(22, 23);
+            labelProgramName.Margin = new Padding(2, 0, 2, 0);
+            labelProgramName.Name = "labelProgramName";
+            labelProgramName.Size = new Size(241, 37);
+            labelProgramName.TabIndex = 0;
+            labelProgramName.Text = "Infinite Diagram";
+            labelProgramName.Click += labelProgramName_Click;
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(212, 123);
-            this.buttonOk.Margin = new System.Windows.Forms.Padding(2);
-            this.buttonOk.Name = "buttonOk";
-            this.buttonOk.Size = new System.Drawing.Size(65, 30);
-            this.buttonOk.TabIndex = 1;
-            this.buttonOk.Text = "OK";
-            this.buttonOk.UseVisualStyleBackColor = true;
-            this.buttonOk.Click += new System.EventHandler(this.ButtonOk_Click);
+            buttonOk.Location = new Point(242, 156);
+            buttonOk.Margin = new Padding(2, 3, 2, 3);
+            buttonOk.Name = "buttonOk";
+            buttonOk.Size = new Size(74, 38);
+            buttonOk.TabIndex = 1;
+            buttonOk.Text = "OK";
+            buttonOk.UseVisualStyleBackColor = true;
+            buttonOk.Click += ButtonOk_Click;
             // 
             // labelLicence
             // 
-            this.labelLicence.AutoSize = true;
-            this.labelLicence.Location = new System.Drawing.Point(33, 81);
-            this.labelLicence.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelLicence.Name = "labelLicence";
-            this.labelLicence.Size = new System.Drawing.Size(19, 15);
-            this.labelLicence.TabIndex = 3;
-            this.labelLicence.Text = "lic";
+            labelLicence.AutoSize = true;
+            labelLicence.Location = new Point(38, 103);
+            labelLicence.Margin = new Padding(2, 0, 2, 0);
+            labelLicence.Name = "labelLicence";
+            labelLicence.Size = new Size(21, 19);
+            labelLicence.TabIndex = 3;
+            labelLicence.Text = "lic";
             // 
             // labelLicenceType
             // 
-            this.labelLicenceType.AutoSize = true;
-            this.labelLicenceType.Location = new System.Drawing.Point(133, 81);
-            this.labelLicenceType.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelLicenceType.Name = "labelLicenceType";
-            this.labelLicenceType.Size = new System.Drawing.Size(0, 15);
-            this.labelLicenceType.TabIndex = 6;
+            labelLicenceType.AutoSize = true;
+            labelLicenceType.Location = new Point(152, 103);
+            labelLicenceType.Margin = new Padding(2, 0, 2, 0);
+            labelLicenceType.Name = "labelLicenceType";
+            labelLicenceType.Size = new Size(0, 19);
+            labelLicenceType.TabIndex = 6;
             // 
             // labelAuthor
             // 
-            this.labelAuthor.AutoSize = true;
-            this.labelAuthor.Location = new System.Drawing.Point(33, 61);
-            this.labelAuthor.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelAuthor.Name = "labelAuthor";
-            this.labelAuthor.Size = new System.Drawing.Size(45, 15);
-            this.labelAuthor.TabIndex = 4;
-            this.labelAuthor.Text = "author:";
+            labelAuthor.AutoSize = true;
+            labelAuthor.Location = new Point(38, 77);
+            labelAuthor.Margin = new Padding(2, 0, 2, 0);
+            labelAuthor.Name = "labelAuthor";
+            labelAuthor.Size = new Size(53, 19);
+            labelAuthor.TabIndex = 4;
+            labelAuthor.Text = "author:";
             // 
             // linkLabelMe
             // 
-            this.linkLabelMe.AutoSize = true;
-            this.linkLabelMe.Location = new System.Drawing.Point(133, 61);
-            this.linkLabelMe.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.linkLabelMe.Name = "linkLabelMe";
-            this.linkLabelMe.Size = new System.Drawing.Size(44, 15);
-            this.linkLabelMe.TabIndex = 5;
-            this.linkLabelMe.TabStop = true;
-            this.linkLabelMe.Text = "Author";
-            this.linkLabelMe.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabelMe_LinkClicked);
+            linkLabelMe.AutoSize = true;
+            linkLabelMe.Location = new Point(152, 77);
+            linkLabelMe.Margin = new Padding(2, 0, 2, 0);
+            linkLabelMe.Name = "linkLabelMe";
+            linkLabelMe.Size = new Size(52, 19);
+            linkLabelMe.TabIndex = 5;
+            linkLabelMe.TabStop = true;
+            linkLabelMe.Text = "Author";
+            linkLabelMe.LinkClicked += LinkLabelMe_LinkClicked;
             // 
             // labelVersion
             // 
-            this.labelVersion.AutoSize = true;
-            this.labelVersion.Location = new System.Drawing.Point(33, 100);
-            this.labelVersion.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelVersion.Name = "labelVersion";
-            this.labelVersion.Size = new System.Drawing.Size(48, 15);
-            this.labelVersion.TabIndex = 3;
-            this.labelVersion.Text = "version:";
+            labelVersion.AutoSize = true;
+            labelVersion.Location = new Point(38, 127);
+            labelVersion.Margin = new Padding(2, 0, 2, 0);
+            labelVersion.Name = "labelVersion";
+            labelVersion.Size = new Size(56, 19);
+            labelVersion.TabIndex = 3;
+            labelVersion.Text = "version:";
             // 
             // labelVersionNumber
             // 
-            this.labelVersionNumber.AutoSize = true;
-            this.labelVersionNumber.Location = new System.Drawing.Point(133, 100);
-            this.labelVersionNumber.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelVersionNumber.Name = "labelVersionNumber";
-            this.labelVersionNumber.Size = new System.Drawing.Size(22, 15);
-            this.labelVersionNumber.TabIndex = 3;
-            this.labelVersionNumber.Text = "0.0";
+            labelVersionNumber.AutoSize = true;
+            labelVersionNumber.Location = new Point(152, 127);
+            labelVersionNumber.Margin = new Padding(2, 0, 2, 0);
+            labelVersionNumber.Name = "labelVersionNumber";
+            labelVersionNumber.Size = new Size(28, 19);
+            labelVersionNumber.TabIndex = 3;
+            labelVersionNumber.Text = "0.0";
             // 
             // labelHomepage
             // 
-            this.labelHomepage.AutoSize = true;
-            this.labelHomepage.Location = new System.Drawing.Point(33, 115);
-            this.labelHomepage.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelHomepage.Name = "labelHomepage";
-            this.labelHomepage.Size = new System.Drawing.Size(0, 15);
-            this.labelHomepage.TabIndex = 3;
-            this.labelHomepage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LabelHomepage_HomepageClicked);
+            labelHomepage.AutoSize = true;
+            labelHomepage.Location = new Point(38, 146);
+            labelHomepage.Margin = new Padding(2, 0, 2, 0);
+            labelHomepage.Name = "labelHomepage";
+            labelHomepage.Size = new Size(0, 19);
+            labelHomepage.TabIndex = 3;
+            labelHomepage.LinkClicked += LabelHomepage_HomepageClicked;
             // 
             // AboutForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(303, 173);
-            this.Controls.Add(this.labelLicenceType);
-            this.Controls.Add(this.linkLabelMe);
-            this.Controls.Add(this.labelAuthor);
-            this.Controls.Add(this.labelLicence);
-            this.Controls.Add(this.labelVersion);
-            this.Controls.Add(this.labelVersionNumber);
-            this.Controls.Add(this.labelHomepage);
-            this.Controls.Add(this.buttonOk);
-            this.Controls.Add(this.labelProgramName);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "AboutForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "About Infinite Diagram";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AboutForm_FormClosed);
-            this.Load += new System.EventHandler(this.AboutForm_Load);
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(8F, 19F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(346, 219);
+            Controls.Add(labelLicenceType);
+            Controls.Add(linkLabelMe);
+            Controls.Add(labelAuthor);
+            Controls.Add(labelLicence);
+            Controls.Add(labelVersion);
+            Controls.Add(labelVersionNumber);
+            Controls.Add(labelHomepage);
+            Controls.Add(buttonOk);
+            Controls.Add(labelProgramName);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(2, 3, 2, 3);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "AboutForm";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "About Infinite Diagram";
+            FormClosed += AboutForm_FormClosed;
+            Load += AboutForm_Load;
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         private void AboutForm_Load(object sender, EventArgs e)
@@ -184,9 +184,9 @@ namespace Diagram
             catch (Exception ex)
             {
 
-                Program.log.Write("Send email error:"+ex.Message);
+                Program.log.Write("Send email error:" + ex.Message);
             }
-            
+
         }
 
         private void LabelHomepage_HomepageClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -197,7 +197,12 @@ namespace Diagram
 
         private void AboutForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            
+
+        }
+
+        private void labelProgramName_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

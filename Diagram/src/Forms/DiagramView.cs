@@ -4612,7 +4612,14 @@ namespace Diagram
                         .Replace("%DIRECTORY%", Os.GetFileDirectory(this.diagram.FileName));
 
                         Program.log.Write("diagram: openlink: run command: " + cmd);
-                        Os.RunCommand(cmd, Os.GetFileDirectory(this.diagram.FileName)); // RUN COMMAND UID5087096741
+                       
+
+                        Task.Run(async () =>
+                        {
+                            await Os.RunCommandWithTimeout(cmd, Os.GetFileDirectory(this.diagram.FileName));
+                        });
+
+                        //Os.RunCommand(cmd, Os.GetFileDirectory(this.diagram.FileName)); // RUN COMMAND UID5087096741
 
                         return;
                     }

@@ -16,6 +16,8 @@ namespace Diagram
     /// Application entry point</summary>
     public static class Program //UID2573216529
     {
+        public static SynchronizationContext context;
+
         /// <summary>
         /// debuging console for loging messages</summary>
         public static Log log = new Log();
@@ -24,7 +26,7 @@ namespace Diagram
         /// create main class which oppening forms</summary>
         private static Main main = null;
 
-#if !DEBUG
+
         /// <summary>
         /// Process global unhandled global exceptions</summary>
         static void UnhandledExceptionTrapper(object sender, UnhandledExceptionEventArgs e)
@@ -35,7 +37,6 @@ namespace Diagram
 
             Environment.Exit(1);
         }
-#endif
 
         /*************************************************************************************************************************/
         // MAIN APPLICATION START        
@@ -43,41 +44,35 @@ namespace Diagram
         [STAThread]
         private static void Main() //UID4670767500
         {
-#if !DEBUG
-            System.AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
-#endif
-
-            Program.log.Write("Start application: " + Os.GetThisAssemblyLocation());
-
-            Program.log.Write("Version : " + Os.GetThisAssemblyVersion());
-#if DEBUG
-            Program.log.Write("Debug mode");
-#else
-            Program.log.Write("Production mode");
-#endif
-            // aplication default settings
-#if CORE
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
-#endif
-
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-            // prevent catch global exception in production mode
-#if !DEBUG
             try
             {
-#endif
-            main = new Main();
-            if (main.mainform != null)
-            {
-                Application.Run(main.mainform);
-            } else {
-                main.ExitApplication();
-            }
+                System.AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
 
-#if !DEBUG
-            // catch all exception globaly in release mode and prevent application crash
+                Program.log.Write("Start application: " + Os.GetThisAssemblyLocation());
+
+                Program.log.Write("Version : " + Os.GetThisAssemblyVersion());
+#if DEBUG
+                Program.log.Write("Debug mode");
+#else
+                Program.log.Write("Production mode");
+#endif
+                // aplication default settings
+                Application.SetHighDpiMode(HighDpiMode.SystemAware);
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+
+                // prevent catch global exception in production mode
+
+                context = SynchronizationContext.Current ?? new SynchronizationContext();
+
+                main = new Main();
+                if (main.mainform != null)
+                {
+                    Application.Run(main.mainform);
+                } else {
+                    main.ExitApplication();
+                }
+
             }
             catch (Exception e) // global exception handling
             {
@@ -87,7 +82,7 @@ namespace Diagram
 
                 System.Environment.Exit(1); //close application with error code 1
             }
-#endif
+
         }
     }
 }

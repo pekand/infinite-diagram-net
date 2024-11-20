@@ -6,6 +6,34 @@ param (
     [string]$TargetPath
 )
 
+###################################################
+
+function Copy-WithFullPath {
+    param (
+        [string]$Source,
+        [string]$Destination
+    )
+
+    # Ensure the destination directory exists
+    $destinationDir = Split-Path -Path $Destination
+    if (!(Test-Path -Path $destinationDir)) {
+        New-Item -ItemType Directory -Path $destinationDir -Force | Out-Null
+    }
+
+    # Copy the file and overwrite if necessary
+    Copy-Item -Path $Source -Destination $Destination -Force
+}
+
+###################################################
+
+$TARGETPython1="${SolutionDir}\Diagram\bin\x64\Debug\net9.0-windows7.0\plugins\ScriptingPlugin\IronPython.zip"
+$TARGETPython2="${SolutionDir}\Diagram\bin\x64\Release\net9.0-windows7.0\plugins\ScriptingPlugin\IronPython.zip"
+if (-not (Test-Path -Path $TARGETPython1) -or -not (Test-Path -Path $TARGETPython2)) {
+    & 7z a "${SolutionDir}install-windows\IronPython.zip" "${SolutionDir}\packages\ironpython.stdlib\3.4.1\content\lib\*"
+    Copy-WithFullPath -Source "install-windows\IronPython.zip" -Destination $TARGETPython1
+    Copy-WithFullPath -Source "install-windows\IronPython.zip" -Destination $TARGETPython2
+}
+
 if ($ConfigurationName -eq "Release") {
 
 # Output the parameters for debugging

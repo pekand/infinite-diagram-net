@@ -14,9 +14,12 @@ namespace Diagram
         private RichTextBox featuresTextBox;
         public Main main = null;
 
+        public SynchronizationContext context;
+
         public Console(Main main)
         {
             this.main = main;
+            context = SynchronizationContext.Current ?? new SynchronizationContext();
             this.InitializeComponent();
         }
 
@@ -118,7 +121,7 @@ namespace Diagram
         {
             logedit.Text = Program.log.GetText();
 
-            Program.log.logUpdateEvent += LogUpdate;
+            Program.log.logUpdateEvent += LogMessageEvent;
 
             this.scrollLogToBottom();
 
@@ -126,7 +129,7 @@ namespace Diagram
 
         private void Console_Closed(object sender, System.EventArgs e)
         {
-            Program.log.logUpdateEvent -= LogUpdate;
+            Program.log.logUpdateEvent -= LogMessageEvent;
         }
 
         private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -139,9 +142,14 @@ namespace Diagram
 
         }
 
-        private void LogUpdate(string log) {
-            logedit.Text = Program.log.GetText();
+        private void LogMessage(string message)
+        {
+            logedit.Text += message + "\r\n";
             this.scrollLogToBottom();
+        }
+
+        private void LogMessageEvent(string message) {
+            this.context.Post(_ => this.LogMessage(message), null);
         }
 
 

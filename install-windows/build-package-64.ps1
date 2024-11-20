@@ -35,6 +35,8 @@ $CERT_CODE = $env:CERT_CODE
 Write-Host "CERT_CODE=>$CERT_CODE<"
 $CERT_PWD = $env:CERT_PWD
 Write-Host "CERT_PWD=>$CERT_PWD<"
+$tag = git describe --tags --abbrev=0
+Write-Output "TAG=>$tag<"
 
 $paths = @(
 	"Diagram\bin\x64\Release\net9.0-windows7.0\plugins\CalcPlugin\CalcPlugin.dll"
@@ -113,7 +115,9 @@ Copy-WithFullPath -Source "$RELEASE\plugins\ScriptingPlugin\ScriptingPlugin.pdb"
 
 ########################################
 
-& $innoInstallPath /q install-windows\create-installation-package-64.iss
+
+
+& $innoInstallPath /q install-windows\create-installation-package-64.iss -dAppVersion=%TAG%
 
 ########################################
 

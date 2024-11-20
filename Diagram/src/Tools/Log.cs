@@ -26,7 +26,7 @@ namespace Diagram
         {
             log = log + message + "\n";
 
-            logUpdateEvent?.Invoke(log);
+            logUpdateEvent?.Invoke(message);
 
         }
 
