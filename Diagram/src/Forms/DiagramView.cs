@@ -140,9 +140,13 @@ namespace Diagram
         private FormWindowState oldFormWindowState = new FormWindowState();
 
         // COMPONENTS
-        private IContainer components;        
+        private IContainer components;    
         
         public bool isFullScreen = false;
+
+        // SECURITY
+        public Image lockImage = null;
+
 
         private void InitializeComponent() //UID4012344444
         {
@@ -287,6 +291,14 @@ namespace Diagram
             }
 
             this.BackColor = this.diagram.options.backgroundColor.Get();
+
+            // Load image for lock file (padlock) from resources
+            byte[] imageData = global::Diagram.Properties.Resources.Lock;
+            using (MemoryStream ms = new MemoryStream(imageData))
+            {
+                this.lockImage = Image.FromStream(ms);
+            }
+
 
             WinProcess.setId();
         }
@@ -3582,26 +3594,13 @@ namespace Diagram
         // DRAW lock screen  UID7187365714
         private void DrawLockScreen(Graphics gfx)
         {
-            int lockWidth = 200;
-            int lockHeight = 300;
-            using (Bitmap lockimage = new Bitmap(lockWidth, lockHeight))
-            {
-                using (Graphics g = Graphics.FromImage(lockimage))
-                {
-                    g.Clear(Color.White);
-                    g.SmoothingMode = SmoothingMode.AntiAlias;
-                    Rectangle lockBody = new Rectangle(50, 150, 100, 120);
-                    g.FillRectangle(Brushes.Gray, lockBody);
-                    g.DrawRectangle(Pens.Black, lockBody);
-                    Rectangle lockShackle = new Rectangle(50, 50, 100, 100);
-                    g.DrawArc(new Pen(Color.Black, 5), lockShackle, 0, 180);
-                    Rectangle lockShackleInner = new Rectangle(55, 55, 90, 90);
-                    g.DrawArc(new Pen(Color.Gray, 3), lockShackleInner, 0, 180);
-                    g.FillEllipse(Brushes.Black, new Rectangle(90, 200, 20, 40));
-                }
-
-                gfx.DrawImage(lockimage, this.Width / 2 - lockHeight / 2, (this.Height - 50) / 2 - lockHeight / 2);
+            if (lockImage == null) {
+                return;
             }
+
+            int X = (this.ClientSize.Width - this.lockImage.Width) / 2;
+            int Y = (this.ClientSize.Height - this.lockImage.Height) / 2;
+            gfx.DrawImage(this.lockImage, new Point(X, Y));
         }
 
         // DRAW diagram mini screen in zoom mode UID9733202717
