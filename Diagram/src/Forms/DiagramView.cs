@@ -789,7 +789,7 @@ namespace Diagram
             bool buttonleft = e.Button == MouseButtons.Left;
             bool buttonright = e.Button == MouseButtons.Right;
             bool buttonmiddle = e.Button == MouseButtons.Middle;
-            bool isreadonly = this.diagram.options.readOnly;
+            bool isreadonly = this.diagram.IsReadOnly();
             bool keyalt = this.keyalt;
             bool keyctrl = this.keyctrl;
             bool keyshift = this.keyshift;
@@ -999,7 +999,7 @@ namespace Diagram
             bool buttonleft = e.Button == MouseButtons.Left;
             bool buttonright = e.Button == MouseButtons.Right;
             bool buttonmiddle = e.Button == MouseButtons.Middle;
-            bool isreadonly = this.diagram.options.readOnly;
+            bool isreadonly = this.diagram.IsReadOnly();
             bool keyalt = this.keyalt;
             bool keyctrl = this.keyctrl;
             bool keyshift = this.keyshift;
@@ -1924,7 +1924,7 @@ namespace Diagram
                 return false;
             }
 
-            bool isreadonly = this.diagram.options.readOnly;
+            bool isreadonly = this.diagram.IsReadOnly();
             bool stopNextAction = this.main.plugins.KeyPressAction(this.diagram, this, keyData); //UID0290845814
 
             /*
@@ -2449,7 +2449,7 @@ namespace Diagram
             this.LogEvent("KeyPress");
 #endif
 
-            bool isreadonly = this.diagram.options.readOnly;
+            bool isreadonly = this.diagram.IsReadOnly();
 
             if (this.IsEditing() || this.stateSearching)
             {
@@ -4286,7 +4286,7 @@ namespace Diagram
         // NODES DELETE SELECTION UID6677508921
         public void DeleteSelectedNodes(DiagramView DiagramView)
         {
-            if (!this.diagram.options.readOnly)
+            if (!this.diagram.IsReadOnly())
             {
                 if (DiagramView.selectedNodes.Count() > 0)
                 {
@@ -4643,7 +4643,7 @@ namespace Diagram
         // NODE Select node color
         public void SelectColor()
         {
-            if (selectedNodes.Count() > 0 && !this.diagram.options.readOnly)
+            if (selectedNodes.Count() > 0 && !this.diagram.IsReadOnly())
             {
                 // show color picker and move it to vsible area of screen
                 var screen = Screen.FromPoint(Cursor.Position);
@@ -4676,7 +4676,7 @@ namespace Diagram
 
         public void ChangeColor(ColorType color)
         {
-            if (!this.diagram.options.readOnly)
+            if (!this.diagram.IsReadOnly())
             {
                 if (selectedNodes.Count() > 0)
                 {
@@ -4698,13 +4698,13 @@ namespace Diagram
         // NODE Select node font color
         public void SelectFontColor()
         {
-            if (selectedNodes.Count() > 0 && !this.diagram.options.readOnly)
+            if (selectedNodes.Count() > 0 && !this.diagram.IsReadOnly())
             {
                 DFontColor.Color = this.selectedNodes[0].color.color;
 
                 if (DColor.ShowDialog() == DialogResult.OK)
                 {
-                    if (!this.diagram.options.readOnly)
+                    if (!this.diagram.IsReadOnly())
                     {
                         if (selectedNodes.Count() > 0)
                         {
@@ -4723,13 +4723,13 @@ namespace Diagram
         // NODE Select node font
         public void SelectFont()
         {
-            if (selectedNodes.Count() > 0 && !this.diagram.options.readOnly)
+            if (selectedNodes.Count() > 0 && !this.diagram.IsReadOnly())
             {
                 DFont.Font = this.selectedNodes[0].font;
 
                 if (DFont.ShowDialog() == DialogResult.OK)
                 {
-                    if (!this.diagram.options.readOnly)
+                    if (!this.diagram.IsReadOnly())
                     {
                         if (selectedNodes.Count() > 0)
                         {
@@ -4769,7 +4769,7 @@ namespace Diagram
         // NODE Make selected node transparent
         public void MakeSelectionTransparent()
         {
-            if (selectedNodes.Count() > 0 && !this.diagram.options.readOnly)
+            if (selectedNodes.Count() > 0 && !this.diagram.IsReadOnly())
             {
                 bool isTransparent = this.IsSelectionTransparent();
 
@@ -4789,7 +4789,7 @@ namespace Diagram
             this.defaultfontDialog.Font = this.diagram.FontDefault;
             if (this.defaultfontDialog.ShowDialog() == DialogResult.OK)
             {
-                if (!this.diagram.options.readOnly)
+                if (!this.diagram.IsReadOnly())
                 {
                     this.diagram.FontDefault = this.defaultfontDialog.Font;
                 }
@@ -4799,7 +4799,7 @@ namespace Diagram
         // NODE Select node image
         public void AddImage()
         {
-            if (selectedNodes.Count() > 0 && !this.diagram.options.readOnly)
+            if (selectedNodes.Count() > 0 && !this.diagram.IsReadOnly())
             {
                 if (this.DImage.ShowDialog() == DialogResult.OK && Os.FileExists(this.DImage.FileName))
                 {
@@ -4832,7 +4832,7 @@ namespace Diagram
         // NODE Select node image
         public void RemoveImagesFromSelection()
         {
-            if (selectedNodes.Count() > 0 && !this.diagram.options.readOnly)
+            if (selectedNodes.Count() > 0 && !this.diagram.IsReadOnly())
             {
                 this.diagram.undoOperations.Add("edit", this.selectedNodes, null, this.shift, this.scale, this.currentLayer.id);
                 foreach (Node rec in this.selectedNodes)
@@ -4891,7 +4891,7 @@ namespace Diagram
         // NODE Make selected node transparent
         public void MakeImagesEmbedded()
         {
-            if (selectedNodes.Count() > 0 && !this.diagram.options.readOnly)
+            if (selectedNodes.Count() > 0 && !this.diagram.IsReadOnly())
             {
                 bool hasImage = this.HasSelectionNotEmbeddedImage();
 
@@ -6133,7 +6133,7 @@ namespace Diagram
         // LINE change color of lines
         public void ChangeLineColor()
         {
-            if (!this.diagram.options.readOnly)
+            if (!this.diagram.IsReadOnly())
             {
                 if (this.selectedNodes.Count() > 0)
                 {
@@ -6162,7 +6162,7 @@ namespace Diagram
         // LINE change line width
         public void ChangeLineWidth()
         {
-            if (!this.diagram.options.readOnly)
+            if (!this.diagram.IsReadOnly())
             {
                 if (this.selectedNodes.Count() > 0)
                 {
@@ -6177,7 +6177,7 @@ namespace Diagram
         // LINE resize line with event called by line width form
         public void ResizeLineWidth(int width = 1)
         {
-            if (!this.diagram.options.readOnly)
+            if (!this.diagram.IsReadOnly())
             {
                 if (this.selectedNodes.Count() > 0)
                 {

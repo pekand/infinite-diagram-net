@@ -91,7 +91,7 @@ namespace Diagram
             {
                 Os.SetCurrentDirectory(Os.GetFileDirectory(FileName));
 
-                this.CloseFile();
+                this.ResetDefaultValuesForNewFile();
                 this.FileName = FileName;
                 this.NewFile = false;
                 this.SavedFile = true;
@@ -100,7 +100,7 @@ namespace Diagram
                 string xml = Os.GetFileContent(FileName);
 
                 if (xml == null) {
-                    this.CloseFile();
+                    this.ResetDefaultValuesForNewFile();
                     return false;
                 }
 
@@ -232,7 +232,7 @@ namespace Diagram
                         else
                         {
                             // password dialog is cancled
-                            this.CloseFile();
+                            this.ResetDefaultValuesForNewFile();
                             return false;
                         }
 
@@ -289,7 +289,7 @@ namespace Diagram
                         else
                         {
                             // password dialog is cancled
-                            this.CloseFile();
+                            this.ResetDefaultValuesForNewFile();
                             return false;
                         }
 
@@ -356,7 +356,7 @@ namespace Diagram
             {
                 MessageBox.Show(Translations.fileHasWrongFormat);
                 Program.log.Write("load xml error: " + ex.Message);
-                this.CloseFile();
+                this.ResetDefaultValuesForNewFile();
                 return false;
             }
 
@@ -883,7 +883,7 @@ namespace Diagram
         // save diagram
         public bool Save() //UID8354947577
         {
-            if (this.options.readOnly)
+            if (this.IsReadOnly())
             {
                 return false;
             }
@@ -904,7 +904,7 @@ namespace Diagram
         // save diagram as
         public void Saveas(String FileName) //UID9358805584
         {
-            if (this.options.readOnly)
+            if (this.IsReadOnly())
             {
                 return;
             }
@@ -1202,7 +1202,7 @@ namespace Diagram
         // CLOSE DIAGRAM
 
         // set default options for file like new file 
-        public void CloseFile() //UID3849853197
+        public void ResetDefaultValuesForNewFile() //UID3849853197
         {
             // Prednadstavenie atributov
             this.NewFile = true;
@@ -1231,7 +1231,7 @@ namespace Diagram
         // check if file is empty
         public bool IsReadOnly()
         {
-            return this.options.readOnly;
+            return this.options.readOnly || this.locked;
         }
 
         /*************************************************************************************************************************/
@@ -1386,7 +1386,7 @@ namespace Diagram
         // NODE delete node
         public void DeleteNode(Node rec) //UID6856126776
         {
-            if (rec != null && !this.options.readOnly)
+            if (rec != null && !this.IsReadOnly())
             {
                 foreach (DiagramView diagramView in this.DiagramViews) //remove node from selected nodes in views
                 {
@@ -2267,7 +2267,7 @@ namespace Diagram
 
             if (canclose)
             {
-                this.CloseFile();
+                this.ResetDefaultValuesForNewFile();
                 this.main.RemoveDiagram(this);
                 this.main.CloseEmptyApplication();
             }

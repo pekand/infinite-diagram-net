@@ -212,7 +212,7 @@ namespace Diagram
         // Save data and update main form
         public void SaveNode()
         {
-            if (!this.diagram.options.readOnly)
+            if (!this.diagram.IsReadOnly())
             {
                 if (
                     node.name != this.TextFormTextBox.Text ||

@@ -1154,6 +1154,7 @@ namespace Diagram
             items["encryptItem"].Enabled = isNotReadOnly && !this.diagramView.diagram.IsEncrypted();
             items["changePasswordItem"].Enabled = isNotReadOnly && this.diagramView.diagram.IsEncrypted();
             items["takeOwnershipItem"].Enabled = isNotReadOnly;
+            items["lockItem"].Enabled = isNotReadOnly && this.diagramView.diagram.IsEncrypted();
 
             items["helpItem"].Enabled = true;
             items["consoleItem"].Enabled = true;
