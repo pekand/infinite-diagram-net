@@ -660,7 +660,9 @@ namespace Diagram
                 try
                 {
                     Bitmap background = Media.GetImage(openIconDialog.FileName);
-                    this.diagram.options.backgroundImage = background;
+                    string backgroundAsString = Media.ImageToString(background); // convert to string to speed up background rendering (convert to jpeg)
+                    background.Dispose();
+                    this.diagram.options.backgroundImage = Media.StringToImage(backgroundAsString);
                     this.diagram.RefreshBackgroundImages();
                     this.diagram.Unsave();
                 }
