@@ -2517,9 +2517,11 @@ namespace Diagram
 
                 string[] formats = e.Data.GetFormats();
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                Position mousePosition = this.GetMousePosition();
+
                 foreach (string file in files)
                 {
-                    Node newrec = this.CreateNode(this.GetMousePosition());
+                    Node newrec = this.CreateNode(mousePosition);
                     newNodes.Add(newrec);
                     newrec.SetName(Os.GetFileName(file));
 
@@ -2606,7 +2608,13 @@ namespace Diagram
                     }
                 }
 
-                this.diagram.Unsave("create", newNodes, null, this.shift, this.scale, this.currentLayer.id);
+                if (newNodes.Count > 0) {
+                    this.SelectNodes(newNodes);
+                    this.diagram.AlignCompact(newNodes);
+                    this.diagram.SortNodes(newNodes);
+                    this.diagram.Unsave("create", newNodes, null, this.shift, this.scale, this.currentLayer.id);
+                }
+                
 
             } catch (Exception ex) {
                 Program.log.Write("drop file goes wrong: error: " + ex.Message);
