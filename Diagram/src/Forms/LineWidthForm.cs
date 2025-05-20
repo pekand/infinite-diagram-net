@@ -11,45 +11,45 @@ namespace Diagram
         public event LineWidthFormTrackbarChangedEventHandler TrackbarStateChanged;
 		private System.Windows.Forms.TrackBar trackBar1;
 
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LineWidthForm));
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-            this.SuspendLayout();
+            trackBar1 = new TrackBar();
+            ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
+            SuspendLayout();
             // 
             // trackBar1
             // 
-            this.trackBar1.Location = new System.Drawing.Point(14, 14);
-            this.trackBar1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.trackBar1.Minimum = 1;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(504, 45);
-            this.trackBar1.TabIndex = 0;
-            this.trackBar1.Value = 1;
-            this.trackBar1.ValueChanged += new System.EventHandler(this.TrackBar1_ValueChanged);
+            trackBar1.Location = new Point(16, 18);
+            trackBar1.Margin = new Padding(5, 4, 5, 4);
+            trackBar1.Minimum = 1;
+            trackBar1.Name = "trackBar1";
+            trackBar1.Size = new Size(576, 45);
+            trackBar1.TabIndex = 0;
+            trackBar1.Value = 1;
+            trackBar1.ValueChanged += TrackBar1_ValueChanged;
             // 
             // LineWidthForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(547, 76);
-            this.Controls.Add(this.trackBar1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.MaximizeBox = false;
-            this.Name = "LineWidthForm";
-            this.Text = "Line width";
-            this.Load += new System.EventHandler(this.LineWidthForm_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(8F, 19F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(625, 96);
+            Controls.Add(trackBar1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(5, 4, 5, 4);
+            MaximizeBox = false;
+            Name = "LineWidthForm";
+            Text = "Line width";
+            Load += LineWidthForm_Load;
+            ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
 
-		}
+        }
 
         public LineWidthForm()
         {

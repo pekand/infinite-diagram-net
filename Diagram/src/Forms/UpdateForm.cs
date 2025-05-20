@@ -22,108 +22,109 @@ namespace Diagram
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateForm));
-            this.labelInfo = new System.Windows.Forms.Label();
-            this.buttonYes = new System.Windows.Forms.Button();
-            this.buttonNo = new System.Windows.Forms.Button();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.linkLabelVisit = new System.Windows.Forms.LinkLabel();
-            this.buttonSkip = new System.Windows.Forms.Button();
-            this.labelSkip = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            labelInfo = new Label();
+            buttonYes = new Button();
+            buttonNo = new Button();
+            imageList1 = new ImageList(components);
+            linkLabelVisit = new LinkLabel();
+            buttonSkip = new Button();
+            labelSkip = new Label();
+            SuspendLayout();
             // 
             // labelInfo
             // 
-            this.labelInfo.AutoSize = true;
-            this.labelInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.labelInfo.Location = new System.Drawing.Point(75, 36);
-            this.labelInfo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelInfo.Name = "labelInfo";
-            this.labelInfo.Size = new System.Drawing.Size(323, 24);
-            this.labelInfo.TabIndex = 0;
-            this.labelInfo.Text = "Do you want install new version now?";
+            labelInfo.AutoSize = true;
+            labelInfo.Font = new Font("Microsoft Sans Serif", 14F);
+            labelInfo.Location = new Point(86, 46);
+            labelInfo.Margin = new Padding(5, 0, 5, 0);
+            labelInfo.Name = "labelInfo";
+            labelInfo.Size = new Size(323, 24);
+            labelInfo.TabIndex = 0;
+            labelInfo.Text = "Do you want install new version now?";
             // 
             // buttonYes
             // 
-            this.buttonYes.Location = new System.Drawing.Point(322, 151);
-            this.buttonYes.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonYes.Name = "buttonYes";
-            this.buttonYes.Size = new System.Drawing.Size(88, 27);
-            this.buttonYes.TabIndex = 1;
-            this.buttonYes.Text = "Yes";
-            this.buttonYes.UseVisualStyleBackColor = true;
-            this.buttonYes.Click += new System.EventHandler(this.ButtonYes_Click);
+            buttonYes.Location = new Point(368, 191);
+            buttonYes.Margin = new Padding(5, 4, 5, 4);
+            buttonYes.Name = "buttonYes";
+            buttonYes.Size = new Size(101, 34);
+            buttonYes.TabIndex = 1;
+            buttonYes.Text = "Yes";
+            buttonYes.UseVisualStyleBackColor = true;
+            buttonYes.Click += ButtonYes_Click;
             // 
             // buttonNo
             // 
-            this.buttonNo.Location = new System.Drawing.Point(416, 151);
-            this.buttonNo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonNo.Name = "buttonNo";
-            this.buttonNo.Size = new System.Drawing.Size(102, 27);
-            this.buttonNo.TabIndex = 2;
-            this.buttonNo.Text = "No";
-            this.buttonNo.UseVisualStyleBackColor = true;
-            this.buttonNo.Click += new System.EventHandler(this.ButtonNo_Click);
+            buttonNo.Location = new Point(475, 191);
+            buttonNo.Margin = new Padding(5, 4, 5, 4);
+            buttonNo.Name = "buttonNo";
+            buttonNo.Size = new Size(117, 34);
+            buttonNo.TabIndex = 2;
+            buttonNo.Text = "No";
+            buttonNo.UseVisualStyleBackColor = true;
+            buttonNo.Click += ButtonNo_Click;
             // 
             // imageList1
             // 
-            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            imageList1.ColorDepth = ColorDepth.Depth8Bit;
+            imageList1.ImageSize = new Size(16, 16);
+            imageList1.TransparentColor = Color.Transparent;
             // 
             // linkLabelVisit
             // 
-            this.linkLabelVisit.AutoSize = true;
-            this.linkLabelVisit.Location = new System.Drawing.Point(243, 78);
-            this.linkLabelVisit.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.linkLabelVisit.Name = "linkLabelVisit";
-            this.linkLabelVisit.Size = new System.Drawing.Size(209, 15);
-            this.linkLabelVisit.TabIndex = 5;
-            this.linkLabelVisit.TabStop = true;
-            this.linkLabelVisit.Text = "Visit homepage for more informations";
-            this.linkLabelVisit.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelVisit_LinkClicked);
+            linkLabelVisit.AutoSize = true;
+            linkLabelVisit.Location = new Point(278, 99);
+            linkLabelVisit.Margin = new Padding(5, 0, 5, 0);
+            linkLabelVisit.Name = "linkLabelVisit";
+            linkLabelVisit.Size = new Size(242, 19);
+            linkLabelVisit.TabIndex = 5;
+            linkLabelVisit.TabStop = true;
+            linkLabelVisit.Text = "Visit homepage for more informations";
+            linkLabelVisit.LinkClicked += linkLabelVisit_LinkClicked;
             // 
             // buttonSkip
             // 
-            this.buttonSkip.Location = new System.Drawing.Point(33, 151);
-            this.buttonSkip.Name = "buttonSkip";
-            this.buttonSkip.Size = new System.Drawing.Size(125, 27);
-            this.buttonSkip.TabIndex = 6;
-            this.buttonSkip.Text = "Skip this version";
-            this.buttonSkip.UseVisualStyleBackColor = true;
-            this.buttonSkip.Click += new System.EventHandler(this.buttonSkip_Click);
+            buttonSkip.Location = new Point(38, 191);
+            buttonSkip.Margin = new Padding(3, 4, 3, 4);
+            buttonSkip.Name = "buttonSkip";
+            buttonSkip.Size = new Size(143, 34);
+            buttonSkip.TabIndex = 6;
+            buttonSkip.Text = "Skip this version";
+            buttonSkip.UseVisualStyleBackColor = true;
+            buttonSkip.Click += buttonSkip_Click;
             // 
             // labelSkip
             // 
-            this.labelSkip.AutoSize = true;
-            this.labelSkip.Location = new System.Drawing.Point(33, 133);
-            this.labelSkip.Name = "labelSkip";
-            this.labelSkip.Size = new System.Drawing.Size(303, 15);
-            this.labelSkip.TabIndex = 7;
-            this.labelSkip.Text = "(You can download update manualy from popup menu)";
+            labelSkip.AutoSize = true;
+            labelSkip.Location = new Point(38, 168);
+            labelSkip.Name = "labelSkip";
+            labelSkip.Size = new Size(348, 19);
+            labelSkip.TabIndex = 7;
+            labelSkip.Text = "(You can download update manualy from popup menu)";
             // 
             // UpdateForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(532, 192);
-            this.Controls.Add(this.labelSkip);
-            this.Controls.Add(this.buttonSkip);
-            this.Controls.Add(this.linkLabelVisit);
-            this.Controls.Add(this.buttonNo);
-            this.Controls.Add(this.buttonYes);
-            this.Controls.Add(this.labelInfo);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "UpdateForm";
-            this.Text = "New version is available";
-            this.Shown += new System.EventHandler(this.UpdateForm_Shown);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(8F, 19F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(608, 243);
+            Controls.Add(labelSkip);
+            Controls.Add(buttonSkip);
+            Controls.Add(linkLabelVisit);
+            Controls.Add(buttonNo);
+            Controls.Add(buttonYes);
+            Controls.Add(labelInfo);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(5, 4, 5, 4);
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "UpdateForm";
+            Text = "New version is available";
+            Shown += UpdateForm_Shown;
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

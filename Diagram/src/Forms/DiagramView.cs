@@ -150,92 +150,91 @@ namespace Diagram
 
         private void InitializeComponent() //UID4012344444
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DiagramView));
-            this.DSave = new System.Windows.Forms.SaveFileDialog();
-            this.DOpen = new System.Windows.Forms.OpenFileDialog();
-            this.DColor = new System.Windows.Forms.ColorDialog();
-            this.DFontColor = new System.Windows.Forms.ColorDialog();
-            this.DFont = new System.Windows.Forms.FontDialog();
-            this.DImage = new System.Windows.Forms.OpenFileDialog();
-            this.MoveTimer = new System.Windows.Forms.Timer(this.components);
-            this.defaultfontDialog = new System.Windows.Forms.FontDialog();
-            this.exportFile = new System.Windows.Forms.SaveFileDialog();
-            this.saveTextFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.DSelectDirectoryAttachment = new System.Windows.Forms.FolderBrowserDialog();
-            this.DSelectFileAttachment = new System.Windows.Forms.OpenFileDialog();
-            this.SuspendLayout();
+            components = new Container();
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(DiagramView));
+            DSave = new SaveFileDialog();
+            DOpen = new OpenFileDialog();
+            DColor = new ColorDialog();
+            DFontColor = new ColorDialog();
+            DFont = new FontDialog();
+            DImage = new OpenFileDialog();
+            MoveTimer = new System.Windows.Forms.Timer(components);
+            defaultfontDialog = new FontDialog();
+            exportFile = new SaveFileDialog();
+            saveTextFileDialog = new SaveFileDialog();
+            DSelectDirectoryAttachment = new FolderBrowserDialog();
+            DSelectFileAttachment = new OpenFileDialog();
+            SuspendLayout();
             // 
             // DSave
             // 
-            this.DSave.DefaultExt = "*.diagram";
-            this.DSave.Filter = "Diagram (*.diagram)|*.diagram";
+            DSave.DefaultExt = "*.diagram";
+            DSave.Filter = "Diagram (*.diagram)|*.diagram";
             // 
             // DOpen
             // 
-            this.DOpen.DefaultExt = "*.diagram";
-            this.DOpen.Filter = "Diagram (*.diagram)|*.diagram";
+            DOpen.DefaultExt = "*.diagram";
+            DOpen.Filter = "Diagram (*.diagram)|*.diagram";
             // 
             // DFont
             // 
-            this.DFont.Color = System.Drawing.SystemColors.ControlText;
+            DFont.Color = SystemColors.ControlText;
             // 
             // DImage
             // 
-            this.DImage.Filter = "All|*.bmp;*.jpg;*.jpeg;*.png;*.ico|Bmp|*.bmp|Jpg|*.jpg;*.jpeg|Png|*.png|Ico|*.ico" +
-    "";
+            DImage.Filter = "All|*.bmp;*.jpg;*.jpeg;*.png;*.ico|Bmp|*.bmp|Jpg|*.jpg;*.jpeg|Png|*.png|Ico|*.ico";
             // 
             // MoveTimer
             // 
-            this.MoveTimer.Interval = 5;
-            this.MoveTimer.Tick += new System.EventHandler(this.MoveTimer_Tick);
+            MoveTimer.Interval = 5;
+            MoveTimer.Tick += MoveTimer_Tick;
             // 
             // exportFile
             // 
-            this.exportFile.DefaultExt = "*.png";
-            this.exportFile.Filter = "Image (*.png) | *.png";
+            exportFile.DefaultExt = "*.png";
+            exportFile.Filter = "Image (*.png) | *.png";
             // 
             // saveTextFileDialog
             // 
-            this.saveTextFileDialog.DefaultExt = "*.txt";
-            this.saveTextFileDialog.Filter = "Text file (*.txt)|*.txt";
+            saveTextFileDialog.DefaultExt = "*.txt";
+            saveTextFileDialog.Filter = "Text file (*.txt)|*.txt";
             // 
             // DSelectFileAttachment
             // 
-            this.DSelectFileAttachment.DefaultExt = "*.*";
-            this.DSelectFileAttachment.Filter = "All files (*.*)|*.*";
+            DSelectFileAttachment.DefaultExt = "*.*";
+            DSelectFileAttachment.Filter = "All files (*.*)|*.*";
             // 
             // DiagramView
             // 
-            this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(447, 393);
-            this.DoubleBuffered = true;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.Name = "DiagramView";
-            this.Text = "Diagram";
-            this.Activated += new System.EventHandler(this.DiagramView_Activated);
-            this.Deactivate += new System.EventHandler(this.DiagramApp_Deactivate);
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DiagramApp_FormClosing);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.DiagramView_FormClosed);
-            this.Load += new System.EventHandler(this.DiagramViewLoad);
-            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.DiagramApp_DragDrop);
-            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.DiagramApp_DragEnter);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.DiagramApp_Paint);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DiagramApp_KeyDown);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.DiagramApp_KeyPress);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.DiagramApp_KeyUp);
-            this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.DiagramApp_MouseDoubleClick);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DiagramApp_MouseDown);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DiagramApp_MouseMove);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DiagramApp_MouseUp);
-            this.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.DiagramApp_MouseWheel);
-            this.Resize += new System.EventHandler(this.DiagramApp_Resize);
-            this.ResumeLayout(false);
+            AllowDrop = true;
+            AutoScaleDimensions = new SizeF(8F, 19F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.Control;
+            ClientSize = new Size(511, 498);
+            DoubleBuffered = true;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            KeyPreview = true;
+            Margin = new Padding(5, 4, 5, 4);
+            Name = "DiagramView";
+            Text = "Diagram";
+            Activated += DiagramView_Activated;
+            Deactivate += DiagramApp_Deactivate;
+            FormClosing += DiagramApp_FormClosing;
+            FormClosed += DiagramView_FormClosed;
+            Load += DiagramViewLoad;
+            DragDrop += DiagramApp_DragDrop;
+            DragEnter += DiagramApp_DragEnter;
+            Paint += DiagramApp_Paint;
+            KeyDown += DiagramApp_KeyDown;
+            KeyPress += DiagramApp_KeyPress;
+            KeyUp += DiagramApp_KeyUp;
+            MouseDoubleClick += DiagramApp_MouseDoubleClick;
+            MouseDown += DiagramApp_MouseDown;
+            MouseMove += DiagramApp_MouseMove;
+            MouseUp += DiagramApp_MouseUp;
+            MouseWheel += DiagramApp_MouseWheel;
+            Resize += DiagramApp_Resize;
+            ResumeLayout(false);
 
         }
 
@@ -2611,7 +2610,7 @@ namespace Diagram
                 if (newNodes.Count > 0) {
                     this.SelectNodes(newNodes);
                     this.diagram.AlignCompact(newNodes);
-                    this.diagram.SortNodes(newNodes);
+                    this.diagram.SortNodesAsc(newNodes);
                     this.diagram.Unsave("create", newNodes, null, this.shift, this.scale, this.currentLayer.id);
                 }
                 

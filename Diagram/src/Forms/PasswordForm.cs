@@ -26,72 +26,72 @@ namespace Diagram
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PasswordForm));
-            this.buttonOk = new System.Windows.Forms.Button();
-            this.buttonCancel = new System.Windows.Forms.Button();
-            this.labelPassword = new System.Windows.Forms.Label();
-            this.editPassword = new System.Windows.Forms.TextBox();
-            this.SuspendLayout();
+            buttonOk = new Button();
+            buttonCancel = new Button();
+            labelPassword = new Label();
+            editPassword = new TextBox();
+            SuspendLayout();
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(92, 40);
-            this.buttonOk.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonOk.Name = "buttonOk";
-            this.buttonOk.Size = new System.Drawing.Size(88, 36);
-            this.buttonOk.TabIndex = 4;
-            this.buttonOk.Text = "Ok";
-            this.buttonOk.UseVisualStyleBackColor = true;
-            this.buttonOk.Click += new System.EventHandler(this.ButtonOk_Click);
+            buttonOk.Location = new Point(105, 51);
+            buttonOk.Margin = new Padding(5, 4, 5, 4);
+            buttonOk.Name = "buttonOk";
+            buttonOk.Size = new Size(101, 46);
+            buttonOk.TabIndex = 4;
+            buttonOk.Text = "Ok";
+            buttonOk.UseVisualStyleBackColor = true;
+            buttonOk.Click += ButtonOk_Click;
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(187, 40);
-            this.buttonCancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(88, 37);
-            this.buttonCancel.TabIndex = 5;
-            this.buttonCancel.Text = "Cancel";
-            this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
+            buttonCancel.Location = new Point(214, 51);
+            buttonCancel.Margin = new Padding(5, 4, 5, 4);
+            buttonCancel.Name = "buttonCancel";
+            buttonCancel.Size = new Size(101, 47);
+            buttonCancel.TabIndex = 5;
+            buttonCancel.Text = "Cancel";
+            buttonCancel.UseVisualStyleBackColor = true;
+            buttonCancel.Click += ButtonCancel_Click;
             // 
             // labelPassword
             // 
-            this.labelPassword.AutoSize = true;
-            this.labelPassword.Location = new System.Drawing.Point(23, 14);
-            this.labelPassword.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelPassword.Name = "labelPassword";
-            this.labelPassword.Size = new System.Drawing.Size(60, 15);
-            this.labelPassword.TabIndex = 6;
-            this.labelPassword.Text = "Password:";
+            labelPassword.AutoSize = true;
+            labelPassword.Location = new Point(26, 18);
+            labelPassword.Margin = new Padding(5, 0, 5, 0);
+            labelPassword.Name = "labelPassword";
+            labelPassword.Size = new Size(70, 19);
+            labelPassword.TabIndex = 6;
+            labelPassword.Text = "Password:";
             // 
             // editPassword
             // 
-            this.editPassword.Location = new System.Drawing.Point(92, 10);
-            this.editPassword.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.editPassword.Name = "editPassword";
-            this.editPassword.Size = new System.Drawing.Size(330, 23);
-            this.editPassword.TabIndex = 8;
-            this.editPassword.UseSystemPasswordChar = true;
-            this.editPassword.KeyDown += new System.Windows.Forms.KeyEventHandler(this.EditPassword_KeyDown);
+            editPassword.Location = new Point(105, 13);
+            editPassword.Margin = new Padding(5, 4, 5, 4);
+            editPassword.Name = "editPassword";
+            editPassword.Size = new Size(377, 26);
+            editPassword.TabIndex = 8;
+            editPassword.UseSystemPasswordChar = true;
+            editPassword.KeyDown += EditPassword_KeyDown;
             // 
             // PasswordForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(433, 85);
-            this.Controls.Add(this.editPassword);
-            this.Controls.Add(this.labelPassword);
-            this.Controls.Add(this.buttonCancel);
-            this.Controls.Add(this.buttonOk);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.Name = "PasswordForm";
-            this.Text = "Password";
-            this.Activated += new System.EventHandler(this.PasswordForm_Activated);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.PasswordForm_FormClosed);
-            this.Load += new System.EventHandler(this.PasswordForm_Load);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(8F, 19F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(495, 108);
+            Controls.Add(editPassword);
+            Controls.Add(labelPassword);
+            Controls.Add(buttonCancel);
+            Controls.Add(buttonOk);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(5, 4, 5, 4);
+            Name = "PasswordForm";
+            Text = "Password";
+            Activated += PasswordForm_Activated;
+            FormClosed += PasswordForm_FormClosed;
+            Load += PasswordForm_Load;
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

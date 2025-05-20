@@ -26,61 +26,61 @@ namespace Diagram
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfirmTakeOwnership));
-            this.labelMessage = new System.Windows.Forms.Label();
-            this.buttonOk = new System.Windows.Forms.Button();
-            this.buttonCancel = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(ConfirmTakeOwnership));
+            labelMessage = new Label();
+            buttonOk = new Button();
+            buttonCancel = new Button();
+            SuspendLayout();
             // 
             // labelMessage
             // 
-            this.labelMessage.AutoSize = true;
-            this.labelMessage.Location = new System.Drawing.Point(44, 59);
-            this.labelMessage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.labelMessage.Name = "labelMessage";
-            this.labelMessage.Size = new System.Drawing.Size(135, 15);
-            this.labelMessage.TabIndex = 0;
-            this.labelMessage.Text = "Take diagram ownership";
+            labelMessage.AutoSize = true;
+            labelMessage.Location = new Point(50, 75);
+            labelMessage.Margin = new Padding(5, 0, 5, 0);
+            labelMessage.Name = "labelMessage";
+            labelMessage.Size = new Size(156, 19);
+            labelMessage.TabIndex = 0;
+            labelMessage.Text = "Take diagram ownership";
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(287, 118);
-            this.buttonOk.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonOk.Name = "buttonOk";
-            this.buttonOk.Size = new System.Drawing.Size(88, 27);
-            this.buttonOk.TabIndex = 1;
-            this.buttonOk.Text = "Ok";
-            this.buttonOk.UseVisualStyleBackColor = true;
-            this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
+            buttonOk.Location = new Point(328, 149);
+            buttonOk.Margin = new Padding(5, 4, 5, 4);
+            buttonOk.Name = "buttonOk";
+            buttonOk.Size = new Size(101, 34);
+            buttonOk.TabIndex = 1;
+            buttonOk.Text = "Ok";
+            buttonOk.UseVisualStyleBackColor = true;
+            buttonOk.Click += buttonOk_Click;
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(382, 118);
-            this.buttonCancel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(88, 27);
-            this.buttonCancel.TabIndex = 2;
-            this.buttonCancel.Text = "Cancel";
-            this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            buttonCancel.Location = new Point(437, 149);
+            buttonCancel.Margin = new Padding(5, 4, 5, 4);
+            buttonCancel.Name = "buttonCancel";
+            buttonCancel.Size = new Size(101, 34);
+            buttonCancel.TabIndex = 2;
+            buttonCancel.Text = "Cancel";
+            buttonCancel.UseVisualStyleBackColor = true;
+            buttonCancel.Click += buttonCancel_Click;
             // 
             // ConfirmTakeOwnership
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(506, 187);
-            this.Controls.Add(this.buttonCancel);
-            this.Controls.Add(this.buttonOk);
-            this.Controls.Add(this.labelMessage);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.Name = "ConfirmTakeOwnership";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Take ownership";
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(8F, 19F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(578, 237);
+            Controls.Add(buttonCancel);
+            Controls.Add(buttonOk);
+            Controls.Add(labelMessage);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(5, 4, 5, 4);
+            Name = "ConfirmTakeOwnership";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Take ownership";
+            Load += Form1_Load;
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

@@ -1848,8 +1848,77 @@ namespace Diagram
                 decimal posy = miny;
                 foreach (Node rec in nodes) // change space between nodes
                 {
+                    decimal s = Tools.GetScale(rec.scale);
                     rec.position.y = posy;
-                    posy = posy + rec.height + 10;
+                    posy = posy + rec.height * s + 10 * s;
+                }
+            }
+        }
+
+        public void SortNodesAsc(Nodes nodes)
+        {
+            if (nodes.Count() > 0)
+            {
+                decimal minx = nodes[0].position.x;
+                decimal miny = nodes[0].position.y;
+                foreach (Node rec in nodes)
+                {
+                    if (rec.position.y <= miny) // find most top element
+                    {
+                        minx = rec.position.x;
+                        miny = rec.position.y;
+                    }
+                }
+
+                foreach (Node rec in nodes) // align to left
+                {
+                    rec.position.x = minx;
+                }
+
+                nodes.OrderByPositionY();
+
+                nodes.OrderByNameAsc();
+
+                decimal posy = miny;
+                foreach (Node rec in nodes) // change space between nodes
+                {
+                    decimal s = Tools.GetScale(rec.scale);
+                    rec.position.y = posy;
+                    posy = posy + rec.height * s + 10 * s;
+                }
+            }
+        }
+
+        public void SortNodesDesc(Nodes nodes)
+        {
+            if (nodes.Count() > 0)
+            {
+                decimal minx = nodes[0].position.x;
+                decimal miny = nodes[0].position.y;
+                foreach (Node rec in nodes)
+                {
+                    if (rec.position.y <= miny) // find most top element
+                    {
+                        minx = rec.position.x;
+                        miny = rec.position.y;
+                    }
+                }
+
+                foreach (Node rec in nodes) // align to left
+                {
+                    rec.position.x = minx;
+                }
+
+                nodes.OrderByPositionY();
+
+                nodes.OrderByNameDesc();
+
+                decimal posy = miny;
+                foreach (Node rec in nodes) // change space between nodes
+                {
+                    decimal s = Tools.GetScale(rec.scale);
+                    rec.position.y = posy;
+                    posy = posy + rec.height * s + 10 * s;
                 }
             }
         }
