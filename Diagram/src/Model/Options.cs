@@ -30,6 +30,7 @@ namespace Diagram
         // STATES
 
         public bool readOnly = false;                      // diagram is read only
+        public bool alwaysOnTop = false;                   // diagram view is top window
         public bool grid = true;                           // show grid
         public bool borders = false;                       // show node borders
         public bool coordinates = false;                   // show coordinates for debuging purpose        

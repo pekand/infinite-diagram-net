@@ -503,6 +503,11 @@ namespace Diagram
                         this.options.firstLayereScale = Tools.StringToDecimal(el.Value);
                     }
 
+                    if (el.Name.ToString() == "alwaysOnTop")
+                    {
+                        this.options.alwaysOnTop = bool.Parse(el.Value);
+                    }
+
                     if (el.Name.ToString() == "openLayerInNewView")
                     {
                         this.options.openLayerInNewView = bool.Parse(el.Value);
@@ -1028,6 +1033,7 @@ namespace Diagram
             option.Add(new XElement("firstLayereShift.x", this.options.firstLayereShift.x));
             option.Add(new XElement("firstLayereShift.y", this.options.firstLayereShift.y));
             option.Add(new XElement("firstLayereScale", this.options.firstLayereScale));
+            if (this.options.alwaysOnTop) option.Add(new XElement("alwaysOnTop", this.options.alwaysOnTop));
             if (this.options.openLayerInNewView) option.Add(new XElement("openLayerInNewView", this.options.openLayerInNewView));
             option.Add(new XElement("homelayer", this.options.homeLayer));
             option.Add(new XElement("endlayer", this.options.endLayer));

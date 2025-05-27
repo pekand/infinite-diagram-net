@@ -643,6 +643,15 @@ namespace Diagram
             items["readonlyItem"].Click += new System.EventHandler(this.ReadonlyItem_Click);
 
             //
+            // AllwaysTopMost
+            //
+            items.Add("alwaysOnTopItem", new System.Windows.Forms.ToolStripMenuItem());
+            items["alwaysOnTopItem"].CheckOnClick = true;
+            items["alwaysOnTopItem"].Name = "readonlyItem";
+            items["alwaysOnTopItem"].Text = "Always on top";
+            items["alwaysOnTopItem"].Click += new System.EventHandler(this.AlwaysOnTopItem_Click);
+
+            //
             // restoreWindowItem
             //
             items.Add("restoreWindowItem", new System.Windows.Forms.ToolStripMenuItem());
@@ -901,6 +910,7 @@ namespace Diagram
             items.Add("diagramOptionsItem", new System.Windows.Forms.ToolStripMenuItem());
             items["diagramOptionsItem"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
                 items["readonlyItem"],
+                items["alwaysOnTopItem"],
                 items["restoreWindowItem"],
                 items["openLayerInNewViewItem"],
                 items["openConfigDirItem"],
@@ -1127,6 +1137,7 @@ namespace Diagram
             items["optionItem"].Enabled = true;
             items["diagramOptionsItem"].Enabled = true;
             items["readonlyItem"].Enabled = true;
+            items["alwaysOnTopItem"].Checked = this.diagramView.diagram.options.alwaysOnTop;
             items["restoreWindowItem"].Enabled = isNotReadOnly;
             items["openLayerInNewViewItem"].Checked = this.diagramView.diagram.options.openLayerInNewView;
             items["openConfigDirItem"].Enabled = true;
@@ -1688,6 +1699,19 @@ namespace Diagram
         public void ReadonlyItem_Click(object sender, EventArgs e) //UID4803037156
         {
             this.diagramView.diagram.options.readOnly = items["readonlyItem"].Checked;
+        }
+
+        // MENU Read only
+        public void AlwaysOnTopItem_Click(object sender, EventArgs e) //UID4803037156
+        {
+            this.diagramView.diagram.options.alwaysOnTop = !this.diagramView.diagram.options.alwaysOnTop;
+            this.diagramView.TopMost = this.diagramView.diagram.options.alwaysOnTop;
+            items["alwaysOnTopItem"].Checked = this.diagramView.diagram.options.alwaysOnTop;
+
+            foreach (DiagramView view in this.diagramView.diagram.DiagramViews)
+            {
+                view.TopMost = this.diagramView.diagram.options.alwaysOnTop;
+            }
         }
 
         // MENU restore window position
