@@ -305,6 +305,12 @@ namespace Diagram
             if (this.diagram.options.icon != "")
             {
                 this.Icon = Media.StringToIcon(this.diagram.options.icon);
+                if (windowPinBox.Image != null)
+                {
+                    windowPinBox.Image.Dispose();
+                }
+
+                windowPinBox.Image = this.Icon.ToBitmap();
             }
 
             this.BackColor = this.diagram.options.backgroundColor.Get();
@@ -661,6 +667,12 @@ namespace Diagram
 
                     this.Icon = icon;
                     this.diagram.options.icon = Media.IconToString(icon);
+                    if (windowPinBox.Image != null)
+                    {
+                        windowPinBox.Image.Dispose();
+                    }
+                    windowPinBox.Image = this.Icon.ToBitmap();
+
                     this.diagram.Unsave();
                 }
                 catch (Exception e)
