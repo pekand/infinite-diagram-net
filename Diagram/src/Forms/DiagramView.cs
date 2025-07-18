@@ -150,6 +150,12 @@ namespace Diagram
         // AFTER SHOW ONE TIME TIMER
         private System.Windows.Forms.Timer afterShownTimer = new System.Windows.Forms.Timer();
 
+        // WINDOW PIN
+        public bool windowIsPinned = false;
+        public int windowWidthBeforePin = 0;
+        public int windowHeightBeforePin = 0;
+        public FormBorderStyle windowBorderStyleBeforePin;
+        public PictureBox windowPinBox = new PictureBox();
 
         private void InitializeComponent() //UID4012344444
         {
@@ -238,6 +244,14 @@ namespace Diagram
             MouseUp += DiagramApp_MouseUp;
             MouseWheel += DiagramApp_MouseWheel;
             Resize += DiagramApp_Resize;
+
+            // WINDOW PIN
+            this.Controls.Add(windowPinBox);
+            windowPinBox.Size = new Size(64, 64);
+            windowPinBox.Location = new Point(0, 0);
+            windowPinBox.SizeMode = PictureBoxSizeMode.StretchImage;            
+            windowPinBox.Visible = false;
+
             ResumeLayout(false);
 
         }
@@ -2839,6 +2853,28 @@ namespace Diagram
             this.stateMoveView = false;
 
             this.diagram.InvalidateDiagram();
+
+            if (this.diagram.options.pinWindow &&
+                this.WindowState != FormWindowState.Minimized &&
+                this.WindowState != FormWindowState.Maximized &&
+                this.Visible &&
+                this.Width > 64 &&
+                this.Height > 64)
+            {
+
+
+
+                windowIsPinned = true;
+                windowWidthBeforePin = this.Width;
+                windowHeightBeforePin = this.Height;
+                windowBorderStyleBeforePin = this.FormBorderStyle;
+                this.FormBorderStyle = FormBorderStyle.None;
+                this.Width = 64;
+                this.Height = 64;
+                this.TopMost = true;
+                this.windowPinBox.Visible = true;
+
+            }
         }
 
         /*************************************************************************************************************************/
@@ -4193,6 +4229,15 @@ namespace Diagram
             }*/
 
             this.Invalidate();
+
+            if (this.windowIsPinned) {
+                this.windowIsPinned = false;
+                this.windowPinBox.Visible = false;
+                this.FormBorderStyle = this.windowBorderStyleBeforePin;
+                this.Width = this.windowHeightBeforePin;
+                this.Height = this.windowHeightBeforePin;
+                this.TopMost = this.diagram.options.alwaysOnTop;
+            }
         }
 
         // VIEW page up

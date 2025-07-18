@@ -632,6 +632,7 @@ namespace Diagram
             items["lockItem"].Click += new System.EventHandler(this.LockItem_Click);
         }
 
+        // OPTIONS
         public void BuildDiagramOptionItems() {
             //
             // readonlyItem
@@ -650,6 +651,15 @@ namespace Diagram
             items["alwaysOnTopItem"].Name = "readonlyItem";
             items["alwaysOnTopItem"].Text = "Always on top";
             items["alwaysOnTopItem"].Click += new System.EventHandler(this.AlwaysOnTopItem_Click);
+
+            //
+            // Pin Window
+            //
+            items.Add("pinWindowItem", new System.Windows.Forms.ToolStripMenuItem());
+            items["pinWindowItem"].CheckOnClick = true;
+            items["pinWindowItem"].Name = "pinWindowItem";
+            items["pinWindowItem"].Text = "Pin window";
+            items["pinWindowItem"].Click += new System.EventHandler(this.pinWindowItem_Click);
 
             //
             // restoreWindowItem
@@ -911,6 +921,7 @@ namespace Diagram
             items["diagramOptionsItem"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
                 items["readonlyItem"],
                 items["alwaysOnTopItem"],
+                items["pinWindowItem"],
                 items["restoreWindowItem"],
                 items["openLayerInNewViewItem"],
                 items["openConfigDirItem"],
@@ -1138,6 +1149,7 @@ namespace Diagram
             items["diagramOptionsItem"].Enabled = true;
             items["readonlyItem"].Enabled = true;
             items["alwaysOnTopItem"].Checked = this.diagramView.diagram.options.alwaysOnTop;
+            items["pinWindowItem"].Checked = this.diagramView.diagram.options.pinWindow;
             items["restoreWindowItem"].Enabled = isNotReadOnly;
             items["openLayerInNewViewItem"].Checked = this.diagramView.diagram.options.openLayerInNewView;
             items["openConfigDirItem"].Enabled = true;
@@ -1701,7 +1713,7 @@ namespace Diagram
             this.diagramView.diagram.options.readOnly = items["readonlyItem"].Checked;
         }
 
-        // MENU Read only
+        // MENU Alwais on top
         public void AlwaysOnTopItem_Click(object sender, EventArgs e) //UID4803037156
         {
             this.diagramView.diagram.options.alwaysOnTop = !this.diagramView.diagram.options.alwaysOnTop;
@@ -1713,6 +1725,15 @@ namespace Diagram
                 view.TopMost = this.diagramView.diagram.options.alwaysOnTop;
             }
         }
+
+        // MENU Pin window
+
+        public void pinWindowItem_Click(object sender, EventArgs e) //UID4803037156
+        {
+            this.diagramView.diagram.options.pinWindow = !this.diagramView.diagram.options.pinWindow;            
+            items["pinWindowItem"].Checked = this.diagramView.diagram.options.alwaysOnTop;           
+        }
+        
 
         // MENU restore window position
         public void RestoreWindowItem_Click(object sender, EventArgs e) //UID1381135212
