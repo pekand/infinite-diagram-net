@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Drawing;
-using System.Linq;
-using System.Xml.Linq;
-using System.Xml;
 using System.IO;
-using System.Windows.Forms;
+using System.Linq;
 using System.Security;
+using System.Text;
+using System.Windows.Forms;
+using System.Xml;
+using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 #nullable disable
 
@@ -64,7 +66,7 @@ namespace Diagram
         /*************************************************************************************************************************/
         // RESOURCES
 
-        public Font FontDefault = null; // default font
+        public System.Drawing.Font FontDefault = null; // default font
 
         /*************************************************************************************************************************/
         // PLUGINS
@@ -72,12 +74,16 @@ namespace Diagram
         public DataStorage dataStorage = new DataStorage();
 
         /*************************************************************************************************************************/
+        // IMAGE MANAGER
+        public ImageManager imageManager = new ImageManager();
+
+        /*************************************************************************************************************************/
         // CONSTRUCTORS
 
         public Diagram(Main main = null)
         {
             this.main = main;
-            this.FontDefault = new Font("Open Sans", 10);
+            this.FontDefault = new System.Drawing.Font("Open Sans", 10);
             this.undoOperations = new UndoOperations(this);
         }
 
@@ -746,16 +752,29 @@ namespace Diagram
 
                             if (el.Name.ToString() == "imagedata")
                             {
-                                R.image = Media.StringToBitmap(el.Value);
-                                R.height = R.image.Height;
-                                R.width = R.image.Width;
-                                R.isimage = true;
+                                ImageEntry imageEntry = imageManager.AddImage(Media.StringToBitmap(el.Value));
+                                if (imageEntry != null)
+                                {
+                                    R.image = imageEntry;
+                                    R.height = R.image.Image.Height;
+                                    R.width = R.image.Image.Width;
+                                    R.isimage = true;
+                                }
+
+                                
                             }
 
                             if (el.Name.ToString() == "image")
                             {
-                                R.imagepath = el.Value.ToString();
-                                R.LoadImage();
+                                ImageEntry imageEntry = imageManager.AddImage(el.Value);
+                                if (imageEntry != null)
+                                {
+                                    R.imagepath = el.Value.ToString();
+                                    R.image = imageEntry;
+                                    R.height = R.image.Image.Height;
+                                    R.width = R.image.Image.Width;
+                                    R.isimage = true;
+                                }
                             }
 
 
@@ -912,7 +931,7 @@ namespace Diagram
         }
 
         // save diagram as
-        public void Saveas(String FileName) //UID9358805584
+        public void Saveas(string FileName) //UID9358805584
         {
             if (this.IsReadOnly())
             {
@@ -1120,7 +1139,7 @@ namespace Diagram
 
                 if (rec.embeddedimage && rec.image != null) // image is inserted directly to file
                 {
-                    rectangle.Add(new XElement("imagedata", Media.BitmapToString(rec.image)));
+                    rectangle.Add(new XElement("imagedata", Media.BitmapToString(rec.image.Image)));
                 }
                 else if (rec.imagepath != "")
                 {
@@ -1508,7 +1527,7 @@ namespace Diagram
             string name = "",
             long layer = 0,
             ColorType color = null,
-            Font font = null
+            System.Drawing.Font font = null
         ) {
             var rec = new Node();
             if (font == null)
@@ -1841,7 +1860,7 @@ namespace Diagram
                 bool alreadyAsc = true;
                 for (int i = 0; i < nodes.Count - 1; i++)
                 {
-                    if (String.Compare(nodes[i + 1].name, nodes[i].name) < 0)
+                    if (string.Compare(nodes[i + 1].name, nodes[i].name) < 0)
                     {
                         alreadyAsc = false;
                         break;
@@ -1959,7 +1978,7 @@ namespace Diagram
 
                     decimal posy = node.position.y + node.height + 10;
 
-                    foreach (String line in lines)
+                    foreach (string line in lines)
                     {
                         if (line.Trim() != "")
                         {
@@ -2161,14 +2180,21 @@ namespace Diagram
         {
             try
             {
-                rec.isimage = true;
-                rec.image = Media.GetImage(file);
-                rec.imagepath = Os.MakeRelative(file, this.FileName);
-                string ext = Os.GetExtension(file);
-                if (ext != ".ico") rec.image.MakeTransparent(Color.White);
-                rec.height = rec.image.Height;
-                rec.width = rec.image.Width;
+                
+                ImageEntry imageEntry = imageManager.AddImage(file);
+                if (imageEntry != null)
+                {
+                    rec.isimage = true;
+                    rec.image = imageEntry;
+                    rec.imagepath = Os.MakeRelative(file, this.FileName);
+                    string ext = Os.GetExtension(file);
+                    if (ext != ".ico") rec.image.Image.MakeTransparent(Color.White);
+                    rec.height = rec.image.Image.Height;
+                    rec.width = rec.image.Image.Width;
+                }
             }
+
+                
             catch(Exception e)
             {
                 Program.log.Write("setImage: " + e.Message);
@@ -2371,7 +2397,21 @@ namespace Diagram
                 
                 if (node.isimage && !node.embeddedimage)
                 {
-                    node.LoadImage();
+                    if (node.imagepath != "" && Os.FileExists(node.imagepath))
+                    {
+                        ImageEntry imageEntry = imageManager.AddImage(node.imagepath);
+                        if (imageEntry != null)
+                        {
+                            string ext = Os.GetExtension(node.imagepath).ToLower();
+                            node.image = imageEntry;
+                            if (ext != ".ico") node.image.Image.MakeTransparent(Color.White);
+                            node.height = node.image.Image.Height;
+                            node.width = node.image.Image.Width;
+                            node.isimage = true;
+                        }
+                    }
+
+                    
                 }
                 else
                 {
@@ -2389,7 +2429,19 @@ namespace Diagram
             {
                 if (node.isimage && !node.embeddedimage)
                 {
-                    node.LoadImage();
+                    if (node.imagepath != "" && Os.FileExists(node.imagepath))
+                    {
+                        ImageEntry imageEntry = imageManager.AddImage(node.imagepath);
+                        if (imageEntry != null)
+                        {
+                            string ext = Os.GetExtension(node.imagepath).ToLower();
+                            node.image = imageEntry;
+                            if (ext != ".ico") node.image.Image.MakeTransparent(Color.White);
+                            node.height = node.image.Image.Height;
+                            node.width = node.image.Image.Width;
+                            node.isimage = true;
+                        }
+                    }
                 }
                 else
                 {

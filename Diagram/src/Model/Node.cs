@@ -60,7 +60,7 @@ namespace Diagram
         public bool isimage = false; // show node as image instead of text
         public bool embeddedimage = false; // image is imported to xml file as string
         public string imagepath = ""; // path to node image
-        public Bitmap image = null; // loaded image
+        public ImageEntry image = null; // loaded image
         public long iwidth = 0; //image size
         public long iheight = 0;
 
@@ -308,34 +308,7 @@ namespace Diagram
         /*************************************************************************************************************************/
         // IMAGE
 
-        public void LoadImage()
-        {
-            if (this.imagepath != "" && Os.FileExists(this.imagepath))
-            {
-                try
-                {
-                    string ext = "";
-                    ext = Os.GetExtension(this.imagepath).ToLower();
-
-                    if (ext == ".jpg" || ext == ".png" || ext == ".ico" || ext == ".bmp")
-                    {
-                        this.image = Media.GetImage(this.imagepath);
-                        if (ext != ".ico") this.image.MakeTransparent(Color.White);
-                        this.height = this.image.Height;
-                        this.width = this.image.Width;
-                        this.isimage = true;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Program.log.Write("load image from xml error: " + ex.Message);
-                }
-            }
-            else
-            {
-                this.imagepath = "";
-            }
-        }
+        
 
         /*************************************************************************************************************************/
         // SEARCH

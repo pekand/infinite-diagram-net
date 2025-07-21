@@ -2620,10 +2620,10 @@ namespace Diagram
                         {
                             newrec.isimage = true;
                             newrec.imagepath = Os.MakeRelative(file, this.diagram.FileName);
-                            newrec.image = Media.GetImage(file);
-                            if (ext != ".ico") newrec.image.MakeTransparent(Color.White);
-                            newrec.height = newrec.image.Height;
-                            newrec.width = newrec.image.Width;
+                            newrec.image = this.diagram.imageManager.AddImage(file);
+                            if (ext != ".ico") newrec.image.Image.MakeTransparent(Color.White);
+                            newrec.height = newrec.image.Image.Height;
+                            newrec.width = newrec.image.Image.Width;
                         }
                         else
                         if (ext == ".lnk") // [LINK] [DROP] extract target
@@ -2632,28 +2632,28 @@ namespace Diagram
                             {
                                 string[] shortcutInfo = Os.GetShortcutTargetFile(file);
 
-                                Bitmap icoLnk = Media.ExtractLnkIcon(file);
+                                ImageEntry icoLnk = diagram.imageManager.AddImage(Media.ExtractLnkIcon(file));
                                 if (icoLnk != null)// extract icon
                                 {
                                     newrec.isimage = true;
                                     newrec.embeddedimage = true;
                                     newrec.image = icoLnk;
-                                    newrec.image.MakeTransparent(Color.White);
-                                    newrec.height = newrec.image.Height;
-                                    newrec.width = newrec.image.Width;
+                                    newrec.image.Image.MakeTransparent(Color.White);
+                                    newrec.height = newrec.image.Image.Height;
+                                    newrec.width = newrec.image.Image.Width;
                                 }
                                 else if (shortcutInfo[0] != "" && Os.FileExists(shortcutInfo[0]))
                                 {
-                                    Bitmap icoExe = Media.ExtractSystemIcon(shortcutInfo[0]);
+                                    ImageEntry icoExe = diagram.imageManager.AddImage(Media.ExtractSystemIcon(shortcutInfo[0]));
 
                                     if (icoExe != null)// extract icon
                                     {
                                         newrec.isimage = true;
                                         newrec.embeddedimage = true;
                                         newrec.image = icoExe;
-                                        newrec.image.MakeTransparent(Color.White);
-                                        newrec.height = newrec.image.Height;
-                                        newrec.width = newrec.image.Width;
+                                        newrec.image.Image.MakeTransparent(Color.White);
+                                        newrec.height = newrec.image.Image.Height;
+                                        newrec.width = newrec.image.Image.Width;
                                     }
                                 }
 
@@ -2666,15 +2666,15 @@ namespace Diagram
                         }
                         else
                         {
-                            Bitmap ico = Media.ExtractSystemIcon(file);
+                            ImageEntry ico = diagram.imageManager.AddImage(Media.ExtractSystemIcon(file));
                             if (ico != null)// extract icon
                             {
                                 newrec.isimage = true;
                                 newrec.embeddedimage = true;
                                 newrec.image = ico;
-                                newrec.image.MakeTransparent(Color.White);
-                                newrec.height = newrec.image.Height;
-                                newrec.width = newrec.image.Width;
+                                newrec.image.Image.MakeTransparent(Color.White);
+                                newrec.height = newrec.image.Image.Height;
+                                newrec.width = newrec.image.Image.Width;
                             }
                         }
                     }
@@ -3885,7 +3885,7 @@ namespace Diagram
                             (float)((rec.height) / (s / Tools.GetScale(rec.scale)))
                         );
 
-                        gfx.DrawImage(rec.image, imageRec);
+                        gfx.DrawImage(rec.image.Image, imageRec);
 
                         if (rec.selected && !export)
                         {
@@ -5234,11 +5234,14 @@ namespace Diagram
                     {
                         Node newrec = this.CreateNode(position);
 
-                        newrec.image = (Bitmap)data.GetData(DataFormats.Bitmap, true);
-                        newrec.height = newrec.image.Height;
-                        newrec.width = newrec.image.Width;
-                        newrec.isimage = true;
-                        newrec.embeddedimage = true;
+                        ImageEntry imageEntry = diagram.imageManager.AddImage((Bitmap)data.GetData(DataFormats.Bitmap, true));
+                        if (imageEntry != null) {
+                            newrec.image = imageEntry;
+                            newrec.height = newrec.image.Image.Height;
+                            newrec.width = newrec.image.Image.Width;
+                            newrec.isimage = true;
+                            newrec.embeddedimage = true;
+                        }
 
                         this.diagram.Unsave("create", newrec, this.shift, this.scale, this.currentLayer.id);
                         this.diagram.InvalidateDiagram();
