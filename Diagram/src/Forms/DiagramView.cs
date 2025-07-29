@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Text.RegularExpressions;
-using System.Linq;
-using System.Drawing;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Windows.Forms;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Collections.Specialized;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 #nullable disable
 
@@ -145,7 +146,7 @@ namespace Diagram
         public bool isFullScreen = false;
 
         // SECURITY
-        public Image lockImage = null;
+        public System.Drawing.Image lockImage = null;
 
         // AFTER SHOW ONE TIME TIMER
         private System.Windows.Forms.Timer afterShownTimer = new System.Windows.Forms.Timer();
@@ -321,7 +322,7 @@ namespace Diagram
             byte[] imageData = global::Diagram.Properties.Resources.Lock;
             using (MemoryStream ms = new MemoryStream(imageData))
             {
-                this.lockImage = Image.FromStream(ms);
+                this.lockImage = System.Drawing.Image.FromStream(ms);
             }
 
 
@@ -721,7 +722,7 @@ namespace Diagram
                     Bitmap background = Media.GetImage(openIconDialog.FileName);
                     string backgroundAsString = Media.ImageToString(background); // convert to string to speed up background rendering (convert to jpeg)
                     background.Dispose();
-                    this.diagram.options.backgroundImage = Media.StringToImage(backgroundAsString);
+                    this.diagram.options.backgroundImage = diagram.imageManager.AddImage(Media.StringToImage(backgroundAsString));
                     this.diagram.RefreshBackgroundImages();
                     this.diagram.Unsave();
                 }
@@ -746,7 +747,12 @@ namespace Diagram
 
         public void RefreshBackgroundImage()
         {
-            this.BackgroundImage = this.diagram.options.backgroundImage;
+            if (this.diagram.options.backgroundImage == null) {
+                this.BackgroundImage = null;
+                return;
+            }
+
+            this.BackgroundImage = this.diagram.options.backgroundImage.Image;
         }
 
         /*************************************************************************************************************************/
@@ -2618,12 +2624,15 @@ namespace Diagram
 
                         if (ext == ".jpg" || ext == ".png" || ext == ".ico" || ext == ".bmp") // DROP IMAGE skratenie cesty k suboru
                         {
-                            newrec.isimage = true;
-                            newrec.imagepath = Os.MakeRelative(file, this.diagram.FileName);
                             newrec.image = this.diagram.imageManager.AddImage(file);
-                            if (ext != ".ico") newrec.image.Image.MakeTransparent(Color.White);
-                            newrec.height = newrec.image.Image.Height;
-                            newrec.width = newrec.image.Image.Width;
+                            if (newrec.image != null && newrec.image.Image != null)
+                            {
+                                newrec.isimage = true;
+                                newrec.imagepath = Os.MakeRelative(file, this.diagram.FileName);
+                                if (ext != ".ico") newrec.image.Image.MakeTransparent(Color.White);
+                                newrec.height = newrec.image.Image.Height;
+                                newrec.width = newrec.image.Image.Width;
+                            }
                         }
                         else
                         if (ext == ".lnk") // [LINK] [DROP] extract target
@@ -3753,7 +3762,7 @@ namespace Diagram
         {
             decimal s = Tools.GetScale(this.scale);
 
-            Font drawFont = new Font("Arial", 10);
+            System.Drawing.Font drawFont = new System.Drawing.Font("Arial", 10);
             SolidBrush drawBrush = new SolidBrush(this.diagram.options.backgroundColor.Invert());
             gfx.DrawString(
                 this.shift.x.ToString() + "sx," +
@@ -3771,7 +3780,7 @@ namespace Diagram
         private void DrawZoomScaleInfo(Graphics gfx)
         {
             string text = this.scale.ToString();
-            Font drawFont = new Font("Arial", 25);
+            System.Drawing.Font drawFont = new System.Drawing.Font("Arial", 25);
             SolidBrush drawBrush = new SolidBrush(this.diagram.options.backgroundColor.Invert());
             gfx.DrawString(
                 text,
@@ -3874,7 +3883,7 @@ namespace Diagram
 
                 if ((export || this.NodeIsVisible(rec)) && rec.visible)
                 {
-                    if (rec.isimage)
+                    if (rec.isimage && rec.image != null && rec.image.Image != null)
                     {
                         // DRAW Image
 
@@ -3912,7 +3921,7 @@ namespace Diagram
                             decimal size = 10 / (s / Tools.GetScale(rec.scale));
                             if (0 < size && size < 200)
                             {
-                                Font drawFont = new Font("Arial", (float)size);
+                                System.Drawing.Font drawFont = new System.Drawing.Font("Arial", (float)size);
                                 SolidBrush drawBrush = new SolidBrush(this.diagram.options.backgroundColor.Invert());
 
                                 PointF infoPosition = new PointF(
@@ -4059,7 +4068,7 @@ namespace Diagram
                             {
                                 gfx.DrawString(
                                     (rec.protect) ? Node.protectedName : rec.name,
-                                    new Font(
+                                    new System.Drawing.Font(
                                         rec.font.FontFamily,
                                         (float)size,
                                         rec.font.Style,

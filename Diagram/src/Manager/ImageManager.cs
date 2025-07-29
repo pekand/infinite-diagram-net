@@ -22,18 +22,25 @@ namespace Diagram
             }
         }
 
-        private Bitmap LoadImageFromBytes(byte[] data)
+        private Bitmap? LoadImageFromBytes(byte[] data)
         {
-            using (var ms = new MemoryStream(data))
+            try
             {
-                return (Bitmap)Bitmap.FromStream(ms);
+                using (var ms = new MemoryStream(data))
+                {
+                    return (Bitmap)Bitmap.FromStream(ms);
+                }
             }
+            catch (Exception)
+            {
+
+                return null;
+            }
+            
         }
 
         public ImageEntry? AddImage(string filePath)
         {
-
-            //Media.GetImage(filePath);
 
             if (!File.Exists(filePath)) { 
                 return null;
@@ -43,26 +50,29 @@ namespace Diagram
             string hash = ComputeHash(data);
 
             if (images.ContainsKey(hash))
-                return null;
+                return images[hash];
 
             try
             {
-                Bitmap img = LoadImageFromBytes(data);
-                images[hash] = new ImageEntry
-                {
-                    Image = img,
-                    Path = filePath,
-                    Hash = hash
-                };
+                Bitmap? img = LoadImageFromBytes(data);
+                if (img != null) {
+                    images[hash] = new ImageEntry
+                    {
+                        Image = img,
+                        Path = filePath,
+                        Hash = hash
+                    };
 
-                return images[hash];
+                    return images[hash];
+                }
             }
             
             catch (Exception)
             {
-                return null;
-
+               
             }
+
+            return null;
         }
 
         public ImageEntry? AddImage(Bitmap image, bool cloneImage = false)
@@ -74,7 +84,7 @@ namespace Diagram
                 string hash = ComputeHash(data);
 
                 if (images.ContainsKey(hash))
-                    return null;
+                    return images[hash];
 
                 if (cloneImage)
                 {
@@ -107,7 +117,10 @@ namespace Diagram
         {
             if (images.TryGetValue(hash, out var entry))
             {
-                entry.Image.Dispose();
+                if (entry != null && entry.Image != null) {
+                    entry.Image.Dispose();
+                }
+                
                 images.Remove(hash);
                 return true;
             }
@@ -132,7 +145,11 @@ namespace Diagram
         {
             if (imageEntry != null && imageEntry.Hash != null && images.ContainsKey(imageEntry.Hash))
             {
-                imageEntry.Image.Dispose();
+                if (imageEntry.Image != null)
+                {
+                    imageEntry.Image.Dispose();
+                }
+                
                 images.Remove(imageEntry.Hash);
                 return true;
             }
@@ -151,7 +168,10 @@ namespace Diagram
 
             foreach (var entry in images.Values)
             {
-                entry.Image.Dispose();
+                if (entry.Image != null)
+                {
+                    entry.Image.Dispose();
+                }
             }
 
             images.Clear();

@@ -596,7 +596,10 @@ namespace Diagram
 
                     if (el.Name.ToString() == "backgroundImage")
                     {
-                        this.options.backgroundImage = Media.StringToImage(el.Value);
+                        ImageEntry imageEntry = this.imageManager.AddImage(Media.StringToImage(el.Value));
+                        if (imageEntry != null) {
+                            this.options.backgroundImage = imageEntry;
+                        }
                     }
 
                 }
@@ -1090,7 +1093,7 @@ namespace Diagram
             {
                 option.Add(new XElement(
                     "backgroundImage", 
-                    Media.ImageToString(this.options.backgroundImage)
+                    Media.ImageToString(this.options.backgroundImage.Image)
                     )
                 );
             }

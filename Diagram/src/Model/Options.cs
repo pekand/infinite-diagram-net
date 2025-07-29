@@ -75,6 +75,6 @@ namespace Diagram
 
         public string icon = "";                             // diagram custom icon
         
-        public Bitmap backgroundImage = null;                // diagram custom icon
+        public ImageEntry backgroundImage = null;                // diagram custom icon
     }
 }
