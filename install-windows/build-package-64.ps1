@@ -117,7 +117,7 @@ Copy-WithFullPath -Source "$RELEASE\plugins\ScriptingPlugin\ScriptingPlugin.pdb"
 
 
 
-& $innoInstallPath /q install-windows\create-installation-package-64.iss -dAppVersion=%TAG%
+& $innoInstallPath /q install-windows\Diagram.iss -dAppVersion=%TAG%
 
 ########################################
 
