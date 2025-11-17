@@ -76,5 +76,13 @@ namespace Diagram
         public string icon = "";                             // diagram custom icon
         
         public ImageEntry backgroundImage = null;                // diagram custom icon
+
+        /*************************************************************************************************************************/
+        // IMAGES
+        public bool linkImages = true;
+        public bool embedImages = false;
+        public bool copyImages = false;
+        public string copyImagesPath = "";
+
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using Shell32;
 using System.ComponentModel;
+using System.Security.Cryptography;
 
 #nullable disable
 
@@ -112,6 +113,52 @@ namespace Diagram
             return null;
         }
 
+        /// <summary>
+        /// compare files by file content </summary>
+        public static bool AreFilesSame(string file1, string file2)
+        {
+            var f1 = new FileInfo(file1);
+            var f2 = new FileInfo(file2);
+
+            if (!f1.Exists || !f2.Exists)
+                return false;
+
+            if (f1.Length != f2.Length)
+                return false;
+
+            using var sha = SHA256.Create();
+
+            using var s1 = File.OpenRead(file1);
+            using var s2 = File.OpenRead(file2);
+
+            byte[] h1 = sha.ComputeHash(s1);
+            byte[] h2 = sha.ComputeHash(s2);
+
+            // 3) Compare hashes
+            return h1.SequenceEqual(h2);
+        }
+
+        /// <summary>
+        /// get next available file name in destination </summary>
+        public static string GetNextAvailableFilePath(string desiredPath)
+        {
+            if (!File.Exists(desiredPath)) return desiredPath;
+
+            var dir = Path.GetDirectoryName(desiredPath) ?? "";
+            var ext = Path.GetExtension(desiredPath);
+            var name = Path.GetFileNameWithoutExtension(desiredPath);
+
+            int i = 1;
+            string candidate;
+            do
+            {
+                candidate = Path.Combine(dir, $"{name}.{i}{ext}");
+                i++;
+            } while (File.Exists(candidate));
+
+            return candidate;
+        }
+
         /*************************************************************************************************************************/
         // DIRECTORY OPERATIONS
 
@@ -201,9 +248,9 @@ namespace Diagram
 
         /// <summary>
         /// concat path and subdir</summary>
-        public static string Combine(string path, string subdir)
+        public static string Combine(string path, string subpath)
         {
-            return Path.Combine(path, subdir);
+            return Path.Combine(path, subpath);
         }
 
         /// <summary>
@@ -379,7 +426,7 @@ namespace Diagram
             {
                 path = NormalizePath(path);
 
-                if (!File.Exists(path))
+                if (!Os.FileExists(path))
                 {
                     return;
 
@@ -480,7 +527,7 @@ namespace Diagram
                 {
                     if (path != null && path.Trim() != ""){
                         string combinedParh = Path.Combine(Path.GetFullPath(path), command);
-                        if (File.Exists(combinedParh)) {
+                        if (Os.FileExists(combinedParh)) {
                             commandPath = combinedParh;
                             break;
                         }
@@ -664,7 +711,7 @@ namespace Diagram
                     foreach (string newPath in Directory.GetFiles(SourcePath, "*.*", SearchOption.AllDirectories))
                         CopyByBlock(newPath, newPath.Replace(SourcePath, DestinationPath), callback);
                 }
-                else if (File.Exists(SourcePath))
+                else if (Os.FileExists(SourcePath))
                 {
                     CopyByBlock(SourcePath, Os.Combine(DestinationPath, Os.GetFileName(SourcePath)), callback);
                 }
@@ -676,6 +723,20 @@ namespace Diagram
                 return false;
             }
         }
+
+        /// <summary>
+        /// copy file to other file in destination, not overwrite file in destination</summary>
+        public static void CopyFile(string sourcePath, string destPath)
+        {
+            var destDir = Path.GetDirectoryName(destPath);
+            if (!Os.DirectoryExists(destDir))
+            {
+                Directory.CreateDirectory(destDir);
+            }
+
+            File.Copy(sourcePath, destPath, false);
+        }
+
         /*************************************************************************************************************************/
         // TOOLS
 

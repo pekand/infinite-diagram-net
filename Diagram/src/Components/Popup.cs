@@ -600,6 +600,51 @@ namespace Diagram
             items["bordersItem"].Text = "Borders";
             items["bordersItem"].Click += new System.EventHandler(this.BordersItem_Click);
         }
+       
+        public void BuildOptionImages()
+        {
+            //
+            // linkImageItem
+            //
+            items.Add("linkImageItem", new System.Windows.Forms.ToolStripMenuItem());
+            items["linkImageItem"].Name = "linkImageItem";
+            items["linkImageItem"].Text = "Link image";
+            items["linkImageItem"].Click += new System.EventHandler(this.LinkImage_Click);
+
+            //
+            // embedImageItem
+            //
+            items.Add("embedImageItem", new System.Windows.Forms.ToolStripMenuItem());
+            items["embedImageItem"].Name = "embedImageItem";
+            items["embedImageItem"].Text = "Embed image";
+            items["embedImageItem"].Click += new System.EventHandler(this.EmbedImage_Click);
+
+            //
+            // copyImageItem
+            //
+            items.Add("copyImageItem", new System.Windows.Forms.ToolStripMenuItem());
+            items["copyImageItem"].Name = "copyImageItem";
+            items["copyImageItem"].Text = "Copy image";
+            items["copyImageItem"].Click += new System.EventHandler(this.CopyImage_Click);
+
+            //
+            // copyImagePathItem
+            //
+            items.Add("copyImagePathItem", new System.Windows.Forms.ToolStripMenuItem());
+            items["copyImagePathItem"].Name = "copyImagePathItem";
+            items["copyImagePathItem"].Text = "Set copy image destination";
+            items["copyImagePathItem"].Click += new System.EventHandler(this.CopyImagePath_Click);
+
+            //
+            // copyImagePathItem
+            //
+            items.Add("embedImageConvertItem", new System.Windows.Forms.ToolStripMenuItem());
+            items["embedImageConvertItem"].Name = "embedImageConvertItem";
+            items["embedImageConvertItem"].Text = "Convert embed images to files";
+            items["embedImageConvertItem"].Click += new System.EventHandler(this.EmbedImageConvertItem_Click);
+        }
+
+
 
         public void BuildSecurityItems (){
             //
@@ -957,7 +1002,24 @@ namespace Diagram
             items["optionTheme"].Name = "optionTheme";
             items["optionTheme"].Text = "Theme and Colors";
 
+            this.BuildOptionImages();
+
+            //
+            // optionImages
+            //
+            items.Add("optionImages", new System.Windows.Forms.ToolStripMenuItem());
+            items["optionImages"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+                items["linkImageItem"],
+                items["embedImageItem"],
+                items["copyImageItem"],
+                items["copyImagePathItem"],
+                items["embedImageConvertItem"],
+            });
+            items["optionImages"].Name = "optionImages";
+            items["optionImages"].Text = "Images";
+
             this.BuildSecurityItems();
+
             //
             // optionSecurity
             //
@@ -978,6 +1040,7 @@ namespace Diagram
             items["optionItem"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
                 items["diagramOptionsItem"],
                 items["optionTheme"],
+                items["optionImages"],
                 items["optionSecurity"]
             });
             items["optionItem"].Name = "optionItem";
@@ -1172,6 +1235,10 @@ namespace Diagram
             items["gridItem"].Enabled = isNotReadOnly;
             items["coordinatesItem"].Enabled = isNotReadOnly;
             items["bordersItem"].Enabled = isNotReadOnly;
+
+            items["linkImageItem"].Checked = this.diagramView.diagram.options.linkImages;
+            items["embedImageItem"].Checked = this.diagramView.diagram.options.embedImages;
+            items["copyImageItem"].Checked = this.diagramView.diagram.options.copyImages;
 
             items["optionSecurity"].Enabled = true;
             items["encryptItem"].Enabled = isNotReadOnly && !this.diagramView.diagram.IsEncrypted();
@@ -1674,6 +1741,120 @@ namespace Diagram
         }
 
         // OPTIONS
+
+        // MENU Images
+
+        private void LinkImage_Click(object sender, EventArgs e)
+        {
+            if (!items["linkImageItem"].Checked) {
+                items["linkImageItem"].Checked = true;
+                items["embedImageItem"].Checked = false;
+                items["copyImageItem"].Checked = false;
+
+                this.diagramView.diagram.options.linkImages = true;
+                this.diagramView.diagram.options.embedImages = false;
+                this.diagramView.diagram.options.copyImages = false;
+
+                this.diagramView.diagram.Unsave();
+            }
+        }
+
+        private void EmbedImage_Click(object sender, EventArgs e)
+        {
+            if (!items["embedImageItem"].Checked)
+            {
+                items["linkImageItem"].Checked = false;
+                items["embedImageItem"].Checked = true;
+                items["copyImageItem"].Checked = false;
+
+                this.diagramView.diagram.options.linkImages = false;
+                this.diagramView.diagram.options.embedImages = true;
+                this.diagramView.diagram.options.copyImages = false;
+
+                this.diagramView.diagram.Unsave();
+            }
+        }
+
+        private void CopyImage_Click(object sender, EventArgs e)
+        {
+            if (!items["copyImageItem"].Checked)
+            {
+                items["linkImageItem"].Checked = false;
+                items["embedImageItem"].Checked = false;
+                items["copyImageItem"].Checked = true;
+
+                this.diagramView.diagram.options.linkImages = false;
+                this.diagramView.diagram.options.embedImages = false;
+                this.diagramView.diagram.options.copyImages = true;
+
+                this.diagramView.diagram.Unsave();
+            }
+        }
+
+        private void CopyImagePath_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new FolderBrowserDialog())
+            {
+                dialog.Description = "Select directory for images";
+                dialog.ShowNewFolderButton = true;
+
+                if (this.diagramView.diagram.options.copyImagesPath != "" && Directory.Exists(this.diagramView.diagram.options.copyImagesPath))
+                {
+                    dialog.SelectedPath = this.diagramView.diagram.options.copyImagesPath;
+                } else if (this.diagramView.diagram.FileName != "" && Os.FileExists(this.diagramView.diagram.FileName))
+                {
+                    dialog.SelectedPath = Os.GetDirectoryName(this.diagramView.diagram.FileName);
+                }
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    string selectedPath = dialog.SelectedPath;
+
+                    this.diagramView.diagram.options.copyImagesPath = selectedPath;
+                    if (this.diagramView.diagram.FileName != "" && Os.FileExists(this.diagramView.diagram.FileName))
+                    {
+                        string relativePath = Os.MakeRelative(selectedPath, this.diagramView.diagram.FileName);
+                        this.diagramView.diagram.options.copyImagesPath = relativePath;
+                    }
+
+                    items["linkImageItem"].Checked = false;
+                    items["embedImageItem"].Checked = false;
+                    items["copyImageItem"].Checked = true;
+
+                    this.diagramView.diagram.options.linkImages = false;
+                    this.diagramView.diagram.options.embedImages = false;
+                    this.diagramView.diagram.options.copyImages = true;
+
+                    this.diagramView.diagram.Unsave();
+                }
+            }
+        }
+
+        private void EmbedImageConvertItem_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Do you really want to convert all included images in the file? This will reduce the file size.",
+                "Confirm",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                if (this.diagramView.diagram.options.copyImagesPath != "" && Os.Exists(this.diagramView.diagram.options.copyImagesPath))
+                {
+                    this.diagramView.diagram.ConvertEmbedImageToFiles();
+                }
+                else {
+                    MessageBox.Show(
+                        "First set the path where the images will be saved (Options/Images/Set copy image destination).",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                }
+            }
+        }
 
         // MENU Encription
         private void EncryptItem_Click(object sender, EventArgs e) //UID3914074702

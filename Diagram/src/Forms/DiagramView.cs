@@ -2624,15 +2624,8 @@ namespace Diagram
 
                         if (ext == ".jpg" || ext == ".png" || ext == ".ico" || ext == ".bmp") // DROP IMAGE skratenie cesty k suboru
                         {
-                            newrec.image = this.diagram.imageManager.AddImage(file);
-                            if (newrec.image != null && newrec.image.Image != null)
-                            {
-                                newrec.isimage = true;
-                                newrec.imagepath = Os.MakeRelative(file, this.diagram.FileName);
-                                if (ext != ".ico") newrec.image.Image.MakeTransparent(Color.White);
-                                newrec.height = newrec.image.Image.Height;
-                                newrec.width = newrec.image.Image.Width;
-                            }
+
+                            this.diagram.SetImage(newrec, file);
                         }
                         else
                         if (ext == ".lnk") // [LINK] [DROP] extract target
@@ -4951,7 +4944,12 @@ namespace Diagram
         // NODE Select node image
         public void AddImage()
         {
-            if (selectedNodes.Count() > 0 && !this.diagram.IsReadOnly())
+
+            if (this.diagram.IsReadOnly()) { 
+                return;
+            }
+
+            if (selectedNodes.Count() > 0)
             {
                 if (this.DImage.ShowDialog() == DialogResult.OK && Os.FileExists(this.DImage.FileName))
                 {

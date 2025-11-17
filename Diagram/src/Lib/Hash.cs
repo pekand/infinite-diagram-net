@@ -22,7 +22,7 @@ namespace Diagram
         {
             try
             {
-                if (!File.Exists(pathToFile))
+                if (!Os.FileExists(pathToFile))
                 {
                     return null;
                 }

@@ -18,7 +18,7 @@ namespace Diagram
             using (var sha = SHA256.Create())
             {
                 byte[] hashBytes = sha.ComputeHash(data);
-                return Convert.ToBase64String(hashBytes);
+                return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
             }
         }
 
@@ -42,7 +42,7 @@ namespace Diagram
         public ImageEntry? AddImage(string filePath)
         {
 
-            if (!File.Exists(filePath)) { 
+            if (!Os.FileExists(filePath)) { 
                 return null;
             }
 

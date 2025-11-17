@@ -602,6 +602,25 @@ namespace Diagram
                         }
                     }
 
+                    if (el.Name.ToString() == "linkImages")
+                    {
+                        this.options.linkImages = bool.Parse(el.Value);
+                    }
+
+                    if (el.Name.ToString() == "embedImages")
+                    {
+                        this.options.embedImages = bool.Parse(el.Value);
+                    }
+
+                    if (el.Name.ToString() == "copyImages")
+                    {
+                        this.options.copyImages = bool.Parse(el.Value);
+                    }
+
+                    if (el.Name.ToString() == "copyImagesPath")
+                    {
+                        this.options.copyImagesPath = el.Value;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -1083,6 +1102,10 @@ namespace Diagram
             option.Add(new XElement("gridColor", this.options.gridColor.ToString()));
             option.Add(new XElement("scrollbarColor", this.options.scrollbarColor.ToString()));
             option.Add(new XElement("selectionColor", this.options.selectionColor.ToString()));
+            option.Add(new XElement("linkImages", this.options.linkImages));
+            option.Add(new XElement("embedImages", this.options.embedImages));
+            option.Add(new XElement("copyImages", this.options.copyImages));
+            option.Add(new XElement("copyImagesPath", this.options.copyImagesPath));
 
             if (this.options.icon != "")
             {
@@ -2183,7 +2206,6 @@ namespace Diagram
         {
             try
             {
-                
                 ImageEntry imageEntry = imageManager.AddImage(file);
                 if (imageEntry != null)
                 {
@@ -2194,6 +2216,24 @@ namespace Diagram
                     if (ext != ".ico") rec.image.Image.MakeTransparent(Color.White);
                     rec.height = rec.image.Image.Height;
                     rec.width = rec.image.Image.Width;
+
+                    if (this.options.embedImages)
+                    {
+                        this.SetImageEmbedded(rec);
+                    }
+                    else if (this.options.copyImages && Directory.Exists(this.options.copyImagesPath) && Os.FileExists(file))
+                    {
+                        string newDestination = Os.Combine(this.options.copyImagesPath, Os.GetFileName(file));
+
+                        if (Os.FileExists(newDestination) && !Os.AreFilesSame(file, newDestination)) {
+                            newDestination = Os.GetNextAvailableFilePath(newDestination);
+                        }
+
+                        Os.CopyFile(file, newDestination);
+                        
+                        string relativepath = Os.MakeRelative(newDestination, this.FileName);
+                        rec.imagepath = relativepath;
+                    }
                 }
             }
 
@@ -2222,7 +2262,46 @@ namespace Diagram
                 rec.embeddedimage = true;
             }
         }
-        
+
+        // Convert Embed Image To Files 
+        public void ConvertEmbedImageToFiles()
+        {
+
+            // collect images ebended
+            // save to file from image
+            // set path remove image
+
+
+            if (!Os.Exists(options.copyImagesPath)) {
+                return;
+            }
+
+            foreach (Node node in this.GetAllNodes())
+            {
+                if (node.embeddedimage) {
+                    try
+                    {
+                        string filename = node.image.Hash + ".png";
+                        node.embeddedimage = false;
+                        node.imagepath = Os.MakeRelative(Os.Combine(options.copyImagesPath, filename), Os.GetDirectoryName(this.FileName));
+
+                        if (!Os.FileExists(node.imagepath)) {
+                            node.image.Image.Save(node.imagepath, System.Drawing.Imaging.ImageFormat.Png);
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+
+                    }
+
+                    
+                }
+            }
+
+            this.Unsave();
+        }
+
         /*************************************************************************************************************************/
         // LAYERS
 
