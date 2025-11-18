@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 
 #nullable disable
 
@@ -7,7 +6,9 @@ namespace Diagram
 {
 	public class Converter //UID8493692592
 	{
-		public static DateTime ToDateAndTime(string s)
+        /// <summary>
+        /// converst string to DateTime</summary>
+        public static DateTime ToDateAndTime(string s)
 		{
             bool result = DateTime.TryParse(s, out DateTime d);
             if (!result) {
@@ -17,6 +18,8 @@ namespace Diagram
 			return d;
 		}
 
+        /// <summary>
+        /// converst string to Date as DateTime</summary>
 		public static DateTime ToDate(string s)
 		{
             bool result = DateTime.TryParseExact(s, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime d);
@@ -27,6 +30,8 @@ namespace Diagram
 			return d;
 		}
 
+        /// <summary>
+        /// converst DateTime to string Date (get only date from datetime as string) </summary>
 		public static String DateToString(DateTime d)
 		{
 			return String.Format("{0:yyyy-MM-dd}", d);
@@ -34,6 +39,8 @@ namespace Diagram
 
 
 
+        /// <summary>
+        /// converst string to int </summary>
 		public static long ToInt(string s)
 		{
             bool result = Int64.TryParse(s, out long i);
@@ -44,6 +51,22 @@ namespace Diagram
 			return i;
 		}
 
-	}
+        /// <summary>
+        /// converst string to decimal </summary>
+        public static decimal StringToDecimal(string text)
+        {
+            return decimal.Parse(
+                text,
+                NumberStyles.AllowParentheses |
+                NumberStyles.AllowLeadingWhite |
+                NumberStyles.AllowTrailingWhite |
+                NumberStyles.AllowThousands |
+                NumberStyles.AllowDecimalPoint |
+                NumberStyles.AllowLeadingSign,
+                NumberFormatInfo.InvariantInfo
+            );
+        }
+
+    }
 }
 

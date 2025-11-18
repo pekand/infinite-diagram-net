@@ -1,9 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.Diagnostics;
 using System.Net;
 using System.Runtime.InteropServices;
-using System.Security.Policy;
 
 #nullable disable
 
@@ -165,6 +162,8 @@ namespace Diagram
             return page;
         }
 
+        /// <summary>
+        /// download file from url to file </summary>
         public static bool DownloadFile(string sourceUrl, string pathToSave)
         {
             try

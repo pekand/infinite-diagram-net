@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Security;
+﻿using System.Security;
 using System.Text;
-using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 #nullable disable
 
@@ -411,17 +403,17 @@ namespace Diagram
                 {
                     if (el.Name.ToString() == "shiftx")
                     {
-                        this.options.homePosition.x = Tools.StringToDecimal(el.Value);
+                        this.options.homePosition.x = Converter.StringToDecimal(el.Value);
                     }
 
                     if (el.Name.ToString() == "shifty")
                     {
-                        this.options.homePosition.y = Tools.StringToDecimal(el.Value);
+                        this.options.homePosition.y = Converter.StringToDecimal(el.Value);
                     }
 
                     if (el.Name.ToString() == "scale")
                     {
-                        this.options.homeScale = Tools.StringToDecimal(el.Value);
+                        this.options.homeScale = Converter.StringToDecimal(el.Value);
                     }
 
                     if (el.Name.ToString() == "homelayer")
@@ -436,27 +428,27 @@ namespace Diagram
 
                     if (el.Name.ToString() == "endPositionx")
                     {
-                        this.options.endPosition.x = Tools.StringToDecimal(el.Value);
+                        this.options.endPosition.x = Converter.StringToDecimal(el.Value);
                     }
 
                     if (el.Name.ToString() == "endPositiony")
                     {
-                        this.options.endPosition.y = Tools.StringToDecimal(el.Value);
+                        this.options.endPosition.y = Converter.StringToDecimal(el.Value);
                     }
 
                     if (el.Name.ToString() == "endScale")
                     {
-                        this.options.homeScale = Tools.StringToDecimal(el.Value);
+                        this.options.homeScale = Converter.StringToDecimal(el.Value);
                     }
 
                     if (el.Name.ToString() == "startShiftX")
                     {
-                        options.homePosition.x = Tools.StringToDecimal(el.Value);
+                        options.homePosition.x = Converter.StringToDecimal(el.Value);
                     }
 
                     if (el.Name.ToString() == "startShiftY")
                     {
-                        options.homePosition.y = Tools.StringToDecimal(el.Value);
+                        options.homePosition.y = Converter.StringToDecimal(el.Value);
                     }
 
                     if (el.Name.ToString() == "diagramreadonly")
@@ -496,17 +488,17 @@ namespace Diagram
 
                     if (el.Name.ToString() == "firstLayereShift.x")
                     {
-                        this.options.firstLayereShift.x = Tools.StringToDecimal(el.Value);
+                        this.options.firstLayereShift.x = Converter.StringToDecimal(el.Value);
                     }
 
                     if (el.Name.ToString() == "firstLayereShift.y")
                     {
-                        this.options.firstLayereShift.y = Tools.StringToDecimal(el.Value);
+                        this.options.firstLayereShift.y = Converter.StringToDecimal(el.Value);
                     }
 
                     if (el.Name.ToString() == "firstLayereScale")
                     {
-                        this.options.firstLayereScale = Tools.StringToDecimal(el.Value);
+                        this.options.firstLayereScale = Converter.StringToDecimal(el.Value);
                     }
 
                     if (el.Name.ToString() == "alwaysOnTop")
@@ -719,42 +711,42 @@ namespace Diagram
 
                             if (el.Name.ToString() == "layershiftx")
                             {
-                                R.layerShift.x = Tools.StringToDecimal(el.Value);
+                                R.layerShift.x = Converter.StringToDecimal(el.Value);
                             }
 
                             if (el.Name.ToString() == "layershifty")
                             {
-                                R.layerShift.y = Tools.StringToDecimal(el.Value);
+                                R.layerShift.y = Converter.StringToDecimal(el.Value);
                             }
 
                             if (el.Name.ToString() == "layerscale")
                             {
-                                R.layerScale = Tools.StringToDecimal(el.Value);
+                                R.layerScale = Converter.StringToDecimal(el.Value);
                             }
 
                             if (el.Name.ToString() == "x")
                             {
-                                R.position.x = Tools.StringToDecimal(el.Value);
+                                R.position.x = Converter.StringToDecimal(el.Value);
                             }
 
                             if (el.Name.ToString() == "y")
                             {
-                                R.position.y = Tools.StringToDecimal(el.Value);
+                                R.position.y = Converter.StringToDecimal(el.Value);
                             }
 
                             if (el.Name.ToString() == "width")
                             {
-                                R.width = Tools.StringToDecimal(el.Value);
+                                R.width = Converter.StringToDecimal(el.Value);
                             }
 
                             if (el.Name.ToString() == "height")
                             {
-                                R.height = Tools.StringToDecimal(el.Value);
+                                R.height = Converter.StringToDecimal(el.Value);
                             }
 
                             if (el.Name.ToString() == "scale")
                             {
-                                R.scale = Tools.StringToDecimal(el.Value);
+                                R.scale = Converter.StringToDecimal(el.Value);
                             }
 
                             if (el.Name.ToString() == "color")
@@ -859,7 +851,7 @@ namespace Diagram
 
                             if (el.Name.ToString() == "scale")
                             {
-                                L.scale = Tools.StringToDecimal(el.Value);
+                                L.scale = Converter.StringToDecimal(el.Value);
                             }
 
                             if (el.Name.ToString() == "arrow")
@@ -1405,7 +1397,7 @@ namespace Diagram
             {
                 if (layer == node.layer || layer == node.id)
                 {
-                    scale = Tools.GetScale(node.scale);
+                    scale = Calc.GetScale(node.scale);
                     if
                     (                       
                         node.position.x <= position.x && position.x <= node.position.x + (node.width * scale) &&
@@ -1750,7 +1742,7 @@ namespace Diagram
                 foreach (Node rec in nodes) // change space between nodes
                 {
                     rec.position.y = posy;
-                    decimal s = Tools.GetScale(rec.scale);
+                    decimal s = Calc.GetScale(rec.scale);
                     posy = posy + rec.height * s + 10 * s;
                 }
             }
@@ -1767,7 +1759,7 @@ namespace Diagram
                 {
                     if (rec.position.y <= miny)
                     {
-                        decimal s = Tools.GetScale(rec.scale);
+                        decimal s = Calc.GetScale(rec.scale);
                         miny = rec.position.y;
                         topx = rec.position.x + rec.width * s / 2; ;
                     }
@@ -1775,7 +1767,7 @@ namespace Diagram
 
                 foreach (Node rec in Nodes)
                 {
-                    decimal s = Tools.GetScale(rec.scale);
+                    decimal s = Calc.GetScale(rec.scale);
                     rec.position.x = topx - rec.width * s / 2;
                 }
             }
@@ -1808,7 +1800,7 @@ namespace Diagram
                 decimal posx = minx;
                 foreach (Node rec in nodes) // zmensit medzeru medzi objektami
                 {
-                    decimal s = Tools.GetScale(rec.scale);
+                    decimal s = Calc.GetScale(rec.scale);
                     rec.position.x = posx;
                     posx = posx + rec.width * s + 10 * s;
                 }
@@ -1825,14 +1817,14 @@ namespace Diagram
                 {
                     if (rec.position.x + rec.width >= maxx)
                     {
-                        decimal s = Tools.GetScale(rec.scale);
+                        decimal s = Calc.GetScale(rec.scale);
                         maxx = rec.position.x + rec.width * s;
                     }
                 }
 
                 foreach (Node rec in Nodes)
                 {
-                    decimal s = Tools.GetScale(rec.scale);
+                    decimal s = Calc.GetScale(rec.scale);
                     rec.position.x = maxx - rec.width * s;
                 }
             }
@@ -1905,7 +1897,7 @@ namespace Diagram
                 decimal posy = miny;
                 foreach (Node rec in nodes) // change space between nodes
                 {
-                    decimal s = Tools.GetScale(rec.scale);
+                    decimal s = Calc.GetScale(rec.scale);
                     rec.position.y = posy;
                     posy = posy + rec.height * s + 10 * s;
                 }
@@ -1939,7 +1931,7 @@ namespace Diagram
                 decimal posy = miny;
                 foreach (Node rec in nodes) // change space between nodes
                 {
-                    decimal s = Tools.GetScale(rec.scale);
+                    decimal s = Calc.GetScale(rec.scale);
                     rec.position.y = posy;
                     posy = posy + rec.height * s + 10 * s;
                 }
@@ -1973,7 +1965,7 @@ namespace Diagram
                 decimal posy = miny;
                 foreach (Node rec in nodes) // change space between nodes
                 {
-                    decimal s = Tools.GetScale(rec.scale);
+                    decimal s = Calc.GetScale(rec.scale);
                     rec.position.y = posy;
                     posy = posy + rec.height * s + 10 * s;
                 }
@@ -2705,7 +2697,7 @@ namespace Diagram
             {
                 if (rec.layer == layer) {
                     rec.scale -= deltaScale;
-                    rec.position.Split(Tools.GetScale(deltaScale)).Add(position);
+                    rec.position.Split(Calc.GetScale(deltaScale)).Add(position);
                 }
             }
 
@@ -3090,6 +3082,7 @@ namespace Diagram
 
             return false;
         }
+
 
         // check if password is set
         public bool IsEncrypted()

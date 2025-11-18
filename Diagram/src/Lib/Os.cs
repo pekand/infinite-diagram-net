@@ -1,12 +1,8 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Text;
-using Shell32;
+﻿using Shell32;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Security.Cryptography;
+using System.Text;
 
 #nullable disable
 

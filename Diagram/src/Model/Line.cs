@@ -1,5 +1,6 @@
 ﻿#nullable disable
 
+
 namespace Diagram
 {
     /// <summary>

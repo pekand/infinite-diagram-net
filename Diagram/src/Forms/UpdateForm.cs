@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-
-#nullable disable
+﻿#nullable disable
 
 namespace Diagram
 {
@@ -9,7 +6,7 @@ namespace Diagram
     {
 
         private System.ComponentModel.IContainer components = null;
-        
+
         private System.Windows.Forms.Label labelInfo;
         private System.Windows.Forms.Button buttonYes;
         private System.Windows.Forms.Button buttonNo;
@@ -37,7 +34,7 @@ namespace Diagram
             // 
             labelInfo.AutoSize = true;
             labelInfo.Font = new Font("Microsoft Sans Serif", 14F);
-            labelInfo.Location = new Point(86, 46);
+            labelInfo.Location = new Point(86, 48);
             labelInfo.Margin = new Padding(5, 0, 5, 0);
             labelInfo.Name = "labelInfo";
             labelInfo.Size = new Size(323, 24);
@@ -46,10 +43,10 @@ namespace Diagram
             // 
             // buttonYes
             // 
-            buttonYes.Location = new Point(368, 191);
+            buttonYes.Location = new Point(368, 201);
             buttonYes.Margin = new Padding(5, 4, 5, 4);
             buttonYes.Name = "buttonYes";
-            buttonYes.Size = new Size(101, 34);
+            buttonYes.Size = new Size(101, 36);
             buttonYes.TabIndex = 1;
             buttonYes.Text = "Yes";
             buttonYes.UseVisualStyleBackColor = true;
@@ -57,10 +54,10 @@ namespace Diagram
             // 
             // buttonNo
             // 
-            buttonNo.Location = new Point(475, 191);
+            buttonNo.Location = new Point(475, 201);
             buttonNo.Margin = new Padding(5, 4, 5, 4);
             buttonNo.Name = "buttonNo";
-            buttonNo.Size = new Size(117, 34);
+            buttonNo.Size = new Size(117, 36);
             buttonNo.TabIndex = 2;
             buttonNo.Text = "No";
             buttonNo.UseVisualStyleBackColor = true;
@@ -75,10 +72,10 @@ namespace Diagram
             // linkLabelVisit
             // 
             linkLabelVisit.AutoSize = true;
-            linkLabelVisit.Location = new Point(278, 99);
+            linkLabelVisit.Location = new Point(278, 104);
             linkLabelVisit.Margin = new Padding(5, 0, 5, 0);
             linkLabelVisit.Name = "linkLabelVisit";
-            linkLabelVisit.Size = new Size(242, 19);
+            linkLabelVisit.Size = new Size(263, 20);
             linkLabelVisit.TabIndex = 5;
             linkLabelVisit.TabStop = true;
             linkLabelVisit.Text = "Visit homepage for more informations";
@@ -86,10 +83,10 @@ namespace Diagram
             // 
             // buttonSkip
             // 
-            buttonSkip.Location = new Point(38, 191);
+            buttonSkip.Location = new Point(38, 201);
             buttonSkip.Margin = new Padding(3, 4, 3, 4);
             buttonSkip.Name = "buttonSkip";
-            buttonSkip.Size = new Size(143, 34);
+            buttonSkip.Size = new Size(143, 36);
             buttonSkip.TabIndex = 6;
             buttonSkip.Text = "Skip this version";
             buttonSkip.UseVisualStyleBackColor = true;
@@ -98,17 +95,17 @@ namespace Diagram
             // labelSkip
             // 
             labelSkip.AutoSize = true;
-            labelSkip.Location = new Point(38, 168);
+            labelSkip.Location = new Point(38, 177);
             labelSkip.Name = "labelSkip";
-            labelSkip.Size = new Size(348, 19);
+            labelSkip.Size = new Size(377, 20);
             labelSkip.TabIndex = 7;
             labelSkip.Text = "(You can download update manualy from popup menu)";
             // 
             // UpdateForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 19F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(608, 243);
+            ClientSize = new Size(608, 256);
             Controls.Add(labelSkip);
             Controls.Add(buttonSkip);
             Controls.Add(linkLabelVisit);
@@ -122,6 +119,7 @@ namespace Diagram
             MinimizeBox = false;
             Name = "UpdateForm";
             Text = "New version is available";
+            Load += UpdateForm_Load;
             Shown += UpdateForm_Shown;
             ResumeLayout(false);
             PerformLayout();
@@ -184,6 +182,11 @@ namespace Diagram
 
             this.skipVersion = "No";
             this.Close();
+        }
+
+        private void UpdateForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

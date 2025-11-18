@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
+﻿using System.IO.Compression;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -32,6 +29,8 @@ namespace Diagram
         /*************************************************************************************************************************/
         // ZIP STRING
 
+        /// <summary>
+        /// use string as stringstream</summary>
         public static void StringToStream(string s, MemoryStream stream)
         {
             StreamWriter writer = new StreamWriter(stream);
@@ -40,6 +39,8 @@ namespace Diagram
             stream.Seek(0, SeekOrigin.Begin);
         }
 
+        /// <summary>
+        /// use stringstream to string</summary>
         public static string StreamToString(MemoryStream stream)
         {
             stream.Seek(0, SeekOrigin.Begin);
@@ -67,6 +68,8 @@ namespace Diagram
             return StreamToString(stream);
         }
 
+        /// <summary>
+        /// zip stream to base64 string</summary>
         public static string ZipStream(MemoryStream input)
         {
             input.Seek(0, SeekOrigin.Begin);
@@ -83,6 +86,8 @@ namespace Diagram
             }
         }
 
+        /// <summary>
+        /// base64 string unzip</summary>
         public static void UnzipStream(string str, MemoryStream output)
         {
             byte[] bytes = Convert.FromBase64String(str);

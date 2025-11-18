@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-#nullable disable
+﻿#nullable disable
 
 namespace Diagram
 {

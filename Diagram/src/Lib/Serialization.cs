@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
@@ -11,6 +8,10 @@ namespace Diagram
 {
     public class Serialization
     {
+
+
+        /// <summary>
+        /// deserialize string to  IList<String> </summary>
         public static IList<String> Deserialize(string data)
         {
             try
@@ -33,6 +34,8 @@ namespace Diagram
             return null;
         }
 
+        /// <summary>
+        /// Serialize IList<String> to string</summary>
         public static string Serialize(IList<String> items)
         {
             try
@@ -52,6 +55,8 @@ namespace Diagram
             return null;
         }
 
+        /// <summary>
+        /// List<String> to XElement </summary>
         public static XElement ListToXElement(String rootName, List<String> items)
         {
             XElement root = new XElement(rootName);
@@ -63,6 +68,8 @@ namespace Diagram
             return root;
         }
 
+        /// <summary>
+        /// XElement to List<String> </summary>
         public static List<String> XElementToList(XElement element)
         {
             List<String> items = new List<String>();
