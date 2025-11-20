@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Diagram;
+﻿using Diagram;
 using System.Text.RegularExpressions;
-using System.IO;
 
 #nullable disable
 
 namespace Plugin
 {
-    public class FindUidPlugin : INodeOpenPlugin, IOpenDiagramPlugin //UID0290845813
+    public partial class FindUidPlugin : INodeOpenPlugin, IOpenDiagramPlugin //UID0290845813
     {
         public string Name
         {
@@ -44,16 +37,22 @@ namespace Plugin
             this.log = log;
         }
 
+        [GeneratedRegex(@"^UID\d{10}$")]
+        private static partial Regex UidMatch();
+
+        [GeneratedRegex(@"^~[^ ]*$")]
+        private static partial Regex StringMatch();
+
         public bool IsUid(string text)
         {
-            Match matchUid = (new Regex(@"^UID\d{10}$")).Match(text);
+            Match matchUid = (UidMatch()).Match(text);
 
             if (matchUid.Success)
             {
                 return true;
             }
 
-            Match matchString = (new Regex(@"^~[^ ]*$")).Match(text);
+            Match matchString = (StringMatch()).Match(text);
 
             if (matchString.Success)
             {
@@ -63,18 +62,24 @@ namespace Plugin
             return false;
         }
 
+        [GeneratedRegex(@"^UID\d{10}$")]
+        private static partial Regex UidMatch2();
+
+        [GeneratedRegex(@"^~([^ ]*)$")]
+        private static partial Regex WaveMatch();
+
         public string GetUid(string text)
         {
             text = text.Trim();
 
-            Match matchUid = (new Regex(@"^UID\d{10}$")).Match(text); // match TEXT in  UIDTEXT for search
+            Match matchUid = UidMatch2().Match(text); // match TEXT in  UIDTEXT for search
 
             if (matchUid.Success)
             {
                 return text;
             }
 
-            Match matchString = (new Regex(@"^~([^ ]*)$")).Match(text); // match TEXT in ~TEXT for search
+            Match matchString = (WaveMatch()).Match(text); // match TEXT in ~TEXT for search
 
             if (matchString.Success)
             {
@@ -157,5 +162,7 @@ namespace Plugin
         {
 
         }
+
+
     }
 }

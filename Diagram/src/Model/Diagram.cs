@@ -1498,7 +1498,6 @@ namespace Diagram
                 if (TextWindows[i].node == rec)
                 {
                     Media.BringToFront(TextWindows[i]);
-                    found = true;
                     return TextWindows[i];
                 }
             }
@@ -1974,17 +1973,6 @@ namespace Diagram
             if (nodes.Count > 0)
             {
                 Nodes newNodes = [];
-
-                decimal minx = nodes[0].position.x;
-                decimal miny = nodes[0].position.y;
-                foreach (Node rec in nodes)
-                {
-                    if (rec.position.y <= miny) // find most top element
-                    {
-                        minx = rec.position.x;
-                        miny = rec.position.y;
-                    }
-                }
 
                 foreach (Node node in nodes) // create new nodes
                 {

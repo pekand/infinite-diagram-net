@@ -19,8 +19,7 @@ namespace Diagram
             string url, 
             string proxy_uri = "",
             string proxy_password = "",
-            string proxy_username = "",
-            int level = 0
+            string proxy_username = ""
             )
         {
             string page = Network.GetWebPage(
@@ -28,7 +27,6 @@ namespace Diagram
                 proxy_uri,
                 proxy_password,
                 proxy_username,
-                level = 0,
                 null,
                 false
             );
@@ -53,7 +51,6 @@ namespace Diagram
             string proxy_uri = "",
             string proxy_password = "",
             string proxy_username = "",
-            int level = 0,
             CookieContainer cookieContainer = null,
             bool skiphttps = false
             )

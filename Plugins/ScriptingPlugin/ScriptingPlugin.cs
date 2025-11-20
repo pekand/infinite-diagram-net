@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Diagram;
-using System.Text.RegularExpressions;
+﻿using Diagram;
 using System.ComponentModel;
-using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 #nullable disable
 
 namespace Plugin
 {
-    public class ScriptingPlugin : INodeOpenPlugin, IKeyPressPlugin //UID0290845814
+    public partial class ScriptingPlugin : INodeOpenPlugin, IKeyPressPlugin //UID0290845814
     {
 
         public string Name
@@ -67,6 +61,8 @@ namespace Plugin
 
             return false;
         }
+        [GeneratedRegex(@"^\s*(eval(uate)|!){1}(#\w+){0,1}\s*$")]
+        private static partial Regex EvaluateMatch();
 
         // SCRIPT evaluate python script in nodes signed with stamp in node link [F9]
         private void Evaluate(Diagram.Diagram diagram, DiagramView diagramView)
@@ -83,7 +79,7 @@ namespace Plugin
             }
             // remove nodes whit link other then [ ! | eval | evaluate | !#num_order | eval#num_order |  evaluate#num_order]
             // higest number is executed first
-            Regex regex = new(@"^\s*(eval(uate)|!){1}(#\w+){0,1}\s*$");
+            Regex regex = EvaluateMatch();
             nodes.RemoveAll(n => !regex.Match(n.link).Success);
 
             nodes.OrderByLink();
@@ -142,11 +138,10 @@ namespace Plugin
             script.SetDiagram(diagram);
             script.SetDiagramView(diagramView);
             script.SetClipboard(clipboard);
-            string body = "";
 
             foreach (Node node in nodes)
             {
-                body = node.note.Trim() != "" ? node.note : node.name;
+                string body = node.note.Trim() != "" ? node.note : node.name;
                 script.RunScript(body);
             }
         }
@@ -163,5 +158,7 @@ namespace Plugin
             string body = node.note.Trim() != "" ? node.note : node.name;
             script.RunScript(body);
         }
+
+
     }
 }

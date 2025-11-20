@@ -1,8 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-using System.IO;
-using Diagram;
-using System.Security.Cryptography;
+﻿using Diagram;
 
 #nullable disable
 

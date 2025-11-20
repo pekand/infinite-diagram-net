@@ -79,7 +79,6 @@ namespace Diagram
 
             string[] parts = key.Split('+');
             Keys keyCode = 0;
-            Keys code = 0;
 
             foreach (string part in parts)
             {
@@ -209,7 +208,7 @@ namespace Diagram
                     continue;
                 }
 
-                if (Enum.TryParse(Fonts.FirstCharToUpper(part), out code))
+                if (Enum.TryParse(Fonts.FirstCharToUpper(part), out Keys code))
                 {
                     keyCode = code | keyCode;
                 }

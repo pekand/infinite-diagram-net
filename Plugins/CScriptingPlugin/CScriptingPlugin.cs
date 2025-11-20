@@ -1,12 +1,8 @@
-﻿using System;
-using Diagram;
-using System.Windows.Forms;
+﻿using Diagram;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Reflection;
 using Microsoft.CodeAnalysis.Scripting.Hosting;
+using System.Reflection;
 
 #nullable disable
 

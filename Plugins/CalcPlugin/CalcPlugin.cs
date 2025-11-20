@@ -1,22 +1,13 @@
 ﻿using Diagram;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Microsoft.CodeAnalysis.Scripting;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 #nullable disable
 
 namespace Plugin
 {
-    public class CalcPlugin : IKeyPressPlugin
+    public partial class CalcPlugin : IKeyPressPlugin
     {
         public string Name
         {
@@ -91,20 +82,25 @@ namespace Plugin
             return "";
         }
 
+        [GeneratedRegex(@"^\d+$")]
+        private static partial Regex IntMatch();
+
+        [GeneratedRegex(@"([-]{0,1}\d+[\.,]{0,1}\d*)", RegexOptions.IgnoreCase, "en-US")]
+        private static partial Regex NumberMatch();
+
         // NODE evaluate masth expression
         public bool EvaluateExpression(DiagramView diagramView)
         {
             if (diagramView.selectedNodes.Count == 1) //evaluate as math expression
             {
                 string expression = diagramView.selectedNodes[0].name;
-                string expressionResult = "";
 
-                if (Regex.IsMatch(expression, @"^\d+$"))
+                if (IntMatch().IsMatch(expression))
                 {
                     expression += "+1";
                 }
 
-                expressionResult = this.Evaluate(expression);
+                string expressionResult = this.Evaluate(expression);
 
                 if (expressionResult != "")
                 {
@@ -121,10 +117,9 @@ namespace Plugin
             if (diagramView.selectedNodes.Count > 1)  // SUM sum nodes with numbers
             {
                 float sum = 0;
-                Match match = null;
                 foreach (Node rec in diagramView.selectedNodes)
                 {
-                    match = Regex.Match(rec.name, @"([-]{0,1}\d+[\.,]{0,1}\d*)", RegexOptions.IgnoreCase);
+                    Match match = NumberMatch().Match(rec.name);
                     if (match.Success)
                     {
                         sum += float.Parse(match.Groups[1].Value.Replace(",", "."), CultureInfo.InvariantCulture);
@@ -141,6 +136,5 @@ namespace Plugin
 
             return false;
         }
-
     }
 }
