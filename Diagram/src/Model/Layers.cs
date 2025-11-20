@@ -8,9 +8,9 @@ namespace Diagram
     {
         private long maxid = 0;                    // last used node id
 
-        private readonly Dictionary<long, Node> allNodes = new Dictionary<long, Node>();
+        private readonly Dictionary<long, Node> allNodes = [];
 
-        private readonly List<Layer> layers = new List<Layer>();
+        private readonly List<Layer> layers = [];
 
         /*************************************************************************************************************************/
         // CONSTRUCTORS
@@ -155,7 +155,7 @@ namespace Diagram
 
         public Nodes GetAllNodes()
         {
-            Nodes nodes = new Nodes();
+            Nodes nodes = [];
 
             foreach (Node n in this.allNodes.Values)
             {
@@ -167,7 +167,7 @@ namespace Diagram
 
         public Nodes GetAllNodes(Node node)
         {
-            Nodes nodes = new Nodes();
+            Nodes nodes = [];
 
             if (node.haslayer)
             {
@@ -194,7 +194,7 @@ namespace Diagram
 
         public Lines GetAllLines()
         {
-            Lines lines = new Lines();
+            Lines lines = [];
 
             foreach (Layer l in this.layers)
             {
@@ -243,7 +243,7 @@ namespace Diagram
         // get all lines for all children nodes
         public Lines GetAllSubNodeLines(Node node)
         {
-            Lines lines = new Lines();
+            Lines lines = [];
 
             if (node.haslayer)
             {
@@ -273,7 +273,7 @@ namespace Diagram
 
         public Lines GetAllLinesFromNode(Node node) //UID1353555007
         {
-            Lines lines = new Lines();
+            Lines lines = [];
 
             Layer layer = this.GetLayer(node);
 
@@ -293,7 +293,7 @@ namespace Diagram
 
         public Lines GetAllLinesFromNodes(Nodes nodes)
         {
-            Lines lines = new Lines();
+            Lines lines = [];
 
             foreach (Line li in this.GetAllLines())
             {
@@ -319,7 +319,7 @@ namespace Diagram
         /// Search for string in all nodes </summary>        
         public Nodes SearchInAllNodes(string searchFor)
         {
-            Nodes nodes = new Nodes();
+            Nodes nodes = [];
 
             foreach (Layer l in this.layers)
             {
@@ -396,10 +396,7 @@ namespace Diagram
         {
             Layer layer = this.GetLayer(line.layer);
 
-            if (layer == null)
-            {
-                layer = this.GetOrCreateLayer(this.GetNode(line.layer));
-            }
+            layer ??= this.GetOrCreateLayer(this.GetNode(line.layer));
 
             layer.lines.Add(line);
 
@@ -449,10 +446,7 @@ namespace Diagram
                 RemoveLayer(node.id);
             }
 
-            if (layer != null) // remove node from node layer
-            {
-                layer.nodes.Remove(node);
-            }
+            layer?.nodes.Remove(node); // remove node from node layer
 
         }
 
@@ -537,7 +531,7 @@ namespace Diagram
             {
                 var item = node;
                 layer.nodes.Remove(item);
-                layer.nodes.Insert(layer.nodes.Count(), item);
+                layer.nodes.Insert(layer.nodes.Count, item);
             }
         }
 

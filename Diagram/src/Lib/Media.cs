@@ -91,11 +91,11 @@ namespace Diagram
         {
             try
             {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                    return Compress.ZipStream(ms);
-                }
+                using MemoryStream ms = new();
+
+                image.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+                return Compress.ZipStream(ms);
             }
             catch (Exception e)
             {
@@ -110,7 +110,7 @@ namespace Diagram
         {
             try
             {
-                MemoryStream ms = new MemoryStream(); // input stream for gzip
+                MemoryStream ms = new(); // input stream for gzip
                 Compress.UnzipStream(bitmap, ms);
                 return new Bitmap(ms);
             }
@@ -232,12 +232,11 @@ namespace Diagram
         {
             try
             {
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    icon.Save(ms);
-                    byte[] bytes = ms.ToArray();
-                    return Convert.ToBase64String(bytes);
-                }
+                using MemoryStream ms = new();
+
+                icon.Save(ms);
+                byte[] bytes = ms.ToArray();
+                return Convert.ToBase64String(bytes);
             }
             catch (Exception e)
             {
@@ -253,10 +252,10 @@ namespace Diagram
             try
             {
                 byte[] bytes = Convert.FromBase64String(icon);
-                using (MemoryStream ms = new MemoryStream(bytes))
-                {
-                    return new Icon(ms);
-                }
+
+                using MemoryStream ms = new(bytes);
+
+                return new Icon(ms);
             }
             catch (Exception e)
             {

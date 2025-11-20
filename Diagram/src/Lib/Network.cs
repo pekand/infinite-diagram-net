@@ -72,7 +72,7 @@ namespace Diagram
             {
                 
 
-                HttpClientHandler handler = new HttpClientHandler
+                HttpClientHandler handler = new()
                 {
                     AllowAutoRedirect = false,             
                     UseDefaultCredentials = true
@@ -85,7 +85,7 @@ namespace Diagram
                     )
                 {
                     // set proxy credentials
-                    WebProxy myProxy = new WebProxy
+                    WebProxy myProxy = new()
                     {
                         BypassProxyOnLocal = true,
                         UseDefaultCredentials = true
@@ -93,7 +93,7 @@ namespace Diagram
 
                     if (proxy_uri != "")
                     {
-                        Uri newUri = new Uri(proxy_uri);
+                        Uri newUri = new(proxy_uri);
                         myProxy.Address = newUri;
                     }
 
@@ -113,45 +113,39 @@ namespace Diagram
                     handler.Proxy = WebRequest.GetSystemWebProxy();
                 }
 
-                if (cookieContainer == null)
-                {
-                    cookieContainer = new CookieContainer();
-                }
+                cookieContainer ??= new CookieContainer();
 
                 if (cookieContainer != null)
                 {
                     handler.CookieContainer = cookieContainer;
                 }
 
+                using HttpClient client = new(handler);
 
-                using (HttpClient client = new HttpClient(handler))
+                client.Timeout = TimeSpan.FromMilliseconds(2000);
+
+                using Stream resStream = client.GetStreamAsync(url).GetAwaiter().GetResult();
+
+                MemoryStream memoryStream = new();
+                resStream.CopyTo(memoryStream);
+
+                // read stream with utf8
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                using (StreamReader reader = new(memoryStream))
                 {
-                    client.Timeout = TimeSpan.FromMilliseconds(2000);
-                    using (Stream resStream = client.GetStreamAsync(url).GetAwaiter().GetResult())
-                    {
-                    
-                        MemoryStream memoryStream = new MemoryStream();
-                        resStream.CopyTo(memoryStream);
+                    page = reader.ReadToEnd();
+                }
 
-                        // read stream with utf8
-                        memoryStream.Seek(0, SeekOrigin.Begin);
-                        using (StreamReader reader = new StreamReader(memoryStream))
-                        {
-                            page = reader.ReadToEnd();
-                        }
+                string encoding = Patterns.MatchWebPageEncoding(page);
 
-                        string encoding = Patterns.MatchWebPageEncoding(page);
+                // use different encoding
+                if (encoding.Trim() != "" && encoding.ToLower() != "utf-8")
+                {
+                    memoryStream.Seek(0, SeekOrigin.Begin);
 
-                        // use different encoding
-                        if (encoding.Trim() != "" && encoding.ToLower() != "utf-8")
-                        {
-                            memoryStream.Seek(0, SeekOrigin.Begin);
-                            using (StreamReader reader2 = new StreamReader(memoryStream, System.Text.Encoding.GetEncoding(encoding)))
-                            {
-                                page = reader2.ReadToEnd();
-                            }
-                        }
-                    }
+                    using StreamReader reader2 = new(memoryStream, System.Text.Encoding.GetEncoding(encoding));
+
+                    page = reader2.ReadToEnd();
                 }
             }
             catch (Exception ex)
@@ -168,14 +162,13 @@ namespace Diagram
         {
             try
             {
-                using (HttpClient client = new HttpClient())
-                {
-                    HttpResponseMessage response = client.GetAsync(sourceUrl).GetAwaiter().GetResult();
-                    response.EnsureSuccessStatusCode();
-                    byte[] fileBytes = response.Content.ReadAsByteArrayAsync().GetAwaiter().GetResult();
+                using HttpClient client = new();
 
-                    File.WriteAllBytes(pathToSave, fileBytes);
-                }
+                HttpResponseMessage response = client.GetAsync(sourceUrl).GetAwaiter().GetResult();
+                response.EnsureSuccessStatusCode();
+                byte[] fileBytes = response.Content.ReadAsByteArrayAsync().GetAwaiter().GetResult();
+
+                File.WriteAllBytes(pathToSave, fileBytes);
 
                 return true;
 

@@ -10,17 +10,17 @@ namespace Diagram
         /*************************************************************************************************************************/
         // POSITION
 
-        public Position shift = new Position();            // startup position in diagram
-        public Position firstLayereShift = new Position(); // position in layer
+        public Position shift = new();            // startup position in diagram
+        public Position firstLayereShift = new(); // position in layer
         public decimal firstLayereScale = 0;
 
         /*************************************************************************************************************************/
         // HOME AND END POSITIONS
 
-        public Position homePosition = new Position();     // diagram start and home key position
+        public Position homePosition = new();     // diagram start and home key position
         public long homeLayer = 0;                          // startup layer after diagram open
         public decimal homeScale = 0;                          // startup scale after diagram open
-        public Position endPosition = new Position();      // diagram end key position seet by end key
+        public Position endPosition = new();      // diagram end key position seet by end key
         public long endLayer = 0;                           // startup layer after diagram open
         public decimal endScale = 0;                           // startup scale after diagram open
 
@@ -59,13 +59,13 @@ namespace Diagram
         public string colorFile = "#D9CCFF";               // color for node linked with file
         public string colorAttachment = "#C495DB";         // color for node linked with url
 
-        public ColorType lineColor = new ColorType("#000000");
-        public ColorType nodeColor = new ColorType("#FFFFB8");
-        public ColorType selectedNodeColor = new ColorType("#000000");
-        public ColorType backgroundColor = new ColorType("#F2F2F2");
-        public ColorType gridColor = new ColorType("#AAAAAA");
-        public ColorType scrollbarColor = new ColorType("#000000");
-        public ColorType selectionColor = new ColorType(Color.FromArgb(100, 10, 200, 200));
+        public ColorType lineColor = new("#000000");
+        public ColorType nodeColor = new("#FFFFB8");
+        public ColorType selectedNodeColor = new("#000000");
+        public ColorType backgroundColor = new("#F2F2F2");
+        public ColorType gridColor = new("#AAAAAA");
+        public ColorType scrollbarColor = new("#000000");
+        public ColorType selectionColor = new(Color.FromArgb(100, 10, 200, 200));
 
 
         /*************************************************************************************************************************/

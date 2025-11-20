@@ -111,7 +111,7 @@ namespace Plugin
                 this.scriptOptions = this.scriptOptions.AddImports("Diagram");
             }
 
-            System.Threading.Tasks.Task<ScriptState<object>> task = CSharpScript.Create(
+            await CSharpScript.Create(
                 options: this.scriptOptions,
                 code: body,
                 globalsType: typeof(Globals),

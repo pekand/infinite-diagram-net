@@ -8,10 +8,10 @@ namespace Diagram
 
         private System.Windows.Forms.Label labelProgramName;
         private System.Windows.Forms.Button buttonOk;
-        private System.Windows.Forms.Label labelLicence;
+        private System.Windows.Forms.Label labelLicense;
         private System.Windows.Forms.Label labelAuthor;
         private System.Windows.Forms.LinkLabel linkLabelMe;
-        private System.Windows.Forms.Label labelLicenceType;
+        private System.Windows.Forms.Label labelLicenseType;
         private System.Windows.Forms.Label labelVersion;
         private System.Windows.Forms.Label labelVersionNumber;
         private System.Windows.Forms.LinkLabel labelHomepage;
@@ -21,7 +21,7 @@ namespace Diagram
             this.main = main;
             this.InitializeComponent();
 
-            this.labelLicenceType.Text = this.main.programOptions.license;
+            this.labelLicenseType.Text = this.main.programOptions.license;
             this.labelVersionNumber.Text = Os.GetThisAssemblyVersion();
             this.linkLabelMe.Text = this.main.programOptions.author;
             this.labelHomepage.Text = this.main.programOptions.home_page;
@@ -32,8 +32,8 @@ namespace Diagram
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
             labelProgramName = new Label();
             buttonOk = new Button();
-            labelLicence = new Label();
-            labelLicenceType = new Label();
+            labelLicense = new Label();
+            labelLicenseType = new Label();
             labelAuthor = new Label();
             linkLabelMe = new LinkLabel();
             labelVersion = new Label();
@@ -51,7 +51,7 @@ namespace Diagram
             labelProgramName.Size = new Size(241, 37);
             labelProgramName.TabIndex = 0;
             labelProgramName.Text = "Infinite Diagram";
-            labelProgramName.Click += labelProgramName_Click;
+            labelProgramName.Click += LabelProgramName_Click;
             // 
             // buttonOk
             // 
@@ -66,22 +66,22 @@ namespace Diagram
             // 
             // labelLicence
             // 
-            labelLicence.AutoSize = true;
-            labelLicence.Location = new Point(38, 103);
-            labelLicence.Margin = new Padding(2, 0, 2, 0);
-            labelLicence.Name = "labelLicence";
-            labelLicence.Size = new Size(21, 19);
-            labelLicence.TabIndex = 3;
-            labelLicence.Text = "lic";
+            labelLicense.AutoSize = true;
+            labelLicense.Location = new Point(38, 103);
+            labelLicense.Margin = new Padding(2, 0, 2, 0);
+            labelLicense.Name = "labelLicense";
+            labelLicense.Size = new Size(21, 19);
+            labelLicense.TabIndex = 3;
+            labelLicense.Text = "lic";
             // 
             // labelLicenceType
             // 
-            labelLicenceType.AutoSize = true;
-            labelLicenceType.Location = new Point(152, 103);
-            labelLicenceType.Margin = new Padding(2, 0, 2, 0);
-            labelLicenceType.Name = "labelLicenceType";
-            labelLicenceType.Size = new Size(0, 19);
-            labelLicenceType.TabIndex = 6;
+            labelLicenseType.AutoSize = true;
+            labelLicenseType.Location = new Point(152, 103);
+            labelLicenseType.Margin = new Padding(2, 0, 2, 0);
+            labelLicenseType.Name = "labelLicenseType";
+            labelLicenseType.Size = new Size(0, 19);
+            labelLicenseType.TabIndex = 6;
             // 
             // labelAuthor
             // 
@@ -140,10 +140,10 @@ namespace Diagram
             AutoScaleDimensions = new SizeF(8F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(346, 219);
-            Controls.Add(labelLicenceType);
+            Controls.Add(labelLicenseType);
             Controls.Add(linkLabelMe);
             Controls.Add(labelAuthor);
-            Controls.Add(labelLicence);
+            Controls.Add(labelLicense);
             Controls.Add(labelVersion);
             Controls.Add(labelVersionNumber);
             Controls.Add(labelHomepage);
@@ -197,7 +197,7 @@ namespace Diagram
 
         }
 
-        private void labelProgramName_Click(object sender, EventArgs e)
+        private void LabelProgramName_Click(object sender, EventArgs e)
         {
 
         }

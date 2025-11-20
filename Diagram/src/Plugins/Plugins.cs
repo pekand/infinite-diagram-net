@@ -10,16 +10,16 @@ namespace Diagram
     /// load plugins</summary>
     public class Plugins //UID8736657869
     {
-        public ICollection<IDiagramPlugin> plugins = new List<IDiagramPlugin>();
-        public ICollection<INodeOpenPlugin> nodeOpenPlugins = new List<INodeOpenPlugin>();
-        public ICollection<IKeyPressPlugin> keyPressPlugins = new List<IKeyPressPlugin>();
-        public ICollection<IOpenDiagramPlugin> openDiagramPlugins = new List<IOpenDiagramPlugin>();
-        public ICollection<IPopupPlugin> popupPlugins = new List<IPopupPlugin>();
-        public ICollection<IDropPlugin> dropPlugins = new List<IDropPlugin>();
-        public ICollection<ISavePlugin> savePlugins = new List<ISavePlugin>();
-        public ICollection<ILoadPlugin> loadPlugins = new List<ILoadPlugin>();
+        public ICollection<IDiagramPlugin> plugins = [];
+        public ICollection<INodeOpenPlugin> nodeOpenPlugins = [];
+        public ICollection<IKeyPressPlugin> keyPressPlugins = [];
+        public ICollection<IOpenDiagramPlugin> openDiagramPlugins = [];
+        public ICollection<IPopupPlugin> popupPlugins = [];
+        public ICollection<IDropPlugin> dropPlugins = [];
+        public ICollection<ISavePlugin> savePlugins = [];
+        public ICollection<ILoadPlugin> loadPlugins = [];
 
-        public AssemblyLoadContext loadContext = new AssemblyLoadContext("PluginsContext", isCollectible: true);
+        public AssemblyLoadContext loadContext = new("PluginsContext", isCollectible: true);
 
         /// <summary>
         /// load plugins from path</summary>
@@ -111,7 +111,7 @@ namespace Diagram
                         }
 
                         // create plugin instance
-                        if (!(Activator.CreateInstance(type) is IDiagramPlugin plugin))
+                        if (Activator.CreateInstance(type) is not IDiagramPlugin plugin)
                         {
                             continue;
                         }
@@ -176,7 +176,7 @@ namespace Diagram
         /// run event for all registred plugins in NodeOpenPlugins </summary>
         public bool ClickOnNodeAction(Diagram diagram, DiagramView diagramView, Node node) 
         {
-            if (!diagram.isSigned())
+            if (!diagram.IsSigned())
             {
                 return false;
             }
@@ -209,7 +209,7 @@ namespace Diagram
         /// run event for all registred plugins in KeyPressPlugins </summary>
         public bool KeyPressAction(Diagram diagram, DiagramView diagramView, Keys keyData)
         {
-            if (!diagram.isSigned())
+            if (!diagram.IsSigned())
             {
                 return false;
             }
@@ -242,7 +242,7 @@ namespace Diagram
         /// run event for all registred plugins in KeyPressPlugins </summary>
         public void OpenDiagramAction(Diagram diagram)
         {
-            if (!diagram.isSigned())
+            if (!diagram.IsSigned())
             {
                 return;
             }
@@ -268,7 +268,7 @@ namespace Diagram
         /// </summary>
         public void PopupAddItemsAction(DiagramView diagramView, Popup popup)
         {
-            if (!diagramView.diagram.isSigned())
+            if (!diagramView.diagram.IsSigned())
             {
                 return;
             }
@@ -294,7 +294,7 @@ namespace Diagram
         /// </summary>
         public void PopupOpenAction(DiagramView diagramView, Popup popup)
         {
-            if (!diagramView.diagram.isSigned())
+            if (!diagramView.diagram.IsSigned())
             {
                 return;
             }
@@ -321,7 +321,7 @@ namespace Diagram
         /// </summary>
         public bool DropAction(DiagramView diagramView, DragEventArgs ev)
         {
-            if (!diagramView.diagram.isSigned())
+            if (!diagramView.diagram.IsSigned())
             {
                 return false;
             }
@@ -357,7 +357,7 @@ namespace Diagram
         /// </summary>
         public bool SaveAction(Diagram diagram, XElement root)
         {
-            if (!diagram.isSigned())
+            if (!diagram.IsSigned())
             {
                 return false;
             }
@@ -394,7 +394,7 @@ namespace Diagram
         /// </summary>
         public bool LoadAction(Diagram diagram, XElement root)
         {
-            if (!diagram.isSigned()) {
+            if (!diagram.IsSigned()) {
                 return false;
             }
 

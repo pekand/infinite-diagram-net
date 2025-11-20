@@ -33,10 +33,11 @@ namespace Diagram
         {
             try
             {
-                BackgroundWorker bw = new BackgroundWorker {
-                    WorkerSupportsCancellation = true
+                BackgroundWorker bw = new()
+                {
+                    WorkerSupportsCancellation = true,
+                    WorkerReportsProgress = true
                 };
-                bw.WorkerReportsProgress = true;
                 bw.DoWork += doJob;
                 bw.RunWorkerCompleted += afterJob;
                 bw.RunWorkerAsync();

@@ -37,7 +37,7 @@ namespace Diagram
         /// convert first character of input string to upper case</summary>
         public static string FirstCharToUpper(string input)
         {
-            return input.Substring(0, 1).ToUpper() + input.Substring(1).ToLower();
+            return input[..1].ToUpper() + input[1..].ToLower();
         }
 
         /*************************************************************************************************************************/
@@ -118,7 +118,7 @@ namespace Diagram
                 fontStyle |= FontStyle.Strikeout;
             }
 
-            Font font = new Font(fontName, (int)fontSize, fontStyle);
+            Font font = new(fontName, (int)fontSize, fontStyle);
             return font;
         }
 
@@ -126,7 +126,7 @@ namespace Diagram
         /// convert Font object to xml </summary>
         public static XElement FontToXml(Font font, string name = "font")
         {
-            XElement element = new XElement(name, new XAttribute("type", "font"));
+            XElement element = new(name, new XAttribute("type", "font"));
 
             element.Add(new XElement("name", font.Name));
             element.Add(new XElement("size", font.Size.ToString().Replace(',', '.')));

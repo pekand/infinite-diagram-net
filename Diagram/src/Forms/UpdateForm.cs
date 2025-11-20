@@ -78,8 +78,8 @@ namespace Diagram
             linkLabelVisit.Size = new Size(263, 20);
             linkLabelVisit.TabIndex = 5;
             linkLabelVisit.TabStop = true;
-            linkLabelVisit.Text = "Visit homepage for more informations";
-            linkLabelVisit.LinkClicked += linkLabelVisit_LinkClicked;
+            linkLabelVisit.Text = "Visit homepage for more information";
+            linkLabelVisit.LinkClicked += LinkLabelVisit_LinkClicked;
             // 
             // buttonSkip
             // 
@@ -90,7 +90,7 @@ namespace Diagram
             buttonSkip.TabIndex = 6;
             buttonSkip.Text = "Skip this version";
             buttonSkip.UseVisualStyleBackColor = true;
-            buttonSkip.Click += buttonSkip_Click;
+            buttonSkip.Click += ButtonSkip_Click;
             // 
             // labelSkip
             // 
@@ -99,7 +99,7 @@ namespace Diagram
             labelSkip.Name = "labelSkip";
             labelSkip.Size = new Size(377, 20);
             labelSkip.TabIndex = 7;
-            labelSkip.Text = "(You can download update manualy from popup menu)";
+            labelSkip.Text = "(You can download update manually from popup menu)";
             // 
             // UpdateForm
             // 
@@ -172,12 +172,12 @@ namespace Diagram
             this.CenterToScreen();
         }
 
-        private void linkLabelVisit_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabelVisit_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Network.OpenUrl("https://infinite-diagram.pekand.com/");
         }
 
-        private void buttonSkip_Click(object sender, EventArgs e)
+        private void ButtonSkip_Click(object sender, EventArgs e)
         {
 
             this.skipVersion = "No";

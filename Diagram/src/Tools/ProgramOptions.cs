@@ -63,7 +63,7 @@ namespace Diagram
 
         /// <summary>
         /// recently opened files</summary>
-        public List<String> recentFiles = new List<String>();
+        public List<String> recentFiles = [];
 
         /// <summary>
         /// when application start as empty and this option is set then open last file</summary>
@@ -87,7 +87,7 @@ namespace Diagram
 
         /// <summary>
         /// extra storage for plugins</summary>
-        public DataStorage dataStorage = new DataStorage();
+        public DataStorage dataStorage = new();
 
         /*************************************************************************************************************************/
         // Recent files
@@ -107,7 +107,7 @@ namespace Diagram
         /// remove old not existing diagrams from recent files</summary>
         public void RemoveOldRecentFiles()
         {
-            List<String> newRecentFiles = new List<String>();
+            List<String> newRecentFiles = [];
 
             foreach (String path in this.recentFiles)
             {

@@ -10,8 +10,8 @@ namespace Diagram
     {
         public DiagramView diagramView = null;       // diagram ktory je previazany z pohladom
 
-        private readonly Dictionary<string, ToolStripMenuItem> items = new Dictionary<string, ToolStripMenuItem>();
-        private readonly Dictionary<string, ToolStripSeparator> separators = new Dictionary<string, ToolStripSeparator>();
+        private readonly Dictionary<string, ToolStripMenuItem> items = [];
+        private readonly Dictionary<string, ToolStripSeparator> separators = [];
 
         public ToolStripItem[] recentItems = null;
         private System.Windows.Forms.ToolStripMenuItem pluginItems = null;
@@ -72,10 +72,10 @@ namespace Diagram
             // linkItem
             //
             items.Add("linkItem", new System.Windows.Forms.ToolStripMenuItem());
-            items["linkItem"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            items["linkItem"].DropDownItems.AddRange([
                 items["openlinkItem"],
                 items["openLinkDirectoryItem"]
-            });
+            ]);
             items["linkItem"].Name = "linkItem";
             items["linkItem"].Text = "Link";
 
@@ -208,10 +208,10 @@ namespace Diagram
             // exportItem
             //
             items.Add("exportItem", new System.Windows.Forms.ToolStripMenuItem());
-            items["exportItem"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            items["exportItem"].DropDownItems.AddRange([
                 items["textItem"],
                 items["exportToPngItem"]
-            });
+            ]);
             items["exportItem"].Name = "exportItem";
             items["exportItem"].Text = "Export";
             //
@@ -556,7 +556,7 @@ namespace Diagram
             items.Add("setScrollbarColorItem", new System.Windows.Forms.ToolStripMenuItem());
             items["setScrollbarColorItem"].Name = "setScrollbarColorItem";
             items["setScrollbarColorItem"].Text = "Scrollbar color";
-            items["setScrollbarColorItem"].Click += new System.EventHandler(this.setScrollbarColorItem_Click);
+            items["setScrollbarColorItem"].Click += new System.EventHandler(this.SetScrollbarColorItem_Click);
 
             //
             // setSelectionColorItem
@@ -564,7 +564,7 @@ namespace Diagram
             items.Add("setSelectionColorItem", new System.Windows.Forms.ToolStripMenuItem());
             items["setSelectionColorItem"].Name = "setSelectionColorItem";
             items["setSelectionColorItem"].Text = "Selection color";
-            items["setSelectionColorItem"].Click += new System.EventHandler(this.setSelectionColorItem_Click);
+            items["setSelectionColorItem"].Click += new System.EventHandler(this.SetSelectionColorItem_Click);
 
             //
             // gridItem
@@ -700,7 +700,7 @@ namespace Diagram
             items["pinWindowItem"].CheckOnClick = true;
             items["pinWindowItem"].Name = "pinWindowItem";
             items["pinWindowItem"].Text = "Pin window";
-            items["pinWindowItem"].Click += new System.EventHandler(this.pinWindowItem_Click);
+            items["pinWindowItem"].Click += new System.EventHandler(this.PinWindowItem_Click);
 
             //
             // restoreWindowItem
@@ -733,14 +733,14 @@ namespace Diagram
             items.Add("openLastFileItem", new System.Windows.Forms.ToolStripMenuItem());
             items["openLastFileItem"].Name = "openLastFileItem";
             items["openLastFileItem"].Text = "Open last file";
-            items["openLastFileItem"].Click += new System.EventHandler(this.openLastFileItem_Click);
+            items["openLastFileItem"].Click += new System.EventHandler(this.OpenLastFileItem_Click);
             //
             // setAsDefaultDiagramItem
             //
             items.Add("setAsDefaultDiagramItem", new System.Windows.Forms.ToolStripMenuItem());
             items["setAsDefaultDiagramItem"].Name = "setAsDefaultDiagramItem";
             items["setAsDefaultDiagramItem"].Text = "Set as default Diagram";
-            items["setAsDefaultDiagramItem"].Click += new System.EventHandler(this.setAsDefaultDiagram_Click);
+            items["setAsDefaultDiagramItem"].Click += new System.EventHandler(this.SetAsDefaultDiagram_Click);
         }
 
         public void BuildHelpItems()
@@ -784,7 +784,7 @@ namespace Diagram
             // alignItem
             //
             items.Add("alignItem", new System.Windows.Forms.ToolStripMenuItem());
-            items["alignItem"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            items["alignItem"].DropDownItems.AddRange([
                 items["leftItem"],
                 items["rightItem"],
                 items["toLineItem"],
@@ -792,7 +792,7 @@ namespace Diagram
                 items["groupVericalItem"],
                 items["groupHorizontalItem"],
                 items["sortItem"]
-            });
+            ]);
             items["alignItem"].Name = "alignItem";
             items["alignItem"].Text = "Align";
 
@@ -802,7 +802,7 @@ namespace Diagram
             // fileItem
             //
             items.Add("fileItem", new System.Windows.Forms.ToolStripMenuItem());
-            items["fileItem"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            items["fileItem"].DropDownItems.AddRange([
                 items["newItem"],
                 items["saveItem"],
                 items["saveAsItem"],
@@ -810,7 +810,7 @@ namespace Diagram
                 items["openItem"],
                 items["recentItem"],
                 items["exitItem"]
-            });
+            ]);
             items["fileItem"].Name = "fileItem";
             items["fileItem"].Text = "File";
 
@@ -821,14 +821,14 @@ namespace Diagram
             // editMenuItem
             //
             items.Add("editMenuItem", new System.Windows.Forms.ToolStripMenuItem());
-            items["editMenuItem"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            items["editMenuItem"].DropDownItems.AddRange([
                 items["undoItem"],
                 items["redoItem"],
                 items["copyLinkItem"],
                 items["copyNoteItem"],
                 items["pasteToLinkItem"],
                 items["pasteToNoteItem"]
-            });
+            ]);
             items["editMenuItem"].Name = "editMenuItem";
             items["editMenuItem"].Text = "Edit";
 
@@ -838,7 +838,7 @@ namespace Diagram
             // nodeItem
             //
             items.Add("nodeItem", new System.Windows.Forms.ToolStripMenuItem());
-            items["nodeItem"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            items["nodeItem"].DropDownItems.AddRange([
                 items["transparentItem"],
                 items["fontItem"],
                 items["fontColorItem"],
@@ -847,7 +847,7 @@ namespace Diagram
                 items["bringBottomItem"],
                 items["removeShortcutItem"],
                 items["protectItem"]
-            });
+            ]);
             items["nodeItem"].Name = "nodeItem";
             items["nodeItem"].Text = "Node";
 
@@ -857,10 +857,10 @@ namespace Diagram
             // lineItem
             //
             items.Add("lineItem", new System.Windows.Forms.ToolStripMenuItem());
-            items["lineItem"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            items["lineItem"].DropDownItems.AddRange([
                 items["lineColorItem"],
                 items["lineWidthItem"]
-            });
+            ]);
             items["lineItem"].Name = "lineItem";
             items["lineItem"].Text = "Line";
 
@@ -871,11 +871,11 @@ namespace Diagram
             // imageItem
             //
             items.Add("imageItem", new System.Windows.Forms.ToolStripMenuItem());
-            items["imageItem"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            items["imageItem"].DropDownItems.AddRange([
                 items["imageAddItem"],
                 items["imageRemoveItem"],
                 items["imageEmbeddedItem"]
-            });
+            ]);
             items["imageItem"].Name = "imageItem";
             items["imageItem"].Text = "Image";
 
@@ -885,12 +885,12 @@ namespace Diagram
             // attachmentItem
             //
             items.Add("attachmentItem", new System.Windows.Forms.ToolStripMenuItem());
-            items["attachmentItem"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            items["attachmentItem"].DropDownItems.AddRange([
                 items["deploayAttachmentItem"],
                 items["includeFileItem"],
                 items["includeDirectoryItem"],
                 items["removeAttachmentItem"]
-            });
+            ]);
             items["attachmentItem"].Name = "attachmentItem";
             items["attachmentItem"].Text = "Attachment";
 
@@ -900,12 +900,12 @@ namespace Diagram
             // viewItem
             //
             items.Add("viewItem", new System.Windows.Forms.ToolStripMenuItem());
-            items["viewItem"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            items["viewItem"].DropDownItems.AddRange([
                 items["newViewItem"],
                 items["centerItem"],
                 items["setStartPositionItem"],
                 items["refreshItem"]
-            });
+            ]);
             items["viewItem"].Name = "viewItem";
             items["viewItem"].Text = "View";
 
@@ -915,10 +915,10 @@ namespace Diagram
             // layerItem
             //
             items.Add("layerItem", new System.Windows.Forms.ToolStripMenuItem());
-            items["layerItem"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            items["layerItem"].DropDownItems.AddRange([
                 items["inItem"],
                 items["outItem"]
-            });
+            ]);
             items["layerItem"].Name = "layerItem";
             items["layerItem"].Text = "Layer";
 
@@ -933,8 +933,7 @@ namespace Diagram
             //
             this.pluginItems = new System.Windows.Forms.ToolStripMenuItem();
             items.Add("pluginsItem", this.pluginItems);
-            items["pluginsItem"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            });
+            items["pluginsItem"].DropDownItems.AddRange([]);
             items["pluginsItem"].Name = "pluginsItem";
             items["pluginsItem"].Text = "Plugins";
 
@@ -945,10 +944,10 @@ namespace Diagram
             // toolsItem
             //
             items.Add("toolsItem", new System.Windows.Forms.ToolStripMenuItem());
-            items["toolsItem"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            items["toolsItem"].DropDownItems.AddRange([
                 items["openDiagramDirectoryItem"],
                 items["splitNodeItem"]
-            });
+            ]);
             items["toolsItem"].Name = "toolsItem";
             items["toolsItem"].Text = "Tools";
 
@@ -959,7 +958,7 @@ namespace Diagram
             // diagramOptionsItem
             //
             items.Add("diagramOptionsItem", new System.Windows.Forms.ToolStripMenuItem());
-            items["diagramOptionsItem"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            items["diagramOptionsItem"].DropDownItems.AddRange([
                 items["readonlyItem"],
                 items["alwaysOnTopItem"],
                 items["pinWindowItem"],
@@ -968,7 +967,7 @@ namespace Diagram
                 items["openConfigDirItem"],
                 items["openLastFileItem"],
                 items["setAsDefaultDiagramItem"]
-            });
+            ]);
             items["diagramOptionsItem"].Name = "diagramOptionsItem";
             items["diagramOptionsItem"].Text = "Diagram";
 
@@ -978,7 +977,7 @@ namespace Diagram
             // optionTheme
             //
             items.Add("optionTheme", new System.Windows.Forms.ToolStripMenuItem());
-            items["optionTheme"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            items["optionTheme"].DropDownItems.AddRange([
                 items["defaultFontItem"],
                 items["resetFontItem"],
                 items["setIconItem"],
@@ -994,7 +993,7 @@ namespace Diagram
                 items["gridItem"],
                 items["coordinatesItem"],
                 items["bordersItem"],
-            });
+            ]);
             items["optionTheme"].Name = "optionTheme";
             items["optionTheme"].Text = "Theme and Colors";
 
@@ -1004,13 +1003,13 @@ namespace Diagram
             // optionImages
             //
             items.Add("optionImages", new System.Windows.Forms.ToolStripMenuItem());
-            items["optionImages"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            items["optionImages"].DropDownItems.AddRange([
                 items["linkImageItem"],
                 items["embedImageItem"],
                 items["copyImageItem"],
                 items["copyImagePathItem"],
                 items["embedImageConvertItem"],
-            });
+            ]);
             items["optionImages"].Name = "optionImages";
             items["optionImages"].Text = "Images";
 
@@ -1020,12 +1019,12 @@ namespace Diagram
             // optionSecurity
             //
             items.Add("optionSecurity", new System.Windows.Forms.ToolStripMenuItem());
-            items["optionSecurity"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            items["optionSecurity"].DropDownItems.AddRange([
                 items["encryptItem"],
                 items["changePasswordItem"],
                 items["takeOwnershipItem"],
                 items["lockItem"],
-            });
+            ]);
             items["optionSecurity"].Name = "optionSecurity";
             items["optionSecurity"].Text = "Security";
 
@@ -1033,12 +1032,12 @@ namespace Diagram
             // optionItem
             //
             items.Add("optionItem", new System.Windows.Forms.ToolStripMenuItem());
-            items["optionItem"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            items["optionItem"].DropDownItems.AddRange([
                 items["diagramOptionsItem"],
                 items["optionTheme"],
                 items["optionImages"],
                 items["optionSecurity"]
-            });
+            ]);
             items["optionItem"].Name = "optionItem";
             items["optionItem"].Text = "Option";
 
@@ -1049,11 +1048,11 @@ namespace Diagram
             // helpItem
             //
             items.Add("helpItem", new System.Windows.Forms.ToolStripMenuItem());
-            items["helpItem"].DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            items["helpItem"].DropDownItems.AddRange([
                 items["consoleItem"],
                 items["visitWebsiteItem"],
                 items["aboutItem"]
-            });
+            ]);
             items["helpItem"].Name = "helpItem";
             items["helpItem"].Text = "Help";
 
@@ -1063,7 +1062,7 @@ namespace Diagram
             //
             // PopupMenu
             //
-            this.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Items.AddRange([
                 items["editItem"],
                 items["colorItem"],
                 items["linkItem"],
@@ -1087,7 +1086,7 @@ namespace Diagram
                 items["toolsItem"],
                 items["optionItem"],
                 items["helpItem"]
-			});
+			]);
             this.Name = "popupMenu";
             this.Opening += new System.ComponentModel.CancelEventHandler(this.PopupMenu_Opening);
 
@@ -1108,10 +1107,10 @@ namespace Diagram
         {
             bool readOnly = this.diagramView.diagram.IsReadOnly();
             bool isNotReadOnly = !readOnly;
-            bool isSelectedNoNode = this.diagramView.selectedNodes.Count() == 0;
-            bool isSelectedOneNode = this.diagramView.selectedNodes.Count() == 1;
-            bool isSelectedAtLeastOneNode = this.diagramView.selectedNodes.Count() > 0;
-            bool isSelectedMoreThenOneNode = this.diagramView.selectedNodes.Count() > 1;
+            bool isSelectedNoNode = this.diagramView.selectedNodes.Count == 0;
+            bool isSelectedOneNode = this.diagramView.selectedNodes.Count == 1;
+            bool isSelectedAtLeastOneNode = this.diagramView.selectedNodes.Count > 0;
+            bool isSelectedMoreThenOneNode = this.diagramView.selectedNodes.Count > 1;
 
             items["editItem"].Visible = isNotReadOnly && isSelectedAtLeastOneNode;
             items["colorItem"].Visible = isNotReadOnly && isSelectedAtLeastOneNode;
@@ -1194,7 +1193,7 @@ namespace Diagram
 
             items["layerItem"].Enabled = true;
             items["inItem"].Enabled = isSelectedOneNode;
-            items["outItem"].Enabled = this.diagramView.isNotInFisrtLayer();
+            items["outItem"].Enabled = this.diagramView.IsNotInFisrtLayer();
 
             separators["helpSeparator"].Enabled = true;
 
@@ -1311,11 +1310,11 @@ namespace Diagram
             }
 
             // create recent files items
-            if (recentItems != null && recentItems.Count() > 0) {
+            if (recentItems != null && recentItems.Length > 0) {
                 items["recentItem"].DropDownItems.Clear();
             }
 
-            recentItems = new System.Windows.Forms.ToolStripItem[this.diagramView.main.programOptions.recentFiles.Count()];
+            recentItems = new System.Windows.Forms.ToolStripItem[this.diagramView.main.programOptions.recentFiles.Count];
             long i = 0;
             foreach (String path in this.diagramView.main.programOptions.recentFiles)
             {
@@ -1331,7 +1330,7 @@ namespace Diagram
 
             items["recentItem"].DropDownItems.AddRange(recentItems);
 
-            if (recentItems.Count() == 0) {
+            if (recentItems.Length == 0) {
                 items["recentItem"].Enabled = false;
             }
             
@@ -1343,7 +1342,7 @@ namespace Diagram
         // MENU Edit
         public void EditItem_Click(object sender, EventArgs e) //UID7223285114
         {
-            if (this.diagramView.selectedNodes.Count() > 0)
+            if (this.diagramView.selectedNodes.Count > 0)
             {
                 foreach (Node node in this.diagramView.selectedNodes)
                 {
@@ -1363,7 +1362,7 @@ namespace Diagram
         // MENU Link Open
         public void OpenlinkItem_Click(object sender, EventArgs e) //UID8259578882
         {
-            if (this.diagramView.selectedNodes.Count() > 0)
+            if (this.diagramView.selectedNodes.Count > 0)
             {
                 this.diagramView.OpenLink(this.diagramView.selectedNodes[0]);
             }
@@ -1380,7 +1379,7 @@ namespace Diagram
         // MENU align left
         private void LeftItem_Click(object sender, EventArgs e) //UID3723301860
         {
-            if (this.diagramView.selectedNodes.Count() > 0)
+            if (this.diagramView.selectedNodes.Count > 0)
             {
                 this.diagramView.diagram.AlignLeft(this.diagramView.selectedNodes);
                 this.diagramView.diagram.Unsave();
@@ -1391,7 +1390,7 @@ namespace Diagram
         // MENU align right
         private void RightItem_Click(object sender, EventArgs e) //UID3530533003
         {
-            if (this.diagramView.selectedNodes.Count() > 0)
+            if (this.diagramView.selectedNodes.Count > 0)
             {
                 this.diagramView.diagram.AlignRight(this.diagramView.selectedNodes);
                 this.diagramView.diagram.Unsave();
@@ -1402,7 +1401,7 @@ namespace Diagram
         // MENU align to line
         private void ToLineItem_Click(object sender, EventArgs e) //UID3603051682
         {
-            if (this.diagramView.selectedNodes.Count() > 0)
+            if (this.diagramView.selectedNodes.Count > 0)
             {
                 this.diagramView.diagram.AlignToLine(this.diagramView.selectedNodes);
                 this.diagramView.diagram.Unsave();
@@ -1413,7 +1412,7 @@ namespace Diagram
         // MENU align to column
         private void InColumnItem_Click(object sender, EventArgs e) //UID6421466918
         {
-            if (this.diagramView.selectedNodes.Count() > 0)
+            if (this.diagramView.selectedNodes.Count > 0)
             {
                 this.diagramView.diagram.AlignToColumn(this.diagramView.selectedNodes);
                 this.diagramView.diagram.Unsave();
@@ -1424,7 +1423,7 @@ namespace Diagram
         // MENU align to group to column
         private void GroupVericalItem_Click(object sender, EventArgs e) //UID5565272429
         {
-            if (this.diagramView.selectedNodes.Count() > 0)
+            if (this.diagramView.selectedNodes.Count > 0)
             {
                 this.diagramView.diagram.AlignCompact(this.diagramView.selectedNodes);
                 this.diagramView.diagram.Unsave();
@@ -1435,7 +1434,7 @@ namespace Diagram
         // MENU align to group to column
         private void GroupHorizontalItem_Click(object sender, EventArgs e) //UID4865517556
         {
-            if (this.diagramView.selectedNodes.Count() > 0)
+            if (this.diagramView.selectedNodes.Count > 0)
             {
                 this.diagramView.diagram.AlignCompactLine(this.diagramView.selectedNodes);
                 this.diagramView.diagram.Unsave();
@@ -1473,7 +1472,7 @@ namespace Diagram
         // MENU sort items
         private void SortItem_Click(object sender, EventArgs e) //UID8063135807
         {
-            if (this.diagramView.selectedNodes.Count() > 0)
+            if (this.diagramView.selectedNodes.Count > 0)
             {
                 this.diagramView.diagram.SortNodes(this.diagramView.selectedNodes);
                 this.diagramView.diagram.Unsave();
@@ -1608,7 +1607,7 @@ namespace Diagram
         // MENU remove shortcut
         private void RemoveShortcutItem_Click(object sender, EventArgs e) //UID3987406806
         {
-            if (this.diagramView.selectedNodes.Count() > 0)
+            if (this.diagramView.selectedNodes.Count > 0)
             {
                 this.diagramView.RemoveShortcuts(this.diagramView.selectedNodes);
             }
@@ -1710,7 +1709,7 @@ namespace Diagram
         // MENU Layer In
         public void InItem_Click(object sender, EventArgs e) //UID9204174888
         {
-            if (this.diagramView.selectedNodes.Count() == 1)
+            if (this.diagramView.selectedNodes.Count == 1)
             {
                 this.diagramView.LayerIn(this.diagramView.selectedNodes[0]);
             }
@@ -1789,40 +1788,40 @@ namespace Diagram
 
         private void CopyImagePath_Click(object sender, EventArgs e)
         {
-            using (var dialog = new FolderBrowserDialog())
+            using var dialog = new FolderBrowserDialog();
+
+            dialog.Description = "Select directory for images";
+            dialog.ShowNewFolderButton = true;
+
+            if (this.diagramView.diagram.options.copyImagesPath != "" && Directory.Exists(this.diagramView.diagram.options.copyImagesPath))
             {
-                dialog.Description = "Select directory for images";
-                dialog.ShowNewFolderButton = true;
+                dialog.SelectedPath = this.diagramView.diagram.options.copyImagesPath;
+            }
+            else if (this.diagramView.diagram.FileName != "" && Os.FileExists(this.diagramView.diagram.FileName))
+            {
+                dialog.SelectedPath = Os.GetDirectoryName(this.diagramView.diagram.FileName);
+            }
 
-                if (this.diagramView.diagram.options.copyImagesPath != "" && Directory.Exists(this.diagramView.diagram.options.copyImagesPath))
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string selectedPath = dialog.SelectedPath;
+
+                this.diagramView.diagram.options.copyImagesPath = selectedPath;
+                if (this.diagramView.diagram.FileName != "" && Os.FileExists(this.diagramView.diagram.FileName))
                 {
-                    dialog.SelectedPath = this.diagramView.diagram.options.copyImagesPath;
-                } else if (this.diagramView.diagram.FileName != "" && Os.FileExists(this.diagramView.diagram.FileName))
-                {
-                    dialog.SelectedPath = Os.GetDirectoryName(this.diagramView.diagram.FileName);
+                    string relativePath = Os.MakeRelative(selectedPath, this.diagramView.diagram.FileName);
+                    this.diagramView.diagram.options.copyImagesPath = relativePath;
                 }
 
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    string selectedPath = dialog.SelectedPath;
+                items["linkImageItem"].Checked = false;
+                items["embedImageItem"].Checked = false;
+                items["copyImageItem"].Checked = true;
 
-                    this.diagramView.diagram.options.copyImagesPath = selectedPath;
-                    if (this.diagramView.diagram.FileName != "" && Os.FileExists(this.diagramView.diagram.FileName))
-                    {
-                        string relativePath = Os.MakeRelative(selectedPath, this.diagramView.diagram.FileName);
-                        this.diagramView.diagram.options.copyImagesPath = relativePath;
-                    }
+                this.diagramView.diagram.options.linkImages = false;
+                this.diagramView.diagram.options.embedImages = false;
+                this.diagramView.diagram.options.copyImages = true;
 
-                    items["linkImageItem"].Checked = false;
-                    items["embedImageItem"].Checked = false;
-                    items["copyImageItem"].Checked = true;
-
-                    this.diagramView.diagram.options.linkImages = false;
-                    this.diagramView.diagram.options.embedImages = false;
-                    this.diagramView.diagram.options.copyImages = true;
-
-                    this.diagramView.diagram.Unsave();
-                }
+                this.diagramView.diagram.Unsave();
             }
         }
 
@@ -1905,7 +1904,7 @@ namespace Diagram
 
         // MENU Pin window
 
-        public void pinWindowItem_Click(object sender, EventArgs e) //UID4803037156
+        public void PinWindowItem_Click(object sender, EventArgs e) //UID4803037156
         {
             this.diagramView.diagram.options.pinWindow = !this.diagramView.diagram.options.pinWindow;            
             items["pinWindowItem"].Checked = this.diagramView.diagram.options.alwaysOnTop;           
@@ -1948,7 +1947,7 @@ namespace Diagram
         // MENU reset font
         private void ResetFontItem_Click(object sender, EventArgs e) //UID6952845622
         {
-            if (this.diagramView.selectedNodes.Count() > 0)
+            if (this.diagramView.selectedNodes.Count > 0)
             {
                 this.diagramView.diagram.ResetFont(this.diagramView.selectedNodes);
             }
@@ -1997,13 +1996,13 @@ namespace Diagram
             this.diagramView.diagram.SetGridColor();
         }
 
-        private void setScrollbarColorItem_Click(object sender, EventArgs e)
+        private void SetScrollbarColorItem_Click(object sender, EventArgs e)
         {
             this.diagramView.diagram.SetScrollbarColor();
         }
 
 
-        private void setSelectionColorItem_Click(object sender, EventArgs e)
+        private void SetSelectionColorItem_Click(object sender, EventArgs e)
         {
             this.diagramView.diagram.SetSelectionColor();
         }
@@ -2029,7 +2028,7 @@ namespace Diagram
         }
 
         // MENU reset font
-        private void openLastFileItem_Click(object sender, EventArgs e) //UID8429947533
+        private void OpenLastFileItem_Click(object sender, EventArgs e) //UID8429947533
         {
             items["openLastFileItem"].Checked = !items["openLastFileItem"].Checked;
             this.diagramView.main.programOptions.openLastFile = items["openLastFileItem"].Checked;
@@ -2042,7 +2041,7 @@ namespace Diagram
             }
         }
 
-        private void setAsDefaultDiagram_Click(object sender, EventArgs e) //UID8429947533
+        private void SetAsDefaultDiagram_Click(object sender, EventArgs e) //UID8429947533
         {
             items["setAsDefaultDiagramItem"].Checked = !items["setAsDefaultDiagramItem"].Checked;
 

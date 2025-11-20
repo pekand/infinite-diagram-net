@@ -16,9 +16,9 @@ namespace Diagram
         {
             try
             {
-                XmlSerializer deserializer = new XmlSerializer(typeof(List<String>));
+                XmlSerializer deserializer = new(typeof(List<String>));
 
-                TextReader reader = new StringReader(data);
+                StringReader reader = new(data);
 
                 object obj = deserializer.Deserialize(reader);
 
@@ -40,10 +40,10 @@ namespace Diagram
         {
             try
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<String>));
+                XmlSerializer serializer = new(typeof(List<String>));
 
-                StringBuilder sb = new StringBuilder();
-                StringWriter sw = new StringWriter(sb);
+                StringBuilder sb = new();
+                StringWriter sw = new(sb);
                 serializer.Serialize(sw, items);
                 return sw.GetStringBuilder().ToString();
             }
@@ -59,7 +59,7 @@ namespace Diagram
         /// List<String> to XElement </summary>
         public static XElement ListToXElement(String rootName, List<String> items)
         {
-            XElement root = new XElement(rootName);
+            XElement root = new(rootName);
 
             foreach (String item in items) {
                 root.Add(new XElement("item", item));
@@ -72,7 +72,7 @@ namespace Diagram
         /// XElement to List<String> </summary>
         public static List<String> XElementToList(XElement element)
         {
-            List<String> items = new List<String>();
+            List<String> items = [];
             
             foreach (XElement child in element.Elements())
             {

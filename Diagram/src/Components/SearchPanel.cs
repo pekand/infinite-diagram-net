@@ -144,7 +144,7 @@ namespace Diagram
 
             maximalSize = parentForm.Width - 100;
 
-            int newWidth = 0;
+            int newWidth;
             System.Drawing.Size size = TextRenderer.MeasureText(textBoxSearch.Text, textBoxSearch.Font);
             newWidth = size.Width + 5;
 

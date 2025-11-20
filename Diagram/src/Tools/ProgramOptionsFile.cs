@@ -84,18 +84,16 @@ namespace Diagram
 
                     string xml = Os.GetFileContent(this.optionsFilePath);
 
-                    XmlReaderSettings xws = new XmlReaderSettings
+                    XmlReaderSettings xws = new()
                     {
                         CheckCharacters = false
                     };
 
+                    using XmlReader xr = XmlReader.Create(new StringReader(xml), xws);
 
-                    using (XmlReader xr = XmlReader.Create(new StringReader(xml), xws))
-                    {
-                        XElement root = XElement.Load(xr);
+                    XElement root = XElement.Load(xr);
 
-                        this.LoadParams(root);
-                    }
+                    this.LoadParams(root);
 
                 }
 
@@ -179,7 +177,7 @@ namespace Diagram
 
                 if (option.Name.ToString() == "data")
                 {
-                    this.programOptions.dataStorage.fromXml(option);
+                    this.programOptions.dataStorage.FromXml(option);
                 }
             }
 
@@ -203,12 +201,12 @@ namespace Diagram
             {
                 XElement root = this.SaveParams();
                 
-                System.IO.StreamWriter file = new System.IO.StreamWriter(this.optionsFilePath);
+                System.IO.StreamWriter file = new(this.optionsFilePath);
 
                 string xml = "";
 
-                StringBuilder sb = new StringBuilder();
-                XmlWriterSettings xws = new XmlWriterSettings
+                StringBuilder sb = new();
+                XmlWriterSettings xws = new()
                 {
                     OmitXmlDeclaration = true,
                     CheckCharacters = false,
@@ -237,7 +235,7 @@ namespace Diagram
         /// save configuration </summary>
         public XElement SaveParams()
         {
-            XElement root = new XElement("configuration");
+            XElement root = new("configuration");
 
             root.Add(new XElement("proxy_uri", this.programOptions.proxy_uri));
             root.Add(new XElement("proxy_username", this.programOptions.proxy_username));
@@ -252,7 +250,7 @@ namespace Diagram
 
             programOptions.RemoveOldRecentFiles();
 
-            XElement recentFilesNode = new XElement("recentFiles");
+            XElement recentFilesNode = new("recentFiles");
 
             foreach (String path in this.programOptions.recentFiles)
             {
@@ -261,9 +259,9 @@ namespace Diagram
 
             root.Add(recentFilesNode);
 
-            XElement dataStorageElement = new XElement("data");
+            XElement dataStorageElement = new("data");
 
-            this.programOptions.dataStorage.toXml(dataStorageElement);
+            this.programOptions.dataStorage.ToXml(dataStorageElement);
 
             root.Add(dataStorageElement);
 

@@ -19,7 +19,7 @@ namespace Diagram
                 .Replace("=", "")
                 .Replace("/", "")
                 .Replace("+", "")
-                .Substring(0, length);
+                [..length];
 
             return token;
         }

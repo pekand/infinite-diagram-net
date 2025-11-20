@@ -69,7 +69,7 @@ namespace Diagram
                 arguments = match.Groups[2].Value;
             }
 
-            return new string[] { command, arguments };
+            return [command, arguments];
         }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace Diagram
             + @"([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)"
             + @"@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$";
 
-            Regex ValidEmailRegex = new Regex(validEmailPattern, RegexOptions.IgnoreCase);
+            Regex ValidEmailRegex = new(validEmailPattern, RegexOptions.IgnoreCase);
 
             return ValidEmailRegex.IsMatch(email);
         }
@@ -215,7 +215,7 @@ namespace Diagram
         /// </summary>
         public static bool IsScriptId(String link, string id)
         {
-            Regex regex = new Regex(@"^\s*@(\w+){1}\s*$");
+            Regex regex = new(@"^\s*@(\w+){1}\s*$");
             Match match = regex.Match(link);
             if (match.Success && match.Groups[1].Value == id)
                 return true;

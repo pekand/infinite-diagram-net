@@ -21,7 +21,7 @@ namespace Diagram
         // STYLES
 
         public bool arrow = false; // node is rendered as arrow
-        public ColorType color = new ColorType(); // line color
+        public ColorType color = new(); // line color
         public long width = 1; // line width
 
         /*************************************************************************************************************************/
@@ -32,7 +32,7 @@ namespace Diagram
         /*************************************************************************************************************************/
         // PLUGINS
 
-        public DataStorage dataStorage = new DataStorage(); // extra storage for plugins
+        public DataStorage dataStorage = new(); // extra storage for plugins
 
         /*************************************************************************************************************************/
         // CONSTRUCTORS

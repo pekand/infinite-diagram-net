@@ -10,7 +10,7 @@ namespace Diagram
         private string updateFolderName = "InfiniteDiagramUpdate";
         private string updateExecutableName = "infinite-diagram-install.exe";
         private string homepage = "https://infinite-diagram.pekand.com/";
-        private string lastversionFile = "lastversion.txt";
+        private string lastVersionFile = "lastversion.txt";
         private string signatureFile = "signature.txt";
         private string installationUrl = "https://github.com/pekand/infinite-diagram-core/releases/download/v{VERSION}/infinite-diagram-install.exe";
 
@@ -24,7 +24,7 @@ namespace Diagram
                            string currentVersion = Os.GetThisAssemblyVersion();
                            Program.log.Write("CheckUpdates current version: " + currentVersion);
 
-                           string lastVersion = Network.GetWebPage(this.homepage + this.lastversionFile);
+                           string lastVersion = Network.GetWebPage(this.homepage + this.lastVersionFile);
                            
                            Program.log.Write("CheckUpdates last version: " + lastVersion);
 
@@ -35,8 +35,8 @@ namespace Diagram
                            lastVersion = lastVersion.TrimEnd('\r', '\n').Trim();
 
 
-                           Version localVersion = new Version(currentVersion);
-                           Version serverVersion = new Version(lastVersion);
+                           Version localVersion = new(currentVersion);
+                           Version serverVersion = new(lastVersion);
 
                            if (serverVersion.CompareTo(localVersion) == 1)
                            {
@@ -49,7 +49,7 @@ namespace Diagram
                                    return;
                                }
 
-                               UpdateForm updateForm = new UpdateForm();
+                               UpdateForm updateForm = new();
                                updateForm.ShowDialog();
 
                                if (updateForm.CanUpdate())

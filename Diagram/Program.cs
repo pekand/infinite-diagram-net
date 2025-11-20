@@ -20,12 +20,11 @@ namespace Diagram
 
         /// <summary>
         /// debuging console for loging messages</summary>
-        public static Log log = new Log();
+        public static Log log = new();
 
         /// <summary>
         /// create main class which oppening forms</summary>
         private static Main main = null;
-
 
         /// <summary>
         /// Process global unhandled global exceptions</summary>

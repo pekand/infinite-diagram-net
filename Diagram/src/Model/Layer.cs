@@ -17,8 +17,8 @@ namespace Diagram
         /*************************************************************************************************************************/
         // LAYER ITEMS
 
-        public Nodes nodes = new Nodes();               // all layer nodes
-        public Lines lines = new Lines();               // all layer lines
+        public Nodes nodes = [];               // all layer nodes
+        public Lines lines = [];               // all layer lines
 
         /*************************************************************************************************************************/
         // CONSTRUCTORS

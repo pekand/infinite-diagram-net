@@ -7,11 +7,11 @@ namespace Diagram
         public delegate void ColorPickerFormChangeColor(ColorType color);
         public event ColorPickerFormChangeColor ChangeColor;
 
-        public ColorType color = new ColorType();
+        public ColorType color = new();
 
         private int actualBitmap = 0;
         private int scrollState = 0;
-        private readonly List<Bitmap> bitmaps = new List<Bitmap>();
+        private readonly List<Bitmap> bitmaps = [];
 
         bool selecting = false;
 
@@ -91,7 +91,7 @@ namespace Diagram
 
             for (int i = 0; i < 64; i++)
             {
-                Bitmap bmp = new Bitmap(256, 256);                
+                Bitmap bmp = new(256, 256);                
                 Graphics g = Graphics.FromImage(bmp);
 
                 cb = i * 4;

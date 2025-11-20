@@ -59,7 +59,7 @@ namespace Diagram
 
     public class ImageTransformer
     {
-        public ImageTransformerData data = new ImageTransformerData();
+        public ImageTransformerData data = new();
         public Form parent = null;
 
         public ImageTransformer(Form parent)
@@ -108,17 +108,17 @@ namespace Diagram
             int h = data.imageHeight - data.vectorLTY - data.vectorRTY + data.vectorLBY + data.vectorRBY;
 
 
-            Rectangle flippedRect = new Rectangle(x, y, w, h);
+            Rectangle flippedRect = new(x, y, w, h);
 
             if (data.flipX)
             {
-                flippedRect.X = flippedRect.X + flippedRect.Width;
+                flippedRect.X += flippedRect.Width;
                 flippedRect.Width = -flippedRect.Width;
             }
 
             if (data.flipY)
             {
-                flippedRect.Y = flippedRect.Y + flippedRect.Height;
+                flippedRect.Y += flippedRect.Height;
                 flippedRect.Height = -flippedRect.Height;
             }
 
@@ -130,22 +130,22 @@ namespace Diagram
 
             if (data.imageOver || data.imageSelected)
             {
-                Rectangle r = new Rectangle(x, y, w, h);
+                Rectangle r = new(x, y, w, h);
                 if (r.Width < 0)
                 {
-                    r.X = r.X + r.Width;
+                    r.X += r.Width;
                     r.Width = -r.Width;
                 }
 
 
                 if (r.Height < 0)
                 {
-                    r.Y = r.Y + r.Height;
+                    r.Y += r.Height;
                     r.Height = -r.Height;
                 }
 
-                Pen pen = new Pen(Color.Black, 1);
-                float[] dashes = { 4.0f, 2.0f };
+                Pen pen = new(Color.Black, 1);
+                float[] dashes = [4.0f, 2.0f];
                 pen.DashPattern = dashes;
                 g.DrawRectangle(pen, r);
             }
@@ -153,76 +153,72 @@ namespace Diagram
 
             if (data.imageScaleLeftTop || data.imageOverLeftTop)
             {
-                using (Brush brush = new SolidBrush(Color.FromArgb(128, Color.Blue)))
-                {
-                    Rectangle rect = new Rectangle(
-                        data.imageX + data.vectorX + data.vectorLTX + data.vectorLBX - data.handleSize,
-                        data.imageY + data.vectorY + data.vectorLTY + data.vectorRTY - data.handleSize,
-                        2 * data.handleSize,
-                        2 * data.handleSize
-                    );
+                using Brush brush = new SolidBrush(Color.FromArgb(128, Color.Blue));
 
-                    e.Graphics.FillEllipse(brush, rect);
-                }
+                Rectangle rect = new(
+                    data.imageX + data.vectorX + data.vectorLTX + data.vectorLBX - data.handleSize,
+                    data.imageY + data.vectorY + data.vectorLTY + data.vectorRTY - data.handleSize,
+                    2 * data.handleSize,
+                    2 * data.handleSize
+                );
+
+                e.Graphics.FillEllipse(brush, rect);
             }
 
             if (data.imageScaleRightTop || data.imageOverRightTop)
             {
-                using (Brush brush = new SolidBrush(Color.FromArgb(128, Color.Blue)))
-                {
-                    Rectangle rect = new Rectangle(
-                        data.imageX + data.vectorX + data.vectorLTX + data.vectorLBX - data.handleSize +
-                        data.imageWidth - data.vectorLTX + data.vectorRTX - data.vectorLBX + data.vectorRBX,
-                        data.imageY + data.vectorY + data.vectorLTY + data.vectorRTY - data.handleSize,
-                        2 * data.handleSize,
-                        2 * data.handleSize
-                    );
-                    e.Graphics.FillEllipse(brush, rect);
-                }
+                using Brush brush = new SolidBrush(Color.FromArgb(128, Color.Blue));
+
+                Rectangle rect = new(
+                    data.imageX + data.vectorX + data.vectorLTX + data.vectorLBX - data.handleSize +
+                    data.imageWidth - data.vectorLTX + data.vectorRTX - data.vectorLBX + data.vectorRBX,
+                    data.imageY + data.vectorY + data.vectorLTY + data.vectorRTY - data.handleSize,
+                    2 * data.handleSize,
+                    2 * data.handleSize
+                );
+                e.Graphics.FillEllipse(brush, rect);
 
             }
 
             if (data.imageScaleLeftBottom || data.imageOverLeftBottom)
             {
-                using (Brush brush = new SolidBrush(Color.FromArgb(128, Color.Blue)))
-                {
-                    Rectangle rect = new Rectangle(
-                        data.imageX + data.vectorX + data.vectorLTX + data.vectorLBX - data.handleSize,
-                        data.imageY + data.vectorY + data.vectorLTY + data.vectorRTY - data.handleSize +
-                        data.imageHeight - data.vectorLTY - data.vectorRTY + data.vectorLBY + data.vectorRBY,
-                        2 * data.handleSize,
-                        2 * data.handleSize
-                    );
-                    e.Graphics.FillEllipse(brush, rect);
-                }
+                using Brush brush = new SolidBrush(Color.FromArgb(128, Color.Blue));
+
+                Rectangle rect = new(
+                    data.imageX + data.vectorX + data.vectorLTX + data.vectorLBX - data.handleSize,
+                    data.imageY + data.vectorY + data.vectorLTY + data.vectorRTY - data.handleSize +
+                    data.imageHeight - data.vectorLTY - data.vectorRTY + data.vectorLBY + data.vectorRBY,
+                    2 * data.handleSize,
+                    2 * data.handleSize
+                );
+                e.Graphics.FillEllipse(brush, rect);
             }
 
             if (data.imageScaleRightBottom || data.imageOverRightBottom)
             {
-                using (Brush brush = new SolidBrush(Color.FromArgb(128, Color.Blue)))
-                {
-                    Rectangle rect = new Rectangle(
-                        data.imageX + data.vectorX + data.vectorLTX + data.vectorLBX - data.handleSize +
-                        data.imageWidth - data.vectorLTX + data.vectorRTX - data.vectorLBX + data.vectorRBX,
-                        data.imageY + data.vectorY + data.vectorLTY + data.vectorRTY - data.handleSize +
-                        data.imageHeight - data.vectorLTY - data.vectorRTY + data.vectorLBY + data.vectorRBY,
-                        2 * data.handleSize,
-                        2 * data.handleSize
-                    );
-                    e.Graphics.FillEllipse(brush, rect);
-                }
+                using Brush brush = new SolidBrush(Color.FromArgb(128, Color.Blue));
+
+                Rectangle rect = new(
+                    data.imageX + data.vectorX + data.vectorLTX + data.vectorLBX - data.handleSize +
+                    data.imageWidth - data.vectorLTX + data.vectorRTX - data.vectorLBX + data.vectorRBX,
+                    data.imageY + data.vectorY + data.vectorLTY + data.vectorRTY - data.handleSize +
+                    data.imageHeight - data.vectorLTY - data.vectorRTY + data.vectorLBY + data.vectorRBY,
+                    2 * data.handleSize,
+                    2 * data.handleSize
+                );
+                e.Graphics.FillEllipse(brush, rect);
             }
 
             if (data.imageRotate || data.imageOverRotate)
             {
-                e.Graphics.DrawLine(new Pen(Color.Black, 1),
+                e.Graphics.DrawLine(new(Color.Black, 1),
                     new Point(x + (w / 2), y + (h / 2)),
                     new Point(x + (w / 2) + data.imageRotateX, y + (h / 2) + data.imageRotateY)
                 );
 
                 using (Brush brush = new SolidBrush(Color.FromArgb(128, Color.Blue)))
                 {
-                    Rectangle rect = new Rectangle(
+                    Rectangle rect = new(
                         x + (w / 2) - data.handleSize,
                         y + (h / 2) - data.handleSize,
                         2 * data.handleSize,
@@ -233,7 +229,7 @@ namespace Diagram
 
                 using (Brush brush = new SolidBrush(Color.FromArgb(128, Color.Blue)))
                 {
-                    Rectangle rect = new Rectangle(
+                    Rectangle rect = new(
                         x + (w / 2) + data.imageRotateX - data.handleSize,
                         y + (h / 2) + data.imageRotateY - data.handleSize,
                         2 * data.handleSize,
@@ -483,33 +479,33 @@ namespace Diagram
 
             if (data.imageScaleLeftTop)
             {
-                data.imageX = data.imageX + data.vectorLTX;
-                data.imageY = data.imageY + data.vectorLTY;
-                data.imageWidth = data.imageWidth - data.vectorLTX;
-                data.imageHeight = data.imageHeight - data.vectorLTY;
+                data.imageX += data.vectorLTX;
+                data.imageY += data.vectorLTY;
+                data.imageWidth -= data.vectorLTX;
+                data.imageHeight -= data.vectorLTY;
 
                 if (data.imageWidth < 0)
                 {
                     data.flipX = !data.flipX;
                     data.imageWidth = -data.imageWidth;
-                    data.imageX = data.imageX - data.imageWidth;
+                    data.imageX -= data.imageWidth;
                 }
 
                 if (data.imageHeight < 0)
                 {
                     data.flipY = !data.flipY;
                     data.imageHeight = -data.imageHeight;
-                    data.imageY = data.imageY - data.imageHeight;
+                    data.imageY -= data.imageHeight;
                 }
 
                 if (data.imageWidth < data.imageMinWidth)
                 {
-                    data.imageX = data.imageX - (data.imageMinWidth - data.imageWidth);
+                    data.imageX -= (data.imageMinWidth - data.imageWidth);
                     data.imageWidth = data.imageMinWidth;
                 }
                 if (data.imageHeight < data.imageMinHeight)
                 {
-                    data.imageY = data.imageY - (data.imageMinHeight - data.imageHeight);
+                    data.imageY -= (data.imageMinHeight - data.imageHeight);
                     data.imageHeight = data.imageMinHeight;
                 }
 
@@ -518,22 +514,22 @@ namespace Diagram
 
             if (data.imageScaleRightTop)
             {
-                data.imageY = data.imageY + data.vectorRTY;
-                data.imageWidth = data.imageWidth + data.vectorRTX;
-                data.imageHeight = data.imageHeight - data.vectorRTY;
+                data.imageY += data.vectorRTY;
+                data.imageWidth += data.vectorRTX;
+                data.imageHeight -= data.vectorRTY;
 
                 if (data.imageWidth < 0)
                 {
                     data.flipX = !data.flipX;
                     data.imageWidth = -data.imageWidth;
-                    data.imageX = data.imageX - data.imageWidth;
+                    data.imageX -= data.imageWidth;
                 }
 
                 if (data.imageHeight < 0)
                 {
                     data.flipY = !data.flipY;
                     data.imageHeight = -data.imageHeight;
-                    data.imageY = data.imageY - data.imageHeight;
+                    data.imageY -= data.imageHeight;
                 }
 
                 if (data.imageWidth < data.imageMinWidth)
@@ -542,7 +538,7 @@ namespace Diagram
                 }
                 if (data.imageHeight < data.imageMinHeight)
                 {
-                    data.imageY = data.imageY - (data.imageMinHeight - data.imageHeight);
+                    data.imageY -= (data.imageMinHeight - data.imageHeight);
                     data.imageHeight = data.imageMinHeight;
                 }
 
@@ -551,27 +547,27 @@ namespace Diagram
 
             if (data.imageScaleLeftBottom)
             {
-                data.imageX = data.imageX + data.vectorLBX;
-                data.imageWidth = data.imageWidth - data.vectorLBX;
-                data.imageHeight = data.imageHeight + data.vectorLBY;
+                data.imageX += data.vectorLBX;
+                data.imageWidth -= data.vectorLBX;
+                data.imageHeight += data.vectorLBY;
 
                 if (data.imageWidth < 0)
                 {
                     data.flipX = !data.flipX;
                     data.imageWidth = -data.imageWidth;
-                    data.imageX = data.imageX - data.imageWidth;
+                    data.imageX -= data.imageWidth;
                 }
 
                 if (data.imageHeight < 0)
                 {
                     data.flipY = !data.flipY;
                     data.imageHeight = -data.imageHeight;
-                    data.imageY = data.imageY - data.imageHeight;
+                    data.imageY -= data.imageHeight;
                 }
 
                 if (data.imageWidth < data.imageMinWidth)
                 {
-                    data.imageX = data.imageX - (data.imageMinWidth - data.imageWidth);
+                    data.imageX -= (data.imageMinWidth - data.imageWidth);
                     data.imageWidth = data.imageMinWidth;
                 }
                 if (data.imageHeight < data.imageMinHeight)
@@ -584,21 +580,21 @@ namespace Diagram
 
             if (data.imageScaleRightBottom)
             {
-                data.imageWidth = data.imageWidth + data.vectorRBX;
-                data.imageHeight = data.imageHeight + data.vectorRBY;
+                data.imageWidth += data.vectorRBX;
+                data.imageHeight += data.vectorRBY;
 
                 if (data.imageWidth < 0)
                 {
                     data.flipX = !data.flipX;
                     data.imageWidth = -data.imageWidth;
-                    data.imageX = data.imageX - data.imageWidth;
+                    data.imageX -= data.imageWidth;
                 }
 
                 if (data.imageHeight < 0)
                 {
                     data.flipY = !data.flipY;
                     data.imageHeight = -data.imageHeight;
-                    data.imageY = data.imageY - data.imageHeight;
+                    data.imageY -= data.imageHeight;
                 }
 
                 if (data.imageWidth < data.imageMinWidth)
@@ -614,8 +610,8 @@ namespace Diagram
 
             if (data.imageMove)
             {
-                data.imageX = data.imageX + data.vectorX;
-                data.imageY = data.imageY + data.vectorY;
+                data.imageX += data.vectorX;
+                data.imageY += data.vectorY;
                 changed = true;
             }
 

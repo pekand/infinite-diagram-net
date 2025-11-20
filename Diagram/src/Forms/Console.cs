@@ -120,7 +120,7 @@ namespace Diagram
 
             Program.log.logUpdateEvent += LogMessageEvent;
 
-            this.scrollLogToBottom();
+            this.ScrollLogToBottom();
 
         }
 
@@ -142,7 +142,7 @@ namespace Diagram
         private void LogMessage(string message)
         {
             logedit.Text += message + "\r\n";
-            this.scrollLogToBottom();
+            this.ScrollLogToBottom();
         }
 
         private void LogMessageEvent(string message) {
@@ -150,7 +150,7 @@ namespace Diagram
         }
 
 
-        public void scrollLogToBottom() {
+        public void ScrollLogToBottom() {
             this.logedit.SelectionStart = this.logedit.Text.Length;
             this.logedit.ScrollToCaret();
         }

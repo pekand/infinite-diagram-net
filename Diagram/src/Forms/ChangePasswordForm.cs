@@ -17,8 +17,8 @@ namespace Diagram
         private System.Windows.Forms.Button buttonOk;
         private System.Windows.Forms.Button buttonCancel;
 
-        public bool cancled = false;
-        public SecureString oldpassword = null;
+        public bool canceled = false;
+        public SecureString oldPassword = null;
         public bool buttonok = false;
 
         public ChangePasswordForm(Main main)
@@ -148,9 +148,9 @@ namespace Diagram
             this.editOldPassword.Text = "";
             this.editNewPassword1.Text = "";
             this.editNewPassword2.Text = "";
-            cancled = false;
+            canceled = false;
             buttonok = false;
-            this.oldpassword = null;
+            this.oldPassword = null;
         }
 
         public string GetPassword()
@@ -161,7 +161,7 @@ namespace Diagram
 
         private void ButtonOk_Click(object sender, EventArgs e)
         {
-            if (!Encrypt.CompareSecureString(this.oldpassword, this.editOldPassword.Text))
+            if (!Encrypt.CompareSecureString(this.oldPassword, this.editOldPassword.Text))
             {
                 MessageBox.Show("Old password is incorrect!");
                 return;
@@ -178,20 +178,20 @@ namespace Diagram
                 return;
             }
 
-            this.cancled = false;
+            this.canceled = false;
             buttonok = true;
             this.Close();
         }
 
         private void ButtonCancel_Click(object sender, EventArgs e)
         {
-            this.cancled = true;
+            this.canceled = true;
             this.Close();
         }
 
         private void ChangePasswordForm_Load(object sender, EventArgs e)
         {
-            cancled = false;
+            canceled = false;
             this.Left = (Screen.PrimaryScreen.Bounds.Width - this.Width) / 2;
             this.Top = (Screen.PrimaryScreen.Bounds.Height - this.Height) / 2;
             this.ActiveControl = editOldPassword;
@@ -199,11 +199,11 @@ namespace Diagram
 
         private void ChangePasswordForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            cancled = true;
+            canceled = true;
 
             if (buttonok)
             {
-                cancled = false;
+                canceled = false;
             }
         }
 

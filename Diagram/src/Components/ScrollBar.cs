@@ -47,7 +47,7 @@ namespace Diagram
         public long delta = 0;
 
         // timer - animation
-        readonly System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer(); // timer pre animaciu
+        readonly System.Windows.Forms.Timer timer = new(); // timer pre animaciu
         public long opacity = 0;
         public bool animation = false; // animation is running
         public bool active = false; // scrolbarr is visible
@@ -122,8 +122,8 @@ namespace Diagram
             if (animation || active || fadeout)
             {
 
-                Rectangle bar = new Rectangle();
-                Rectangle tracker = new Rectangle();
+                Rectangle bar = new();
+                Rectangle tracker = new();
 
                 if (horizontal)
                 {

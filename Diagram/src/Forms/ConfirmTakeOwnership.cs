@@ -20,7 +20,7 @@ namespace Diagram
 
         private void InitializeComponent()
         {
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(ConfirmTakeOwnership));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfirmTakeOwnership));
             labelMessage = new Label();
             buttonOk = new Button();
             buttonCancel = new Button();
@@ -45,7 +45,7 @@ namespace Diagram
             buttonOk.TabIndex = 1;
             buttonOk.Text = "Ok";
             buttonOk.UseVisualStyleBackColor = true;
-            buttonOk.Click += buttonOk_Click;
+            buttonOk.Click += ButtonOk_Click;
             // 
             // buttonCancel
             // 
@@ -56,7 +56,7 @@ namespace Diagram
             buttonCancel.TabIndex = 2;
             buttonCancel.Text = "Cancel";
             buttonCancel.UseVisualStyleBackColor = true;
-            buttonCancel.Click += buttonCancel_Click;
+            buttonCancel.Click += ButtonCancel_Click;
             // 
             // ConfirmTakeOwnership
             // 
@@ -78,7 +78,7 @@ namespace Diagram
 
         }
 
-        private void buttonOk_Click(object sender, EventArgs e)
+        private void ButtonOk_Click(object sender, EventArgs e)
         {
             this.confirmed = true;
             this.Close();
@@ -89,18 +89,18 @@ namespace Diagram
 
         }
 
-        private void buttonCancel_Click(object sender, EventArgs e)
+        private void ButtonCancel_Click(object sender, EventArgs e)
         {
             this.cancled = true;
             this.Close();
         }
 
-        public bool isConfirmed()
+        public bool IsConfirmed()
         {
             return this.confirmed;
         }
 
-        public bool isCancled()
+        public bool IsCancled()
         {
             return this.cancled;
         }

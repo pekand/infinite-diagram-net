@@ -27,24 +27,21 @@ namespace Diagram
         /*************************************************************************************************************************/
         // SERVER LOOP
 
-        public Server(Main main) //UID9899460299
+        public Server(Main main)
         {
             this.main = main;
 
             this.mainProcess = false;
         }
 
-        
-
         public bool ServerExists()
         {
 
             string mutexName = "Global\\InfiniteDiagram-"+ main.programOptions.server_default_port;
-            bool createdNew;
-
+            
             try
             {
-                serverMutex = new Mutex(true, mutexName, out createdNew);
+                serverMutex = new Mutex(true, mutexName, out bool createdNew);
                 if (createdNew)
                 {
                     return false; // created success -> server not exist
@@ -111,7 +108,7 @@ namespace Diagram
                     Program.log.Write("Server: ListenForClients");
                     //create a thread to handle communication
                     //with connected client
-                    Thread clientThread = new Thread(new ParameterizedThreadStart(HandleClientCommunication)); // process message from client in thread
+                    Thread clientThread = new(new ParameterizedThreadStart(HandleClientCommunication)); // process message from client in thread
                     clientThread.Start(client);
                 }
 
@@ -137,10 +134,10 @@ namespace Diagram
 
                 bool requestIsValid = true;
 
-                // recive message
+                // receive message
                 byte[] data = new byte[tcpClient.ReceiveBufferSize];
                 bytesRead = clientStream.Read(data, 0, tcpClient.ReceiveBufferSize);
-                ASCIIEncoding encoder = new ASCIIEncoding();
+                ASCIIEncoding encoder = new();
                 string message = encoder.GetString(data, 0, bytesRead);                    
                 requestIsValid = this.ParseMessage(message);
 
@@ -174,31 +171,31 @@ namespace Diagram
         // MESSAGES
 
         // send message to server UID8096061355
-        public bool SendMessage(String Messsage)
+        public bool SendMessage(String Message)
         {
-			Program.log.Write("Server: SendMessage: " + Messsage);
+			Program.log.Write("Server: SendMessage: " + Message);
 
             try
             {
                 // connect to server
-                TcpClient client = new TcpClient
+                TcpClient client = new()
                 {
                     SendTimeout = 1000
                 };
-                IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(main.programOptions.server_default_ip), (Int32)main.programOptions.server_default_port);
+                IPEndPoint serverEndPoint = new(IPAddress.Parse(main.programOptions.server_default_ip), (Int32)main.programOptions.server_default_port);
                 client.Connect(serverEndPoint);
                 NetworkStream clientStream = client.GetStream();
 
                 // prepare message for server
-                ASCIIEncoding encoder = new ASCIIEncoding();
-                byte[] buffer = encoder.GetBytes(Messsage);
+                ASCIIEncoding encoder = new();
+                byte[] buffer = encoder.GetBytes(Message);
 
                 // send message
                 clientStream.Write(buffer, 0, buffer.Length);
                 clientStream.Flush();
 
                 // if close message is send not response arrive
-                if (Messsage == "stop") {
+                if (Message == "stop") {
                     return true;
                 }
 
@@ -207,45 +204,45 @@ namespace Diagram
                     // get response from server
                     clientStream.ReadTimeout = 1000;
                     byte[] resp = new byte[2048];
-                    using (var memStream = new MemoryStream())
+
+                    using var memStream = new MemoryStream();
+
+                    int bytesread = clientStream.Read(resp, 0, resp.Length);
+                    while (bytesread > 0)
                     {
-                        int bytesread = clientStream.Read(resp, 0, resp.Length);
-                        while (bytesread > 0)
-                        {
-                            memStream.Write(resp, 0, bytesread);
-                            bytesread = clientStream.Read(resp, 0, resp.Length);
-                        }
-                        string response = Encoding.UTF8.GetString(memStream.ToArray());
-                        Program.log.Write("Server: SendMessage(" + Messsage + "): response: " + response);
+                        memStream.Write(resp, 0, bytesread);
+                        bytesread = clientStream.Read(resp, 0, resp.Length);
                     }
+                    string response = Encoding.UTF8.GetString(memStream.ToArray());
+                    Program.log.Write("Server: SendMessage(" + Message + "): response: " + response);
                 }
                 catch (Exception ex)
                 {
-                    Program.log.Write("Server: SendMessage(" + Messsage + "): no response from server: " + ex.Message);
+                    Program.log.Write("Server: SendMessage(" + Message + "): no response from server: " + ex.Message);
                 }
 
                 return true;
             }
             catch (Exception ex)
             {
-				Program.log.Write("Server: SendMessage("+Messsage+"): error: " + ex.Message);                
+				Program.log.Write("Server: SendMessage("+Message+"): error: " + ex.Message);                
             }
 
             return false;
         }
 
         // parde message from server UID9190377024
-        public bool ParseMessage(String Messsage)
+        public bool ParseMessage(String Message)
         {
             // send message
-			Program.log.Write("Server: ParseMessage: " + Messsage);
+			Program.log.Write("Server: ParseMessage: " + Message);
 
-            if (Messsage == "ping") // check if server is live
+            if (Message == "ping") // check if server is live
             {
                 return true;
             }
             else
-            if (Messsage == "close") //UID5024907634
+            if (Message == "close") //UID5024907634
             {
                 main.mainform.Invoke(new Action(() => main.mainform.TerminateApplication()));
                 return true;
@@ -253,7 +250,7 @@ namespace Diagram
             else
             {
 
-                Match match = Regex.Match(Messsage, @"open:(.*)", RegexOptions.IgnoreCase); //UID0548148814
+                Match match = Regex.Match(Message, @"open:(.*)", RegexOptions.IgnoreCase); //UID0548148814
                 if (match.Success)
                 {
                     string FileName = match.Groups[1].Value;

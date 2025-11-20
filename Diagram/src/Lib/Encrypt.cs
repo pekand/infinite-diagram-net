@@ -18,18 +18,18 @@ namespace Diagram
         /// get sha hash from inputString</summary>
         public static string CalculateSHA512Hash(string inputString)
         {
-            using (HashAlgorithm algorithm = SHA512.Create()) {
-                byte[] inputBytes = Encoding.UTF8.GetBytes(inputString);
-                byte[] hash = algorithm.ComputeHash(inputBytes);
+            using HashAlgorithm algorithm = SHA512.Create();
 
-                // step 2, convert byte array to hex string
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < hash.Length; i++)
-                {
-                    sb.Append(hash[i].ToString("x2"));
-                }
-                return sb.ToString();
+            byte[] inputBytes = Encoding.UTF8.GetBytes(inputString);
+            byte[] hash = algorithm.ComputeHash(inputBytes);
+
+            // step 2, convert byte array to hex string
+            StringBuilder sb = new();
+            for (int i = 0; i < hash.Length; i++)
+            {
+                sb.Append(hash[i].ToString("x2"));
             }
+            return sb.ToString();
         }
 
         /// <summary>
@@ -37,35 +37,32 @@ namespace Diagram
         public static string CalculateMD5Hash(string inputString)
         {
             // step 1, calculate MD5 hash from input
-            using (MD5 md5 = System.Security.Cryptography.MD5.Create())
+            using MD5 md5 = System.Security.Cryptography.MD5.Create();
+
+            byte[] inputBytes = Encoding.UTF8.GetBytes(inputString);
+            byte[] hash = md5.ComputeHash(inputBytes);
+
+            // step 2, convert byte array to hex string
+            StringBuilder sb = new();
+            for (int i = 0; i < hash.Length; i++)
             {
-                byte[] inputBytes = Encoding.UTF8.GetBytes(inputString);
-                byte[] hash = md5.ComputeHash(inputBytes);
-            
-                // step 2, convert byte array to hex string
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < hash.Length; i++)
-                {
-                    sb.Append(hash[i].ToString("x2"));
-                }
-                return sb.ToString();
+                sb.Append(hash[i].ToString("x2"));
             }
+            return sb.ToString();
         }
 
         public static string GetMd5Hash(byte[] buffer)
         {
-            using (MD5 md5Hasher = MD5.Create())
+            using MD5 md5Hasher = MD5.Create();
+
+            byte[] data = md5Hasher.ComputeHash(buffer);
+
+            StringBuilder sBuilder = new();
+            for (int i = 0; i < data.Length; i++)
             {
-
-                byte[] data = md5Hasher.ComputeHash(buffer);
-
-                StringBuilder sBuilder = new StringBuilder();
-                for (int i = 0; i < data.Length; i++)
-                {
-                    sBuilder.Append(data[i].ToString("x2"));
-                }
-                return sBuilder.ToString();
+                sBuilder.Append(data[i].ToString("x2"));
             }
+            return sBuilder.ToString();
         }
 
         /*************************************************************************************************************************/
@@ -101,8 +98,8 @@ namespace Diagram
             String password = ConvertFromSecureString(sharedSecret);
 
 
-            if (string.IsNullOrEmpty(plainText)) throw new ArgumentNullException("plainText");
-            if (string.IsNullOrEmpty(password)) throw new ArgumentNullException("sharedSecret");
+            if (string.IsNullOrEmpty(plainText)) throw new ArgumentNullException(nameof(plainText));
+            if (string.IsNullOrEmpty(password)) throw new ArgumentNullException(nameof(sharedSecret));
 
             string outStr = null;                       // Encrypted string to return
 
@@ -112,7 +109,7 @@ namespace Diagram
             try
             {
                 // generate the key from the shared secret and the salt
-                Rfc2898DeriveBytes key = new Rfc2898DeriveBytes(Encrypt.CalculateSHA512Hash(password), salt, 100000, HashAlgorithmName.SHA512);
+                Rfc2898DeriveBytes key = new(Encrypt.CalculateSHA512Hash(password), salt, 100000, HashAlgorithmName.SHA512);
 
                 // Create a RijndaelManaged object
                 aesAlg = Aes.Create();
@@ -122,26 +119,25 @@ namespace Diagram
                 ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
 
                 // Create the streams used for encryption.
-                using (MemoryStream msEncrypt = new MemoryStream()) {
-                    // prepend the IV
-                    msEncrypt.Write(BitConverter.GetBytes(aesAlg.IV.Length), 0, sizeof(int));
-                    msEncrypt.Write(aesAlg.IV, 0, aesAlg.IV.Length);
-                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
-                    {
-                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
-                        {
-                            //Write all data to the stream.
-                            swEncrypt.Write(plainText);
-                        }
-                    }
-                    outStr = Convert.ToBase64String(msEncrypt.ToArray());
+                using MemoryStream msEncrypt = new();
+
+                // prepend the IV
+                msEncrypt.Write(BitConverter.GetBytes(aesAlg.IV.Length), 0, sizeof(int));
+                msEncrypt.Write(aesAlg.IV, 0, aesAlg.IV.Length);
+
+                using (CryptoStream csEncrypt = new(msEncrypt, encryptor, CryptoStreamMode.Write))
+                {
+                    using StreamWriter swEncrypt = new(csEncrypt);
+
+                    //Write all data to the stream.
+                    swEncrypt.Write(plainText);
                 }
+                outStr = Convert.ToBase64String(msEncrypt.ToArray());
             }
             finally
             {
                 // Clear the RijndaelManaged object.
-                if (aesAlg != null)
-                    aesAlg.Clear();
+                aesAlg?.Clear();
             }
 
             return outStr;
@@ -151,8 +147,8 @@ namespace Diagram
         /// decrypt cipherText with sharedSecret password using salt</summary>
         public static string DecryptStringAES(string cipherText, string sharedSecret, byte[] salt = null, string version = "3")
         {
-            if (string.IsNullOrEmpty(cipherText)) throw new ArgumentNullException("cipherText");
-            if (string.IsNullOrEmpty(sharedSecret)) throw new ArgumentNullException("sharedSecret");
+            if (string.IsNullOrEmpty(cipherText)) throw new ArgumentNullException(nameof(cipherText));
+            if (string.IsNullOrEmpty(sharedSecret)) throw new ArgumentNullException(nameof(sharedSecret));
 
             // Declare the RijndaelManaged object
             // used to decrypt the data.
@@ -183,31 +179,29 @@ namespace Diagram
 
                 // Create the streams used for decryption.                
                 byte[] bytes = Convert.FromBase64String(cipherText);
-                using (MemoryStream msDecrypt = new MemoryStream(bytes)) {
-                    // Create a RijndaelManaged object
-                    // with the specified key and IV.
-                    aesAlg = Aes.Create();
-                    aesAlg.Key = key.GetBytes(aesAlg.KeySize / 8);
-                    // Get the initialization vector from the encrypted stream
-                    aesAlg.IV = ReadByteArray(msDecrypt);
-                    // Create a decrytor to perform the stream transform.
-                    ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
-                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read)) 
-                    {
-                        using (StreamReader srDecrypt = new StreamReader(csDecrypt))
-                        {
-                            // Read the decrypted bytes from the decrypting stream
-                            // and place them in a string.
-                            plaintext = srDecrypt.ReadToEnd();
-                        }
-                    }
-                }
+
+                using MemoryStream msDecrypt = new(bytes);
+
+                // Create a RijndaelManaged object
+                // with the specified key and IV.
+                aesAlg = Aes.Create();
+                aesAlg.Key = key.GetBytes(aesAlg.KeySize / 8);
+                // Get the initialization vector from the encrypted stream
+                aesAlg.IV = ReadByteArray(msDecrypt);
+                // Create a decrytor to perform the stream transform.
+                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+
+                using CryptoStream csDecrypt = new(msDecrypt, decryptor, CryptoStreamMode.Read);
+                using StreamReader srDecrypt = new(csDecrypt);
+
+                // Read the decrypted bytes from the decrypting stream
+                // and place them in a string.
+                plaintext = srDecrypt.ReadToEnd();
             }
             finally
             {
                 // Clear the RijndaelManaged object.
-                if (aesAlg != null)
-                    aesAlg.Clear();
+                aesAlg?.Clear();
             }
 
             return plaintext;

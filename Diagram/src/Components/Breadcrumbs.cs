@@ -19,15 +19,15 @@ namespace Diagram
          
         public DiagramView diagramView = null;
 
-        private readonly List<BreadcrumbItem> items = new List<BreadcrumbItem>();
+        private readonly List<BreadcrumbItem> items = [];
 
         // resources
-        private readonly Font font = new Font("Arial", 12);
-        private readonly SolidBrush brush = new SolidBrush(Color.Gray);
-        private readonly SolidBrush redBrash = new SolidBrush(Color.FromArgb(200, 255, 102, 0));
-        private readonly SolidBrush yellowBrash = new SolidBrush(Color.FromArgb(200, 255, 255, 0));
-        private readonly SolidBrush barBrash =  new SolidBrush(Color.FromArgb(50, 0, 0, 0));
-        private readonly SolidBrush separatorBrash = new SolidBrush(Color.FromArgb(100, 0, 0, 0));
+        private readonly Font font = new("Arial", 12);
+        private readonly SolidBrush brush = new(Color.Gray);
+        private readonly SolidBrush redBrash = new(Color.FromArgb(200, 255, 102, 0));
+        private readonly SolidBrush yellowBrash = new(Color.FromArgb(200, 255, 255, 0));
+        private readonly SolidBrush barBrash =  new(Color.FromArgb(50, 0, 0, 0));
+        private readonly SolidBrush separatorBrash = new(Color.FromArgb(100, 0, 0, 0));
 
         private long left = 10;
         private long top = 10;
@@ -35,10 +35,7 @@ namespace Diagram
         private long height = 0;
         private readonly long itemSpace = 5;
 
-        public Breadcrumbs(DiagramView diagramView)
-        {
-            this.diagramView = diagramView;
-        }
+        public Breadcrumbs(DiagramView diagramView) => this.diagramView = diagramView;
 
         public void Update() //UID2139429132
         {
@@ -54,10 +51,10 @@ namespace Diagram
                 long i = 0;
                 foreach (Layer layer in this.diagramView.layersHistory)
                 {
-                    //skip first top layer because logo is showed insted
+                    //skip first top layer because logo is showed instead
                     if (i++ == 0) continue;
 
-                    BreadcrumbItem item = new BreadcrumbItem();
+                    BreadcrumbItem item = new();
 
                     if (layer.parentNode != null)
                     {
@@ -69,7 +66,7 @@ namespace Diagram
                     }
 
                     if (item.name.Length > 10) {
-                        item.name = item.name.Substring(0, 9);
+                        item.name = item.name[..9];
                     }
 
                     SizeF s = Fonts.MeasureString(item.name, this.font);
@@ -114,7 +111,7 @@ namespace Diagram
             this.top = 10;
 
             // logo
-            long logopadding = (this.height > 10) ? this.height / 10 : 1;
+            long logoPadding = (this.height > 10) ? this.height / 10 : 1;
 
             // draw bar
             g.FillRectangle(
@@ -137,37 +134,37 @@ namespace Diagram
             //logo top left
             g.FillRectangle(
                 this.yellowBrash,
-                this.left + logopadding, 
-                this.top + logopadding, 
-                this.height - this.height/2 - 2 * logopadding, 
-                this.height - this.height / 2 - 2 * logopadding
+                this.left + logoPadding, 
+                this.top + logoPadding, 
+                this.height - this.height/2 - 2 * logoPadding, 
+                this.height - this.height / 2 - 2 * logoPadding
             );
 
             //logo bottom right
             g.FillRectangle(
                 this.yellowBrash,
-                this.left + this.height / 2 + logopadding, 
-                this.top + this.height / 2 + logopadding, 
-                this.height - this.height / 2 - 2 * logopadding, 
-                this.height - this.height / 2 - 2 * logopadding
+                this.left + this.height / 2 + logoPadding, 
+                this.top + this.height / 2 + logoPadding, 
+                this.height - this.height / 2 - 2 * logoPadding, 
+                this.height - this.height / 2 - 2 * logoPadding
             );
 
             //logo bottom left
            g.FillRectangle(
                 this.redBrash,
-                this.left + logopadding, 
-                this.top + this.height / 2 + logopadding, 
-                this.height - this.height / 2 - 2 * logopadding, 
-                this.height - this.height / 2 - 2 * logopadding
+                this.left + logoPadding, 
+                this.top + this.height / 2 + logoPadding, 
+                this.height - this.height / 2 - 2 * logoPadding, 
+                this.height - this.height / 2 - 2 * logoPadding
             );
 
             //logo top right
             g.FillRectangle(
                 this.redBrash,
-                this.left + this.height / 2 + logopadding, 
-                this.top + logopadding, 
-                this.height - this.height / 2 - 2 * logopadding, 
-                this.height - this.height / 2 - 2 * logopadding
+                this.left + this.height / 2 + logoPadding, 
+                this.top + logoPadding, 
+                this.height - this.height / 2 - 2 * logoPadding, 
+                this.height - this.height / 2 - 2 * logoPadding
             );
 
             // Draw node names

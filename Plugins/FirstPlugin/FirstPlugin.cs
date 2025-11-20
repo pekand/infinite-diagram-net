@@ -89,7 +89,7 @@ namespace Plugin
 
         public bool LoadAction(Diagram.Diagram diagram, XElement root)
         {
-            this.counter = Int32.Parse(diagram.dataStorage.getStorage("FirstPlugin").getItem("counter", "0"));
+            this.counter = Int32.Parse(diagram.dataStorage.GetStorage("FirstPlugin").GetItem("counter", "0"));
             
             log.Write("FirstPlugin: load diagram xml");
             foreach (XElement el in root.Descendants())
@@ -129,7 +129,7 @@ namespace Plugin
             log.Write("FirstPlugin: save diagram xml");
 
             // second way to save data (if plugin is not installed this data are preserverd)
-            diagram.dataStorage.addStorage("FirstPlugin").addItem("counter", this.counter.ToString());
+            diagram.dataStorage.AddStorage("FirstPlugin").AddItem("counter", this.counter.ToString());
 
             // second way to save data (if plugin is not installed this data are removed)
             XElement plugins = null;

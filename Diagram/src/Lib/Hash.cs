@@ -23,13 +23,10 @@ namespace Diagram
                     return null;
                 }
 
-                using (FileStream stream = File.OpenRead(pathToFile))
-                {
-                    using (SHA256 Sha256 = SHA256.Create())
-                    {
-                        return Hash.BytesToString(Sha256.ComputeHash(stream));
-                    }
-                }
+                using FileStream stream = File.OpenRead(pathToFile);
+                using SHA256 Sha256 = SHA256.Create();
+
+                return Hash.BytesToString(Sha256.ComputeHash(stream));
 
             } catch (Exception ex) {
                 Program.log.Write("GetFileHash error: "+ex.Message);

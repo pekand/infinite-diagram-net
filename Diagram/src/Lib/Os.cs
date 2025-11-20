@@ -246,7 +246,7 @@ namespace Diagram
         /// concat path and subdir</summary>
         public static string Combine(string path, string subpath)
         {
-            return Path.Combine(path, subpath);
+            return Path.Combine(path, subpath ?? "");
         }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace Diagram
 
             currentPath = Os.GetFullPath(currentPath);
 
-            Uri pathUri = new Uri(filePath);
+            Uri pathUri = new(filePath);
             // Folders must end in a slash
             if (!currentPath.EndsWith(Path.DirectorySeparatorChar.ToString()))
             {
@@ -309,7 +309,7 @@ namespace Diagram
                 return filePath;
             }
 
-            Uri folderUri = new Uri(currentPath);
+            Uri folderUri = new(currentPath);
             return Uri.UnescapeDataString(
                 folderUri.MakeRelativeUri(pathUri)
                 .ToString()
@@ -339,7 +339,7 @@ namespace Diagram
                 return 0;
             }
 
-            DirectoryInfo d = new DirectoryInfo(path);
+            DirectoryInfo d = new(path);
 
             long size = 0;
             // Add file sizes.
@@ -369,7 +369,7 @@ namespace Diagram
                 string pathOnly = Os.GetDirectoryName(shortcutFilename);
                 string filenameOnly = Os.GetFileName(shortcutFilename);
 
-                Shell shell = new Shell();
+                Shell shell = new();
                 Folder folder = shell.NameSpace(pathOnly);
                 FolderItem folderItem = folder.ParseName(filenameOnly);
                 if (folderItem != null)
@@ -377,10 +377,10 @@ namespace Diagram
                     Shell32.ShellLinkObject link = (Shell32.ShellLinkObject)folderItem.GetLink;
 
                     if (link.Arguments != "") {
-                        return new string[] { link.Path, link.Arguments };
+                        return [link.Path, link.Arguments];
                     }
 
-                    return new string[] { link.Path, "" };
+                    return [link.Path, ""];
                 }
             }
             catch (Exception e)
@@ -388,7 +388,7 @@ namespace Diagram
                 Program.log.Write("GetShortcutTargetFile error: " + e.Message);
             }
 
-            return new string[] { "", "" };
+            return ["", ""];
         }
 
         /// <summary>
@@ -398,7 +398,7 @@ namespace Diagram
             String pathOnly = Os.GetDirectoryName(shortcutFilename);
             String filenameOnly = Os.GetFileName(shortcutFilename);
 
-            Shell shell = new Shell();
+            Shell shell = new();
             Folder folder = shell.NameSpace(pathOnly);
             FolderItem folderItem = folder.ParseName(filenameOnly);
             if (folderItem != null)
@@ -430,12 +430,16 @@ namespace Diagram
                 string workingDirectory = Path.GetDirectoryName(path);
                 string fileName = Path.GetFileName(path);
 
-                ProcessStartInfo startInfo = new ProcessStartInfo();
-                startInfo.FileName = ("explorer.exe");
-                startInfo.Arguments = fileName;
-                startInfo.WorkingDirectory = workingDirectory;
-                Process process = new Process();
-                process.StartInfo = startInfo;
+                ProcessStartInfo startInfo = new()
+                {
+                    FileName = ("explorer.exe"),
+                    Arguments = fileName,
+                    WorkingDirectory = workingDirectory
+                };
+                Process process = new()
+                {
+                    StartInfo = startInfo
+                };
                 process.Start();
             }
             catch (Exception ex)
@@ -483,7 +487,7 @@ namespace Diagram
             {
 
                 string currentApp = System.Reflection.Assembly.GetExecutingAssembly().Location;
-                ProcessStartInfo startInfo = new ProcessStartInfo
+                ProcessStartInfo startInfo = new()
                 {
                     FileName = currentApp,
                     Arguments = "\"" + Escape(diagramPath) + "\""
@@ -545,20 +549,19 @@ namespace Diagram
                         try
                         {
 
-                            Process process = new Process();
-                            ProcessStartInfo startInfo = new ProcessStartInfo
+                            Process process = new();
+                            ProcessStartInfo startInfo = new()
                             {
-                                WindowStyle = ProcessWindowStyle.Hidden
+                                WindowStyle = ProcessWindowStyle.Hidden,
+                                FileName = "cmd.exe",
+                                Arguments = "/C" + cmd,
+
+                                WorkingDirectory = workdir,
+                                UseShellExecute = true,
+                                RedirectStandardOutput = false,
+                                RedirectStandardError = false,
+                                CreateNoWindow = false
                             };
-
-                            startInfo.FileName = "cmd.exe";
-                            startInfo.Arguments = "/C" + cmd;
-
-                            startInfo.WorkingDirectory = workdir;
-                            startInfo.UseShellExecute = true;
-                            startInfo.RedirectStandardOutput = false;
-                            startInfo.RedirectStandardError = false;
-                            startInfo.CreateNoWindow = false;
                             process.StartInfo = startInfo;
                             process.Start();
                             //string output = process.StandardOutput.ReadToEnd();
@@ -594,20 +597,19 @@ namespace Diagram
                         try
                         {
 
-                            Process process = new Process();
-                            ProcessStartInfo startInfo = new ProcessStartInfo
+                            Process process = new();
+                            ProcessStartInfo startInfo = new()
                             {
-                                WindowStyle = ProcessWindowStyle.Hidden
+                                WindowStyle = ProcessWindowStyle.Hidden,
+                                FileName = "cmd.exe",
+                                Arguments = "/C" + cmd,
+
+                                WorkingDirectory = workdir,
+                                UseShellExecute = true,
+                                RedirectStandardOutput = false,
+                                RedirectStandardError = false,
+                                CreateNoWindow = false
                             };
-
-                            startInfo.FileName = "cmd.exe";
-                            startInfo.Arguments = "/C" + cmd;
-
-                            startInfo.WorkingDirectory = workdir;
-                            startInfo.UseShellExecute = true;
-                            startInfo.RedirectStandardOutput = false;
-                            startInfo.RedirectStandardError = false;
-                            startInfo.CreateNoWindow = false;
                             process.StartInfo = startInfo;
                             process.Start();
                             /*string output = process.StandardOutput.ReadToEnd();
@@ -637,14 +639,13 @@ namespace Diagram
         public static void RunCommandAndExit(string cmd, string parameters = "")
         {
 
-            Process process = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo
+            Process process = new();
+            ProcessStartInfo startInfo = new()
             {
-                WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden
+                WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
+                FileName = "cmd.exe",
+                Arguments = "/C " + "\"" + cmd + ((parameters != "") ? " " + parameters : "") + "\""
             };
-
-            startInfo.FileName = "cmd.exe";
-            startInfo.Arguments = "/C " + "\"" + cmd + ((parameters!="")?" "+ parameters:"") + "\"";
 
             process.StartInfo = startInfo;
             process.Start();
@@ -668,8 +669,8 @@ namespace Diagram
         public static void OpenEmail(string email)
         {
             Program.log.Write("open email: " + email);
-            
-            System.Diagnostics.Process proc = new System.Diagnostics.Process();
+
+            Process proc = new();
             proc.StartInfo.FileName = "mailto:"+email;
             proc.Start();
         }
@@ -679,17 +680,15 @@ namespace Diagram
 
         public static void CopyByBlock(string inputPath, string outputPath, CopyProgressDelegate callback = null)
         {
-            using (FileStream input = File.Open(inputPath, FileMode.Open, FileAccess.Read, FileShare.Read)) {
-                using (FileStream output = File.Open(outputPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read))
-                {
-                    byte[] buffer = new byte[1024 * 1024];
-                    int bytesRead;
-                    while ((bytesRead = input.Read(buffer, 0, buffer.Length)) != 0)
-                    {
-                        output.Write(buffer, 0, bytesRead);
-                        callback?.Invoke(bytesRead);
-                    }
-                }
+            using FileStream input = File.Open(inputPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            using FileStream output = File.Open(outputPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
+
+            byte[] buffer = new byte[1024 * 1024];
+            int bytesRead;
+            while ((bytesRead = input.Read(buffer, 0, buffer.Length)) != 0)
+            {
+                output.Write(buffer, 0, bytesRead);
+                callback?.Invoke(bytesRead);
             }
         }
 
@@ -797,7 +796,7 @@ namespace Diagram
         {
             int pos = 0;
             string line;
-            using (StreamReader file = new StreamReader(fileName))
+            using (StreamReader file = new(fileName))
             {
                 while ((line = file.ReadLine()) != null)
                 {
@@ -852,10 +851,9 @@ namespace Diagram
         {
             try
             {
-                using (StreamReader streamReader = new StreamReader(file, Encoding.UTF8))
-                {
-                    return streamReader.ReadToEnd();
-                }
+                using StreamReader streamReader = new(file, Encoding.UTF8);
+
+                return streamReader.ReadToEnd();
             }
             catch (System.IO.IOException ex)
             {
@@ -918,22 +916,23 @@ namespace Diagram
         {
             var tcs = new TaskCompletionSource<bool>();
 
-            Process process = new Process();
-            process.EnableRaisingEvents = true;
-            process.Exited += (sender, e) => tcs.TrySetResult(true);
-            ProcessStartInfo startInfo = new ProcessStartInfo
+            Process process = new()
             {
-                WindowStyle = ProcessWindowStyle.Hidden
+                EnableRaisingEvents = true
             };
+            process.Exited += (sender, e) => tcs.TrySetResult(true);
+            ProcessStartInfo startInfo = new()
+            {
+                WindowStyle = ProcessWindowStyle.Hidden,
+                FileName = "cmd.exe",
+                Arguments = "/C" + cmd,
 
-            startInfo.FileName = "cmd.exe";
-            startInfo.Arguments = "/C" + cmd;
-
-            startInfo.WorkingDirectory = workdir;
-            startInfo.UseShellExecute = false;
-            startInfo.RedirectStandardOutput = true;
-            startInfo.RedirectStandardError = true;
-            startInfo.CreateNoWindow = true;
+                WorkingDirectory = workdir,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
             process.StartInfo = startInfo;
 
             process.OutputDataReceived += (sender, e) =>

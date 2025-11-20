@@ -19,37 +19,37 @@ namespace Diagram
 
         /// <summary>
         /// Global program options</summary>
-        public ProgramOptions programOptions = null;
+        public ProgramOptions programOptions;
 
         /// <summary>
         /// managing file with global program options</summary>
-        private ProgramOptionsFile programOptionsFile = null;
+        private ProgramOptionsFile programOptionsFile;
 
         /// <summary>
         /// keyboard shorcut mapping</summary>
-        public KeyMap keyMap = null;
+        public KeyMap keyMap;
 
         /*************************************************************************************************************************/
         // Plugins
 
         /// <summary>
         /// load plugins</summary>
-        public string pluginsDirectoryName = "plugins";
-        public Plugins plugins = null;
+        public string pluginsDirectoryName;
+        public Plugins plugins;
 
         /*************************************************************************************************************************/
         // SERVER
 
         /// <summary>
         /// local messsaging server for communication between running program instances</summary>
-        private Server server = null;
+        private Server server;
 
         /*************************************************************************************************************************/
         // DIAGRAMS
 
         /// <summary>
         /// all opened diagrams models</summary>
-        private readonly List<Diagram> Diagrams = new List<Diagram>();
+        private readonly List<Diagram> Diagrams = [];
 
 
         /*************************************************************************************************************************/
@@ -57,29 +57,29 @@ namespace Diagram
 
         /// <summary>
         /// all opened form views to diagrams models</summary>
-        private readonly List<DiagramView> DiagramViews = new List<DiagramView>();
+        private readonly List<DiagramView> DiagramViews = [];
 
         /*************************************************************************************************************************/
         // DIAGRAM EDIT FORMS
 
         /// <summary>
         /// all opened node edit forms for all diagrams models</summary>
-        private readonly List<TextForm> TextWindows = new List<TextForm>();
+        private readonly List<TextForm> TextWindows = [];
 
         /*************************************************************************************************************************/
         // PASSWORD FORMS
 
         /// <summary>
         ///input form for password</summary>
-        private PasswordForm passwordForm = null;
+        private PasswordForm passwordForm;
 
         /// <summary>
         /// input form for new password</summary>
-        private NewPasswordForm newPasswordForm = null;
+        private NewPasswordForm newPasswordForm;
 
         /// <summary>
         /// input form for change old password</summary>
-        private ChangePasswordForm changePasswordForm = null;
+        private ChangePasswordForm changePasswordForm;
 
 
         /*************************************************************************************************************************/
@@ -87,24 +87,24 @@ namespace Diagram
 
         /// <summary>
         /// about form for display basic informations about application</summary>
-        private AboutForm aboutForm = null;
+        private AboutForm aboutForm;
 
         /*************************************************************************************************************************/
         // CONSOLE
 
         /// <summary>
         /// form for display logged messages</summary>
-        private Console console = null;
+        private Console console;
 
         /*************************************************************************************************************************/
         // MAIN APPLICATION
 
         // command line arguments
-        private string[] args = null;
+        private string[] args;
 
         /// <summary>
         /// form for catching messages from local server</summary>
-        public MainForm mainform = null;
+        public MainForm mainform;
 
         /*************************************************************************************************************************/
         // CONSTRUCTOR
@@ -131,7 +131,7 @@ namespace Diagram
             {
                 this.mainform = new MainForm(this);
 
-                Update update = new Update();
+                Update update = new();
                 update.CheckUpdates();
             }
         }
@@ -161,14 +161,22 @@ namespace Diagram
         /// load plugins from assebmblies</summary>
         public void LoadPugins()
         {
-            // load external plugins UID9841812564
-            plugins = new Plugins();
-
-            // load plugins from current application directory (portable mode)
-            string pluginsLocalDirectory = Os.Combine(Os.GetCurrentApplicationDirectory(), this.pluginsDirectoryName);
-            if (Os.DirectoryExists(pluginsLocalDirectory))
+            try
             {
-                plugins.LoadPlugins(pluginsLocalDirectory);
+                // load external plugins UID9841812564
+                plugins = new Plugins();
+
+                // load plugins from current application directory (portable mode)
+                string pluginsLocalDirectory = Os.Combine(Os.GetCurrentApplicationDirectory(), this.pluginsDirectoryName);
+                if (Os.DirectoryExists(pluginsLocalDirectory))
+                {
+                    plugins.LoadPlugins(pluginsLocalDirectory);
+                }
+            }
+            catch (Exception ex)
+            {
+                Program.log.Write("LoadPugins error: " + ex.Message);
+
             }
 
 #if !DEBUG
@@ -220,7 +228,7 @@ namespace Diagram
             bool ShowDebugConsole = false;
 
             // list of diagram files names for open
-            List<String> CommandLineOpen = new List<String>();
+            List<String> CommandLineOpen = [];
 
             String arg;
             for (int i = 0; i < args.Length; i++)
@@ -255,7 +263,7 @@ namespace Diagram
                 }
 
                 // [COMAND LINE] [OPEN] check if argument is diagram file
-                if (Os.GetExtension(arg).ToLower() == ".diagram")
+                if (Os.GetExtension(arg).Equals(".diagram", StringComparison.CurrentCultureIgnoreCase))
                 {
                     CommandLineOpen.Add(arg);
                     break;
@@ -396,7 +404,7 @@ namespace Diagram
         {
             Program.log.Write("Program : OpenDiagram: " + FilePath);
 
-            if (passwordForm != null) // prevent open diagram if another diagram triing open 
+            if (passwordForm != null) // prevent open diagram if another diagram trying open 
             {
                 return false;
             }
@@ -404,7 +412,7 @@ namespace Diagram
             // open new empty diagram in main process
             if (FilePath == "" && !server.mainProcess)
             {
-                // if server already exist in system, send him message whitch open empty diagram
+                // if server already exist in system, send him message which open empty diagram
                 server.SendMessage("open:");
                 return false;
             }
@@ -413,7 +421,7 @@ namespace Diagram
             if (FilePath == "" && server.mainProcess)
             {
                 // create new model
-                Diagram emptyDiagram = new Diagram(this);
+                Diagram emptyDiagram = new(this);
                 Diagrams.Add(emptyDiagram);
                 // open diagram view on diagram model
                 emptyDiagram.OpenDiagramView();
@@ -429,7 +437,7 @@ namespace Diagram
             
             FilePath = Os.NormalizedFullPath(FilePath);
             
-            // if server already exist in system, send him message whitch open diagram file
+            // if server already exist in system, send him message which open diagram file
             if (!server.mainProcess)
             {
                 FilePath = Os.GetFullPath(FilePath);
@@ -459,7 +467,7 @@ namespace Diagram
                 return false;
             }
             
-            Diagram diagram = new Diagram(this); //UID8780020416
+            Diagram diagram = new(this); //UID8780020416
             lock (diagram)
             {
                 // create new model
@@ -591,12 +599,9 @@ namespace Diagram
         /// show dialog for password for diagram unlock</summary>
         public string GetPassword(string subtitle = "")
         {
-            string password = null;
+            string password;
 
-            if (this.passwordForm == null)
-            {
-                this.passwordForm = new PasswordForm(this);
-            }
+            this.passwordForm ??= new PasswordForm(this);
 
             this.passwordForm.Text = Translations.password + " - " + subtitle;
             this.passwordForm.Clear();
@@ -622,10 +627,7 @@ namespace Diagram
         {
             string password = null;
 
-            if (this.newPasswordForm == null)
-            {
-                this.newPasswordForm = new NewPasswordForm(this);
-            }
+            this.newPasswordForm ??= new NewPasswordForm(this);
 
             this.newPasswordForm.Clear();
             this.newPasswordForm.ShowDialog();
@@ -646,15 +648,12 @@ namespace Diagram
         {
             string password = null;
 
-            if (this.changePasswordForm == null)
-            {
-                this.changePasswordForm = new ChangePasswordForm(this);
-            }
+            this.changePasswordForm ??= new ChangePasswordForm(this);
 
             this.changePasswordForm.Clear();
-            this.changePasswordForm.oldpassword = currentPassword;
+            this.changePasswordForm.oldPassword = currentPassword;
             this.changePasswordForm.ShowDialog();
-            if (!this.changePasswordForm.cancled)
+            if (!this.changePasswordForm.canceled)
             {
                 password = this.changePasswordForm.GetPassword();
                 this.changePasswordForm.Clear();
@@ -672,10 +671,7 @@ namespace Diagram
         /// show about</summary>
         public void ShowAbout()
         {
-            if (this.aboutForm == null)
-            {
-                this.aboutForm = new AboutForm(this);
-            }
+            this.aboutForm ??= new AboutForm(this);
 
             this.aboutForm.ShowDialog();
 
@@ -742,30 +738,15 @@ namespace Diagram
         {
             Program.log.Write("Program : ExitApplication");
 
-            if (passwordForm != null)
-            {
-                passwordForm.Close();
-            }
+            passwordForm?.Close();
 
-            if (newPasswordForm != null)
-            {
-                newPasswordForm.Close();
-            }
+            newPasswordForm?.Close();
 
-            if (changePasswordForm != null)
-            {
-                changePasswordForm.Close();
-            }
+            changePasswordForm?.Close();
 
-            if (mainform != null)
-            {
-                mainform.Close();
-            }
+            mainform?.Close();
             
-            if (console != null)
-            {
-                console.Close();
-            }
+            console?.Close();
 
             if (this.server != null && this.server.mainProcess)
             {

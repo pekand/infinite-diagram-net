@@ -11,7 +11,7 @@ namespace Diagram
         /*************************************************************************************************************************/
         // SIZE AND POSITION
 
-        public Position position = new Position(); // node position in canvas
+        public Position position = new(); // node position in canvas
         public decimal width = 0; // node size counted from current font
         public decimal height = 0;
         public decimal scale = 0;
@@ -25,9 +25,9 @@ namespace Diagram
         /*************************************************************************************************************************/
         // STYLES
 
-        public ColorType color = new ColorType("#FFFFB8"); // node color
+        public ColorType color = new("#FFFFB8"); // node color
         public Font font = null; // node name font
-        public ColorType fontcolor = new ColorType(); // node name ext color
+        public ColorType fontcolor = new(); // node name ext color
         public bool transparent = false; // node is transparent, color is turn off
 
         /*************************************************************************************************************************/
@@ -42,7 +42,7 @@ namespace Diagram
 
         public long layer = 0; // layer id or parent node id
         public bool haslayer = false; // nose has one or more childrens
-        public Position layerShift = new Position(); // last position in layer
+        public Position layerShift = new(); // last position in layer
         public decimal layerScale = 0;
 
         /*************************************************************************************************************************/
@@ -92,7 +92,7 @@ namespace Diagram
         /*************************************************************************************************************************/
         // PLUGINS
 
-        public DataStorage dataStorage = new DataStorage(); // extra storage for plugins
+        public DataStorage dataStorage = new(); // extra storage for plugins
 
         /*************************************************************************************************************************/
         // CONSTRUCTORS

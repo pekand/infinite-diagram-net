@@ -11,11 +11,11 @@ namespace Diagram
 
         public long group = 0; // undo operations group. Undo operations in some group are undo as one operation
         
-        public Nodes nodes = new Nodes(); // affected nodes
-        public Lines lines = new Lines(); // affected lines
+        public Nodes nodes = []; // affected nodes
+        public Lines lines = []; // affected lines
         public decimal scale = 0;
 
-        public Position position = new Position(); // position in diagram when change occurred
+        public Position position = new(); // position in diagram when change occurred
         public long layer = 0; // layer in diagram when change occurred
 
         /*************************************************************************************************************************/
@@ -66,8 +66,8 @@ namespace Diagram
 
         public Diagram diagram = null;                // diagram assigned to current undo
         
-        public Stack<UndoOperation> operations = new Stack<UndoOperation>(); // saved undo operations
-        public Stack<UndoOperation> reverseOperations = new Stack<UndoOperation>(); // saved redo operations
+        public Stack<UndoOperation> operations = new(); // saved undo operations
+        public Stack<UndoOperation> reverseOperations = new(); // saved redo operations
 
         /*************************************************************************************************************************/
         // CONSTRUCTORS
@@ -82,7 +82,7 @@ namespace Diagram
 
         public void Add(string type, Node node, Position position = null, decimal scale = 0, long layer = 0)
         {
-            Nodes nodes = new Nodes();
+            Nodes nodes = [];
             if (node != null)
             {
                 nodes.Add(new Node(node));
@@ -92,7 +92,7 @@ namespace Diagram
 
         public void Add(string type, Line line, Position position = null, decimal scale = 0, long layer = 0)
         {
-            Lines lines = new Lines();
+            Lines lines = [];
             if (line != null)
             {
                 lines.Add(new Line(line));
@@ -102,13 +102,13 @@ namespace Diagram
 
         public void Add(string type, Node node, Line line, Position position = null, decimal scale = 0, long layer = 0)
         {
-            Nodes nodes = new Nodes();
+            Nodes nodes = [];
             if (node != null)
             {
                 nodes.Add(new Node(node));
             }
 
-            Lines lines = new Lines();
+            Lines lines = [];
             if (line != null)
             {
                 lines.Add(new Line(line));
@@ -121,8 +121,8 @@ namespace Diagram
             operations.Push(
                 new UndoOperation(
                     type, 
-                    (nodes != null) ? new Nodes(nodes) : null, 
-                    (lines != null) ? new Lines(lines) : null,
+                    (nodes != null) ? [.. nodes] : null, 
+                    (lines != null) ? [.. lines] : null,
                     (grouping) ? group : 0, // add multiple operations into one undo group
                     position.Clone(),
                     scale,
@@ -133,7 +133,7 @@ namespace Diagram
             this.saved++;
             
             // forgot undo operation
-            if (reverseOperations.Count() > 0)
+            if (reverseOperations.Count > 0)
             {
                 if (this.saved > 0) // save is in redo but if redo is cleared theh save is lost
                 {
@@ -148,18 +148,18 @@ namespace Diagram
 
         public bool CanUndo()
         {
-            return this.operations.Count() > 0;
+            return this.operations.Count > 0;
         }
 
         public bool CanRedo()
         {
-            return this.reverseOperations.Count() > 0;
+            return this.reverseOperations.Count > 0;
         }
 
         public bool DoUndo(DiagramView view = null)
         {
 
-            if (operations.Count() == 0)
+            if (operations.Count == 0)
             {
                 return false;
             }
@@ -208,19 +208,19 @@ namespace Diagram
                     operation.type == "changeNodeColor"
                 )
                 {
-                    Nodes nodes = new Nodes();
+                    Nodes nodes = [];
                     foreach (Node node in operation.nodes)
                     {
                         nodes.Add(this.diagram.GetNodeByID(node.id));
                     }
 
-                    Lines lines = new Lines();
+                    Lines lines = [];
                     foreach (Line line in operation.lines)
                     {
                         lines.Add(this.diagram.GetLine(line.start, line.end));
                     }
 
-                    UndoOperation roperation = new UndoOperation(
+                    UndoOperation roperation = new(
                         operation.type,
                         nodes,
                         lines,
@@ -235,7 +235,7 @@ namespace Diagram
 
                 operations.Pop();
                 result = true;
-            } while (group != 0 && operations.Count() > 0);
+            } while (group != 0 && operations.Count > 0);
 
             if (result)
             {
@@ -255,7 +255,7 @@ namespace Diagram
 
         public bool DoRedo(DiagramView view = null)
         {
-            if (reverseOperations.Count() == 0)
+            if (reverseOperations.Count == 0)
             {
                 return false;
             }
@@ -303,20 +303,20 @@ namespace Diagram
                     operation.type == "changeNodeColor"
                 )
                 {
-                    Nodes nodes = new Nodes();
+                    Nodes nodes = [];
                     foreach (Node node in operation.nodes)
                     {
                         nodes.Add(this.diagram.GetNodeByID(node.id));
                     }
 
-                    Lines lines = new Lines();
+                    Lines lines = [];
                     foreach (Line line in operation.lines)
                     {
                         lines.Add(this.diagram.GetLine(line.start, line.end));
                     }
 
 
-                    UndoOperation roperation = new UndoOperation(
+                    UndoOperation roperation = new(
                         operation.type,
                         nodes,
                         lines,
@@ -333,7 +333,7 @@ namespace Diagram
                 reverseOperations.Pop();
                 result = true;
 
-            } while (group != 0 && reverseOperations.Count() > 0);
+            } while (group != 0 && reverseOperations.Count > 0);
 
             if (result)
             {
@@ -405,10 +405,7 @@ namespace Diagram
                     lineOld.endNode = this.diagram.GetNodeByID(lineOld.end);
                     Line line = this.diagram.layers.GetLine(lineOld.startNode, lineOld.endNode);
 
-                    if (line != null)
-                    {
-                        line.Set(lineOld);
-                    }
+                    line?.Set(lineOld);
                 }
             }
 
@@ -418,10 +415,7 @@ namespace Diagram
                 {
                     Node node = this.diagram.layers.GetNode(nodeOld.id);
 
-                    if (node != null)
-                    {
-                        node.Set(nodeOld);
-                    }
+                    node?.Set(nodeOld);
                 }
             }
         }
@@ -448,7 +442,7 @@ namespace Diagram
         public bool IsSame(string type, Nodes nodes, Lines lines)
         {
             
-            if (operations.Count()>0)
+            if (operations.Count > 0)
             {
 
                 UndoOperation operation = operations.First();
@@ -456,16 +450,16 @@ namespace Diagram
                 if (operation.type == type)
                 {
 
-                    if (operation.nodes.Count() == 0 && nodes == null)
+                    if (operation.nodes.Count == 0 && nodes == null)
                     {
                     }
                     else if ((operation.nodes == null && nodes != null) || (operation.nodes != null && nodes == null))
                     {
                         return false;
                     }
-                    else if (operation.nodes.Count() == nodes.Count())
+                    else if (operation.nodes.Count == nodes.Count)
                     {
-                        for (int i = 0; i < nodes.Count(); i++)
+                        for (int i = 0; i < nodes.Count; i++)
                         {
                             if (operation.nodes[i].id != nodes[i].id)
                             {
@@ -478,16 +472,16 @@ namespace Diagram
                         return false;
                     }
 
-                    if (operation.lines.Count() == 0 && lines == null)
+                    if (operation.lines.Count == 0 && lines == null)
                     {
                     }
                     else if ((operation.lines == null && lines != null) || (operation.lines != null && lines == null))
                     {
                         return false;
                     }
-                    else if (operation.lines.Count() == lines.Count())
+                    else if (operation.lines.Count == lines.Count)
                     {
-                        for (int i = 0; i < lines.Count(); i++)
+                        for (int i = 0; i < lines.Count; i++)
                         {
                             if (operation.lines[i].start != lines[i].start || operation.lines[i].end != lines[i].end)
                             {

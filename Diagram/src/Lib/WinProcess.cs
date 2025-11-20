@@ -13,7 +13,7 @@ namespace Diagram
         /// <summary>
         /// Prevent taskbar to group diagrams to one
         /// </summary>
-        public static void setId() {
+        public static void SetId() {
             SetCurrentProcessExplicitAppUserModelID(Randomizer.GetRandomString());
         }
 

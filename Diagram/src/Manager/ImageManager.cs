@@ -6,25 +6,23 @@ namespace Diagram
     {
         private bool disposed = false;
 
-        private Dictionary<string, ImageEntry> images = new Dictionary<string, ImageEntry>();
+        private Dictionary<string, ImageEntry> images = [];
 
         private string ComputeHash(byte[] data)
         {
-            using (var sha = SHA256.Create())
-            {
-                byte[] hashBytes = sha.ComputeHash(data);
-                return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
-            }
+            using var sha = SHA256.Create();
+
+            byte[] hashBytes = sha.ComputeHash(data);
+            return Convert.ToHexStringLower(hashBytes);
         }
 
         private Bitmap? LoadImageFromBytes(byte[] data)
         {
             try
             {
-                using (var ms = new MemoryStream(data))
-                {
-                    return (Bitmap)Bitmap.FromStream(ms);
-                }
+                using var ms = new MemoryStream(data);
+
+                return (Bitmap)Bitmap.FromStream(ms);
             }
             catch (Exception)
             {
@@ -72,32 +70,29 @@ namespace Diagram
 
         public ImageEntry? AddImage(Bitmap image, bool cloneImage = false)
         {
-            using (var ms = new MemoryStream())
-            {
-                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                byte[] data = ms.ToArray();
-                string hash = ComputeHash(data);
+            using var ms = new MemoryStream();
 
-                if (images.ContainsKey(hash))
-                    return images[hash];
+            image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+            byte[] data = ms.ToArray();
+            string hash = ComputeHash(data);
 
-                if (cloneImage)
-                {
-                    using (var msClone = new MemoryStream(data))
-                    {
-                        image = (Bitmap)Bitmap.FromStream(msClone);
-                    }
-                }
-
-                images[hash] = new ImageEntry
-                {
-                    Image = image,
-                    Path = null,
-                    Hash = hash
-                };
-
+            if (images.ContainsKey(hash))
                 return images[hash];
+
+            if (cloneImage)
+            {
+                using var msClone = new MemoryStream(data);
+                image = (Bitmap)Bitmap.FromStream(msClone);
             }
+
+            images[hash] = new ImageEntry
+            {
+                Image = image,
+                Path = null,
+                Hash = hash
+            };
+
+            return images[hash];
         }
 
         public bool RemoveImageByPath(string filePath)
@@ -140,10 +135,7 @@ namespace Diagram
         {
             if (imageEntry != null && imageEntry.Hash != null && images.ContainsKey(imageEntry.Hash))
             {
-                if (imageEntry.Image != null)
-                {
-                    imageEntry.Image.Dispose();
-                }
+                imageEntry.Image?.Dispose();
                 
                 images.Remove(imageEntry.Hash);
                 return true;
@@ -154,7 +146,7 @@ namespace Diagram
 
         public List<ImageEntry> GetAllEntries()
         {
-            return new List<ImageEntry>(images.Values);
+            return [.. images.Values];
         }
 
         public void Dispose()
@@ -163,10 +155,7 @@ namespace Diagram
 
             foreach (var entry in images.Values)
             {
-                if (entry.Image != null)
-                {
-                    entry.Image.Dispose();
-                }
+                entry.Image?.Dispose();
             }
 
             images.Clear();

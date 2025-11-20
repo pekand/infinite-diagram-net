@@ -18,7 +18,7 @@ namespace Diagram
             Path = 0x002,
         }
 
-        [DllImport("shell32.dll", CharSet = CharSet.Ansi)]
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
         private static extern void
             SHAddToRecentDocs(ShellAddToRecentDocsFlags flag, string path);
 
