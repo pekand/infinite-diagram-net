@@ -11,8 +11,8 @@ namespace Diagram
         // POSITION
 
         public Position shift = new();            // startup position in diagram
-        public Position firstLayereShift = new(); // position in layer
-        public decimal firstLayereScale = 0;
+        public Position firstLayerShift = new(); // position in layer
+        public decimal firstLayerScale = 0;
 
         /*************************************************************************************************************************/
         // HOME AND END POSITIONS
@@ -20,7 +20,7 @@ namespace Diagram
         public Position homePosition = new();     // diagram start and home key position
         public long homeLayer = 0;                          // startup layer after diagram open
         public decimal homeScale = 0;                          // startup scale after diagram open
-        public Position endPosition = new();      // diagram end key position seet by end key
+        public Position endPosition = new();      // diagram end key position set by end key
         public long endLayer = 0;                           // startup layer after diagram open
         public decimal endScale = 0;                           // startup scale after diagram open
 
@@ -32,7 +32,7 @@ namespace Diagram
         public bool pinWindow = false;                     // diagram view is top window
         public bool grid = true;                           // show grid
         public bool borders = false;                       // show node borders
-        public bool coordinates = false;                   // show coordinates for debuging purpose        
+        public bool coordinates = false;                   // show coordinates for debugging purpose        
         public bool openLayerInNewView = false;            // show grid
 
         /*************************************************************************************************************************/
@@ -43,7 +43,7 @@ namespace Diagram
         public long Top = 0;                                // diagram view position 
         public long Width = 100;                            // diagram view position 
         public long Height = 100;                           // diagram view position 
-        public long WindowState = 0;                        // 0 unset; 1 maximalized; 2 normal; 3 minimalized
+        public long WindowState = 0;                        // 0 unset; 1 maximized; 2 normal; 3 minimalized
 
         /*************************************************************************************************************************/
         // MOVE SPEED

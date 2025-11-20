@@ -4,7 +4,7 @@
 
 namespace Diagram
 {
-    public static class RecentFiles
+    internal static partial class RecentFiles
     {
         public static void AddToRecentlyUsedDocs(string path)
         {
@@ -12,15 +12,14 @@ namespace Diagram
         }
 
 
-        private enum ShellAddToRecentDocsFlags
+        internal enum ShellAddToRecentDocsFlags
         {
             Pidl = 0x001,
             Path = 0x002,
         }
 
-        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
-        private static extern void
-            SHAddToRecentDocs(ShellAddToRecentDocsFlags flag, string path);
+        [LibraryImport("shell32.dll", StringMarshalling = StringMarshalling.Utf16)]
+        static partial void SHAddToRecentDocs(ShellAddToRecentDocsFlags flag, string path);
 
     }
 }

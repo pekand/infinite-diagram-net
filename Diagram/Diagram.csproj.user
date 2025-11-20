@@ -10,6 +10,9 @@
     <Compile Update="src\Components\SearchPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="src\Components\TimerTimer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="src\Forms\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>

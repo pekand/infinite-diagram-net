@@ -3,8 +3,8 @@
 namespace Diagram
 {
     /// <summary>
-    /// Class for catch log informations.
-    /// This informations can be show in console form </summary>
+    /// Class for catch log information.
+    /// This information can be show in console form </summary>
     public class Log //UID8455348623
     {
 

@@ -4,13 +4,10 @@ namespace Diagram
 {
     public delegate void PositionChangeEventHandler(object source, PositionEventArgs e);
 
-    public class PositionEventArgs : EventArgs
+    public class PositionEventArgs(double position) : EventArgs
     {
-        private double ScrollPosition;
-        public PositionEventArgs(double position)
-        {
-            ScrollPosition = position;
-        }
+        private readonly double ScrollPosition = position;
+
         public double GetPosition()
         {
             return ScrollPosition;
@@ -47,7 +44,7 @@ namespace Diagram
         public long delta = 0;
 
         // timer - animation
-        readonly System.Windows.Forms.Timer timer = new(); // timer pre animaciu
+        readonly TimerTimer timer = new(); // timer for animation
         public long opacity = 0;
         public bool animation = false; // animation is running
         public bool active = false; // scrolbarr is visible

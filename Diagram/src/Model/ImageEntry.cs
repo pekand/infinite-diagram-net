@@ -8,7 +8,18 @@
         public string? Path { get; set; }
         public string? Hash { get; set; }
 
+        ~ImageEntry()
+        {
+            Dispose(false);
+        }
+
         public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
         {
             if (disposed) return;
 
@@ -21,11 +32,6 @@
             }          
 
             disposed = true;
-        }
-
-        ~ImageEntry()
-        {
-            Dispose();
         }
     }
 }

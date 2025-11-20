@@ -53,9 +53,11 @@ namespace Plugin
 
         public void CreateDiagramItem_Click(object sender, EventArgs e, Diagram.DiagramView diagramview)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Diagram (*.diagram)|*.diagram";
-            saveFileDialog.Title = "Save a Diagram File";
+            SaveFileDialog saveFileDialog = new()
+            {
+                Filter = "Diagram (*.diagram)|*.diagram",
+                Title = "Save a Diagram File"
+            };
 
             string DiagramPath = diagramview.diagram.FileName.Trim();
 
@@ -84,9 +86,11 @@ namespace Plugin
 
         public void PopupAddItemsAction(Diagram.DiagramView diagramview, ToolStripMenuItem pluginsItem)
         {
-            this.CreateDiagramItem = new ToolStripMenuItem();
-            this.CreateDiagramItem.Name = "CreateDiagram";
-            this.CreateDiagramItem.Text = "Create Diagram";
+            this.CreateDiagramItem = new()
+            {
+                Name = "CreateDiagram",
+                Text = "Create Diagram"
+            };
             this.CreateDiagramItem.Click += new System.EventHandler((sender, e) => this.CreateDiagramItem_Click(sender, e, diagramview));
 
             pluginsItem.DropDownItems.Add(this.CreateDiagramItem);

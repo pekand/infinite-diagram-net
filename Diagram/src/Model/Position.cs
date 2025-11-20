@@ -219,7 +219,7 @@ namespace Diagram
         }
 
         // <summary>
-        /// substact node</summary>        
+        /// subtract node</summary>        
         public static Position operator -(Position a, Position b)
         {
             return new Position(a).Subtract(b);

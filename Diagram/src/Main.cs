@@ -9,7 +9,7 @@ namespace Diagram
     /// Processing global options files
     /// Start server
     /// Processing command line arguments.
-    /// Create mainform
+    /// Create mainForm
     /// </summary>
     public class Main //UID7118462915
     {
@@ -26,7 +26,7 @@ namespace Diagram
         private ProgramOptionsFile programOptionsFile;
 
         /// <summary>
-        /// keyboard shorcut mapping</summary>
+        /// keyboard shortcut mapping</summary>
         public KeyMap keyMap;
 
         /*************************************************************************************************************************/
@@ -34,14 +34,14 @@ namespace Diagram
 
         /// <summary>
         /// load plugins</summary>
-        public string pluginsDirectoryName;
+        public string pluginsDirectoryName = "plugins";
         public Plugins plugins;
 
         /*************************************************************************************************************************/
         // SERVER
 
         /// <summary>
-        /// local messsaging server for communication between running program instances</summary>
+        /// local messaging server for communication between running program instances</summary>
         private Server server;
 
         /*************************************************************************************************************************/
@@ -86,7 +86,7 @@ namespace Diagram
         // ABOUT FORM        
 
         /// <summary>
-        /// about form for display basic informations about application</summary>
+        /// about form for display basic information about application</summary>
         private AboutForm aboutForm;
 
         /*************************************************************************************************************************/
@@ -104,7 +104,7 @@ namespace Diagram
 
         /// <summary>
         /// form for catching messages from local server</summary>
-        public MainForm mainform;
+        public MainForm mainForm;
 
         /*************************************************************************************************************************/
         // CONSTRUCTOR
@@ -117,7 +117,7 @@ namespace Diagram
 
             this.LoadProgramOptionFiles();
 
-            this.LoadPugins();
+            this.LoadPlugins();
 
             this.LoadServer();
 
@@ -129,7 +129,7 @@ namespace Diagram
             // or if running debug console from command line parameter
             if ((server.mainProcess && this.Diagrams.Count > 0) || this.console != null)
             {
-                this.mainform = new MainForm(this);
+                this.mainForm = new MainForm(this);
 
                 Update update = new();
                 update.CheckUpdates();
@@ -148,7 +148,7 @@ namespace Diagram
         }
 
         /// <summary>
-        /// open directori with global configuration</summary>
+        /// open directory with global configuration</summary>
         public void OpenConfigDir()
         {
             Os.ShowDirectoryInExternalApplication(Os.GetDirectoryName(this.programOptionsFile.optionsFilePath));
@@ -158,8 +158,8 @@ namespace Diagram
         // PLUGINS
 
         /// <summary>
-        /// load plugins from assebmblies</summary>
-        public void LoadPugins()
+        /// load plugins from assemblies</summary>
+        public void LoadPlugins()
         {
             try
             {
@@ -175,7 +175,7 @@ namespace Diagram
             }
             catch (Exception ex)
             {
-                Program.log.Write("LoadPugins error: " + ex.Message);
+                Program.log.Write("LoadPlugins error: " + ex.Message);
 
             }
 
@@ -197,7 +197,7 @@ namespace Diagram
         /// load server</summary>
         public void LoadServer()
         {
-            // create local server for comunication between local instances UID2964640610
+            // create local server for communication between local instances UID2964640610
             server = new Server(this);
 
             server.StartServer();
@@ -213,12 +213,12 @@ namespace Diagram
             // get command line arguments
             this.args = Environment.GetCommandLineArgs();
 
-            // process comand line arguments
+            // process command line arguments
             this.ParseCommandLineArguments(this.args);
         }
 
         /// <summary>
-        /// process comand line arguments</summary>
+        /// process command line arguments</summary>
         public void ParseCommandLineArguments(string[] args) // [PARSE] [COMMAND LINE] UID5172911205
         {
             // options - create new file with given name if not exist
@@ -243,7 +243,6 @@ namespace Diagram
                 // current processing argument
                 arg = args[i];
 
-                // [COMAND LINE] [CREATE]  oprions create new file with given name if not exist
                 if (arg == "-h" || arg == "--help" || arg == "/?")
                 {
                     ShowCommandLineHelp = true;
@@ -269,7 +268,7 @@ namespace Diagram
                     break;
                 }
 
-                Program.log.Write("bed commmand line argument: " + arg);
+                Program.log.Write("bed command line argument: " + arg);
             }
 
             if (ShowDebugConsole)
@@ -284,7 +283,7 @@ namespace Diagram
                 "diagram -h --help /?  >> show this help\n" +
                 "diagram -c --console /?  >> show debug console\n" +
                 "diagram -e {filename} >> create file if not exist\n" +
-                "diagram {filepath} {filepath} >> open existing file\n";
+                "diagram {filePath1} {filePath2} >> open existing file\n";
                 MessageBox.Show(help, "Command line parameters");
                 return;
             }
@@ -330,7 +329,7 @@ namespace Diagram
                 }
             }
 
-            // cose application if is not diagram model opened
+            // close application if is not diagram model opened
             this.CloseEmptyApplication();
         }
 
@@ -711,22 +710,22 @@ namespace Diagram
         {
             Program.log.Write("Program : CloseApplication");
 
-            bool canclose = true;
+            bool canClose = true;
 
             if (Diagrams.Count > 0 || DiagramViews.Count > 0 || TextWindows.Count > 0)
             {
-                canclose = false;
+                canClose = false;
             }
 
             if (console != null)
             {
                 // prevent close application if debug console is open
-                // console must by closed mannualy by user
+                // console must by closed manually by user
                 Program.log.Write("Program : Console is still open...");
-                canclose = false;
+                canClose = false;
             }
 
-            if (canclose)
+            if (canClose)
             {
                 ExitApplication();
             }
@@ -744,7 +743,7 @@ namespace Diagram
 
             changePasswordForm?.Close();
 
-            mainform?.Close();
+            mainForm?.Close();
             
             console?.Close();
 
@@ -765,8 +764,8 @@ namespace Diagram
             }
             catch (Exception e)
             {
-                Program.log.Write("Terminate aplication exception: " + e.Message);
-                Program.log.Write("Terminate aplication trace: " + e.StackTrace);
+                Program.log.Write("Terminate application exception: " + e.Message);
+                Program.log.Write("Terminate application trace: " + e.StackTrace);
             }
         }
 

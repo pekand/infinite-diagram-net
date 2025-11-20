@@ -3,9 +3,7 @@ using System.Windows.Forms;
 
 #nullable disable
 
-/*! \mainpage Infinite diagram
- *
- * \section intro_sec Introduction
+/*! Infinite diagram
  *
  * Program for creating diagrams
  *
@@ -19,11 +17,11 @@ namespace Diagram
         public static SynchronizationContext context;
 
         /// <summary>
-        /// debuging console for loging messages</summary>
+        /// debugging console for logging messages</summary>
         public static Log log = new();
 
         /// <summary>
-        /// create main class which oppening forms</summary>
+        /// create main class which opening forms</summary>
         private static Main main = null;
 
         /// <summary>
@@ -55,7 +53,7 @@ namespace Diagram
 #else
                 Program.log.Write("Production mode");
 #endif
-                // aplication default settings
+                // application default settings
                 Application.SetHighDpiMode(HighDpiMode.SystemAware);
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -65,9 +63,9 @@ namespace Diagram
                 context = SynchronizationContext.Current ?? new SynchronizationContext();
 
                 main = new Main();
-                if (main.mainform != null)
+                if (main.mainForm != null)
                 {
-                    Application.Run(main.mainform);
+                    Application.Run(main.mainForm);
                 } else {
                     main.ExitApplication();
                 }

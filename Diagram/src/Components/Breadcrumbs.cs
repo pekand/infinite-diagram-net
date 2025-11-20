@@ -13,11 +13,11 @@ namespace Diagram
         public string name;
     }
 
-    public class Breadcrumbs
+    public class Breadcrumbs(DiagramView diagramView)
     {
         public bool isVisible = true;
          
-        public DiagramView diagramView = null;
+        public DiagramView diagramView = diagramView;
 
         private readonly List<BreadcrumbItem> items = [];
 
@@ -34,8 +34,6 @@ namespace Diagram
         private long width = 0;
         private long height = 0;
         private readonly long itemSpace = 5;
-
-        public Breadcrumbs(DiagramView diagramView) => this.diagramView = diagramView;
 
         public void Update() //UID2139429132
         {

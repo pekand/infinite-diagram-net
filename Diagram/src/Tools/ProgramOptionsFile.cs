@@ -66,7 +66,7 @@ namespace Diagram
                     Os.CreateDirectory(globalConfigDirectory);
                 }
 
-                // if config file dosn't exist create one with default values
+                // if config file doesn't exist create one with default values
                 this.SaveConfigFile();
             }
         }

@@ -9,21 +9,12 @@ using System.Security.Cryptography;
 namespace Plugin
 {
 
-    public class Tools //UID6975866488
+    public class Tools(Diagram.Diagram diagram, DiagramView diagramView, Node node, string clipboard = "") //UID6975866488
     {
-        private Diagram.Diagram diagram = null;
-        private DiagramView diagramView = null;
-        private Node node = null;
-        private string clipboard = "";
-
-        public Tools(Diagram.Diagram diagram, DiagramView diagramView, Node node, string clipboard = "")
-        {
-            this.diagram = diagram;
-            this.diagramView = diagramView;
-            this.node = node;
-            this.clipboard = clipboard;
-
-        }
+        private readonly Diagram.Diagram diagram = diagram;
+        private readonly DiagramView diagramView = diagramView;
+        private readonly Node node = node;
+        private readonly string clipboard = clipboard;
 
         /*************************************************************************************************************************/
         // MESSAGES
@@ -159,11 +150,11 @@ namespace Plugin
             return v.ToString();
         }
 
-        public string getRandomString(int length)
+        public string GetRandomString(int length)
         {
             return Randomizer.GetRandomString(length);
         }
-        public string getRandomDigits(int length)
+        public string GetRandomDigits(int length)
         {
             var random = new Random();
             string s = string.Empty;
@@ -172,11 +163,11 @@ namespace Plugin
             return s;
         }
 
-        public Diagram.Diagram getCurrentDiagram() {
+        public Diagram.Diagram GetCurrentDiagram() {
             return this.diagram;
         }
 
-        public Diagram.DiagramView getCurrentDiagramView()
+        public Diagram.DiagramView GetCurrentDiagramView()
         {
             return this.diagramView;
         }

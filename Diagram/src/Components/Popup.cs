@@ -8,7 +8,7 @@ namespace Diagram
 
     public class Popup : ContextMenuStrip //UID5085107645
     {
-        public DiagramView diagramView = null;       // diagram ktory je previazany z pohladom
+        public DiagramView diagramView = null;
 
         private readonly Dictionary<string, ToolStripMenuItem> items = [];
         private readonly Dictionary<string, ToolStripSeparator> separators = [];
@@ -55,12 +55,12 @@ namespace Diagram
             items["colorItem"].Text = "Color";
             items["colorItem"].Click += new System.EventHandler(this.ColorItem_Click);
             //
-            // openlinkItem
+            // openLinkItem
             //
-            items.Add("openlinkItem", new System.Windows.Forms.ToolStripMenuItem());
-            items["openlinkItem"].Name = "openlinkItem";
-            items["openlinkItem"].Text = "Open";
-            items["openlinkItem"].Click += new System.EventHandler(this.OpenlinkItem_Click);
+            items.Add("openLinkItem", new System.Windows.Forms.ToolStripMenuItem());
+            items["openLinkItem"].Name = "openLinkItem";
+            items["openLinkItem"].Text = "Open";
+            items["openLinkItem"].Click += new System.EventHandler(this.OpenLinkItem_Click);
             //
             // openLinkDirectoryItem
             //
@@ -73,7 +73,7 @@ namespace Diagram
             //
             items.Add("linkItem", new System.Windows.Forms.ToolStripMenuItem());
             items["linkItem"].DropDownItems.AddRange([
-                items["openlinkItem"],
+                items["openLinkItem"],
                 items["openLinkDirectoryItem"]
             ]);
             items["linkItem"].Name = "linkItem";
@@ -144,12 +144,12 @@ namespace Diagram
             items["inColumnItem"].Text = "In column";
             items["inColumnItem"].Click += new System.EventHandler(this.InColumnItem_Click);
             //
-            // groupVericalItem
+            // groupVerticalItem
             //
-            items.Add("groupVericalItem", new System.Windows.Forms.ToolStripMenuItem());
-            items["groupVericalItem"].Name = "groupVericalItem";
-            items["groupVericalItem"].Text = "Group vertical";
-            items["groupVericalItem"].Click += new System.EventHandler(this.GroupVericalItem_Click);
+            items.Add("groupVerticalItem", new System.Windows.Forms.ToolStripMenuItem());
+            items["groupVerticalItem"].Name = "groupVerticalItem";
+            items["groupVerticalItem"].Text = "Group vertical";
+            items["groupVerticalItem"].Click += new System.EventHandler(this.GroupVerticalItem_Click);
             //
             // groupHorizontalItem
             //
@@ -383,14 +383,14 @@ namespace Diagram
             items["imageEmbeddedItem"].Click += new System.EventHandler(this.ImageEmbeddedItem_Click);
         }
 
-        private void BuildAtachmentItems() {
+        private void BuildAttachmentItems() {
             //
-            // deploayAttachmentItem
+            // deployAttachmentItem
             //
-            items.Add("deploayAttachmentItem", new System.Windows.Forms.ToolStripMenuItem());
-            items["deploayAttachmentItem"].Name = "deploayAttachmentItem";
-            items["deploayAttachmentItem"].Text = "Deploy attachment";
-            items["deploayAttachmentItem"].Click += new System.EventHandler(this.DeploayAttachmentItem_Click);
+            items.Add("deployAttachmentItem", new System.Windows.Forms.ToolStripMenuItem());
+            items["deployAttachmentItem"].Name = "deployAttachmentItem";
+            items["deployAttachmentItem"].Text = "Deploy attachment";
+            items["deployAttachmentItem"].Click += new System.EventHandler(this.DeployAttachmentItem_Click);
             //
             // includeFileItem
             //
@@ -685,7 +685,7 @@ namespace Diagram
             items["readonlyItem"].Click += new System.EventHandler(this.ReadonlyItem_Click);
 
             //
-            // AllwaysTopMost
+            // AlwaysTopMost
             //
             items.Add("alwaysOnTopItem", new System.Windows.Forms.ToolStripMenuItem());
             items["alwaysOnTopItem"].CheckOnClick = true;
@@ -789,7 +789,7 @@ namespace Diagram
                 items["rightItem"],
                 items["toLineItem"],
                 items["inColumnItem"],
-                items["groupVericalItem"],
+                items["groupVerticalItem"],
                 items["groupHorizontalItem"],
                 items["sortItem"]
             ]);
@@ -879,14 +879,14 @@ namespace Diagram
             items["imageItem"].Name = "imageItem";
             items["imageItem"].Text = "Image";
 
-            this.BuildAtachmentItems();
+            this.BuildAttachmentItems();
 
             //
             // attachmentItem
             //
             items.Add("attachmentItem", new System.Windows.Forms.ToolStripMenuItem());
             items["attachmentItem"].DropDownItems.AddRange([
-                items["deploayAttachmentItem"],
+                items["deployAttachmentItem"],
                 items["includeFileItem"],
                 items["includeDirectoryItem"],
                 items["removeAttachmentItem"]
@@ -1115,7 +1115,7 @@ namespace Diagram
             items["editItem"].Visible = isNotReadOnly && isSelectedAtLeastOneNode;
             items["colorItem"].Visible = isNotReadOnly && isSelectedAtLeastOneNode;
             items["linkItem"].Visible = isNotReadOnly && isSelectedOneNode && this.diagramView.selectedNodes[0].link.Trim() != "";
-            items["openlinkItem"].Enabled = isNotReadOnly && isSelectedOneNode && this.diagramView.selectedNodes[0].link.Trim() != "";
+            items["openLinkItem"].Enabled = isNotReadOnly && isSelectedOneNode && this.diagramView.selectedNodes[0].link.Trim() != "";
             items["openLinkDirectoryItem"].Visible = isSelectedOneNode 
                 && this.diagramView.selectedNodes[0].link.Trim().Length > 0 
                 && Os.FileExists(this.diagramView.selectedNodes[0].link);
@@ -1125,7 +1125,7 @@ namespace Diagram
             items["rightItem"].Enabled = isNotReadOnly && isSelectedMoreThenOneNode;
             items["toLineItem"].Enabled = isNotReadOnly && isSelectedMoreThenOneNode;
             items["inColumnItem"].Enabled = isNotReadOnly && isSelectedMoreThenOneNode;
-            items["groupVericalItem"].Enabled = isNotReadOnly && isSelectedMoreThenOneNode;
+            items["groupVerticalItem"].Enabled = isNotReadOnly && isSelectedMoreThenOneNode;
             items["groupHorizontalItem"].Enabled = isNotReadOnly && isSelectedMoreThenOneNode;
             items["sortItem"].Enabled = isNotReadOnly && isSelectedMoreThenOneNode;
 
@@ -1179,7 +1179,7 @@ namespace Diagram
             items["imageEmbeddedItem"].Enabled = isNotReadOnly && isSelectedAtLeastOneNode && this.diagramView.HasSelectionNotEmbeddedImage();
 
             items["attachmentItem"].Enabled = true;
-            items["deploayAttachmentItem"].Enabled = this.diagramView.HasSelectionAttachment();
+            items["deployAttachmentItem"].Enabled = this.diagramView.HasSelectionAttachment();
             items["includeFileItem"].Enabled = isNotReadOnly;
             items["includeDirectoryItem"].Enabled = isNotReadOnly;
             items["removeAttachmentItem"].Enabled = isNotReadOnly && this.diagramView.HasSelectionAttachment();
@@ -1360,7 +1360,7 @@ namespace Diagram
         // LINK
 
         // MENU Link Open
-        public void OpenlinkItem_Click(object sender, EventArgs e) //UID8259578882
+        public void OpenLinkItem_Click(object sender, EventArgs e) //UID8259578882
         {
             if (this.diagramView.selectedNodes.Count > 0)
             {
@@ -1421,7 +1421,7 @@ namespace Diagram
         }
 
         // MENU align to group to column
-        private void GroupVericalItem_Click(object sender, EventArgs e) //UID5565272429
+        private void GroupVerticalItem_Click(object sender, EventArgs e) //UID5565272429
         {
             if (this.diagramView.selectedNodes.Count > 0)
             {
@@ -1613,7 +1613,7 @@ namespace Diagram
             }
         }
         
-        // MENU NODE protect sesitive data in node name
+        // MENU NODE protect sensitive data in node name
         private void ProtectItem_Click(object sender, EventArgs e) //UID9793719013
         {
             this.diagramView.ProtectNodes();
@@ -1654,7 +1654,7 @@ namespace Diagram
         // ATTACHMENT
 
         // MENU NODE deploy attachment to system
-        private void DeploayAttachmentItem_Click(object sender, EventArgs e) //UID5589053079
+        private void DeployAttachmentItem_Click(object sender, EventArgs e) //UID5589053079
         {
             this.diagramView.AttachmentDeploy();
         }
@@ -1682,7 +1682,6 @@ namespace Diagram
         // MENU VIEW NEW VIEW
         private void NewViewItem_Click(object sender, EventArgs e) //UID5872215491
         {
-            // otvorenie novej insancie DiagramView
             this.diagramView.diagram.OpenDiagramView();
         }
 
@@ -1723,7 +1722,7 @@ namespace Diagram
 
         // TOOLS
 
-        // MENU Open Directory  - otvory adresar v ktorom sa nachadza prave otvreny subor
+        // MENU Open Directory
         public void OpenDiagramDirectoryItem_Click(object sender, EventArgs e) //UID8883607610
         {
             this.diagramView.diagram.OpenDiagramDirectory();
@@ -1851,7 +1850,7 @@ namespace Diagram
             }
         }
 
-        // MENU Encription
+        // MENU Encrypt
         private void EncryptItem_Click(object sender, EventArgs e) //UID3914074702
         {
             if (this.diagramView.diagram.SetPassword())
@@ -1889,7 +1888,7 @@ namespace Diagram
             this.diagramView.diagram.options.readOnly = items["readonlyItem"].Checked;
         }
 
-        // MENU Alwais on top
+        // MENU Always on top
         public void AlwaysOnTopItem_Click(object sender, EventArgs e) //UID4803037156
         {
             this.diagramView.diagram.options.alwaysOnTop = !this.diagramView.diagram.options.alwaysOnTop;

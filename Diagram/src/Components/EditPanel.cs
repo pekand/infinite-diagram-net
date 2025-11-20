@@ -4,10 +4,10 @@ namespace Diagram
 {
     public class EditPanel : Panel //UID2281296902
     {
-        public DiagramView diagramView = null;       // diagram ktory je previazany z pohladom
+        public DiagramView diagramView = null;       
 
-        public bool editing = false; // panel je zobrazený
-        public RichTextBox edit = null; // edit pre nove meno nody
+        public bool editing = false; 
+        public RichTextBox edit = null; 
 
         public Node prevSelectedNode = null;
         public Node editedNode = null;
@@ -193,26 +193,26 @@ namespace Diagram
 
             Keys keyData = e.KeyCode;
 
-            if (KeyMap.ParseKey("ESCAPE", keyData)) // zrusenie editácie v panely
+            if (KeyMap.ParseKey("ESCAPE", keyData))
             {
                 this.SaveNodeNamePanel();
                 this.Focus();
             }
 
-            if (KeyMap.ParseKey("ENTER", keyData) && !e.Shift) // zvretie panelu a vytvorenie novej editacie
+            if (KeyMap.ParseKey("ENTER", keyData) && !e.Shift)
             {
                 this.SaveNodeNamePanel();
                 this.Focus();
             }
 
-            if (KeyMap.ParseKey("TAB", keyData) && !e.Shift) // zvretie panelu a vytvorenie novej editacie
+            if (KeyMap.ParseKey("TAB", keyData) && !e.Shift)
             {
                 this.SaveNodeNamePanel();
                 this.Focus();
                 this.diagramView.AddNodeAfterNode();
             }
 
-            if (KeyMap.ParseKey("TAB", keyData) && e.Shift) // zvretie panelu a vytvorenie novej editacie
+            if (KeyMap.ParseKey("TAB", keyData) && e.Shift)
             {
                 this.SaveNodeNamePanel();
                 this.Focus();

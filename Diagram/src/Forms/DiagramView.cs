@@ -25,8 +25,8 @@ namespace Diagram
         public ColorDialog DFontColor;
         public FontDialog DFont;
         public OpenFileDialog DImage;
-        public System.Windows.Forms.Timer MoveTimer;
-        public FontDialog defaultfontDialog;
+        public TimerTimer MoveTimer;
+        public FontDialog defaultFontDialog;
         public SaveFileDialog exportFile;
         public SaveFileDialog saveTextFileDialog;
         public FolderBrowserDialog DSelectDirectoryAttachment;
@@ -117,12 +117,12 @@ namespace Diagram
         public Breadcrumbs breadcrumbs = null;
 
         // MOVETIMER
-        private readonly System.Windows.Forms.Timer animationTimer = new(); //timer for all animations (goto node animation)
+        private readonly TimerTimer animationTimer = new(); //timer for all animations (goto node animation)
         private readonly Position animationTimerStep = new();
         private int animationTimerCounter = 0;
 
         // ZOOMTIMER
-        private readonly System.Windows.Forms.Timer zoomTimer = new(); //zooming animation
+        private readonly TimerTimer zoomTimer = new(); //zooming animation
         public double zoomTimerScale = 1;
         public double zoomTimerStep = 0;
 
@@ -143,7 +143,7 @@ namespace Diagram
         public Image lockImage = null;
 
         // AFTER SHOW ONE TIME TIMER
-        private System.Windows.Forms.Timer afterShownTimer = new();
+        private readonly TimerTimer afterShownTimer = new();
 
         // WINDOW PIN
         public bool windowIsPinned = false;
@@ -155,15 +155,15 @@ namespace Diagram
         private void InitializeComponent() //UID4012344444
         {
             components = new Container();
-            ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DiagramView));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DiagramView));
             DSave = new SaveFileDialog();
             DOpen = new OpenFileDialog();
             DColor = new ColorDialog();
             DFontColor = new ColorDialog();
             DFont = new FontDialog();
             DImage = new OpenFileDialog();
-            MoveTimer = new System.Windows.Forms.Timer(components);
-            defaultfontDialog = new FontDialog();
+            MoveTimer = new TimerTimer(components);
+            defaultFontDialog = new FontDialog();
             exportFile = new SaveFileDialog();
             saveTextFileDialog = new SaveFileDialog();
             DSelectDirectoryAttachment = new FolderBrowserDialog();
@@ -646,7 +646,7 @@ namespace Diagram
                 {
                     Icon icon = null;
 
-                    if (Os.GetExtension(openIconDialog.FileName).ToLower() == ".ico")
+                    if (Os.GetExtension(openIconDialog.FileName).Equals(".ico", StringComparison.CurrentCultureIgnoreCase))
                     {
                         icon = Media.GetIcon(openIconDialog.FileName);
                     }
@@ -2225,7 +2225,7 @@ namespace Diagram
             -prejdu sa vybrane nody a ak je to adresar alebo subor otvori sa adresar
             -ak nie su vybrane ziadne nody otvori sa adresar diagrammu
             */
-            if (KeyMap.ParseKey(KeyMap.openDrectory, keyData)) // KEY [F5] Open link directory or diagram directory
+            if (KeyMap.ParseKey(KeyMap.openDirectory, keyData)) // KEY [F5] Open link directory or diagram directory
             {
                 OpenLinkDirectory();
                 return true;
@@ -2273,7 +2273,7 @@ namespace Diagram
                 return true;
             }
 
-            if (KeyMap.ParseKey(KeyMap.fullScreean, keyData)) // [KEY] [F11] show full screen
+            if (KeyMap.ParseKey(KeyMap.fullScreen, keyData)) // [KEY] [F11] show full screen
             {
                 this.FullScreenSwitch();
                 return true;
@@ -2526,7 +2526,7 @@ namespace Diagram
                 && !this.keyalt
                 && this.key == '+'
                 && this.selectedNodes.Count == 1
-                && this.selectedNodes[0].haslayer)
+                && this.selectedNodes[0].hasLayer)
             {
                 this.LayerIn(this.selectedNodes[0]);
                 return;
@@ -2622,8 +2622,8 @@ namespace Diagram
                                 ImageEntry icoLnk = diagram.imageManager.AddImage(Media.ExtractLnkIcon(file));
                                 if (icoLnk != null)// extract icon
                                 {
-                                    newrec.isimage = true;
-                                    newrec.embeddedimage = true;
+                                    newrec.isImage = true;
+                                    newrec.embeddedImage = true;
                                     newrec.image = icoLnk;
                                     newrec.image.Image.MakeTransparent(Color.White);
                                     newrec.height = newrec.image.Image.Height;
@@ -2635,8 +2635,8 @@ namespace Diagram
 
                                     if (icoExe != null)// extract icon
                                     {
-                                        newrec.isimage = true;
-                                        newrec.embeddedimage = true;
+                                        newrec.isImage = true;
+                                        newrec.embeddedImage = true;
                                         newrec.image = icoExe;
                                         newrec.image.Image.MakeTransparent(Color.White);
                                         newrec.height = newrec.image.Image.Height;
@@ -2656,8 +2656,8 @@ namespace Diagram
                             ImageEntry ico = diagram.imageManager.AddImage(Media.ExtractSystemIcon(file));
                             if (ico != null)// extract icon
                             {
-                                newrec.isimage = true;
-                                newrec.embeddedimage = true;
+                                newrec.isImage = true;
+                                newrec.embeddedImage = true;
                                 newrec.image = ico;
                                 newrec.image.Image.MakeTransparent(Color.White);
                                 newrec.height = newrec.image.Image.Height;
@@ -2880,7 +2880,7 @@ namespace Diagram
         {
             if (this.selectedNodes.Count == 1)
             {
-                if (this.selectedNodes[0].haslayer)
+                if (this.selectedNodes[0].hasLayer)
                 {
                     this.LayerIn(this.selectedNodes[0]);
                 }
@@ -2915,7 +2915,7 @@ namespace Diagram
             }
 
             this.currentLayer = this.diagram.layers.GetOrCreateLayer(node);
-            this.currentLayer.parentNode.haslayer = true;
+            this.currentLayer.parentNode.hasLayer = true;
             this.layersHistory.Add(this.currentLayer);
             this.shift.Set(this.currentLayer.parentNode.layerShift);
             this.scale = this.currentLayer.parentNode.layerScale;
@@ -2935,7 +2935,7 @@ namespace Diagram
 
                 if (this.currentLayer.nodes.Count == 0)
                 {
-                    this.currentLayer.parentNode.haslayer = false;
+                    this.currentLayer.parentNode.hasLayer = false;
                 }
 
                 this.currentLayer = this.currentLayer.parentLayer;
@@ -3050,7 +3050,7 @@ namespace Diagram
             if (searhPanel == null)
             {
                 searhPanel = new SearchPanel(this);
-                this.searhPanel.SearchpanelStateChanged += this.SearchPanelChanged;
+                this.searhPanel.SearchPanelStateChanged += this.SearchPanelChanged;
                 this.Controls.Add(this.searhPanel);
             }
 
@@ -3455,7 +3455,7 @@ namespace Diagram
             {
                 if (Os.FileExists(DOpen.FileName))
                 {
-                    if (Os.GetExtension(DOpen.FileName).ToLower() == ".diagram")
+                    if (Os.GetExtension(DOpen.FileName).Equals(".diagram", StringComparison.CurrentCultureIgnoreCase))
                     {
                         this.OpenDiagramFromFile(DOpen.FileName);
                     }
@@ -3858,7 +3858,7 @@ namespace Diagram
 
                 if ((export || this.NodeIsVisible(rec)) && rec.visible)
                 {
-                    if (rec.isimage && rec.image != null && rec.image.Image != null)
+                    if (rec.isImage && rec.image != null && rec.image.Image != null)
                     {
                         // DRAW Image
 
@@ -3932,7 +3932,7 @@ namespace Diagram
                                 if (this.diagram.options.borders) gfx.DrawEllipse(nodeBorder, rect1);
                             }
 
-                            if (rec.haslayer && !export) // draw layer indicator
+                            if (rec.hasLayer && !export) // draw layer indicator
                             {
                                 gfx.DrawEllipse(nodeBorder, new RectangleF(
                                         (float)((this.shift.x + cx + rec.position.x) / s),
@@ -3992,7 +3992,7 @@ namespace Diagram
                             }
 
                             // draw layer indicator
-                            if (rec.haslayer && !export)
+                            if (rec.hasLayer && !export)
                             {
                                 RectangleF[] rects =
                                 [
@@ -4050,7 +4050,7 @@ namespace Diagram
                                         GraphicsUnit.Point,
                                         ((byte)(0))
                                     ),
-                                    new SolidBrush(rec.fontcolor.color),
+                                    new SolidBrush(rec.fontColor.color),
                                     rect2
                                 );
                             }
@@ -4536,7 +4536,7 @@ namespace Diagram
                 return;
             }
 
-            if (rec.haslayer)
+            if (rec.hasLayer)
             {
                 if (this.diagram.options.openLayerInNewView) //UID1964118363
                 {
@@ -4835,7 +4835,7 @@ namespace Diagram
                         {
                             foreach (Node rec in this.selectedNodes)
                             {
-                                rec.fontcolor.Set(DColor.Color);
+                                rec.fontColor.Set(DColor.Color);
                             }
                         }
                     }
@@ -4911,12 +4911,12 @@ namespace Diagram
         // NODE Select node default font
         public void SelectDefaultFont()
         {
-            this.defaultfontDialog.Font = this.diagram.FontDefault;
-            if (this.defaultfontDialog.ShowDialog() == DialogResult.OK)
+            this.defaultFontDialog.Font = this.diagram.FontDefault;
+            if (this.defaultFontDialog.ShowDialog() == DialogResult.OK)
             {
                 if (!this.diagram.IsReadOnly())
                 {
-                    this.diagram.FontDefault = this.defaultfontDialog.Font;
+                    this.diagram.FontDefault = this.defaultFontDialog.Font;
                 }
             }
         }
@@ -4967,7 +4967,7 @@ namespace Diagram
                 this.diagram.undoOperations.Add("edit", this.selectedNodes, null, this.shift, this.scale, this.currentLayer.id);
                 foreach (Node rec in this.selectedNodes)
                 {
-                    if (rec.isimage)
+                    if (rec.isImage)
                     {
                         this.diagram.RemoveImage(rec);
                     }
@@ -4987,7 +4987,7 @@ namespace Diagram
             {
                 foreach (Node rec in this.selectedNodes)
                 {
-                    if (rec.isimage)
+                    if (rec.isImage)
                     {
                         hasImage = true;
                         break;
@@ -5007,7 +5007,7 @@ namespace Diagram
             {
                 foreach (Node rec in this.selectedNodes)
                 {
-                    if (rec.isimage && !rec.embeddedimage)
+                    if (rec.isImage && !rec.embeddedImage)
                     {
                         hasImage = true;
                         break;
@@ -5187,7 +5187,7 @@ namespace Diagram
                         // make path relative to saved diagram path
                         int start = Os.GetDirectoryName(this.diagram.FileName).Length;
                         int finish = file.Length - start;
-                        newrec.link = "." + file.Substring(start, finish);
+                        newrec.link = string.Concat(".", file.AsSpan(start, finish));
                     }
                     else
                     if (this.diagram.FileName != "" && Os.DirectoryExists(this.diagram.FileName)) // [PASTE] [DIRECTORY]
@@ -5195,7 +5195,7 @@ namespace Diagram
                         // make path relative to saved diagram path
                         int start = Os.GetDirectoryName(this.diagram.FileName).Length;
                         int finish = file.Length - start;
-                        newrec.link = "." + file.Substring(start, finish);
+                        newrec.link = string.Concat(".", file.AsSpan(start, finish));
                     }
                     else
                     {
@@ -5225,8 +5225,8 @@ namespace Diagram
                             newrec.image = imageEntry;
                             newrec.height = newrec.image.Image.Height;
                             newrec.width = newrec.image.Image.Width;
-                            newrec.isimage = true;
-                            newrec.embeddedimage = true;
+                            newrec.isImage = true;
+                            newrec.embeddedImage = true;
                         }
 
                         this.diagram.Unsave("create", newrec, this.shift, this.scale, this.currentLayer.id);
@@ -5480,7 +5480,7 @@ namespace Diagram
                 bool aretimes = true;
                 foreach (Node rec in this.selectedNodes) // Loop through List with foreach
                 {
-                    if (!Regex.Match(rec.name, @"^[0-9]{2}:[0-9]{2}:[0-9]{2}$", RegexOptions.IgnoreCase).Success)
+                    if (!Patterns.IsTime(rec.name))
                     {
                         aretimes = false;
                         break;
@@ -5599,7 +5599,7 @@ namespace Diagram
                 bool someHasImmages = false;
                 foreach (Node rec in this.selectedNodes)
                 {
-                    if (rec.isimage)
+                    if (rec.isImage)
                     {
                         someHasImmages = true;
                         break;
@@ -5631,7 +5631,7 @@ namespace Diagram
                 {
                     foreach (Node rec in this.selectedNodes)
                     {
-                        if (rec.isimage)
+                        if (rec.isImage)
                         {
                             this.diagram.RemoveImage(rec);
                         }

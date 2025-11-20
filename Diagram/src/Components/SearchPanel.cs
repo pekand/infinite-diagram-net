@@ -10,7 +10,7 @@ namespace Diagram
         public int maximalSize = 400;
 
         public delegate void SearchPanelChangedEventHandler(string action, string search);
-        public event SearchPanelChangedEventHandler SearchpanelStateChanged;
+        public event SearchPanelChangedEventHandler SearchPanelStateChanged;
 
         public string oldText = "";
 
@@ -114,7 +114,7 @@ namespace Diagram
                 action = "cancel";
             }
 
-            this.SearchpanelStateChanged?.Invoke(action, currentText);
+            this.SearchPanelStateChanged?.Invoke(action, currentText);
 
             this.CenterPanel();
         }
@@ -123,7 +123,7 @@ namespace Diagram
         {
             string currentText = textBoxSearch.Text;
 
-            this.SearchpanelStateChanged?.Invoke("searchNext", currentText);
+            this.SearchPanelStateChanged?.Invoke("searchNext", currentText);
         }
 
         private void TextBoxSearch_KeyDown(object sender, KeyEventArgs e)

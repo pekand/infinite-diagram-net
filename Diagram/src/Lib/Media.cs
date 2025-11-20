@@ -160,11 +160,11 @@ namespace Diagram
             Program.log.Write("bringToFront");
             Tick.Timer(1000, (t, args) =>
             {
-                if (t is System.Windows.Forms.Timer)
+                if (t is TimerTimer)
                 {
                     Program.log.Write("bringToFront: timer tick");
 
-                    System.Windows.Forms.Timer timer = t as System.Windows.Forms.Timer;                    
+                    TimerTimer timer = t as TimerTimer;                    
 					timer.Enabled = false;
 
                     if(form.WindowState == FormWindowState.Minimized) {

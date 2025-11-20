@@ -10,6 +10,9 @@
     <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <AssemblyName>InfiniteDiagram</AssemblyName>
     <ApplicationIcon>InfiniteDiagram.ico</ApplicationIcon>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>$(NoWarn);IDE0130</NoWarn>
+    <NoWarn>$(NoWarn);CA1822</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

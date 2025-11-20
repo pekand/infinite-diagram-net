@@ -127,14 +127,9 @@ namespace Plugin
     /// Tools.setClipboard('text')
     /// a = Tools.getClipboard()
     /// </example>
-    public class Tools //UID6975866488
+    public class Tools(Script script) //UID6975866488
     {
-        private Script script = null;
-
-        public Tools(Script script)
-        {
-            this.script = script; // for get scope of script inside script (instance of whole parent script class)
-        }
+        private readonly Script script = script;
 
         /*************************************************************************************************************************/
         // MESSAGES
@@ -306,7 +301,7 @@ namespace Plugin
     {
         private ScriptEngine pyEngine = null;
         private dynamic pyScope = null;
-        private string StandardLibraryPath;
+        private readonly string StandardLibraryPath;
 
         // ATTRIBUTES Diagram
         public Diagram.Diagram diagram = null;       // diagram ktory je previazany z pohladom
@@ -377,8 +372,8 @@ namespace Plugin
             try
             {
                 /// set streams
-                MemoryStream ms = new MemoryStream();
-                StreamWriter outputWr = new StreamWriter(ms);
+                MemoryStream ms = new();
+                StreamWriter outputWr = new(ms);
                 pyEngine.Runtime.IO.SetOutput(ms, outputWr);
                 pyEngine.Runtime.IO.SetErrorOutput(ms, outputWr);
 
@@ -387,7 +382,7 @@ namespace Plugin
 
                 /// read script output
                 ms.Position = 0;
-                StreamReader sr = new StreamReader(ms);
+                StreamReader sr = new(ms);
                 output = sr.ReadToEnd();
 
                 Program.log.Write("Script: output:\n" + output);

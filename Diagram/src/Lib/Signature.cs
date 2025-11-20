@@ -11,9 +11,7 @@ namespace Diagram
         {
             var bytes = System.Text.Encoding.UTF8.GetBytes(data);
 
-            using var hashProvider = SHA512.Create();
-
-            var hashedInputBytes = hashProvider.ComputeHash(bytes);
+            var hashedInputBytes = SHA512.HashData(bytes);
             var hashedInputStringBuilder = new StringBuilder(128);
             foreach (var b in hashedInputBytes)
             {
@@ -41,8 +39,7 @@ namespace Diagram
 
         public static string GenerateIV()
         {
-            using SymmetricAlgorithm crypt = Aes.Create();
-
+            using Aes crypt = Aes.Create();
             crypt.KeySize = 256;
             crypt.GenerateIV();
             return Convert.ToBase64String(crypt.IV);
@@ -69,12 +66,11 @@ namespace Diagram
             {
                 byte[] bytes = Encoding.UTF8.GetBytes(data);
 
-                using SymmetricAlgorithm crypt = Aes.Create();
-                using HashAlgorithm hash = SHA256.Create();
+                using Aes crypt = Aes.Create();
                 using MemoryStream memoryStream = new();
 
                 crypt.KeySize = 256;
-                crypt.Key = hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+                crypt.Key = SHA256.HashData(Encoding.UTF8.GetBytes(password));
                 crypt.IV = Convert.FromBase64String(iv);
 
                 using (CryptoStream cryptoStream = new(memoryStream, crypt.CreateEncryptor(), CryptoStreamMode.Write))
@@ -98,12 +94,11 @@ namespace Diagram
             {
                 byte[] bytes = Convert.FromBase64String(data);
 
-                using SymmetricAlgorithm crypt = Aes.Create();
-                using HashAlgorithm hash = SHA256.Create();
+                using Aes crypt = Aes.Create();
                 using MemoryStream memoryStream = new(bytes);
 
                 crypt.KeySize = 256;
-                crypt.Key = hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+                crypt.Key = SHA256.HashData(Encoding.UTF8.GetBytes(password));
                 crypt.IV = Convert.FromBase64String(iv);
 
                 using CryptoStream cryptoStream = new(memoryStream, crypt.CreateDecryptor(), CryptoStreamMode.Read);

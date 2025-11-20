@@ -101,7 +101,7 @@ namespace Plugin
 
                 if (Regex.IsMatch(expression, @"^\d+$"))
                 {
-                    expression = expression + "+1";
+                    expression += "+1";
                 }
 
                 expressionResult = this.Evaluate(expression);
@@ -127,7 +127,7 @@ namespace Plugin
                     match = Regex.Match(rec.name, @"([-]{0,1}\d+[\.,]{0,1}\d*)", RegexOptions.IgnoreCase);
                     if (match.Success)
                     {
-                        sum = sum + float.Parse(match.Groups[1].Value.Replace(",", "."), CultureInfo.InvariantCulture);
+                        sum += float.Parse(match.Groups[1].Value.Replace(",", "."), CultureInfo.InvariantCulture);
                     }
                 }
 

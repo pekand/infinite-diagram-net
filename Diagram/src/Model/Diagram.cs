@@ -23,7 +23,7 @@ namespace Diagram
 
         public Layers layers = new();
         public List<DiagramView> DiagramViews = []; // all views forms to diagram
-        public List<TextForm> TextWindows = [];   // opened text textforms for this diagram
+        public List<TextForm> TextWindows = [];   // opened text forms for this diagram
 
         /*************************************************************************************************************************/
         // ATTRIBUTES OPTIONS
@@ -144,47 +144,49 @@ namespace Diagram
 
                 foreach (XElement element in root.Elements())
                 {
-                    if (element.Name.ToString() == "version") // version 1
+                    string elementName = element.Name.ToString();
+
+                    if (elementName == "version") // version 1
                     {
                         version = element.Value;
                     }
 
-                    if (element.Name.ToString() == "salt") // version 1
+                    if (elementName == "salt") // version 1
                     {
                         salt = element.Value;
                     }
 
-                    if (element.Name.ToString() == "encrypted") // version 1
+                    if (elementName == "encrypted") // version 1
                     {
                         encrypted = element.Value;
                     }
 
-                    if (element.Name.ToString() == "option") // version 1
+                    if (elementName == "option") // version 1
                     {
                         option = element;
                     }
 
-                    if (element.Name.ToString() == "rectangles") // version 1
+                    if (elementName == "rectangles") // version 1
                     {
                         rectangles = element;
                     }
 
-                    if (element.Name.ToString() == "lines") // version 1
+                    if (elementName == "lines") // version 1
                     {
                         lines = element;
                     }
 
-                    if (element.Name.ToString() == "signatureIV") // version 2
+                    if (elementName == "signatureIV") // version 2
                     {
                         signatureIV = element.Value;
                     }
 
-                    if (element.Name.ToString() == "signature") // version 2
+                    if (elementName == "signature") // version 2
                     {
                         signature = element.Value;
                     }
 
-                    if (element.Name.ToString() == "diagram")  // version 2
+                    if (elementName == "diagram")  // version 2
                     {
                         diagram = element;
                     }
@@ -229,7 +231,7 @@ namespace Diagram
                         }
                         else
                         {
-                            // password dialog is cancled
+                            // password dialog is canceled
                             this.ResetDefaultValuesForNewFile();
                             return false;
                         }
@@ -286,7 +288,7 @@ namespace Diagram
                         }
                         else
                         {
-                            // password dialog is cancled
+                            // password dialog is canceled
                             this.ResetDefaultValuesForNewFile();
                             return false;
                         }
@@ -297,8 +299,8 @@ namespace Diagram
                 if(diagram != null) {
                     this.LoadInnerXML(diagram);
                     
-                    string diagraxml = this.XmlToString(diagram);
-                    this.signed = Signature.CheckSignature(this.main.programOptions.signatureSecret, signature, diagraxml, signatureIV);
+                    string diagramXml = this.XmlToString(diagram);
+                    this.signed = Signature.CheckSignature(this.main.programOptions.signatureSecret, signature, diagramXml, signatureIV);
 
                     Program.log.Write("Document is: " + (this.signed ? "SIGNED" : "UNSIGNED"));
 
@@ -326,22 +328,24 @@ namespace Diagram
                     if (diagram.HasElements)
                     {
 
-                        if (diagram.Name.ToString() == "option") // [options] [config]
+                        string diagramElementName = diagram.Name.ToString();
+
+                        if (diagramElementName == "option") // [options] [config]
                         {
                             this.LoadInnerXmlOptions(diagram, FontDefaultString);
                         }
 
-                        if (diagram.Name.ToString() == "rectangles")
+                        if (diagramElementName == "rectangles")
                         {
                             this.LoadInnerXmlRectangles(nodes, diagram, FontDefaultString);
                         }
 
-                        if (diagram.Name.ToString() == "lines")
+                        if (diagramElementName == "lines")
                         {
                             this.LoadInnerXmlLines(lines, nodes, diagram);
                         }
 
-                        if (diagram.Name.ToString() == "data")
+                        if (diagramElementName == "data")
                         {
                             this.dataStorage.FromXml(diagram);
                         }
@@ -366,7 +370,7 @@ namespace Diagram
 
             foreach (Node rec in nodesReordered)
             {
-                if (!rec.isimage)
+                if (!rec.isImage)
                 {
                     SizeF s = rec.Measure();
                     newWidth = (decimal)s.Width;
@@ -401,72 +405,74 @@ namespace Diagram
             {
                 try
                 {
-                    if (el.Name.ToString() == "shiftx")
+                    string elementName = el.Name.ToString();
+
+                    if (elementName == "shiftx")
                     {
                         this.options.homePosition.x = Converter.StringToDecimal(el.Value);
                     }
 
-                    if (el.Name.ToString() == "shifty")
+                    if (elementName == "shifty")
                     {
                         this.options.homePosition.y = Converter.StringToDecimal(el.Value);
                     }
 
-                    if (el.Name.ToString() == "scale")
+                    if (elementName == "scale")
                     {
                         this.options.homeScale = Converter.StringToDecimal(el.Value);
                     }
 
-                    if (el.Name.ToString() == "homelayer")
+                    if (elementName == "homelayer")
                     {
                         options.homeLayer = Int64.Parse(el.Value);
                     }
 
-                    if (el.Name.ToString() == "endlayer")
+                    if (elementName == "endlayer")
                     {
                         options.endLayer = Int64.Parse(el.Value);
                     }
 
-                    if (el.Name.ToString() == "endPositionx")
+                    if (elementName == "endPositionx")
                     {
                         this.options.endPosition.x = Converter.StringToDecimal(el.Value);
                     }
 
-                    if (el.Name.ToString() == "endPositiony")
+                    if (elementName == "endPositiony")
                     {
                         this.options.endPosition.y = Converter.StringToDecimal(el.Value);
                     }
 
-                    if (el.Name.ToString() == "endScale")
+                    if (elementName == "endScale")
                     {
                         this.options.homeScale = Converter.StringToDecimal(el.Value);
                     }
 
-                    if (el.Name.ToString() == "startShiftX")
+                    if (elementName == "startShiftX")
                     {
                         options.homePosition.x = Converter.StringToDecimal(el.Value);
                     }
 
-                    if (el.Name.ToString() == "startShiftY")
+                    if (elementName == "startShiftY")
                     {
                         options.homePosition.y = Converter.StringToDecimal(el.Value);
                     }
 
-                    if (el.Name.ToString() == "diagramreadonly")
+                    if (elementName == "diagramreadonly")
                     {
                         this.options.readOnly = bool.Parse(el.Value);
                     }
 
-                    if (el.Name.ToString() == "grid")
+                    if (elementName == "grid")
                     {
                         this.options.grid = bool.Parse(el.Value);
                     }
 
-                    if (el.Name.ToString() == "borders")
+                    if (elementName == "borders")
                     {
                         this.options.borders = bool.Parse(el.Value);
                     }
 
-                    if (el.Name.ToString() == "defaultfont")
+                    if (elementName == "defaultfont")
                     {
                         if (el.Attribute("type").Value == "font")
                         {
@@ -481,112 +487,112 @@ namespace Diagram
                         }
                     }
 
-                    if (el.Name.ToString() == "coordinates")
+                    if (elementName == "coordinates")
                     {
                         this.options.coordinates = bool.Parse(el.Value);
                     }
 
-                    if (el.Name.ToString() == "firstLayereShift.x")
+                    if (elementName == "firstLayereShift.x")
                     {
-                        this.options.firstLayereShift.x = Converter.StringToDecimal(el.Value);
+                        this.options.firstLayerShift.x = Converter.StringToDecimal(el.Value);
                     }
 
-                    if (el.Name.ToString() == "firstLayereShift.y")
+                    if (elementName == "firstLayereShift.y")
                     {
-                        this.options.firstLayereShift.y = Converter.StringToDecimal(el.Value);
+                        this.options.firstLayerShift.y = Converter.StringToDecimal(el.Value);
                     }
 
-                    if (el.Name.ToString() == "firstLayereScale")
+                    if (elementName == "firstLayereScale")
                     {
-                        this.options.firstLayereScale = Converter.StringToDecimal(el.Value);
+                        this.options.firstLayerScale = Converter.StringToDecimal(el.Value);
                     }
 
-                    if (el.Name.ToString() == "alwaysOnTop")
+                    if (elementName == "alwaysOnTop")
                     {
                         this.options.alwaysOnTop = bool.Parse(el.Value);
                     }
 
-                    if (el.Name.ToString() == "pinWindow")
+                    if (elementName == "pinWindow")
                     {
                         this.options.pinWindow = bool.Parse(el.Value);
                     }
 
-                    if (el.Name.ToString() == "openLayerInNewView")
+                    if (elementName == "openLayerInNewView")
                     {
                         this.options.openLayerInNewView = bool.Parse(el.Value);
                     }
 
-                    if (el.Name.ToString() == "window.position.restore")
+                    if (elementName == "window.position.restore")
                     {
                         this.options.restoreWindow = bool.Parse(el.Value);
                     }
 
-                    if (el.Name.ToString() == "window.position.x")
+                    if (elementName == "window.position.x")
                     {
                         this.options.Left = Int64.Parse(el.Value);
                     }
 
-                    if (el.Name.ToString() == "window.position.y")
+                    if (elementName == "window.position.y")
                     {
                         this.options.Top = Int64.Parse(el.Value);
                     }
 
-                    if (el.Name.ToString() == "window.position.width")
+                    if (elementName == "window.position.width")
                     {
                         this.options.Width = Int64.Parse(el.Value);
                     }
 
-                    if (el.Name.ToString() == "window.position.height")
+                    if (elementName == "window.position.height")
                     {
                         this.options.Height = Int64.Parse(el.Value);
                     }
 
-                    if (el.Name.ToString() == "window.state")
+                    if (elementName == "window.state")
                     {
                         this.options.WindowState = Int64.Parse(el.Value);
                     }
 
-                    if (el.Name.ToString() == "icon")
+                    if (elementName == "icon")
                     {
                         this.options.icon = el.Value;
                     }
 
-                    if (el.Name.ToString() == "lineColor")
+                    if (elementName == "lineColor")
                     {
                         this.options.lineColor.Set(el.Value.ToString());
                     }
 
-                    if (el.Name.ToString() == "nodeColor")
+                    if (elementName == "nodeColor")
                     {
                         this.options.nodeColor.Set(el.Value.ToString());
                     }
 
-                    if (el.Name.ToString() == "selectedNodeColor")
+                    if (elementName == "selectedNodeColor")
                     {
                         this.options.selectedNodeColor.Set(el.Value.ToString());
                     }
 
-                    if (el.Name.ToString() == "backgroundColor")
+                    if (elementName == "backgroundColor")
                     {
                         this.options.backgroundColor.Set(el.Value.ToString());
                     }
 
-                    if (el.Name.ToString() == "gridColor")
+                    if (elementName == "gridColor")
                     {
                         this.options.gridColor.Set(el.Value.ToString());
                     }
 
-                    if (el.Name.ToString() == "scrollbarColor")
+                    if (elementName == "scrollbarColor")
                     {
                         this.options.scrollbarColor.Set(el.Value.ToString());
                     }
 
-                    if (el.Name.ToString() == "selectionColor")
+                    if (elementName == "selectionColor")
                     {
                         this.options.selectionColor.Set(el.Value.ToString());
                     }
 
-                    if (el.Name.ToString() == "backgroundImage")
+                    if (elementName == "backgroundImage")
                     {
                         ImageEntry imageEntry = this.imageManager.AddImage(Media.StringToImage(el.Value));
                         if (imageEntry != null) {
@@ -594,22 +600,22 @@ namespace Diagram
                         }
                     }
 
-                    if (el.Name.ToString() == "linkImages")
+                    if (elementName == "linkImages")
                     {
                         this.options.linkImages = bool.Parse(el.Value);
                     }
 
-                    if (el.Name.ToString() == "embedImages")
+                    if (elementName == "embedImages")
                     {
                         this.options.embedImages = bool.Parse(el.Value);
                     }
 
-                    if (el.Name.ToString() == "copyImages")
+                    if (elementName == "copyImages")
                     {
                         this.options.copyImages = bool.Parse(el.Value);
                     }
 
-                    if (el.Name.ToString() == "copyImagesPath")
+                    if (elementName == "copyImagesPath")
                     {
                         this.options.copyImagesPath = el.Value;
                     }
@@ -637,12 +643,14 @@ namespace Diagram
                     {
                         try
                         {
-                            if (el.Name.ToString() == "id")
+                            string elementName = el.Name.ToString();
+
+                            if (elementName == "id")
                             {
                                 R.id = Int64.Parse(el.Value);
                             }
 
-                            if (el.Name.ToString() == "font")
+                            if (elementName == "font")
                             {
                                 if (el.Attribute("type").Value == "font")
                                 {
@@ -657,114 +665,114 @@ namespace Diagram
                                 }
                             }
 
-                            if (el.Name.ToString() == "fontcolor")
+                            if (elementName == "fontcolor")
                             {
-                                R.fontcolor.Set(el.Value.ToString());
+                                R.fontColor.Set(el.Value.ToString());
                             }
 
-                            if (el.Name.ToString() == "text")
+                            if (elementName == "text")
                             {
                                 R.name = el.Value;
                             }
 
 
-                            if (el.Name.ToString() == "note")
+                            if (elementName == "note")
                             {
                                 R.note = el.Value;
                             }
 
 
-                            if (el.Name.ToString() == "link")
+                            if (elementName == "link")
                             {
                                 R.link = el.Value;
                             }
 
-                            if (el.Name.ToString() == "scriptid")
+                            if (elementName == "scriptid")
                             {
-                                R.scriptid = el.Value;
+                                R.scriptId = el.Value;
                             }
 
-                            if (el.Name.ToString() == "shortcut")
+                            if (elementName == "shortcut")
                             {
                                 R.shortcut = Int64.Parse(el.Value);
                             }
 
-                            if (el.Name.ToString() == "mark")
+                            if (elementName == "mark")
                             {
                                 R.mark = bool.Parse(el.Value);
                             }
 
-                            if (el.Name.ToString() == "attachment")
+                            if (elementName == "attachment")
                             {
                                 R.attachment = el.Value;
                             }
 
-                            if (el.Name.ToString() == "layer")
+                            if (elementName == "layer")
                             {
                                 R.layer = Int64.Parse(el.Value);
                             }
 
-                            if (el.Name.ToString() == "haslayer")
+                            if (elementName == "haslayer")
                             {
-                                R.haslayer = bool.Parse(el.Value);
+                                R.hasLayer = bool.Parse(el.Value);
                             }
 
-                            if (el.Name.ToString() == "layershiftx")
+                            if (elementName == "layershiftx")
                             {
                                 R.layerShift.x = Converter.StringToDecimal(el.Value);
                             }
 
-                            if (el.Name.ToString() == "layershifty")
+                            if (elementName == "layershifty")
                             {
                                 R.layerShift.y = Converter.StringToDecimal(el.Value);
                             }
 
-                            if (el.Name.ToString() == "layerscale")
+                            if (elementName == "layerscale")
                             {
                                 R.layerScale = Converter.StringToDecimal(el.Value);
                             }
 
-                            if (el.Name.ToString() == "x")
+                            if (elementName == "x")
                             {
                                 R.position.x = Converter.StringToDecimal(el.Value);
                             }
 
-                            if (el.Name.ToString() == "y")
+                            if (elementName == "y")
                             {
                                 R.position.y = Converter.StringToDecimal(el.Value);
                             }
 
-                            if (el.Name.ToString() == "width")
+                            if (elementName == "width")
                             {
                                 R.width = Converter.StringToDecimal(el.Value);
                             }
 
-                            if (el.Name.ToString() == "height")
+                            if (elementName == "height")
                             {
                                 R.height = Converter.StringToDecimal(el.Value);
                             }
 
-                            if (el.Name.ToString() == "scale")
+                            if (elementName == "scale")
                             {
                                 R.scale = Converter.StringToDecimal(el.Value);
                             }
 
-                            if (el.Name.ToString() == "color")
+                            if (elementName == "color")
                             {
                                 R.color.Set(el.Value.ToString());
                             }
 
-                            if (el.Name.ToString() == "transparent")
+                            if (elementName == "transparent")
                             {
                                 R.transparent = bool.Parse(el.Value);
                             }
 
-                            if (el.Name.ToString() == "embeddedimage")
+                            if (elementName == "embeddedimage")
                             {
-                                R.embeddedimage = bool.Parse(el.Value);
+                                R.embeddedImage = bool.Parse(el.Value);
                             }
 
-                            if (el.Name.ToString() == "imagedata")
+                            if (elementName == "imagedata")
                             {
                                 ImageEntry imageEntry = imageManager.AddImage(Media.StringToBitmap(el.Value));
                                 if (imageEntry != null)
@@ -772,43 +780,43 @@ namespace Diagram
                                     R.image = imageEntry;
                                     R.height = R.image.Image.Height;
                                     R.width = R.image.Image.Width;
-                                    R.isimage = true;
+                                    R.isImage = true;
                                 }
 
                                 
                             }
 
-                            if (el.Name.ToString() == "image")
+                            if (elementName == "image")
                             {
                                 ImageEntry imageEntry = imageManager.AddImage(el.Value);
                                 if (imageEntry != null)
                                 {
-                                    R.imagepath = el.Value.ToString();
+                                    R.imagePath = el.Value.ToString();
                                     R.image = imageEntry;
                                     R.height = R.image.Image.Height;
                                     R.width = R.image.Image.Width;
-                                    R.isimage = true;
+                                    R.isImage = true;
                                 }
                             }
 
 
-                            if (el.Name.ToString() == "timecreate")
+                            if (elementName == "timecreate")
                             {
-                                R.timecreate = el.Value;
+                                R.timeCreate = el.Value;
                             }
 
 
-                            if (el.Name.ToString() == "timemodify")
+                            if (elementName == "timemodify")
                             {
-                                R.timemodify = el.Value;
+                                R.timeModify = el.Value;
                             }
 
-                            if (el.Name.ToString() == "protect")
+                            if (elementName == "protect")
                             {
                                 R.protect = bool.Parse(el.Value);
                             }
 
-                            if (el.Name.ToString() == "data")
+                            if (elementName == "data")
                             {
                                 R.dataStorage.FromXml(el);
                             }
@@ -839,42 +847,44 @@ namespace Diagram
                     {
                         try
                         {
-                            if (el.Name.ToString() == "start")
+                            string elementName = el.Name.ToString();
+
+                            if (elementName == "start")
                             {
                                 L.start = Int64.Parse(el.Value);
                             }
 
-                            if (el.Name.ToString() == "end")
+                            if (elementName == "end")
                             {
                                 L.end = Int64.Parse(el.Value);
                             }
 
-                            if (el.Name.ToString() == "scale")
+                            if (elementName == "scale")
                             {
                                 L.scale = Converter.StringToDecimal(el.Value);
                             }
 
-                            if (el.Name.ToString() == "arrow")
+                            if (elementName == "arrow")
                             {
                                 L.arrow = el.Value == "1";
                             }
 
-                            if (el.Name.ToString() == "color")
+                            if (elementName == "color")
                             {
                                 L.color.Set(el.Value.ToString());
                             }
 
-                            if (el.Name.ToString() == "width")
+                            if (elementName == "width")
                             {
                                 L.width = Int64.Parse(el.Value);
                             }
 
-                            if (el.Name.ToString() == "layer")
+                            if (elementName == "layer")
                             {
                                 L.layer = Int64.Parse(el.Value);
                             }
 
-                            if (el.Name.ToString() == "data")
+                            if (elementName == "data")
                             {
                                 L.dataStorage.FromXml(el);
                             }
@@ -1068,9 +1078,9 @@ namespace Diagram
             option.Add(new XElement("endPositionx", this.options.endPosition.x));
             option.Add(new XElement("endPositiony", this.options.endPosition.y));
             option.Add(new XElement("endScale", this.options.endScale));
-            option.Add(new XElement("firstLayereShift.x", this.options.firstLayereShift.x));
-            option.Add(new XElement("firstLayereShift.y", this.options.firstLayereShift.y));
-            option.Add(new XElement("firstLayereScale", this.options.firstLayereScale));
+            option.Add(new XElement("firstLayereShift.x", this.options.firstLayerShift.x));
+            option.Add(new XElement("firstLayereShift.y", this.options.firstLayerShift.y));
+            option.Add(new XElement("firstLayereScale", this.options.firstLayerScale));
             if (this.options.alwaysOnTop) option.Add(new XElement("alwaysOnTop", this.options.alwaysOnTop));
             if (this.options.pinWindow) option.Add(new XElement("pinWindow", this.options.pinWindow));
             if (this.options.openLayerInNewView) option.Add(new XElement("openLayerInNewView", this.options.openLayerInNewView));
@@ -1127,20 +1137,20 @@ namespace Diagram
                 {
                     rectangle.Add(Fonts.FontToXml(rec.font));
                 }
-                rectangle.Add(new XElement("fontcolor", rec.fontcolor));
+                rectangle.Add(new XElement("fontcolor", rec.fontColor));
                 if (rec.name != "") rectangle.Add(new XElement("text", rec.name));
                 if (rec.note != "") rectangle.Add(new XElement("note", rec.note));
                 if (rec.link != "") rectangle.Add(new XElement("link", rec.link));
-                if (rec.scriptid != "") rectangle.Add(new XElement("scriptid", rec.scriptid));
+                if (rec.scriptId != "") rectangle.Add(new XElement("scriptid", rec.scriptId));
                 if (rec.shortcut != 0) rectangle.Add(new XElement("shortcut", rec.shortcut));
                 if (rec.mark) rectangle.Add(new XElement("mark", rec.mark));
                 if (rec.attachment != "") rectangle.Add(new XElement("attachment", rec.attachment));
 
                 rectangle.Add(new XElement("layer", rec.layer));
 
-                if (rec.haslayer)
+                if (rec.hasLayer)
                 {
-                    rectangle.Add(new XElement("haslayer", rec.haslayer));
+                    rectangle.Add(new XElement("haslayer", rec.hasLayer));
                     rectangle.Add(new XElement("layershiftx", rec.layerShift.x));
                     rectangle.Add(new XElement("layershifty", rec.layerShift.y));
                     rectangle.Add(new XElement("layerscale", rec.layerScale));
@@ -1153,21 +1163,21 @@ namespace Diagram
                 rectangle.Add(new XElement("scale", rec.scale));
                 rectangle.Add(new XElement("color", rec.color));
                 if (rec.transparent) rectangle.Add(new XElement("transparent", rec.transparent));
-                if (rec.embeddedimage) rectangle.Add(new XElement("embeddedimage", rec.embeddedimage));
+                if (rec.embeddedImage) rectangle.Add(new XElement("embeddedimage", rec.embeddedImage));
 
-                if (rec.embeddedimage && rec.image != null) // image is inserted directly to file
+                if (rec.embeddedImage && rec.image != null) // image is inserted directly to file
                 {
                     rectangle.Add(new XElement("imagedata", Media.BitmapToString(rec.image.Image)));
                 }
-                else if (rec.imagepath != "")
+                else if (rec.imagePath != "")
                 {
-                    rectangle.Add(new XElement("image", rec.imagepath));
+                    rectangle.Add(new XElement("image", rec.imagePath));
                 }
 
                 if (rec.protect) rectangle.Add(new XElement("protect", rec.protect));
 
-                rectangle.Add(new XElement("timecreate", rec.timecreate));
-                rectangle.Add(new XElement("timemodify", rec.timemodify));
+                rectangle.Add(new XElement("timecreate", rec.timeCreate));
+                rectangle.Add(new XElement("timemodify", rec.timeModify));
 
                 rectangles.Add(rectangle);
 
@@ -2187,9 +2197,9 @@ namespace Diagram
                 ImageEntry imageEntry = imageManager.AddImage(file);
                 if (imageEntry != null)
                 {
-                    rec.isimage = true;
+                    rec.isImage = true;
                     rec.image = imageEntry;
-                    rec.imagepath = Os.MakeRelative(file, this.FileName);
+                    rec.imagePath = Os.MakeRelative(file, this.FileName);
                     string ext = Os.GetExtension(file);
                     if (ext != ".ico") rec.image.Image.MakeTransparent(Color.White);
                     rec.height = rec.image.Image.Height;
@@ -2210,7 +2220,7 @@ namespace Diagram
                         Os.CopyFile(file, newDestination);
                         
                         string relativepath = Os.MakeRelative(newDestination, this.FileName);
-                        rec.imagepath = relativepath;
+                        rec.imagePath = relativepath;
                     }
                 }
             }
@@ -2225,19 +2235,19 @@ namespace Diagram
         // remove image
         public void RemoveImage(Node rec)
         {
-            rec.isimage = false;
-            rec.imagepath = "";
+            rec.isImage = false;
+            rec.imagePath = "";
             rec.image = null;
-            rec.embeddedimage = false;
+            rec.embeddedImage = false;
             rec.Resize();
         }
 
         // set image embedded
         public void SetImageEmbedded(Node rec)
         {
-            if (rec.isimage)
+            if (rec.isImage)
             {
-                rec.embeddedimage = true;
+                rec.embeddedImage = true;
             }
         }
 
@@ -2256,15 +2266,15 @@ namespace Diagram
 
             foreach (Node node in this.GetAllNodes())
             {
-                if (node.embeddedimage) {
+                if (node.embeddedImage) {
                     try
                     {
                         string filename = node.image.Hash + ".png";
-                        node.embeddedimage = false;
-                        node.imagepath = Os.MakeRelative(Os.Combine(options.copyImagesPath, filename), Os.GetDirectoryName(this.FileName));
+                        node.embeddedImage = false;
+                        node.imagePath = Os.MakeRelative(Os.Combine(options.copyImagesPath, filename), Os.GetDirectoryName(this.FileName));
 
-                        if (!Os.FileExists(node.imagepath)) {
-                            node.image.Image.Save(node.imagepath, System.Drawing.Imaging.ImageFormat.Png);
+                        if (!Os.FileExists(node.imagePath)) {
+                            node.image.Image.Save(node.imagePath, System.Drawing.Imaging.ImageFormat.Png);
                         }
                     }
                     catch (Exception)
@@ -2283,7 +2293,7 @@ namespace Diagram
         /*************************************************************************************************************************/
         // LAYERS
 
-        // LAYER MOVE posunie rekurzivne layer a jeho nody OBSOLATE
+        // LAYER MOVE move layer recursively and nodes OBSOLATE
         public void MoveLayer(Node rec, Position vector)
         {
             if (rec != null)
@@ -2295,7 +2305,7 @@ namespace Diagram
                     {
                         node.position.Add(vector);
 
-                        if (node.haslayer)
+                        if (node.hasLayer)
                         {
                             MoveLayer(node, vector);
                         }
@@ -2455,19 +2465,19 @@ namespace Diagram
             foreach (Node node in this.layers.GetAllNodes())
             {
                 
-                if (node.isimage && !node.embeddedimage)
+                if (node.isImage && !node.embeddedImage)
                 {
-                    if (node.imagepath != "" && Os.FileExists(node.imagepath))
+                    if (node.imagePath != "" && Os.FileExists(node.imagePath))
                     {
-                        ImageEntry imageEntry = imageManager.AddImage(node.imagepath);
+                        ImageEntry imageEntry = imageManager.AddImage(node.imagePath);
                         if (imageEntry != null)
                         {
-                            string ext = Os.GetExtension(node.imagepath).ToLower();
+                            string ext = Os.GetExtension(node.imagePath).ToLower();
                             node.image = imageEntry;
                             if (ext != ".ico") node.image.Image.MakeTransparent(Color.White);
                             node.height = node.image.Image.Height;
                             node.width = node.image.Image.Width;
-                            node.isimage = true;
+                            node.isImage = true;
                         }
                     }
 
@@ -2487,19 +2497,19 @@ namespace Diagram
         {
             foreach (Node node in nodes)
             {
-                if (node.isimage && !node.embeddedimage)
+                if (node.isImage && !node.embeddedImage)
                 {
-                    if (node.imagepath != "" && Os.FileExists(node.imagepath))
+                    if (node.imagePath != "" && Os.FileExists(node.imagePath))
                     {
-                        ImageEntry imageEntry = imageManager.AddImage(node.imagepath);
+                        ImageEntry imageEntry = imageManager.AddImage(node.imagePath);
                         if (imageEntry != null)
                         {
-                            string ext = Os.GetExtension(node.imagepath).ToLower();
+                            string ext = Os.GetExtension(node.imagePath).ToLower();
                             node.image = imageEntry;
                             if (ext != ".ico") node.image.Image.MakeTransparent(Color.White);
                             node.height = node.image.Image.Height;
                             node.width = node.image.Image.Width;
-                            node.isimage = true;
+                            node.isImage = true;
                         }
                     }
                 }
@@ -2728,7 +2738,7 @@ namespace Diagram
                 if (node.layer == layer)
                 {
                     if (parent != null) {
-                        parent.haslayer = true;
+                        parent.hasLayer = true;
                     }
 
                     nodesOut.Add(node);
@@ -2741,12 +2751,12 @@ namespace Diagram
         // Get all layers nodes
         public void GetLayerNodes(Node node, Nodes nodes)
         {
-            if (node.haslayer) {
+            if (node.hasLayer) {
                 Layer layer = this.layers.GetLayer(node.id);
                 if (layer != null && layer.nodes != null) {
                     foreach (Node subnode in this.layers.GetLayer(node.id).nodes) {
                         nodes.Add(subnode);
-                        if (subnode.haslayer) {
+                        if (subnode.hasLayer) {
                             GetLayerNodes(subnode, nodes);
                         }
                     }
@@ -2802,40 +2812,40 @@ namespace Diagram
 
             foreach (Node node in copy)
             {
-                if (!ids.ContainsKey(node.id))
+                if (ids.TryGetValue(node.id, out long value))
                 {
+                    node.id = value;
+                }
+                else {
                     lastId++;
                     ids.Add(node.id, lastId);
                     node.id = lastId;
                 }
-                else {
-                    node.id = ids[node.id];
-                }
 
             }
 
             foreach (Node node in copy)
             {
-                if (!ids.ContainsKey(node.layer))
+                if (ids.TryGetValue(node.layer, out long value))
                 {
-                    node.layer = 0;
+                    node.layer = value;
                 }
                 else
                 {
-                    node.layer = ids[node.layer];
+                    node.layer = 0;                    
                 }
             }
 
 
             foreach (Node node in copy)
             {
-                if (!ids.ContainsKey(node.shortcut))
+                if (ids.TryGetValue(node.shortcut, out long value))
+                {
+                    node.shortcut = value;
+                }
+                else
                 {
                     node.shortcut = 0;
-                }
-                else
-                {
-                    node.shortcut = ids[node.shortcut];
                 }
             }
 
@@ -2843,7 +2853,7 @@ namespace Diagram
             {
                 li.start = ids[li.start];
                 li.end = ids[li.end];
-                li.layer = !ids.ContainsKey(li.layer) ? 0 : ids[li.layer];
+                li.layer = ids.TryGetValue(li.layer, out long value) ? value : 0;
             }
 
             XElement xRectangles = this.SaveInnerXmlNodes(copy);
@@ -2882,13 +2892,13 @@ namespace Diagram
 
                 foreach (Line li in this.GetAllLines())
                 {
-                    foreach (Node recstart in allNodes)
+                    foreach (Node recStart in allNodes)
                     {
-                        if (li.start == recstart.id)
+                        if (li.start == recStart.id)
                         {
-                            foreach (Node recend in allNodes)
+                            foreach (Node recEnd in allNodes)
                             {
-                                if (li.end == recend.id)
+                                if (li.end == recEnd.id)
                                 {
                                     lines.Add(li);
                                 }
@@ -2929,11 +2939,11 @@ namespace Diagram
                 layerParent = layer;
                 
                 // find layer id for sub layer
-                foreach (MappedNode mapednode in maps)
+                foreach (MappedNode mapped in maps)
                 {
-                    if (rec.layer == mapednode.oldId)
+                    if (rec.layer == mapped.oldId)
                     {
-                        layerParent = mapednode.newNode.id;
+                        layerParent = mapped.newNode.id;
                         break;
                     }
                 }
@@ -2963,11 +2973,11 @@ namespace Diagram
             {
                 if (rec.shortcut != 0)
                 {
-                    foreach (MappedNode mapednode in maps)
+                    foreach (MappedNode mapedNode in maps)
                     {
-                        if (rec.shortcut == mapednode.oldId)
+                        if (rec.shortcut == mapedNode.oldId)
                         {
-                            rec.shortcut = mapednode.newNode.id;
+                            rec.shortcut = mapedNode.newNode.id;
                             break;
                         }
                     }
@@ -2978,24 +2988,24 @@ namespace Diagram
             Line newLine;
             foreach (Line line in diagramPart.lines)
             {
-                foreach (MappedNode mapbegin in maps)
+                foreach (MappedNode mapBegin in maps)
                 {
-                    if (line.start == mapbegin.oldId)
+                    if (line.start == mapBegin.oldId)
                     {
-                        foreach (MappedNode mapend in maps)
+                        foreach (MappedNode mapped in maps)
                         {
-                            if (line.end == mapend.oldId)
+                            if (line.end == mapped.oldId)
                             {
                                 // create new line by connecting new nodes
                                 newLine = this.Connect(
-                                    mapbegin.newNode,
-                                    mapend.newNode,
+                                    mapBegin.newNode,
+                                    mapped.newNode,
                                     line.arrow,
                                     line.color,
                                     line.width
                                 );
 
-                                if (newLine != null) // skip invalid lines (perent not exist)
+                                if (newLine != null) // skip invalid lines (parent not exist)
                                 {
                                     createdLines.Add(newLine);
                                 }

@@ -8,31 +8,21 @@ using System.Text.RegularExpressions;
 namespace Diagram
 {
     /// <summary>
-    /// message server between running processies
+    /// message server between running processes
     /// </summary>
-    public class Server //UID0876993960
+    public class Server(Main main) //UID0876993960
     {
         /*************************************************************************************************************************/
         
-        public Main main = null; // parent
+        public Main main = main; // parent
 
-        public bool mainProcess = false; // is true when server runing in this process, false if server already run in other process
+        public bool mainProcess = false; // is true when server running in this process, false if server already run in other process
 
         private volatile bool _shouldStop = false; // signal for server loop to stop
         private TcpListener tcpListener; // server
         private Thread listenThread; // thread for server loop
 
         Mutex serverMutex = null;
-
-        /*************************************************************************************************************************/
-        // SERVER LOOP
-
-        public Server(Main main)
-        {
-            this.main = main;
-
-            this.mainProcess = false;
-        }
 
         public bool ServerExists()
         {
@@ -68,9 +58,9 @@ namespace Diagram
                 {
                     Program.log.Write("Server: StartServer");
                     long port = main.programOptions.server_default_port;
-                    IPAddress localAddr = IPAddress.Parse(main.programOptions.server_default_ip);
+                    IPAddress ipAddress = IPAddress.Parse(main.programOptions.server_default_ip);
 
-                    this.tcpListener = new TcpListener(localAddr, (Int32)port);
+                    this.tcpListener = new TcpListener(ipAddress, (Int32)port);
                     this.listenThread = new Thread(new ThreadStart(ListenForClients)); // start thread with server
                     this.listenThread.Start();
                     this.mainProcess = true;
@@ -120,7 +110,7 @@ namespace Diagram
             }
         }
 
-        // process message catched from server UID1561149138
+        // process message cached from server UID1561149138
         private void HandleClientCommunication(object client)
         {
             try
@@ -207,11 +197,11 @@ namespace Diagram
 
                     using var memStream = new MemoryStream();
 
-                    int bytesread = clientStream.Read(resp, 0, resp.Length);
-                    while (bytesread > 0)
+                    int bytesRead = clientStream.Read(resp, 0, resp.Length);
+                    while (bytesRead > 0)
                     {
-                        memStream.Write(resp, 0, bytesread);
-                        bytesread = clientStream.Read(resp, 0, resp.Length);
+                        memStream.Write(resp, 0, bytesRead);
+                        bytesRead = clientStream.Read(resp, 0, resp.Length);
                     }
                     string response = Encoding.UTF8.GetString(memStream.ToArray());
                     Program.log.Write("Server: SendMessage(" + Message + "): response: " + response);
@@ -231,7 +221,7 @@ namespace Diagram
             return false;
         }
 
-        // parde message from server UID9190377024
+        // parse message from server UID9190377024
         public bool ParseMessage(String Message)
         {
             // send message
@@ -244,18 +234,14 @@ namespace Diagram
             else
             if (Message == "close") //UID5024907634
             {
-                main.mainform.Invoke(new Action(() => main.mainform.TerminateApplication()));
+                main.mainForm.Invoke(new Action(() => main.mainForm.TerminateApplication()));
                 return true;
             }
             else
             {
-
-                Match match = Regex.Match(Message, @"open:(.*)", RegexOptions.IgnoreCase); //UID0548148814
-                if (match.Success)
-                {
-                    string FileName = match.Groups[1].Value;
-                    main.mainform.Invoke(new Action(() => main.mainform.OpenDiagram(FileName))); //UID7984925616
-
+                string FileName = Patterns.GetOpenCommand(Message);//UID0548148814
+                if (FileName != null) {
+                    main.mainForm.Invoke(new Action(() => main.mainForm.OpenDiagram(FileName))); //UID7984925616
                     return true;
                 }
             }

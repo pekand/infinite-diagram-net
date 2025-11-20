@@ -3,7 +3,7 @@
 namespace Diagram
 {
     /// <summary>
-    /// global program parmeters for all instances </summary>
+    /// global program parameters for all instances </summary>
     public class ProgramOptions //UID0014460148
     {
         /*************************************************************************************************************************/
@@ -27,7 +27,7 @@ namespace Diagram
         public String home_page = "https://infinite-diagram.pekand.com";
 
         /// <summary>
-        /// local server ip address fo messaging beetwen runing instances</summary>
+        /// local server ip address fo messaging between running instances</summary>
         public String server_default_ip = "127.0.0.1";
 
         /*************************************************************************************************************************/
@@ -74,11 +74,11 @@ namespace Diagram
         public string defaultDiagram = "";
 
         /// <summary>
-        /// user signature (randomly generated token uniqe for user)</summary>
+        /// user signature (randomly generated token unique for user)</summary>
         public string signatureSecret = "";
 
         /// <summary>
-        /// user signature iv - random vector inicializer</summary>
+        /// user signature iv - random vector initializer</summary>
         public string signatureIV = null;
 
         /// <summary>

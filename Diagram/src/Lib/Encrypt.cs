@@ -18,10 +18,9 @@ namespace Diagram
         /// get sha hash from inputString</summary>
         public static string CalculateSHA512Hash(string inputString)
         {
-            using HashAlgorithm algorithm = SHA512.Create();
-
+   
             byte[] inputBytes = Encoding.UTF8.GetBytes(inputString);
-            byte[] hash = algorithm.ComputeHash(inputBytes);
+            byte[] hash = SHA512.HashData(inputBytes);
 
             // step 2, convert byte array to hex string
             StringBuilder sb = new();
@@ -36,13 +35,9 @@ namespace Diagram
         /// get md5 hash from inputString</summary>
         public static string CalculateMD5Hash(string inputString)
         {
-            // step 1, calculate MD5 hash from input
-            using MD5 md5 = System.Security.Cryptography.MD5.Create();
-
             byte[] inputBytes = Encoding.UTF8.GetBytes(inputString);
-            byte[] hash = md5.ComputeHash(inputBytes);
+            byte[] hash = MD5.HashData(inputBytes);
 
-            // step 2, convert byte array to hex string
             StringBuilder sb = new();
             for (int i = 0; i < hash.Length; i++)
             {
@@ -53,9 +48,7 @@ namespace Diagram
 
         public static string GetMd5Hash(byte[] buffer)
         {
-            using MD5 md5Hasher = MD5.Create();
-
-            byte[] data = md5Hasher.ComputeHash(buffer);
+            byte[] data = MD5.HashData(buffer);
 
             StringBuilder sBuilder = new();
             for (int i = 0; i < data.Length; i++)
@@ -209,7 +202,7 @@ namespace Diagram
 
         /// <summary>
         /// helper function for DecryptStringAES</summary>
-        private static byte[] ReadByteArray(Stream s)
+        private static byte[] ReadByteArray(MemoryStream s)
         {
             byte[] rawLength = new byte[sizeof(int)];
             if (s.Read(rawLength, 0, rawLength.Length) != rawLength.Length)

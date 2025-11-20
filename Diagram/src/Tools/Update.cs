@@ -7,12 +7,12 @@ namespace Diagram
     class Update
     {
 
-        private string updateFolderName = "InfiniteDiagramUpdate";
-        private string updateExecutableName = "infinite-diagram-install.exe";
-        private string homepage = "https://infinite-diagram.pekand.com/";
-        private string lastVersionFile = "lastversion.txt";
-        private string signatureFile = "signature.txt";
-        private string installationUrl = "https://github.com/pekand/infinite-diagram-core/releases/download/v{VERSION}/infinite-diagram-install.exe";
+        private const string updateFolderName = "InfiniteDiagramUpdate";
+        private const string updateExecutableName = "infinite-diagram-install.exe";
+        private const string homepage = "https://infinite-diagram.pekand.com/";
+        private const string lastVersionFile = "lastversion.txt";
+        private const string signatureFile = "signature.txt";
+        private const string installationUrl = "https://github.com/pekand/infinite-diagram-core/releases/download/v{VERSION}/infinite-diagram-install.exe";
 
         public void CheckUpdates(bool showCurrentVersionStatus = false) {
             Job.DoJob(
@@ -24,7 +24,7 @@ namespace Diagram
                            string currentVersion = Os.GetThisAssemblyVersion();
                            Program.log.Write("CheckUpdates current version: " + currentVersion);
 
-                           string lastVersion = Network.GetWebPage(this.homepage + this.lastVersionFile);
+                           string lastVersion = Network.GetWebPage(homepage + lastVersionFile);
                            
                            Program.log.Write("CheckUpdates last version: " + lastVersion);
 
@@ -41,7 +41,7 @@ namespace Diagram
                            if (serverVersion.CompareTo(localVersion) == 1)
                            {
 
-                               string signature = Network.GetWebPage(this.homepage + this.signatureFile);
+                               string signature = Network.GetWebPage(homepage + signatureFile);
                                signature = signature.TrimEnd('\r', '\n').Trim();
 
                                if (signature == null || signature.Length < 64)
@@ -54,8 +54,8 @@ namespace Diagram
 
                                if (updateForm.CanUpdate())
                                {
-                                   string tempPath = Os.Combine(Os.GetTempPath(), this.updateFolderName);
-                                   string executablePath = tempPath + Os.GetSeparator() + this.updateExecutableName;
+                                   string tempPath = Os.Combine(Os.GetTempPath(), updateFolderName);
+                                   string executablePath = tempPath + Os.GetSeparator() + updateExecutableName;
                                    Os.RemoveDirectory(tempPath);
                                    Os.CreateDirectory(tempPath);
 

@@ -148,7 +148,7 @@ namespace Plugin
             }
 
 
-            XElement FirstPlugin = new XElement("FirstPlugin");
+            XElement FirstPlugin = new("FirstPlugin");
             FirstPlugin.Add(new XElement("counter", this.counter.ToString()));
             plugins.Add(FirstPlugin);
 
@@ -158,10 +158,12 @@ namespace Plugin
         public void PopupAddItemsAction(DiagramView diagramView, ToolStripMenuItem pluginsItem)
         {
             log.Write("FirstPlugin: popup init");
-            this.firstPluginItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.firstPluginItem.Name = "firstPluginItem";
-            this.firstPluginItem.Text = "First plugin item";
-            this.firstPluginItem.Click += new System.EventHandler((sender, e) => this.firstPluginItem_Click(sender, e, diagramView));
+            this.firstPluginItem = new System.Windows.Forms.ToolStripMenuItem
+            {
+                Name = "firstPluginItem",
+                Text = "First plugin item"
+            };
+            this.firstPluginItem.Click += new System.EventHandler((sender, e) => this.FirstPluginItem_Click(sender, e, diagramView));
             pluginsItem.DropDownItems.Add(this.firstPluginItem);
         }
 
@@ -171,7 +173,7 @@ namespace Plugin
             this.firstPluginItem.Enabled = !diagramView.diagram.IsReadOnly();
         }
 
-        public void firstPluginItem_Click(object sender, EventArgs e, Diagram.DiagramView diagramView)
+        public void FirstPluginItem_Click(object sender, EventArgs e, Diagram.DiagramView diagramView)
         {
             log.Write("FirstPlugin: popup item click");
 

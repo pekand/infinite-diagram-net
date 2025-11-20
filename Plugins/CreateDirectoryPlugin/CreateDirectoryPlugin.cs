@@ -72,9 +72,11 @@ namespace Plugin
 
         public void PopupAddItemsAction(Diagram.DiagramView diagramview, ToolStripMenuItem pluginsItem)
         {
-            this.createDirectoryItem = new ToolStripMenuItem();
-            this.createDirectoryItem.Name = "editItem";
-            this.createDirectoryItem.Text = "CreateDirectory";
+            this.createDirectoryItem = new()
+            {
+                Name = "editItem",
+                Text = "CreateDirectory"
+            };
             this.createDirectoryItem.Click += new System.EventHandler((sender, e) => this.CreateDirectoryItem_Click(sender, e, diagramview));
 
             pluginsItem.DropDownItems.Add(this.createDirectoryItem);

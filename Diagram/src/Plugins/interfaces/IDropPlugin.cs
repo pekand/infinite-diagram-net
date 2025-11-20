@@ -4,6 +4,6 @@ namespace Diagram
 {
     public interface IDropPlugin : IDiagramPlugin
     {
-        bool DropAction(DiagramView diagramview, DragEventArgs e);
+        bool DropAction(DiagramView diagramView, DragEventArgs e);
     }
 }

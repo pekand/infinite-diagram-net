@@ -6,24 +6,24 @@ namespace Diagram
 {
     public class DataStorage
     {
-        IDictionary<string, DataStorage> storages = new Dictionary<string, DataStorage>();
-        IDictionary<string, string> items = new Dictionary<string, string>();
+        private readonly  Dictionary<string, DataStorage> storages = [];
+        private readonly  Dictionary<string, string> items = [];
 
         public DataStorage GetStorage(string key) 
         {
-            if (!storages.ContainsKey(key))
+            if (storages.TryGetValue(key, out DataStorage value))
             {
-                return AddStorage(key);
+                return value;
             }
 
-            return storages[key];
+            return AddStorage(key);
         }
 
         public DataStorage AddStorage(string key)
         {
-            if (storages.ContainsKey(key))
+            if (storages.TryGetValue(key, out DataStorage value))
             {
-                return storages[key];
+                return value;
             }
 
             DataStorage dataStorage = new();
@@ -33,11 +33,6 @@ namespace Diagram
 
         public DataStorage RemoveStorage(string key)
         {
-            if (!storages.ContainsKey(key))
-            {
-                return this;
-            }
-
             storages.Remove(key);
 
             return this;
@@ -45,11 +40,11 @@ namespace Diagram
 
         public string GetItem(string key, string defaultValue = "")
         {
-            if (!items.ContainsKey(key)) {
-                return defaultValue;
+            if (items.TryGetValue(key, out string value)) {
+                return value;
             }
 
-            return items[key];
+            return defaultValue;            
         }
 
         public DataStorage AddItem(string key, string value)

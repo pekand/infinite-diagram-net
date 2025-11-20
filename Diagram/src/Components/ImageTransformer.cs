@@ -57,15 +57,10 @@ namespace Diagram
 
     }
 
-    public class ImageTransformer
+    public class ImageTransformer(Form parent)
     {
         public ImageTransformerData data = new();
-        public Form parent = null;
-
-        public ImageTransformer(Form parent)
-        {
-            this.parent = parent;
-        }
+        public Form parent = parent;
 
         public float GetAngleInDegrees(Point point1, Point point2)
         {
@@ -86,7 +81,7 @@ namespace Diagram
 
         public void Form_Init(object sender, EventArgs e)
         {
-            data.image = Image.FromFile("c:\\Users\\pekar\\Desktop\\Resize image\\WinFormsApp1\\arrow.jpg");
+            data.image = Image.FromFile("arrow.jpg");
 
             data.imageX = 50;
             data.imageY = 50;

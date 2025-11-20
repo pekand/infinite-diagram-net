@@ -27,7 +27,7 @@ namespace Diagram
 
         public ColorType color = new("#FFFFB8"); // node color
         public Font font = null; // node name font
-        public ColorType fontcolor = new(); // node name ext color
+        public ColorType fontColor = new(); // node name ext color
         public bool transparent = false; // node is transparent, color is turn off
 
         /*************************************************************************************************************************/
@@ -41,25 +41,25 @@ namespace Diagram
         // LAYER
 
         public long layer = 0; // layer id or parent node id
-        public bool haslayer = false; // nose has one or more childrens
+        public bool hasLayer = false; // nose has one or more children
         public Position layerShift = new(); // last position in layer
         public decimal layerScale = 0;
 
         /*************************************************************************************************************************/
         // SHORTCUT
 
-        public long shortcut = 0; // node id whitch is linked with this node
+        public long shortcut = 0; // node id which is linked with this node
         public bool mark = false; // mark node position for navigation history
 
         /*************************************************************************************************************************/
         // IMAGE
 
-        public bool isimage = false; // show node as image instead of text
-        public bool embeddedimage = false; // image is imported to xml file as string
-        public string imagepath = ""; // path to node image
+        public bool isImage = false; // show node as image instead of text
+        public bool embeddedImage = false; // image is imported to xml file as string
+        public string imagePath = ""; // path to node image
         public ImageEntry image = null; // loaded image
-        public long iwidth = 0; //image size
-        public long iheight = 0;
+        public long iWidth = 0; //image size
+        public long iHeight = 0;
 
         /*************************************************************************************************************************/
         // ATTACHMENT
@@ -69,13 +69,13 @@ namespace Diagram
         /*************************************************************************************************************************/
         // TIME
 
-        public string timecreate = ""; // node creation time
-        public string timemodify = ""; // node modification time
+        public string timeCreate = ""; // node creation time
+        public string timeModify = ""; // node modification time
 
         /*************************************************************************************************************************/
         // SCRIPT
 
-        public string scriptid = ""; // node text id for in script search
+        public string scriptId = ""; // node text id for in script search
 
         /*************************************************************************************************************************/
         // PADDING
@@ -87,7 +87,7 @@ namespace Diagram
         /*************************************************************************************************************************/
         // SECURITY
 
-        public bool protect = false; // protect sensitive data like pasword in node name (show asterisk instead of name)
+        public bool protect = false; // protect sensitive data like password in node name (show asterisk instead of name)
 
         /*************************************************************************************************************************/
         // PLUGINS
@@ -115,7 +115,7 @@ namespace Diagram
 
             this.color.Set(node.color);
             this.font = node.font;
-            this.fontcolor.Set(node.fontcolor);
+            this.fontColor.Set(node.fontColor);
             this.transparent = node.transparent;
 
             this.name = node.name;
@@ -128,26 +128,26 @@ namespace Diagram
             this.scale = node.scale;
 
             this.layer = node.layer;
-            this.haslayer = node.haslayer;
+            this.hasLayer = node.hasLayer;
             this.layerShift.Set(node.layerShift);
 
             this.shortcut = node.shortcut;
             this.mark = node.mark;
 
-            this.isimage = node.isimage;
-            this.embeddedimage = node.embeddedimage;
-            this.imagepath = node.imagepath;
+            this.isImage = node.isImage;
+            this.embeddedImage = node.embeddedImage;
+            this.imagePath = node.imagePath;
             this.image = node.image;
 
-            this.iwidth = node.iwidth;
-            this.iheight = node.iheight;
+            this.iWidth = node.iWidth;
+            this.iHeight = node.iHeight;
 
             this.attachment = node.attachment;
 
-            this.timecreate = node.timecreate;
-            this.timemodify = node.timemodify;
+            this.timeCreate = node.timeCreate;
+            this.timeModify = node.timeModify;
 
-            this.scriptid = node.scriptid;
+            this.scriptId = node.scriptId;
 
             this.protect = node.protect;
         }
@@ -158,7 +158,7 @@ namespace Diagram
         {
             this.color.Set(node.color);
             this.font = node.font;
-            this.fontcolor.Set(node.fontcolor);
+            this.fontColor.Set(node.fontColor);
             this.transparent = node.transparent;
 
             this.name = node.name;
@@ -180,18 +180,18 @@ namespace Diagram
                 this.scale = node.scale;
             }
 
-            this.isimage = node.isimage;
-            this.embeddedimage = node.embeddedimage;
-            this.imagepath = node.imagepath;
+            this.isImage = node.isImage;
+            this.embeddedImage = node.embeddedImage;
+            this.imagePath = node.imagePath;
             this.image = node.image;
 
-            this.iwidth = node.iwidth;
-            this.iheight = node.iheight;
+            this.iWidth = node.iWidth;
+            this.iHeight = node.iHeight;
 
-            this.timecreate = node.timecreate;
-            this.timemodify = node.timemodify;
+            this.timeCreate = node.timeCreate;
+            this.timeModify = node.timeModify;
 
-            this.scriptid = node.scriptid;
+            this.scriptId = node.scriptId;
 
             this.protect = node.protect;
         }
@@ -202,16 +202,16 @@ namespace Diagram
         {
             this.color.Set(node.color);
             this.font = node.font;
-            this.fontcolor.Set(node.fontcolor);
+            this.fontColor.Set(node.fontColor);
             this.transparent = node.transparent;
 
-            this.isimage = node.isimage;
-            this.embeddedimage = node.embeddedimage;
-            this.imagepath = node.imagepath;
+            this.isImage = node.isImage;
+            this.embeddedImage = node.embeddedImage;
+            this.imagePath = node.imagePath;
             this.image = node.image;
 
-            this.iwidth = node.iwidth;
-            this.iheight = node.iheight;
+            this.iWidth = node.iWidth;
+            this.iHeight = node.iHeight;
 
             this.protect = node.protect;
 
@@ -262,7 +262,7 @@ namespace Diagram
 
         public void Resize()
         {
-            if (!this.isimage)
+            if (!this.isImage)
             {
                 if (!this.protect)
                 {

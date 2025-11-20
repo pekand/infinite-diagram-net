@@ -139,7 +139,7 @@ namespace Diagram
                 string encoding = Patterns.MatchWebPageEncoding(page);
 
                 // use different encoding
-                if (encoding.Trim() != "" && encoding.ToLower() != "utf-8")
+                if (encoding.Trim() != "" && !encoding.Equals("utf-8", StringComparison.CurrentCultureIgnoreCase))
                 {
                     memoryStream.Seek(0, SeekOrigin.Begin);
 

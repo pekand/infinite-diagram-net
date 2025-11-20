@@ -10,14 +10,14 @@ namespace Diagram
     /// load plugins</summary>
     public class Plugins //UID8736657869
     {
-        public ICollection<IDiagramPlugin> plugins = [];
-        public ICollection<INodeOpenPlugin> nodeOpenPlugins = [];
-        public ICollection<IKeyPressPlugin> keyPressPlugins = [];
-        public ICollection<IOpenDiagramPlugin> openDiagramPlugins = [];
-        public ICollection<IPopupPlugin> popupPlugins = [];
-        public ICollection<IDropPlugin> dropPlugins = [];
-        public ICollection<ISavePlugin> savePlugins = [];
-        public ICollection<ILoadPlugin> loadPlugins = [];
+        public List<IDiagramPlugin> plugins = [];
+        public List<INodeOpenPlugin> nodeOpenPlugins = [];
+        public List<IKeyPressPlugin> keyPressPlugins = [];
+        public List<IOpenDiagramPlugin> openDiagramPlugins = [];
+        public List<IPopupPlugin> popupPlugins = [];
+        public List<IDropPlugin> dropPlugins = [];
+        public List<ISavePlugin> savePlugins = [];
+        public List<ILoadPlugin> loadPlugins = [];
 
         public AssemblyLoadContext loadContext = new("PluginsContext", isCollectible: true);
 
@@ -35,7 +35,7 @@ namespace Diagram
                     dllFileNames = Directory.EnumerateFiles(path, "*.dll", SearchOption.AllDirectories);
                 }
 
-                ICollection<Assembly> assemblies = new List<Assembly>(dllFileNames.Count());
+                List<Assembly> assemblies = new(dllFileNames.Count());
                 foreach (string dllFile in dllFileNames)
                 {
                     try

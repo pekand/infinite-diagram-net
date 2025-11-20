@@ -223,5 +223,24 @@ namespace Diagram
             return false;
         }
 
+        public static string GetOpenCommand(String Message)
+        {
+            Match match = Regex.Match(Message, @"open:(.*)", RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                string FileName = match.Groups[1].Value;
+                return FileName;
+            }
+
+            return null;
+        }
+
+        public static bool IsTime(String text)
+        {
+            return Regex.Match(text, @"^[0-9]{2}:[0-9]{2}:[0-9]{2}$", RegexOptions.IgnoreCase).Success;
+        }
+
+            
+
     }
 }

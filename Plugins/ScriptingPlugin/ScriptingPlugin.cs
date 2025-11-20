@@ -73,17 +73,17 @@ namespace Plugin
         {
             Nodes nodes = null;
 
-            if (diagramView.selectedNodes.Count() > 0)
+            if (diagramView.selectedNodes.Count > 0)
             {
-                nodes = new Nodes(diagramView.selectedNodes);
+                nodes = [.. diagramView.selectedNodes];
             }
             else
             {
-                nodes = new Nodes(diagram.GetAllNodes());
+                nodes = [.. diagram.GetAllNodes()];
             }
             // remove nodes whit link other then [ ! | eval | evaluate | !#num_order | eval#num_order |  evaluate#num_order]
             // higest number is executed first
-            Regex regex = new Regex(@"^\s*(eval(uate)|!){1}(#\w+){0,1}\s*$");
+            Regex regex = new(@"^\s*(eval(uate)|!){1}(#\w+){0,1}\s*$");
             nodes.RemoveAll(n => !regex.Match(n.link).Success);
 
             nodes.OrderByLink();
@@ -105,7 +105,7 @@ namespace Plugin
 #endif
         }
 
-        public string getStandardLibraryPath()
+        public string GetStandardLibraryPath()
         {
             string standardLibraryPath = "";
             
@@ -127,12 +127,9 @@ namespace Plugin
 
         Script script = null;
 
-        private void initScriptEngine()
+        private void InitScriptEngine()
         {
-            if (script == null)
-            {
-                script = new Script(getStandardLibraryPath());
-            }
+            script ??= new Script(GetStandardLibraryPath());
 
         }
 
@@ -141,7 +138,7 @@ namespace Plugin
         {
             Program.log.Write("diagram: openlink: run macro");
 
-            initScriptEngine();
+            InitScriptEngine();
             script.SetDiagram(diagram);
             script.SetDiagramView(diagramView);
             script.SetClipboard(clipboard);
@@ -159,7 +156,7 @@ namespace Plugin
         {
             // run macro
             Program.log.Write("diagram: openlink: run macro");
-            initScriptEngine();
+            InitScriptEngine();
             script.SetDiagram(diagram);
             script.SetDiagramView(diagramView);
             script.SetClipboard(clipboard);

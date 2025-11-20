@@ -36,7 +36,7 @@ namespace Diagram
         /// LAYER construct  
         /// </summary>
         /// <param name="parentNode">is node in upper layer</param>   
-        /// <param name="parentLayer">is layer whitch has parentNode</param> 
+        /// <param name="parentLayer">is layer which has parentNode</param> 
         public Layer(Node parentNode = null, Layer parentLayer = null)
         {
             if (parentNode != null)

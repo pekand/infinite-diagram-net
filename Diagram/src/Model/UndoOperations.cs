@@ -56,7 +56,7 @@ namespace Diagram
 
     /// <summary>
     /// container for UndoOperations and undo manipulation</summary> 
-    public class UndoOperations
+    public class UndoOperations(Diagram diagram)
     {
         public long group = 0; // if two operations is in same group then undo restore both operations
 
@@ -64,18 +64,10 @@ namespace Diagram
         public bool saveLost = false; // if save is in redo and redo is cleared then save position is lost
         public bool grouping = false; // if grouping is true and new undo is added then new undo is same group as previous undo
 
-        public Diagram diagram = null;                // diagram assigned to current undo
+        public Diagram diagram = diagram;                // diagram assigned to current undo
         
         public Stack<UndoOperation> operations = new(); // saved undo operations
         public Stack<UndoOperation> reverseOperations = new(); // saved redo operations
-
-        /*************************************************************************************************************************/
-        // CONSTRUCTORS
-
-        public UndoOperations(Diagram diagram)
-        {
-            this.diagram = diagram;
-        }
 
         /*************************************************************************************************************************/
         // ADD UNDO OPERATIONS
@@ -135,7 +127,7 @@ namespace Diagram
             // forgot undo operation
             if (reverseOperations.Count > 0)
             {
-                if (this.saved > 0) // save is in redo but if redo is cleared theh save is lost
+                if (this.saved > 0) // save is in redo but if redo is cleared then save is lost
                 {
                     this.saveLost = true;
                 }
@@ -220,7 +212,7 @@ namespace Diagram
                         lines.Add(this.diagram.GetLine(line.start, line.end));
                     }
 
-                    UndoOperation roperation = new(
+                    UndoOperation undoOperation = new(
                         operation.type,
                         nodes,
                         lines,
@@ -229,7 +221,7 @@ namespace Diagram
                         operation.scale,
                         operation.layer
                     );
-                    reverseOperations.Push(roperation);
+                    reverseOperations.Push(undoOperation);
                     this.DoUndoEdit(operation);
                 }
 
@@ -316,7 +308,7 @@ namespace Diagram
                     }
 
 
-                    UndoOperation roperation = new(
+                    UndoOperation undoOperation = new(
                         operation.type,
                         nodes,
                         lines,
@@ -326,7 +318,7 @@ namespace Diagram
                         operation.layer
                     );
 
-                    operations.Push(roperation);
+                    operations.Push(undoOperation);
                     this.DoUndoEdit(operation);
                 }
 
@@ -437,7 +429,7 @@ namespace Diagram
 
         /// <summary>
         /// Check if operation is same as previous operation 
-        /// If previous operation is move node (by arrow forexample) is better group operation like one big move instead of many small moves.
+        /// If previous operation is move node (by arrow for example) is better group operation like one big move instead of many small moves.
         /// </summary>
         public bool IsSame(string type, Nodes nodes, Lines lines)
         {
@@ -506,7 +498,7 @@ namespace Diagram
 
         /// <summary>
         /// Save current state as state where file is saved and save is not needed.
-        /// When undo or redo is executed and after it file is already savet in curent state asterisk from title can be removed.
+        /// When undo or redo is executed and after it file is already save in current state asterisk from title can be removed.
         /// </summary>
         public void RememberSave()
         {

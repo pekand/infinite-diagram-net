@@ -52,7 +52,7 @@ namespace Diagram
         public static bool IsDiagram(string diagramPath)
         {
             diagramPath = NormalizePath(diagramPath);
-            if (Os.FileExists(diagramPath) && Path.GetExtension(diagramPath).ToLower() == ".diagram")
+            if (Os.FileExists(diagramPath) && Path.GetExtension(diagramPath).Equals(".diagram", StringComparison.CurrentCultureIgnoreCase))
             {
                 return true;
             }
@@ -303,7 +303,7 @@ namespace Diagram
                 currentPath += Path.DirectorySeparatorChar;
             }
 
-            int pos = filePath.ToLower().IndexOf(currentPath.ToLower());
+            int pos = filePath.IndexOf(currentPath, StringComparison.CurrentCultureIgnoreCase);
             if (inCurrentDir && pos != 0) // skip files outside of currentPath
             {
                 return filePath;

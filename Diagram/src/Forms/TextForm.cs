@@ -224,7 +224,7 @@ namespace Diagram
                     node.Resize();
 
                     DateTime dt = DateTime.Now;
-                    node.timemodify = String.Format("{0:yyyy-M-d HH:mm:ss}", dt);
+                    node.timeModify = String.Format("{0:yyyy-M-d HH:mm:ss}", dt);
 
                     this.TextFormSave?.Invoke(node);
                 }

@@ -38,7 +38,7 @@ namespace Diagram
         public const string openViewEnd = "CTRL+END";
         public const string setHome = "SHIFT+HOME";
         public const string setEnd = "SHIFT+END";
-        public const string openDrectory = "F5";
+        public const string openDirectory = "F5";
         public const string console = "F12";
         public const string moveNodeUp = "CTRL+PAGEUP";
         public const string moveNodeDown = "CTRL+PAGEDOWN";
@@ -46,7 +46,7 @@ namespace Diagram
         public const string pageDown = "PAGEDOWN";
         public const string editNodeName = "F2";
         public const string editNodeLink = "F4";
-        public const string fullScreean = "F11";
+        public const string fullScreen = "F11";
         public const string openEditForm = "CTRL+E";
         public const string editOrLayerIn = "ENTER";
         public const string layerIn = "ADD";
@@ -224,7 +224,7 @@ namespace Diagram
         }
 
         /// <summary>
-        /// conver pressed key to string</summary>
+        /// convert pressed key to string</summary>
         public static string ParseKey(Keys keyData)
         {
 

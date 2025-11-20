@@ -102,13 +102,15 @@ namespace Plugin
                 if (Os.FileExists(diagram.FileName)) {
                     string diagramDirectory = Os.GetFileDirectory(diagram.FileName);
 
-                    List<FileNameAndSizePair> files = new List<FileNameAndSizePair>();
+                    List<FileNameAndSizePair> files = [];
 
                     foreach (string file in Directory.EnumerateFiles(diagramDirectory, "*.*", SearchOption.AllDirectories))
                     {
-                        FileNameAndSizePair pair = new FileNameAndSizePair();
-                        pair.name = file;
-                        pair.size = new System.IO.FileInfo(file).Length;
+                        FileNameAndSizePair pair = new()
+                        {
+                            name = file,
+                            size = new System.IO.FileInfo(file).Length
+                        };
                         files.Add(pair);                       
                     }
 

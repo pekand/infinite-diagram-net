@@ -6,13 +6,11 @@ namespace Diagram
     {
         private bool disposed = false;
 
-        private Dictionary<string, ImageEntry> images = [];
+        private readonly Dictionary<string, ImageEntry> images = [];
 
         private string ComputeHash(byte[] data)
         {
-            using var sha = SHA256.Create();
-
-            byte[] hashBytes = sha.ComputeHash(data);
+            byte[] hashBytes = SHA256.HashData(data);
             return Convert.ToHexStringLower(hashBytes);
         }
 
@@ -42,8 +40,8 @@ namespace Diagram
             byte[] data = File.ReadAllBytes(filePath);
             string hash = ComputeHash(data);
 
-            if (images.ContainsKey(hash))
-                return images[hash];
+            if (images.TryGetValue(hash, out ImageEntry? value))
+                return value;
 
             try
             {
@@ -76,8 +74,8 @@ namespace Diagram
             byte[] data = ms.ToArray();
             string hash = ComputeHash(data);
 
-            if (images.ContainsKey(hash))
-                return images[hash];
+            if (images.TryGetValue(hash, out ImageEntry? value))
+                return value;
 
             if (cloneImage)
             {
@@ -149,7 +147,19 @@ namespace Diagram
             return [.. images.Values];
         }
 
+
+        ~ImageManager()
+        {
+            Dispose(false);
+        }
+
         public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
         {
             if (disposed) return;
 
@@ -160,11 +170,6 @@ namespace Diagram
 
             images.Clear();
             disposed = true;
-        }
-
-        ~ImageManager()
-        {
-            Dispose();
         }
     }
 

@@ -5,7 +5,7 @@ namespace Diagram
     public partial class UpdateForm : Form
     {
 
-        private System.ComponentModel.IContainer components = null;
+        private readonly System.ComponentModel.Container components = new();
 
         private System.Windows.Forms.Label labelInfo;
         private System.Windows.Forms.Button buttonYes;
@@ -19,7 +19,6 @@ namespace Diagram
 
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateForm));
             labelInfo = new Label();
             buttonYes = new Button();

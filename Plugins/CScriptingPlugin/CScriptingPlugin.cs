@@ -91,9 +91,7 @@ namespace Plugin
         {
             string body = node.note;
 
-            if (this.interactiveLoader == null) {
-                this.interactiveLoader = new InteractiveAssemblyLoader();
-            }
+            this.interactiveLoader ??= new InteractiveAssemblyLoader();
 
             if (this.scriptOptions == null)
             {

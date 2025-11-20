@@ -6,7 +6,7 @@ namespace Diagram
     /// collection of layers</summary>
     public class Layers //UID6548243626
     {
-        private long maxid = 0;                    // last used node id
+        private long maxId = 0;                    // last used node id
 
         private readonly Dictionary<long, Node> allNodes = [];
 
@@ -42,7 +42,7 @@ namespace Diagram
         }
 
         /// <summary>
-        /// Add referencies to layers to parents for fast parents search
+        /// Add references to layers to parents for fast parents search
         /// Is called after load diagram from file or clipboard
         /// </summary>
         public void SetLayersParentsReferences()
@@ -68,8 +68,8 @@ namespace Diagram
 
         public Node GetNode(long id)
         {
-            if (this.allNodes.ContainsKey(id)) {
-                return this.allNodes[id];
+            if (this.allNodes.TryGetValue(id, out Node value)) {
+                return value;
             }
 
             return null;
@@ -169,7 +169,7 @@ namespace Diagram
         {
             Nodes nodes = [];
 
-            if (node.haslayer)
+            if (node.hasLayer)
             {
                 Layer layer = this.GetLayer(node.id);
 
@@ -177,7 +177,7 @@ namespace Diagram
                 {
                     nodes.Add(subNode);
 
-                    if (subNode.haslayer)
+                    if (subNode.hasLayer)
                     {
                         Nodes subNodes = this.GetAllNodes(subNode);
 
@@ -212,7 +212,7 @@ namespace Diagram
                 // add node itself to output
                 allNodes.Add(node);
 
-                if (node.haslayer)
+                if (node.hasLayer)
                 {
                     Layer layer = this.GetLayer(node.id);
                     GetAllNodesAndLines(layer.nodes, ref allNodes, ref allLines);
@@ -245,7 +245,7 @@ namespace Diagram
         {
             Lines lines = [];
 
-            if (node.haslayer)
+            if (node.hasLayer)
             {
                 Layer layer = this.GetLayer(node.id);
 
@@ -256,7 +256,7 @@ namespace Diagram
 
                 foreach (Node subNode in layer.nodes)
                 {
-                    if (node.haslayer)
+                    if (node.hasLayer)
                     {
                         Lines sublines = this.GetAllSubNodeLines(subNode);
 
@@ -297,13 +297,13 @@ namespace Diagram
 
             foreach (Line li in this.GetAllLines())
             {
-                foreach (Node recstart in nodes)
+                foreach (Node recStart in nodes)
                 {
-                    if (li.start == recstart.id)
+                    if (li.start == recStart.id)
                     {
-                        foreach (Node recend in nodes)
+                        foreach (Node recEnd in nodes)
                         {
-                            if (li.end == recend.id)
+                            if (li.end == recEnd.id)
                             {
                                 lines.Add(li);
                             }
@@ -342,8 +342,8 @@ namespace Diagram
         {
 
             DateTime dt = DateTime.Now;
-            node.timecreate = String.Format("{0:yyyy-M-d HH:mm:ss}", dt);
-            node.timemodify = node.timecreate;
+            node.timeCreate = String.Format("{0:yyyy-M-d HH:mm:ss}", dt);
+            node.timeModify = node.timeCreate;
 
             Layer layer = this.AddNode(node);
 
@@ -360,7 +360,7 @@ namespace Diagram
             // prevent duplicate id
             if (node.id == 0)
             {
-                node.id = ++maxid; // new node
+                node.id = ++maxId; // new node
             }
             else
             {
@@ -369,11 +369,11 @@ namespace Diagram
 
                 if (nodeById != null)
                 {
-                    node.id = ++maxid; // already exist node with this id
+                    node.id = ++maxId; // already exist node with this id
                 }
-                else if (maxid < node.id)
+                else if (maxId < node.id)
                 {
-                    maxid = node.id; // node not exist but has id bigger then current max id
+                    maxId = node.id; // node not exist but has id bigger then current max id
                 }
             }
 
@@ -383,7 +383,7 @@ namespace Diagram
             {
                 Node parentNode = this.GetNode(node.layer);
                 layer = this.GetOrCreateLayer(parentNode);
-                parentNode.haslayer = true;
+                parentNode.hasLayer = true;
             }
 
             this.allNodes.Add(node.id, node);
@@ -441,7 +441,7 @@ namespace Diagram
                 }
             }
 
-            if (node.haslayer) // remove nodes in node layer
+            if (node.hasLayer) // remove nodes in node layer
             {
                 RemoveLayer(node.id);
             }
@@ -480,7 +480,7 @@ namespace Diagram
             {
                 foreach (Node n in layer.nodes)
                 {
-                    if (n.haslayer)
+                    if (n.hasLayer)
                     {
                         RemoveLayer(n.id);
                     }
@@ -492,7 +492,7 @@ namespace Diagram
 
         public void Clear()
         {
-            this.maxid = 0;
+            this.maxId = 0;
 
             foreach (Layer l in this.layers)
             {
