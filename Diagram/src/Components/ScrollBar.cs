@@ -50,6 +50,7 @@ namespace Diagram
         public bool active = false; // scrolbarr is visible
         public bool fadein = true; // running dade in animation
         public bool fadeout = false; // running fade out animation
+        public bool disabled = false; // turn off component
 
         // event change position
         public event PositionChangeEventHandler OnChangePosition;
@@ -111,11 +112,21 @@ namespace Diagram
         // EVENT Paint                                                                                 // [PAINT] [EVENT]
         public void PaintEvent(object sender, PaintEventArgs e)
         {
+            if ( this.disabled)
+            {
+                return;    
+            }
+
             this.Paint(e.Graphics);
         }
 
         public void Paint(Graphics g)
         {
+            if (this.disabled)
+            {
+                return;
+            }
+
             if (animation || active || fadeout)
             {
 
@@ -155,6 +166,11 @@ namespace Diagram
 
         public bool MouseDown(int mx, int my)
         {
+            if (this.disabled)
+            {
+                return false;
+            }
+
             if (barx <= mx && mx <= barx + barwidth && bary <= my && my <= bary + barheight)
             {
                 mousedown = true;
@@ -218,6 +234,11 @@ namespace Diagram
 
         public bool MouseMove(int mx, int my)
         {
+            if (this.disabled)
+            {
+                return false;
+            }
+
             if (mousedown) // click to scroll bar
             {
 
@@ -305,6 +326,11 @@ namespace Diagram
 
         public bool MouseUp()
         {
+            if (this.disabled)
+            {
+                return false;
+            }
+
             if (mousedown) {
                 if (trackposold != trackpos)
                 {
@@ -333,6 +359,11 @@ namespace Diagram
 
         public void Tick(object sender, EventArgs e)
         {
+            if (this.disabled)
+            {
+                return;
+            }
+
             if (this.fadein)
             {
                 if (this.opacity <= 50)
@@ -380,6 +411,16 @@ namespace Diagram
 
         public void SetColor(Color color) {
             this.color = color;
+        }
+
+        public void Diable()
+        {
+            this.disabled = true;
+        }
+
+        public void Enable()
+        {
+            this.disabled = false;
         }
     }
 }

@@ -62,6 +62,14 @@ namespace Diagram
         public long iHeight = 0;
 
         /*************************************************************************************************************************/
+        // IMAGE TRANSFORMATION
+        public bool isImageTransformed = false;
+        public int transformationRotateX = 0;
+        public int transformationRotateY = 0;
+        public bool transformationFlipX = false;
+        public bool transformationFlipY = false;
+
+        /*************************************************************************************************************************/
         // ATTACHMENT
 
         public string attachment = ""; // compressed file attachment
@@ -139,6 +147,12 @@ namespace Diagram
             this.imagePath = node.imagePath;
             this.image = node.image;
 
+            this.isImageTransformed = node.isImageTransformed;
+            this.transformationRotateX = node.transformationRotateX;
+            this.transformationRotateY = node.transformationRotateY;
+            this.transformationFlipX = node.transformationFlipX;
+            this.transformationFlipY = node.transformationFlipY;
+
             this.iWidth = node.iWidth;
             this.iHeight = node.iHeight;
 
@@ -185,6 +199,12 @@ namespace Diagram
             this.imagePath = node.imagePath;
             this.image = node.image;
 
+            this.isImageTransformed = node.isImageTransformed;
+            this.transformationRotateX = node.transformationRotateX;
+            this.transformationRotateY = node.transformationRotateY;
+            this.transformationFlipX = node.transformationFlipX;
+            this.transformationFlipY = node.transformationFlipY;
+
             this.iWidth = node.iWidth;
             this.iHeight = node.iHeight;
 
@@ -209,6 +229,12 @@ namespace Diagram
             this.embeddedImage = node.embeddedImage;
             this.imagePath = node.imagePath;
             this.image = node.image;
+
+            this.isImageTransformed = node.isImageTransformed;
+            this.transformationRotateX = node.transformationRotateX;
+            this.transformationRotateY = node.transformationRotateY;
+            this.transformationFlipX = node.transformationFlipX;
+            this.transformationFlipY = node.transformationFlipY;
 
             this.iWidth = node.iWidth;
             this.iHeight = node.iHeight;

@@ -3,6 +3,10 @@ using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
+
 
 #nullable disable
 
@@ -93,7 +97,7 @@ namespace Diagram
         public decimal firstLayereScale = 0;
         public List<Layer> layersHistory = []; // layer history - last layer is current selected layer
 
-        // COMPONENTS
+        // SCROLLBAR
         public ScrollBar bottomScrollBar = null;  // bottom scroll bar
         public ScrollBar rightScrollBar = null;   // right scroll bar
 
@@ -151,6 +155,11 @@ namespace Diagram
         public int windowHeightBeforePin = 0;
         public FormBorderStyle windowBorderStyleBeforePin;
         public PictureBox windowPinBox = new();
+
+
+        // IMAGE TRANSFORMATION
+        private bool disabled = false;
+        public ImageTransformer imageTransformer;
 
         private void InitializeComponent() //UID4012344444
         {
@@ -249,7 +258,7 @@ namespace Diagram
 
             ResumeLayout(false);
 
-        }
+        }       
 
         /*************************************************************************************************************************/
 
@@ -365,6 +374,8 @@ namespace Diagram
                 this.WindowState = FormWindowState.Normal;
 
                 this.CenterToScreen();
+
+                
             }
 
             // scrollbars
@@ -401,7 +412,7 @@ namespace Diagram
 
             oldFormWindowState = FormWindowState.Normal;
 
-            
+            this.imageTransformer = new ImageTransformer(this);
         }
 
         // FORM Shown event
@@ -833,6 +844,8 @@ namespace Diagram
         public void DiagramApp_Paint(object sender, PaintEventArgs e)
         {
             this.DrawDiagram(e.Graphics);
+
+            this.imageTransformer.Form_Paint(sender, e);
         }
 
         // EVENT Mouse DoubleClick UID5891984730
@@ -849,6 +862,14 @@ namespace Diagram
         // EVENT Mouse Down UID3419722424                                                              // [MOUSE] [DOWN] [EVENT]
         public void DiagramApp_MouseDown(object sender, MouseEventArgs e)
         {
+            this.imageTransformer.Form_MouseDown(sender, e);
+
+
+            if (this.disabled)
+            {
+                return;
+            }
+
 #if DEBUG
             this.LogEvent("MouseDown");
 #endif
@@ -1021,6 +1042,13 @@ namespace Diagram
         public void DiagramApp_MouseMove(object sender, MouseEventArgs e)
         {
 
+            this.imageTransformer.Form_MouseMove(sender, e);
+
+            if (this.disabled)
+            {
+                return;
+            }
+
 #if DEBUG
             this.LogEvent("MouseMove");
 #endif
@@ -1054,6 +1082,12 @@ namespace Diagram
         // EVENT Mouse Up UID3026627853                                                                // [MOUSE] [UP] [EVENT]
         public void DiagramApp_MouseUp(object sender, MouseEventArgs e)
         {
+            this.imageTransformer.Form_MouseUp(sender, e);
+
+            if (this.disabled)
+            {
+                return;
+            }
 
 #if DEBUG
             this.LogEvent("MouseUp");
@@ -1881,6 +1915,12 @@ namespace Diagram
         // EVENT Mouse Whell UID1111344210
         public void DiagramApp_MouseWheel(object sender, MouseEventArgs e)                             // [MOUSE] [WHELL] [EVENT]
         {
+
+            if (this.disabled)
+            {
+                return;
+            }
+
 #if DEBUG
             this.LogEvent("MouseWheel");
 #endif
@@ -1991,6 +2031,10 @@ namespace Diagram
         // EVENT Shortcuts UID1444131132
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)                           // [KEYBOARD] [EVENT]
         {
+            if (this.disabled)
+            {
+                return false;
+            }
 
 #if DEBUG
             this.LogEvent("ProcessCmdKey");
@@ -2415,6 +2459,11 @@ namespace Diagram
         public void DiagramApp_KeyDown(object sender, KeyEventArgs e)                                  // [KEYBOARD] [DOWN] [EVENT]
         {
 
+            if (this.disabled)
+            {
+                return;
+            }
+
 #if DEBUG
             this.LogEvent("KeyDown");
 #endif
@@ -2477,6 +2526,11 @@ namespace Diagram
         public void DiagramApp_KeyUp(object sender, KeyEventArgs e)
         {
 
+            if (this.disabled)
+            {
+                return;
+            }
+
 #if DEBUG
             this.LogEvent("KeyUp");
 #endif
@@ -2519,6 +2573,11 @@ namespace Diagram
         // EVENT Keypress UID1343430442
         public void DiagramApp_KeyPress(object sender, KeyPressEventArgs e) // [KEYBOARD] [PRESS] [EVENT]
         {
+
+            if (this.disabled)
+            {
+                return;
+            }
 
 #if DEBUG
             this.LogEvent("KeyPress");
@@ -2574,6 +2633,11 @@ namespace Diagram
         // EVENT DROP file UID3440232213
         public void DiagramApp_DragDrop(object sender, DragEventArgs e)                                // [DROP] [DROP-FILE] [EVENT]
         {
+
+            if (this.disabled)
+            {
+                return;
+            }
 
 #if DEBUG
             this.LogEvent("DragDrop");
@@ -2698,6 +2762,11 @@ namespace Diagram
         // EVENT DROP drag enter UID0040214033
         public void DiagramApp_DragEnter(object sender, DragEventArgs e)                               // [DRAG] [EVENT]
         {
+
+            if (this.disabled)
+            {
+                return;
+            }
 
 #if DEBUG
             this.LogEvent("DragEnter");
@@ -3023,8 +3092,6 @@ namespace Diagram
             return false;
         }
 
-
-
         /*************************************************************************************************************************/
 
         // SEARCHPANEL action UID7186033387
@@ -3268,8 +3335,6 @@ namespace Diagram
             }
         }
 
-
-
         // SEARCHPANEL CANCEL - restore beggining search position
         private void SearchCancel()
         {
@@ -3289,8 +3354,6 @@ namespace Diagram
             this.stateSearching = false;
             this.diagram.InvalidateDiagram();
         }
-
-
 
         /*************************************************************************************************************************/
 
@@ -3480,7 +3543,7 @@ namespace Diagram
         }
 
         // FILE Open - Open diagram UID4892447333
-        public void OpenDiagramFromFile(String path)
+        public void OpenDiagramFromFile(string path)
         {
             if (Os.FileExists(path))
             {
@@ -3881,7 +3944,23 @@ namespace Diagram
                             (float)((rec.height) / (s / Calc.GetScale(rec.scale)))
                         );
 
+                        if (rec.transformationFlipX)
+                        {
+                            imageRec.X += imageRec.Width;
+                            imageRec.Width = -imageRec.Width;
+                        }
+
+                        if (rec.transformationFlipY)
+                        {
+                            imageRec.Y += imageRec.Height;
+                            imageRec.Height = -imageRec.Height;
+                        }
+
+                        gfx.TranslateTransform(imageRec.X + (imageRec.Width / 2), imageRec.Y + (imageRec.Height / 2));
+                        gfx.RotateTransform(Calc.GetAngleInDegrees(new Point(0, 0), new Point(rec.transformationRotateX, rec.transformationRotateY)));
+                        gfx.TranslateTransform(-(imageRec.X + (imageRec.Width / 2)), -(imageRec.Y + (imageRec.Height / 2)));
                         gfx.DrawImage(rec.image.Image, imageRec);
+                        gfx.ResetTransform();
 
                         if (rec.selected && !export)
                         {
@@ -4318,6 +4397,36 @@ namespace Diagram
             return mousePosition.Clone().Scale(Calc.GetScale(this.scale)).Subtract(this.shift);
         }
 
+        // VIEW convert rectangle position from view to diagram 
+        public RectangleD RecatanglePositionFromViewToDiagram(decimal recX = 0, decimal recY = 0, decimal recWidth = 0, decimal recHeight = 0, decimal recScale = 1)
+        {
+            decimal s = Calc.GetScale(this.scale);
+
+            RectangleD rectangle = new(
+                recX * Calc.GetScale(this.scale) - this.shift.x,
+                recY * Calc.GetScale(this.scale) - this.shift.y,
+                recWidth * (s / Calc.GetScale(recScale)),
+                recHeight * (s / Calc.GetScale(recScale)),
+                recScale
+            );
+
+            return rectangle;
+        }
+
+        // VIEW convert rectangle from view to diagram 
+        public Rectangle RecatanglePositionFromDiagramToView(Node node)
+        {
+            decimal s = Calc.GetScale(this.scale);
+            Rectangle imageRec = new(
+                (int)((this.shift.x + node.position.x) / s),
+                (int)((this.shift.y + node.position.y) / s),
+                (int)((node.width) / (s / Calc.GetScale(node.scale))),
+                (int)((node.height) / (s / Calc.GetScale(node.scale)))
+            );
+
+            return imageRec;
+        }
+
         /*************************************************************************************************************************/
 
         // NODE create
@@ -4587,7 +4696,7 @@ namespace Diagram
             else if (Patterns.IsGotoStringCommand(rec.link)) // GOTO position
             {
                 Program.log.Write("go to position in diagram " + rec.link);
-                String searchFor = Patterns.GetGotoStringCommand(rec.link);
+                string searchFor = Patterns.GetGotoStringCommand(rec.link);
                 Nodes nodes = this.diagram.layers.SearchInAllNodes(searchFor);
                 if (nodes.Count >= 2)
                 {
@@ -4702,7 +4811,7 @@ namespace Diagram
                             }
 
                             // get external editor path from global configuration saved in user configuration directory
-                            String editFileCmd = this.main.programOptions.texteditor;
+                            string editFileCmd = this.main.programOptions.texteditor;
                             editFileCmd = editFileCmd.Replace("%FILENAME%", Os.NormalizedFullPath(fileName));
                             editFileCmd = editFileCmd.Replace("%LINE%", searchString);
 
@@ -6438,5 +6547,44 @@ namespace Diagram
             }
         }
 #endif
+
+        /*************************************************************************************************************************/
+
+        // IMAGE TRANSFORMATION start
+        public void TransformImage()
+        {
+            if (this.selectedNodes.Count == 1 && this.selectedNodes[0].isImage) {
+                this.Diable();
+                this.diagram.undoOperations.Add("edit", [this.selectedNodes[0]], null, this.shift, this.currentLayer.id);
+                imageTransformer.Form_Init(this.selectedNodes[0]);
+            }
+        }
+
+        // IMAGE TRANSFORMATION end
+        public void TransformImageFinish()
+        {
+            this.Enable();
+        }
+
+        // IMAGE TRANSFORMATION disable all components
+        public void Diable()
+        {
+            this.disabled = true;
+            this.bottomScrollBar.Diable();
+            this.rightScrollBar.Diable();
+            this.searhPanel?.Diable();
+            this.imageTransformer?.Diable();
+            this.diagram.InvalidateDiagram();
+        }
+
+        public void Enable()
+        {
+            this.disabled = false;
+            this.bottomScrollBar.Enable();
+            this.rightScrollBar.Enable();
+            this.searhPanel?.Enable();
+            this.diagram.InvalidateDiagram();
+        }
+
     }
 }

@@ -29,7 +29,7 @@ namespace Diagram
         public bool imageOverRightTop = false;
         public bool imageOverLeftBottom = false;
         public bool imageOverRightBottom = false;
-
+        public bool imageOutside = false;
 
         public int mouseDownX = 0;
         public int mouseDownY = 0;
@@ -57,43 +57,53 @@ namespace Diagram
 
     }
 
-    public class ImageTransformer(Form parent)
+    public class ImageTransformer(DiagramView diagramView)
     {
         public ImageTransformerData data = new();
-        public Form parent = parent;
+        public DiagramView diagramView = diagramView;
+        public Node node = null;
+        public bool disabled = true;
 
-        public float GetAngleInDegrees(Point point1, Point point2)
+
+        public void Form_Init(Node node)
         {
-            double deltaX = point2.X - point1.X;
-            double deltaY = point2.Y - point1.Y;
+            this.Reset();
 
-            if (deltaX == 0 && deltaY == 0)
+            this.node = node;
+            this.node.visible = false;
+
+            data.image = node.image.Image;
+
+            decimal s = Calc.GetScale(diagramView.scale);
+            Rectangle imageRec = this.diagramView.RecatanglePositionFromDiagramToView(node);
+
+            this.data.imageX = imageRec.X;
+            this.data.imageY = imageRec.Y;
+            this.data.imageWidth = imageRec.Width;
+            this.data.imageHeight = imageRec.Height;
+            this.data.imageScaleX = 1.0f;
+            this.data.imageScaleY = 1.0f;
+
+            if (this.node.isImageTransformed)
             {
-                return 0;
+                this.data.imageRotateX = this.node.transformationRotateX;
+                this.data.imageRotateY = this.node.transformationRotateY;
+                this.data.flipX = this.node.transformationFlipX;
+                this.data.flipY = this.node.transformationFlipY;
             }
 
-            double radians = Math.Atan2(deltaY, deltaX);
-
-            double degrees = radians * (180.0 / Math.PI);
-
-            return (float)((degrees + 360.0) % 360.0);
+            this.disabled = false;
         }
 
-        public void Form_Init(object sender, EventArgs e)
+        public void Reset()
         {
-            data.image = Image.FromFile("arrow.jpg");
-
-            data.imageX = 50;
-            data.imageY = 50;
-            data.imageScaleX = 1.0f;
-            data.imageScaleY = 1.0f;
-            data.imageWidth = (int)(data.image.Width * data.imageScaleX);
-            data.imageHeight = (int)(data.image.Height * data.imageScaleY);
-
+            this.data = new ImageTransformerData();
         }
 
         public void Form_Paint(object sender, PaintEventArgs e)
         {
+            if (this.disabled) return;
+
             Graphics g = e.Graphics;
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
@@ -118,7 +128,7 @@ namespace Diagram
             }
 
             g.TranslateTransform(x + (w / 2), y + (h / 2));
-            g.RotateTransform(this.GetAngleInDegrees(new Point(0, 0), new Point(data.imageRotateX, data.imageRotateY)));
+            g.RotateTransform(Calc.GetAngleInDegrees(new Point(0, 0), new Point(data.imageRotateX, data.imageRotateY)));
             g.TranslateTransform(-(x + (w / 2)), -(y + (h / 2)));
             g.DrawImage(data.image, flippedRect);
             g.ResetTransform();
@@ -237,6 +247,8 @@ namespace Diagram
 
         public void Form_MouseDown(object sender, MouseEventArgs e)
         {
+            if (this.disabled) return;
+
             bool changed = false;
             int x = e.X;
             int y = e.Y;
@@ -310,12 +322,14 @@ namespace Diagram
 
             if (changed)
             {
-                parent.Invalidate();
+                diagramView.Invalidate();
             }
         }
 
         public void Form_MouseMove(object sender, MouseEventArgs e)
         {
+            if (this.disabled) return;
+
             int x = e.X;
             int y = e.Y;
             data.mouseMoveX = x;
@@ -461,16 +475,22 @@ namespace Diagram
 
             if (changed)
             {
-                parent.Invalidate();
+                diagramView.Invalidate();
             }
         }
 
         public void Form_MouseUp(object sender, MouseEventArgs e)
         {
+            if (this.disabled) return;
+
             bool changed = false;
             int x = e.X;
             int y = e.Y;
             int s = data.handleSize;
+
+            if (!data.imageSelected) {
+                this.TransformationFinish();                
+            }
 
             if (data.imageScaleLeftTop)
             {
@@ -644,8 +664,49 @@ namespace Diagram
 
             if (changed)
             {
-                parent.Invalidate();
+                diagramView.Invalidate();
             }
         }
+
+        public void TransformationFinish() 
+        {
+
+            RectangleD rectangle =  this.diagramView.RecatanglePositionFromViewToDiagram(
+                this.data.imageX, 
+                this.data.imageY, 
+                (decimal)(this.data.imageWidth * this.data.imageScaleX),
+                (decimal)(this.data.imageHeight * this.data.imageScaleY),
+                this.node.scale
+            );
+
+
+            Position inDiagram = this.diagramView.MouseToDiagramPosition(new Position(this.data.imageX, this.data.imageY));
+
+            this.node.position.x = rectangle.x;
+            this.node.position.y = rectangle.y;
+            this.node.width = rectangle.width;
+            this.node.height = rectangle.height;
+
+            this.node.isImageTransformed = true;
+            this.node.transformationRotateX = this.data.imageRotateX;
+            this.node.transformationRotateY = this.data.imageRotateY;
+            this.node.transformationFlipX = this.data.flipX;
+            this.node.transformationFlipY = this.data.flipY;
+
+            this.disabled = true;
+            this.node.visible = true;
+            this.diagramView.Enable();
+        }
+
+        public void Diable()
+        {
+            this.disabled = true;
+        }
+
+        public void Enable()
+        {
+            this.disabled = false;
+        }
+
     }
 }

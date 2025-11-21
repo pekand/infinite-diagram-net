@@ -1,4 +1,5 @@
-﻿using System.Security;
+﻿using System.Drawing;
+using System.Security;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -795,12 +796,34 @@ namespace Diagram
                                 {
                                     R.imagePath = el.Value.ToString();
                                     R.image = imageEntry;
-                                    R.height = R.image.Image.Height;
-                                    R.width = R.image.Image.Width;
                                     R.isImage = true;
                                 }
                             }
 
+                            if (elementName == "isImageTransformed")
+                            {
+                                R.isImageTransformed = bool.Parse(el.Value);
+                            }
+
+                            if (elementName == "transformationRotateX")
+                            {
+                                R.transformationRotateX = int.Parse(el.Value);
+                            }
+
+                            if (elementName == "transformationRotateY")
+                            {
+                                R.transformationRotateY = int.Parse(el.Value);
+                            }
+
+                            if (elementName == "transformationFlipX")
+                            {
+                                R.transformationFlipX = bool.Parse(el.Value);
+                            }
+
+                            if (elementName == "transformationFlipY")
+                            {
+                                R.transformationFlipY = bool.Parse(el.Value);
+                            }
 
                             if (elementName == "timecreate")
                             {
@@ -829,6 +852,13 @@ namespace Diagram
                             Program.log.Write("load xml nodes error: " + ex.Message);
                         }
                     }
+
+                    // use previous image size or if not set use default image size
+                    if (R.isImage && (R.width == 0 || R.height == 0)) {
+                        R.width = R.image.Image.Width;
+                        R.width = R.image.Image.Height;
+                    }
+
                     nodes.Add(R);
                 }
             }
@@ -1168,13 +1198,22 @@ namespace Diagram
                 if (rec.transparent) rectangle.Add(new XElement("transparent", rec.transparent));
                 if (rec.embeddedImage) rectangle.Add(new XElement("embeddedimage", rec.embeddedImage));
 
-                if (rec.embeddedImage && rec.image != null) // image is inserted directly to file
+                if (rec.embeddedImage && rec.image != null)
                 {
                     rectangle.Add(new XElement("imagedata", Media.BitmapToString(rec.image.Image)));
                 }
                 else if (rec.imagePath != "")
                 {
                     rectangle.Add(new XElement("image", rec.imagePath));
+                }
+
+                if (rec.isImage && rec.isImageTransformed)
+                {
+                    rectangle.Add(new XElement("isImageTransformed", rec.isImageTransformed));
+                    rectangle.Add(new XElement("transformationRotateX", rec.transformationRotateX));
+                    rectangle.Add(new XElement("transformationRotateY", rec.transformationRotateY));
+                    rectangle.Add(new XElement("transformationFlipX", rec.transformationFlipX));
+                    rectangle.Add(new XElement("transformationFlipY", rec.transformationFlipY));
                 }
 
                 if (rec.protect) rectangle.Add(new XElement("protect", rec.protect));

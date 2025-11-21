@@ -16,6 +16,8 @@ namespace Diagram
 
         private System.Windows.Forms.TextBox textBoxSearch;
 
+        private bool disabled = false;
+
         public SearchPanel(DiagramView diagramView)
         {
             this.diagramView = diagramView;
@@ -83,6 +85,11 @@ namespace Diagram
 
         private void TextBoxSearch_KeyUp(object sender, KeyEventArgs e)
         {
+            if (this.disabled)
+            {
+                return;
+            }
+
             string action = "";
             string currentText = textBoxSearch.Text;
 
@@ -121,6 +128,11 @@ namespace Diagram
 
         public void SearchNext() //UID3222624449
         {
+            if (this.disabled)
+            {
+                return;
+            }
+
             string currentText = textBoxSearch.Text;
 
             this.SearchPanelStateChanged?.Invoke("searchNext", currentText);
@@ -128,6 +140,11 @@ namespace Diagram
 
         private void TextBoxSearch_KeyDown(object sender, KeyEventArgs e)
         {
+            if (this.disabled)
+            {
+                return;
+            }
+
             // remove ding sound
             if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Escape || e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
             {
@@ -170,6 +187,11 @@ namespace Diagram
 
         public void ShowPanel()
         {
+            if (this.disabled)
+            {
+                return;
+            }
+
             this.Show();
             this.CenterPanel();
             this.textBoxSearch.Focus();
@@ -194,5 +216,17 @@ namespace Diagram
         {
             this.Hide();
         }
+
+        public void Diable()
+        {
+            this.disabled = true;
+            this.HidePanel();
+        }
+
+        public void Enable()
+        {
+            this.disabled = false;
+        }
+
     }
 }
