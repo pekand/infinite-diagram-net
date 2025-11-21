@@ -36,6 +36,7 @@ namespace Diagram
         public bool NewFile = true;              // flag for new unsaved file without name
         public bool SavedFile = true;            // flag for saved diagram with name
         public string FileName = "";             // path to diagram file        
+        public string DiagramName = "";          // short diagram name
 
         /*************************************************************************************************************************/
         // ATTRIBUTES ENCRYPTION
@@ -58,7 +59,7 @@ namespace Diagram
         /*************************************************************************************************************************/
         // RESOURCES
 
-        public System.Drawing.Font FontDefault = null; // default font
+        public Font FontDefault = null; // default font
 
         /*************************************************************************************************************************/
         // PLUGINS
@@ -91,6 +92,7 @@ namespace Diagram
 
                 this.ResetDefaultValuesForNewFile();
                 this.FileName = FileName;
+                this.DiagramName = Os.GetFileNameWithoutExtension(FileName);
                 this.NewFile = false;
                 this.SavedFile = true;
                 this.signed = false;
@@ -969,6 +971,7 @@ namespace Diagram
 
             this.SaveXMLFile(FileName);
             this.FileName = FileName;
+            this.DiagramName = Os.GetFileNameWithoutExtension(FileName);
             this.SavedFile = true;
             this.NewFile = false;
 
@@ -1265,6 +1268,7 @@ namespace Diagram
             this.NewFile = true;
             this.SavedFile = true;
             this.FileName = "";
+            this.DiagramName = "";
 
             // clear nodes and lines lists
             this.layers.Clear();

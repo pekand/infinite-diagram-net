@@ -1872,6 +1872,7 @@ namespace Diagram
         private void TakeOwnershipItem_Click(object sender, EventArgs e)
         {
             this.diagramView.diagram.TakeOwnership(true);
+            this.diagramView.diagram.SetTitle();
         }
 
         // MENU take ownership

@@ -95,7 +95,16 @@ namespace Diagram
         /// get file name or directory name from path</summary>
         public static string GetFileNameWithoutExtension(string path)
         {
-            return Path.GetFileNameWithoutExtension(path);
+            try
+            {
+                return Path.GetFileNameWithoutExtension(path);
+            }
+            catch (Exception)
+            {
+                
+            }
+
+            return "";
         }
 
         /// <summary>

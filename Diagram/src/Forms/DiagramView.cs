@@ -449,14 +449,26 @@ namespace Diagram
         // FORM Title - set windows title
         public void SetTitle()
         {
+            string title = "";
+
             if (this.diagram.FileName.Trim() != "")
-                this.Text = Os.GetFileNameWithoutExtension(this.diagram.FileName);
+                title = this.diagram.DiagramName;
             else
-                this.Text = "Diagram";
+                title = "Diagram";
+
             if (this.currentLayer.parentNode != null && this.currentLayer.parentNode.name.Trim() != "")
-                this.Text += " - " + this.currentLayer.parentNode.name.Trim();
+                title += " - " + this.currentLayer.parentNode.name.Trim();
+
             if (!this.diagram.SavedFile)
-                this.Text = "*" + this.Text;
+                title += " 🞴";
+
+            if (!this.diagram.IsSigned())
+                title += " 🔒";
+
+            if (this.Text != title)
+            {
+                this.Text = title;
+            }
         }
 
         // FORM go to home position - center window to home position UID5474632736
