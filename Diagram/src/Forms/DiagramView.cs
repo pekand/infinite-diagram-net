@@ -1740,7 +1740,12 @@ namespace Diagram
                 && this.sourceNode == TargetNode
                 && this.stateSourceNodeAlreadySelected)
             {
-                this.Rename(); //UID3101342400
+                if (!TargetNode.isImage) {
+                    this.Rename(); //UID3101342400
+                }
+                else {
+                    this.TransformImage();
+                }
 
                 this.diagram.InvalidateDiagram();
                 this.ResetStates();
@@ -4078,8 +4083,15 @@ namespace Diagram
 
                                 RectangleF[] rects = [rect1];
 
+                                // TODO Rectangle transformation
+                                //gfx.TranslateTransform(rect1.X + (rect1.Width / 2), rect1.Y + (rect1.Height / 2));
+                                //gfx.RotateTransform(45);
+                                //gfx.TranslateTransform(-(rect1.X + (rect1.Width / 2)), -(rect1.Y + (rect1.Height / 2)));
+
                                 gfx.FillRectangle(new SolidBrush(rec.color.color), rect1);
                                 if (this.diagram.options.borders) gfx.DrawRectangles(nodeBorder, rects);
+
+                                // gfx.ResetTransform();
                             }
 
                             // draw layer indicator
@@ -4132,6 +4144,12 @@ namespace Diagram
                             decimal size = (decimal)rec.font.Size / (s / Calc.GetScale(rec.scale));
                             if (1 < size && size < 200) //check if is not to small after zoom or too big
                             {
+
+                                // TODO Rectangle transformation
+                                //gfx.TranslateTransform(rect2.X + (rect2.Width / 2), rect2.Y + (rect2.Height / 2));
+                                //gfx.RotateTransform(45);
+                                //gfx.TranslateTransform(-(rect2.X + (rect2.Width / 2)), -(rect2.Y + (rect2.Height / 2)));
+
                                 gfx.DrawString(
                                     (rec.protect) ? Node.protectedName : rec.name,
                                     new System.Drawing.Font(
@@ -4144,6 +4162,8 @@ namespace Diagram
                                     new SolidBrush(rec.fontColor.color),
                                     rect2
                                 );
+
+                                //gfx.ResetTransform();
                             }
                         }
                     }
@@ -6557,6 +6577,24 @@ namespace Diagram
                 this.Diable();
                 this.diagram.undoOperations.Add("edit", [this.selectedNodes[0]], null, this.shift, this.currentLayer.id);
                 imageTransformer.Form_Init(this.selectedNodes[0]);
+            }
+        }
+
+        // IMAGE TRANSFORMATION reset
+        public void ResetTransformImage()
+        {
+            if (this.selectedNodes.Count == 1 && this.selectedNodes[0].isImage)
+            {
+                this.diagram.undoOperations.Add("edit", [this.selectedNodes[0]], null, this.shift, this.currentLayer.id);
+                Node node = this.selectedNodes[0];
+                node.width = node.image.Image.Width;
+                node.height = node.image.Image.Height;
+                node.isImageTransformed = false;
+                node.transformationRotateX = 0;
+                node.transformationRotateY = 0;
+                node.transformationFlipX = false;
+                node.transformationFlipY = false;
+                this.diagram.InvalidateDiagram();
             }
         }
 

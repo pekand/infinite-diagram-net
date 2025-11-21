@@ -127,6 +127,7 @@ namespace Diagram
             this.CreateMenuItem("imageRemoveItem", "Remove image", "imageItem", this.ImageRemoveItem_Click);
             this.CreateMenuItem("imageEmbeddedItem", "Embed image", "imageItem", this.ImageEmbeddedItem_Click);
             this.CreateMenuItem("imageTransformItem", "Transform image", "imageItem", this.TransformImageItem_Click);
+            this.CreateMenuItem("resetTransformItem", "Reset transformation", "imageItem", this.ResetTransformImageItem_Click);
 
             // attachmentItem
             this.CreateMenuItem("deployAttachmentItem", "Deploy attachment", "attachmentItem", this.DeployAttachmentItem_Click);
@@ -330,8 +331,9 @@ namespace Diagram
             items["imageAddItem"].Enabled = isNotReadOnly && isSelectedAtLeastOneNode;
             items["imageRemoveItem"].Enabled = isNotReadOnly && isSelectedAtLeastOneNode && this.diagramView.HasSelectionImage();
             items["imageEmbeddedItem"].Enabled = isNotReadOnly && isSelectedAtLeastOneNode && this.diagramView.HasSelectionNotEmbeddedImage();
-            items["imageTransformItem"].Enabled = isNotReadOnly && isSelectedAtLeastOneNode && this.diagramView.HasSelectionImage();
-
+            items["imageTransformItem"].Enabled = isNotReadOnly && isSelectedOneNode && this.diagramView.HasSelectionImage();
+            items["resetTransformItem"].Enabled = isNotReadOnly && isSelectedOneNode && this.diagramView.HasSelectionImage();
+            
             items["attachmentItem"].Enabled = true;
             items["deployAttachmentItem"].Enabled = this.diagramView.HasSelectionAttachment();
             items["includeFileItem"].Enabled = isNotReadOnly;
@@ -809,6 +811,12 @@ namespace Diagram
         private void TransformImageItem_Click(object sender, EventArgs e) //UID5459560991
         {
             this.diagramView.TransformImage();
+        }
+
+        // MENU IMAGE image embedded to diagram
+        private void ResetTransformImageItem_Click(object sender, EventArgs e) //UID5459560991
+        {
+            this.diagramView.ResetTransformImage();
         }
 
         // ATTACHMENT

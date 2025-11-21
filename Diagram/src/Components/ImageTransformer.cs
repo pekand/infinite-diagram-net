@@ -214,35 +214,34 @@ namespace Diagram
                 e.Graphics.FillEllipse(brush, rect);
             }
 
-            if (data.imageRotate || data.imageOverRotate)
+
+            e.Graphics.DrawLine(new(Color.Black, 1),
+                new Point(x + (w / 2), y + (h / 2)),
+                new Point(x + (w / 2) + data.imageRotateX, y + (h / 2) + data.imageRotateY)
+            );
+
+            using (Brush brush = new SolidBrush(Color.FromArgb(128, Color.Blue)))
             {
-                e.Graphics.DrawLine(new(Color.Black, 1),
-                    new Point(x + (w / 2), y + (h / 2)),
-                    new Point(x + (w / 2) + data.imageRotateX, y + (h / 2) + data.imageRotateY)
+                Rectangle rect = new(
+                    x + (w / 2) - data.handleSize,
+                    y + (h / 2) - data.handleSize,
+                    2 * data.handleSize,
+                    2 * data.handleSize
                 );
-
-                using (Brush brush = new SolidBrush(Color.FromArgb(128, Color.Blue)))
-                {
-                    Rectangle rect = new(
-                        x + (w / 2) - data.handleSize,
-                        y + (h / 2) - data.handleSize,
-                        2 * data.handleSize,
-                        2 * data.handleSize
-                    );
-                    e.Graphics.FillEllipse(brush, rect);
-                }
-
-                using (Brush brush = new SolidBrush(Color.FromArgb(128, Color.Blue)))
-                {
-                    Rectangle rect = new(
-                        x + (w / 2) + data.imageRotateX - data.handleSize,
-                        y + (h / 2) + data.imageRotateY - data.handleSize,
-                        2 * data.handleSize,
-                        2 * data.handleSize
-                    );
-                    e.Graphics.FillEllipse(brush, rect);
-                }
+                e.Graphics.FillEllipse(brush, rect);
             }
+
+            using (Brush brush = new SolidBrush(Color.FromArgb(128, Color.Blue)))
+            {
+                Rectangle rect = new(
+                    x + (w / 2) + data.imageRotateX - data.handleSize,
+                    y + (h / 2) + data.imageRotateY - data.handleSize,
+                    2 * data.handleSize,
+                    2 * data.handleSize
+                );
+                e.Graphics.FillEllipse(brush, rect);
+            }
+
         }
 
         public void Form_MouseDown(object sender, MouseEventArgs e)
@@ -265,6 +264,8 @@ namespace Diagram
             int cornerRightBottomY = data.imageY + data.imageHeight;
             int middleX = data.imageX + (data.imageWidth / 2);
             int middleY = data.imageY + (data.imageHeight / 2);
+            int imageRotateX = data.imageRotateX + middleX;
+            int imageRotateY = data.imageRotateY + middleY;
 
             data.imageScale = false;
             data.imageScaleLeftTop = false;
@@ -308,7 +309,13 @@ namespace Diagram
                 data.imageSelected = true;
                 changed = true;
             }
-            else if (cornerLeftTopX < x && x < cornerRightBottomX && cornerLeftTopY < y && y < cornerRightBottomY)
+            else if (imageRotateX - s < x && x < imageRotateX + s && imageRotateY - s < y && y < imageRotateY + s)
+            {
+                data.imageRotate = true;
+                data.imageSelected = true;
+                changed = true;
+            }
+            else if(cornerLeftTopX < x && x < cornerRightBottomX && cornerLeftTopY < y && y < cornerRightBottomY)
             {
                 data.imageSelected = true;
                 data.imageMove = true;
