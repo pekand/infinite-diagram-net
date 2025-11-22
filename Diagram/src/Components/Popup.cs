@@ -117,6 +117,8 @@ namespace Diagram
             this.CreateMenuItem("bringBottomItem", "Bring to bottom", "nodeItem", this.BringBottomItem_Click);
             this.CreateMenuItem("removeShortcutItem", "Remove shortcut", "nodeItem", this.RemoveShortcutItem_Click);
             this.CreateMenuItem("protectItem", "Protect", "nodeItem", this.ProtectItem_Click);
+            this.CreateMenuItem("transformTextNodeItem", "Transform", "nodeItem", this.TransformTextNodeItem_Click);
+            this.CreateMenuItem("resetTransformItem2", "Reset transformation", "nodeItem", this.ResetTransformImageItem_Click);
 
             // lineItem
             this.CreateMenuItem("lineColorItem", "Color", "lineItem", this.LineColorItem_Click);
@@ -310,7 +312,6 @@ namespace Diagram
             items["copyNoteItem"].Enabled = isNotReadOnly && isSelectedAtLeastOneNode;
             items["pasteToLinkItem"].Enabled = isNotReadOnly;
             items["pasteToNoteItem"].Enabled = isNotReadOnly;
-
 
             items["nodeItem"].Enabled = true;
             items["transparentItem"].Checked = isSelectedAtLeastOneNode && this.diagramView.IsSelectionTransparent();
@@ -773,6 +774,12 @@ namespace Diagram
         private void ProtectItem_Click(object sender, EventArgs e) //UID9793719013
         {
             this.diagramView.ProtectNodes();
+        }
+
+        // MENU NODE transform text nodes
+        private void TransformTextNodeItem_Click(object sender, EventArgs e)
+        {
+            this.diagramView.TransformTextNode();
         }
 
         // MENU LINE select line color

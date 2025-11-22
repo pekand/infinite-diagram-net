@@ -1207,7 +1207,7 @@ namespace Diagram
                     rectangle.Add(new XElement("image", rec.imagePath));
                 }
 
-                if (rec.isImage && rec.isImageTransformed)
+                if (rec.isImageTransformed)
                 {
                     rectangle.Add(new XElement("isImageTransformed", rec.isImageTransformed));
                     rectangle.Add(new XElement("transformationRotateX", rec.transformationRotateX));
@@ -2798,101 +2798,110 @@ namespace Diagram
         // copy part of diagram to text xml string UID4762897496
         public string GetDiagramPart(Nodes nodes)
         {
-            if (nodes.Count == 0)
+            string copyxml = null;
+
+            try
             {
-                return "";
-            }
+                if (nodes.Count == 0)
+                {
+                    return "";
+                }
             
-            Nodes copy = [];
-            copy.Copy(nodes);
+                Nodes copy = [];
+                copy.Copy(nodes);
 
-            XElement root = new("diagram");
+                XElement root = new("diagram");
 
-            decimal minx = copy[0].position.x;
-            decimal miny = copy[0].position.y;
+                decimal minx = copy[0].position.x;
+                decimal miny = copy[0].position.y;
 
-            foreach (Node node in copy)
-            {
-                if (node.position.x < minx) minx = node.position.x;
-                if (node.position.y < miny) miny = node.position.y;
-            }
+                foreach (Node node in copy)
+                {
+                    if (node.position.x < minx) minx = node.position.x;
+                    if (node.position.y < miny) miny = node.position.y;
+                }
 
-            foreach (Node rec in copy)
-            {
-                rec.position.x -= minx;
-                rec.position.y -= miny;
-            }
+                foreach (Node rec in copy)
+                {
+                    rec.position.x -= minx;
+                    rec.position.y -= miny;
+                }
             
-            Nodes subnodes = [];
+                Nodes subnodes = [];
 
-            foreach (Node node in nodes)
-            {
-                GetLayerNodes(node, subnodes);
-            }
+                foreach (Node node in nodes)
+                {
+                    GetLayerNodes(node, subnodes);
+                }
 
-            foreach (Node node in subnodes)
-            {
-                copy.Add(node.Clone());
-            }            
+                foreach (Node node in subnodes)
+                {
+                    copy.Add(node.Clone());
+                }            
            
-            Lines lines = [];
-            lines.Copy(this.layers.GetAllLinesFromNodes(copy));
+                Lines lines = [];
+                lines.Copy(this.layers.GetAllLinesFromNodes(copy));
 
-            long lastId = 0;
-            Dictionary<long, long> ids = [];
+                long lastId = 0;
+                Dictionary<long, long> ids = [];
 
-            foreach (Node node in copy)
-            {
-                if (ids.TryGetValue(node.id, out long value))
+                foreach (Node node in copy)
                 {
-                    node.id = value;
-                }
-                else {
-                    lastId++;
-                    ids.Add(node.id, lastId);
-                    node.id = lastId;
+                    if (ids.TryGetValue(node.id, out long value))
+                    {
+                        node.id = value;
+                    }
+                    else {
+                        lastId++;
+                        ids.Add(node.id, lastId);
+                        node.id = lastId;
+                    }
+
                 }
 
-            }
-
-            foreach (Node node in copy)
-            {
-                if (ids.TryGetValue(node.layer, out long value))
+                foreach (Node node in copy)
                 {
-                    node.layer = value;
+                    if (ids.TryGetValue(node.layer, out long value))
+                    {
+                        node.layer = value;
+                    }
+                    else
+                    {
+                        node.layer = 0;                    
+                    }
                 }
-                else
+
+
+                foreach (Node node in copy)
                 {
-                    node.layer = 0;                    
+                    if (ids.TryGetValue(node.shortcut, out long value))
+                    {
+                        node.shortcut = value;
+                    }
+                    else
+                    {
+                        node.shortcut = 0;
+                    }
                 }
-            }
 
-
-            foreach (Node node in copy)
-            {
-                if (ids.TryGetValue(node.shortcut, out long value))
+                foreach (Line li in lines)
                 {
-                    node.shortcut = value;
+                    li.start = ids[li.start];
+                    li.end = ids[li.end];
+                    li.layer = ids.TryGetValue(li.layer, out long value) ? value : 0;
                 }
-                else
-                {
-                    node.shortcut = 0;
-                }
-            }
 
-            foreach (Line li in lines)
-            {
-                li.start = ids[li.start];
-                li.end = ids[li.end];
-                li.layer = ids.TryGetValue(li.layer, out long value) ? value : 0;
-            }
-
-            XElement xRectangles = this.SaveInnerXmlNodes(copy);
-            XElement xLines = this.SaveInnerXmlLines(lines);
+                XElement xRectangles = this.SaveInnerXmlNodes(copy);
+                XElement xLines = this.SaveInnerXmlLines(lines);
                 
-            root.Add(xRectangles);
-            root.Add(xLines);
-            string copyxml = root.ToString();
+                root.Add(xRectangles);
+                root.Add(xLines);
+                copyxml = root.ToString();
+            }
+            catch (Exception ex)
+            {
+                Program.log.Write("GetDiagramPart error : " + ex.Message);
+            }
 
             return copyxml;
         }

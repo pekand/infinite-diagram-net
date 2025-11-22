@@ -62,17 +62,33 @@ namespace Diagram
         public ImageTransformerData data = new();
         public DiagramView diagramView = diagramView;
         public Node node = null;
+        public Node prevNode = null;
         public bool disabled = true;
-
+        public bool canRotate = true;
+        public bool canResize = true;
+        public bool canMove = true;
 
         public void Form_Init(Node node)
         {
             this.Reset();
 
             this.node = node;
+            this.prevNode = node.Clone();
             this.node.visible = false;
 
-            data.image = node.image.Image;
+            if (node.isImage)
+            {
+                data.image = node.image.Image;
+                canRotate = true;
+                canResize = true;
+                canMove = true;
+            }
+            else {
+                data.image = this.diagramView.DrawTextWithBackground(node);
+                canRotate = true;
+                canResize = false;
+                canMove = false;                
+            }
 
             decimal s = Calc.GetScale(diagramView.scale);
             Rectangle imageRec = this.diagramView.RecatanglePositionFromDiagramToView(node);
@@ -275,47 +291,47 @@ namespace Diagram
             data.imageMove = false;
             data.imageRotate = false;
 
-            if (cornerLeftTopX - s < x && x < cornerLeftTopX + s && cornerLeftTopY - s < y && y < cornerLeftTopY + s)
+            if (canResize && cornerLeftTopX - s < x && x < cornerLeftTopX + s && cornerLeftTopY - s < y && y < cornerLeftTopY + s)
             {
                 data.imageScale = true;
                 data.imageScaleLeftTop = true;
                 data.imageSelected = true;
                 changed = true;
             }
-            else if (cornerRightTopX - s < x && x < cornerRightTopX + s && cornerRightTopY - s < y && y < cornerRightTopY + s)
+            else if (canResize && cornerRightTopX - s < x && x < cornerRightTopX + s && cornerRightTopY - s < y && y < cornerRightTopY + s)
             {
                 data.imageScale = true;
                 data.imageScaleRightTop = true;
                 data.imageSelected = true;
                 changed = true;
             }
-            else if (cornerLeftBottomX - s < x && x < cornerLeftBottomX + s && cornerLeftBottomY - s < y && y < cornerLeftBottomY + s)
+            else if (canResize && cornerLeftBottomX - s < x && x < cornerLeftBottomX + s && cornerLeftBottomY - s < y && y < cornerLeftBottomY + s)
             {
                 data.imageScale = true;
                 data.imageScaleLeftBottom = true;
                 data.imageSelected = true;
                 changed = true;
             }
-            else if (cornerRightBottomX - s < x && x < cornerRightBottomX + s && cornerRightBottomY - s < y && y < cornerRightBottomY + s)
+            else if (canResize && cornerRightBottomX - s < x && x < cornerRightBottomX + s && cornerRightBottomY - s < y && y < cornerRightBottomY + s)
             {
                 data.imageScale = true;
                 data.imageScaleRightBottom = true;
                 data.imageSelected = true;
                 changed = true;
             }
-            else if (middleX - s < x && x < middleX + s && middleY - s < y && y < middleY + s)
+            else if (canRotate && middleX - s < x && x < middleX + s && middleY - s < y && y < middleY + s)
             {
                 data.imageRotate = true;
                 data.imageSelected = true;
                 changed = true;
             }
-            else if (imageRotateX - s < x && x < imageRotateX + s && imageRotateY - s < y && y < imageRotateY + s)
+            else if (canRotate && imageRotateX - s < x && x < imageRotateX + s && imageRotateY - s < y && y < imageRotateY + s)
             {
                 data.imageRotate = true;
                 data.imageSelected = true;
                 changed = true;
             }
-            else if(cornerLeftTopX < x && x < cornerRightBottomX && cornerLeftTopY < y && y < cornerRightBottomY)
+            else if(canMove &&  cornerLeftTopX < x && x < cornerRightBottomX && cornerLeftTopY < y && y < cornerRightBottomY)
             {
                 data.imageSelected = true;
                 data.imageMove = true;
@@ -355,14 +371,14 @@ namespace Diagram
             int middleX = data.imageX + (data.imageWidth / 2);
             int middleY = data.imageY + (data.imageHeight / 2);
 
-            if (data.imageScaleLeftTop)
+            if (canResize && data.imageScaleLeftTop)
             {
                 data.vectorLTX = data.mouseMoveX - data.mouseDownX;
                 data.vectorLTY = data.mouseMoveY - data.mouseDownY;
                 changed = true;
             }
 
-            if (data.imageScaleRightTop)
+            if (canResize && data.imageScaleRightTop)
             {
                 data.vectorRTX = data.mouseMoveX - data.mouseDownX;
                 data.vectorRTY = data.mouseMoveY - data.mouseDownY;
@@ -370,28 +386,28 @@ namespace Diagram
 
             }
 
-            if (data.imageScaleLeftBottom)
+            if (canResize && data.imageScaleLeftBottom)
             {
                 data.vectorLBX = data.mouseMoveX - data.mouseDownX;
                 data.vectorLBY = data.mouseMoveY - data.mouseDownY;
                 changed = true;
             }
 
-            if (data.imageScaleRightBottom)
+            if (canResize && data.imageScaleRightBottom)
             {
                 data.vectorRBX = data.mouseMoveX - data.mouseDownX;
                 data.vectorRBY = data.mouseMoveY - data.mouseDownY;
                 changed = true;
             }
 
-            if (data.imageRotate)
+            if (canRotate && data.imageRotate)
             {
                 data.imageRotateX = data.mouseMoveX - middleX;
                 data.imageRotateY = data.mouseMoveY - middleY;
                 changed = true;
             }
 
-            if (data.imageMove)
+            if (canMove &&  data.imageMove)
             {
                 data.vectorX = data.mouseMoveX - data.mouseDownX;
                 data.vectorY = data.mouseMoveY - data.mouseDownY;
@@ -413,7 +429,7 @@ namespace Diagram
                 changed = true;
             }
 
-            if (cornerLeftTopX - s < x && x < cornerLeftTopX + s && cornerLeftTopY - s < y && y < cornerLeftTopY + s)
+            if (canResize && cornerLeftTopX - s < x && x < cornerLeftTopX + s && cornerLeftTopY - s < y && y < cornerLeftTopY + s)
             {
                 if (!data.imageOverLeftTop)
                 {
@@ -425,7 +441,7 @@ namespace Diagram
                     changed = true;
                 }
             }
-            else if (cornerRightTopX - s < x && x < cornerRightTopX + s && cornerRightTopY - s < y && y < cornerRightTopY + s)
+            else if (canResize && cornerRightTopX - s < x && x < cornerRightTopX + s && cornerRightTopY - s < y && y < cornerRightTopY + s)
             {
                 if (!data.imageOverRightTop)
                 {
@@ -437,7 +453,7 @@ namespace Diagram
                     changed = true;
                 }
             }
-            else if (cornerLeftBottomX - s < x && x < cornerLeftBottomX + s && cornerLeftBottomY - s < y && y < cornerLeftBottomY + s)
+            else if (canResize && cornerLeftBottomX - s < x && x < cornerLeftBottomX + s && cornerLeftBottomY - s < y && y < cornerLeftBottomY + s)
             {
                 if (!data.imageOverLeftBottom)
                 {
@@ -449,7 +465,7 @@ namespace Diagram
                     changed = true;
                 }
             }
-            else if (cornerRightBottomX - s < x && x < cornerRightBottomX + s && cornerRightBottomY - s < y && y < cornerRightBottomY + s)
+            else if (canResize && cornerRightBottomX - s < x && x < cornerRightBottomX + s && cornerRightBottomY - s < y && y < cornerRightBottomY + s)
             {
                 if (!data.imageOverRightBottom)
                 {
@@ -461,7 +477,7 @@ namespace Diagram
                     changed = true;
                 }
             }
-            else if (middleX - s < x && x < middleX + s && middleY - s < y && y < middleY + s)
+            else if (canRotate && middleX - s < x && x < middleX + s && middleY - s < y && y < middleY + s)
             {
                 data.imageOverLeftTop = false;
                 data.imageOverRightTop = false;
@@ -499,7 +515,7 @@ namespace Diagram
                 this.TransformationFinish();                
             }
 
-            if (data.imageScaleLeftTop)
+            if (canResize &&  data.imageScaleLeftTop)
             {
                 data.imageX += data.vectorLTX;
                 data.imageY += data.vectorLTY;
@@ -534,7 +550,7 @@ namespace Diagram
                 changed = true;
             }
 
-            if (data.imageScaleRightTop)
+            if (canResize && data.imageScaleRightTop)
             {
                 data.imageY += data.vectorRTY;
                 data.imageWidth += data.vectorRTX;
@@ -567,7 +583,7 @@ namespace Diagram
                 changed = true;
             }
 
-            if (data.imageScaleLeftBottom)
+            if (canResize && data.imageScaleLeftBottom)
             {
                 data.imageX += data.vectorLBX;
                 data.imageWidth -= data.vectorLBX;
@@ -600,7 +616,7 @@ namespace Diagram
                 changed = true;
             }
 
-            if (data.imageScaleRightBottom)
+            if (canResize && data.imageScaleRightBottom)
             {
                 data.imageWidth += data.vectorRBX;
                 data.imageHeight += data.vectorRBY;
@@ -630,14 +646,14 @@ namespace Diagram
                 changed = true;
             }
 
-            if (data.imageMove)
+            if (canMove && data.imageMove)
             {
                 data.imageX += data.vectorX;
                 data.imageY += data.vectorY;
                 changed = true;
             }
 
-            if (data.imageRotate)
+            if (canRotate && data.imageRotate)
             {
                 int middleX = data.imageX + (data.imageWidth / 2);
                 int middleY = data.imageY + (data.imageHeight / 2);
@@ -675,8 +691,22 @@ namespace Diagram
             }
         }
 
+        public bool ProcessCmdKey(Message msg, Keys keyData)
+        {
+            if (this.disabled) return false;
+
+            if (keyData == Keys.Escape)
+            {
+                this.TransformationFinish();
+                return true;
+            }
+
+            return false;
+        }
+
         public void TransformationFinish() 
         {
+
 
             RectangleD rectangle =  this.diagramView.RecatanglePositionFromViewToDiagram(
                 this.data.imageX, 
@@ -686,8 +716,24 @@ namespace Diagram
                 this.node.scale
             );
 
-
             Position inDiagram = this.diagramView.MouseToDiagramPosition(new Position(this.data.imageX, this.data.imageY));
+
+
+            bool isModified = false;
+            if (
+                this.node.position.x != rectangle.x ||
+                this.node.position.y != rectangle.y ||
+                this.node.width != rectangle.width ||
+                this.node.height != rectangle.height ||
+                this.node.isImageTransformed != true ||
+                this.node.transformationRotateX != this.data.imageRotateX ||
+                this.node.transformationRotateY != this.data.imageRotateY ||
+                this.node.transformationFlipX != this.data.flipX ||
+                this.node.transformationFlipY != this.data.flipY
+            )
+            {
+                isModified = true;
+            }
 
             this.node.position.x = rectangle.x;
             this.node.position.y = rectangle.y;
@@ -702,7 +748,8 @@ namespace Diagram
 
             this.disabled = true;
             this.node.visible = true;
-            this.diagramView.Enable();
+
+            this.diagramView.TransformImageFinish(isModified, this.prevNode);
         }
 
         public void Diable()

@@ -1,10 +1,14 @@
 ﻿using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Security.Policy;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Windows.Forms;
+
 
 
 
@@ -2036,6 +2040,10 @@ namespace Diagram
         // EVENT Shortcuts UID1444131132
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)                           // [KEYBOARD] [EVENT]
         {
+            if (!imageTransformer.disabled) {
+                return imageTransformer.ProcessCmdKey(msg, keyData);
+            }
+
             if (this.disabled)
             {
                 return false;
@@ -4083,15 +4091,20 @@ namespace Diagram
 
                                 RectangleF[] rects = [rect1];
 
-                                // TODO Rectangle transformation
-                                //gfx.TranslateTransform(rect1.X + (rect1.Width / 2), rect1.Y + (rect1.Height / 2));
-                                //gfx.RotateTransform(45);
-                                //gfx.TranslateTransform(-(rect1.X + (rect1.Width / 2)), -(rect1.Y + (rect1.Height / 2)));
+                                if (rec.isImageTransformed)
+                                {
+                                    gfx.TranslateTransform(rect1.X + (rect1.Width / 2), rect1.Y + (rect1.Height / 2));
+                                    gfx.RotateTransform(Calc.GetAngleInDegrees(new Point(0, 0), new Point(rec.transformationRotateX, rec.transformationRotateY)));
+                                    gfx.TranslateTransform(-(rect1.X + (rect1.Width / 2)), -(rect1.Y + (rect1.Height / 2)));
+                                }
 
                                 gfx.FillRectangle(new SolidBrush(rec.color.color), rect1);
                                 if (this.diagram.options.borders) gfx.DrawRectangles(nodeBorder, rects);
 
-                                // gfx.ResetTransform();
+                                if (rec.isImageTransformed)
+                                {
+                                    gfx.ResetTransform();
+                                }
                             }
 
                             // draw layer indicator
@@ -4145,10 +4158,12 @@ namespace Diagram
                             if (1 < size && size < 200) //check if is not to small after zoom or too big
                             {
 
-                                // TODO Rectangle transformation
-                                //gfx.TranslateTransform(rect2.X + (rect2.Width / 2), rect2.Y + (rect2.Height / 2));
-                                //gfx.RotateTransform(45);
-                                //gfx.TranslateTransform(-(rect2.X + (rect2.Width / 2)), -(rect2.Y + (rect2.Height / 2)));
+                                if (rec.isImageTransformed) 
+                                {
+                                    gfx.TranslateTransform(rect2.X + (rect2.Width / 2), rect2.Y + (rect2.Height / 2));
+                                    gfx.RotateTransform(Calc.GetAngleInDegrees(new Point(0, 0), new Point(rec.transformationRotateX, rec.transformationRotateY)));
+                                    gfx.TranslateTransform(-(rect2.X + (rect2.Width / 2)), -(rect2.Y + (rect2.Height / 2)));
+                                }
 
                                 gfx.DrawString(
                                     (rec.protect) ? Node.protectedName : rec.name,
@@ -4163,7 +4178,10 @@ namespace Diagram
                                     rect2
                                 );
 
-                                //gfx.ResetTransform();
+                                if (rec.isImageTransformed)
+                                {
+                                    gfx.ResetTransform();
+                                }
                             }
                         }
                     }
@@ -4175,6 +4193,54 @@ namespace Diagram
             nodeSelectBorder.Dispose();
             nodeLinkBorder.Dispose();
             nodeMarkBorder.Dispose();
+        }
+
+        public Bitmap DrawTextWithBackground(Node rec)
+        {
+            decimal s = Calc.GetScale(this.scale);
+            decimal size = (decimal)rec.font.Size / (s / Calc.GetScale(rec.scale));
+            string text = (rec.protect) ? Node.protectedName : rec.name;
+            Font font = new System.Drawing.Font(
+                    rec.font.FontFamily,
+                    (float)size,
+                    rec.font.Style,
+                    GraphicsUnit.Point,
+                    ((byte)(0))
+                );
+
+            using var tmp = new Bitmap(1, 1);
+            using var g1 = Graphics.FromImage(tmp);
+            var textSize = g1.MeasureString(text, font);
+
+           
+
+            RectangleF rect1 = new(
+                0,
+                0,
+                (float)((rec.width) / (s / Calc.GetScale(rec.scale))),
+                (float)((rec.height) / (s / Calc.GetScale(rec.scale)))
+            );
+
+            RectangleF rect2 = new(
+                (float)((0 + (Node.NodePadding * Calc.GetScale(rec.scale))) / s),
+                (float)((0 + (Node.NodePadding * Calc.GetScale(rec.scale))) / s),
+                (float)((rec.width - Node.NodePadding) / (s / Calc.GetScale(rec.scale))),
+                (float)((rec.height - Node.NodePadding) / (s / Calc.GetScale(rec.scale)))
+            );
+
+            var bmp = new Bitmap((int)rect1.Width, (int)rect1.Height);
+            using var g = Graphics.FromImage(bmp);
+
+            g.Clear(Color.White);
+            g.FillRectangle(new SolidBrush(rec.color.color), rect1);
+            g.DrawString(
+                text,
+                font,
+                new SolidBrush(rec.fontColor.color),
+                rect2
+            );
+
+            return bmp;
         }
 
         // DRAW lines UID4936881338
@@ -6575,7 +6641,16 @@ namespace Diagram
         {
             if (this.selectedNodes.Count == 1 && this.selectedNodes[0].isImage) {
                 this.Diable();
-                this.diagram.undoOperations.Add("edit", [this.selectedNodes[0]], null, this.shift, this.currentLayer.id);
+                imageTransformer.Form_Init(this.selectedNodes[0]);
+            }
+        }
+
+        // IMAGE TRANSFORMATION text node
+        public void TransformTextNode()
+        {
+            if (this.selectedNodes.Count == 1)
+            {
+                this.Diable();
                 imageTransformer.Form_Init(this.selectedNodes[0]);
             }
         }
@@ -6583,24 +6658,50 @@ namespace Diagram
         // IMAGE TRANSFORMATION reset
         public void ResetTransformImage()
         {
-            if (this.selectedNodes.Count == 1 && this.selectedNodes[0].isImage)
+
+            if (this.selectedNodes.Count > 0)
             {
-                this.diagram.undoOperations.Add("edit", [this.selectedNodes[0]], null, this.shift, this.currentLayer.id);
-                Node node = this.selectedNodes[0];
-                node.width = node.image.Image.Width;
-                node.height = node.image.Image.Height;
-                node.isImageTransformed = false;
-                node.transformationRotateX = 0;
-                node.transformationRotateY = 0;
-                node.transformationFlipX = false;
-                node.transformationFlipY = false;
-                this.diagram.InvalidateDiagram();
+                Nodes transformedNodes = [];
+
+                foreach (Node node in this.selectedNodes)
+                {
+                    if (node.isImageTransformed)
+                    {
+                        transformedNodes.Add(node);
+                    }
+                }
+
+                if (transformedNodes.Count > 0)
+                {
+                    this.diagram.undoOperations.Add("edit", transformedNodes, null, this.shift, this.currentLayer.id);
+
+                    foreach (Node node in transformedNodes)
+                    {
+                        if (node.isImage)
+                        {
+                            node.width = node.image.Image.Width;
+                            node.height = node.image.Image.Height;
+                        }
+                        node.isImageTransformed = false;
+                        node.transformationRotateX = 0;
+                        node.transformationRotateY = 0;
+                        node.transformationFlipX = false;
+                        node.transformationFlipY = false;
+
+                    }
+
+                    this.diagram.InvalidateDiagram();
+                }
             }
         }
 
         // IMAGE TRANSFORMATION end
-        public void TransformImageFinish()
+        public void TransformImageFinish(bool isModified = false, Node prevNode = null)
         {
+            if (isModified) {
+                this.diagram.undoOperations.Add("edit", [prevNode], null, this.shift, this.currentLayer.id);
+            }
+
             this.Enable();
         }
 
