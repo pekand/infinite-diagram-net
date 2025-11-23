@@ -2254,13 +2254,13 @@ namespace Diagram
                 return true;
             }
 
-            if (KeyMap.ParseKey(KeyMap.home, keyData)) // KEY [HOME] go to home position
+            if (KeyMap.ParseKey(KeyMap.home, keyData)) // [KEY] [HOME] go to home position
             {
                 this.GoToHome();
                 return true;
             }
 
-            if (KeyMap.ParseKey(KeyMap.openViewHome, keyData)) // KEY [CTRL+HOME] open view and go to home position
+            if (KeyMap.ParseKey(KeyMap.openViewHome, keyData)) // [KEY] [CTRL+HOME] open view and go to home position
             {
                 this.OpenViewAndGoToHome();
                 return true;
@@ -2272,7 +2272,7 @@ namespace Diagram
                 return true;
             }
 
-            if (KeyMap.ParseKey(KeyMap.end, keyData)) // KEY [END] go to end position
+            if (KeyMap.ParseKey(KeyMap.end, keyData)) // [KEY] [END] go to end position
             {
                 this.GoToEnd();
                 return true;
@@ -2284,7 +2284,7 @@ namespace Diagram
                 return true;
             }
 
-            if (KeyMap.ParseKey(KeyMap.openViewEnd, keyData)) // KEY [CTRL+END] open view and go to home position
+            if (KeyMap.ParseKey(KeyMap.openViewEnd, keyData)) // [KEY] [CTRL+END] open view and go to home position
             {
                 this.OpenViewAndGoToEnd();
                 return true;
@@ -2297,7 +2297,7 @@ namespace Diagram
             -prejdu sa vybrane nody a ak je to adresar alebo subor otvori sa adresar
             -ak nie su vybrane ziadne nody otvori sa adresar diagrammu
             */
-            if (KeyMap.ParseKey(KeyMap.openDirectory, keyData)) // KEY [F5] Open link directory or diagram directory
+            if (KeyMap.ParseKey(KeyMap.openDirectory, keyData)) // [KEY] [F5] Open link directory or diagram directory
             {
                 OpenLinkDirectory();
                 return true;
@@ -2309,7 +2309,7 @@ namespace Diagram
                 return true;
             }
 
-            if (KeyMap.ParseKey(KeyMap.moveNodeUp, keyData)) // KEY [CTRL+PAGEUP] move node up to foreground
+            if (KeyMap.ParseKey(KeyMap.moveNodeUp, keyData)) // [KEY] [CTRL+PAGEUP] move node up to foreground
             {
                 this.MoveNodesToForeground();
                 return true;
@@ -2371,14 +2371,14 @@ namespace Diagram
             }
 
 
-            if (KeyMap.ParseKey(KeyMap.layerIn, keyData)) // [KEY] [PLUS] Layer in
+            if (KeyMap.ParseKey(KeyMap.layerIn, keyData)) // [KEY] [ENTER] Layer in
             {
                 this.LayerIn();
                 return true;
             }
 
-            // [KEY] [BACK] or [MINUS] Layer out UID1557077053
-            if (KeyMap.ParseKey(KeyMap.layerOut, keyData) || KeyMap.ParseKey(KeyMap.layerOut2, keyData))
+           
+            if (KeyMap.ParseKey(KeyMap.layerOut, keyData)) // [KEY] [BACK] Layer out
             {
                 this.LayerOut();
                 return true;
@@ -2607,27 +2607,6 @@ namespace Diagram
             }
 
             this.key = e.KeyChar;
-
-            // KEY PLUS In to layer
-            if (!this.keyctrl
-                && !this.keyalt
-                && this.key == '+'
-                && this.selectedNodes.Count == 1
-                && this.selectedNodes[0].hasLayer)
-            {
-                this.LayerIn(this.selectedNodes[0]);
-                return;
-            }
-
-            // KEY MINUS Out to layer
-            if (!this.keyctrl
-                && !this.keyalt
-                && this.currentLayer != null
-                && this.key == '-')
-            {
-                this.LayerOut();
-                return;
-            }
 
             // KEY OTHER create new node
             if (!isreadonly
@@ -5018,6 +4997,7 @@ namespace Diagram
             }
         }
 
+        // NODE Select node color
         public void ChangeColor(ColorType color)
         {
             if (!this.diagram.IsReadOnly())

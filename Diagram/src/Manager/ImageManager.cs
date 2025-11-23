@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using Diagram.src.Lib;
+using System.Security.Cryptography;
 
 namespace Diagram
 {
@@ -55,6 +56,10 @@ namespace Diagram
                         Path = filePath,
                         Hash = hash
                     };
+
+                    if (!Images.CanDraw(img)) {
+                        images[hash].InvalidImage = true;
+                    }
 
                     return images[hash];
                 }

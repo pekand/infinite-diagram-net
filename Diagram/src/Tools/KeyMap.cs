@@ -49,9 +49,8 @@ namespace Diagram
         public const string fullScreen = "F11";
         public const string openEditForm = "CTRL+E";
         public const string editOrLayerIn = "ENTER";
-        public const string layerIn = "ADD";
-        public const string layerOut = "SUBTRACT";
-        public const string layerOut2 = "BACK";
+        public const string layerIn = "ENTER";
+        public const string layerOut = "BACK";
         public const string minimalize = "ESCAPE";
         public const string delete = "DELETE";
         public const string moveLeft = "LEFT";
