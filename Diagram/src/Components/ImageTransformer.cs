@@ -67,11 +67,13 @@ namespace Diagram
         public bool canRotate = true;
         public bool canResize = true;
         public bool canMove = true;
+        public bool invalidImage = false; // prevend redraw images with exceptions
 
         public void Form_Init(Node node)
         {
             this.Reset();
 
+            this.invalidImage = false;
             this.node = node;
             this.prevNode = node.Clone();
             this.node.visible = false;
@@ -146,7 +148,21 @@ namespace Diagram
             g.TranslateTransform(x + (w / 2), y + (h / 2));
             g.RotateTransform(Calc.GetAngleInDegrees(new Point(0, 0), new Point(data.imageRotateX, data.imageRotateY)));
             g.TranslateTransform(-(x + (w / 2)), -(y + (h / 2)));
-            g.DrawImage(data.image, flippedRect);
+
+            try
+            {
+                if (!invalidImage)
+                {
+                    g.DrawImage(data.image, flippedRect);
+                }
+            }
+            catch (Exception ex)
+            {
+                invalidImage = true;
+                Program.log.Write("ImageTransformerData paint error: " + ex.ToString());
+            }
+
+            
             g.ResetTransform();
 
             if (data.imageOver || data.imageSelected)

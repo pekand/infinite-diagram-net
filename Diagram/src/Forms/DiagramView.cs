@@ -8,6 +8,8 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Windows.Forms;
+using System.Drawing.Printing;
+
 
 
 
@@ -138,7 +140,7 @@ namespace Diagram
         private readonly LineWidthForm lineWidthForm = new();
 
         // COLORPICKERFORM
-        private readonly ColorPickerForm colorPickerForm = new();
+        private readonly ColorPickerForm colorPickerForm;
 
         private FormWindowState oldFormWindowState = new();
 
@@ -168,7 +170,7 @@ namespace Diagram
         private void InitializeComponent() //UID4012344444
         {
             components = new Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DiagramView));
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(DiagramView));
             DSave = new SaveFileDialog();
             DOpen = new OpenFileDialog();
             DColor = new ColorDialog();
@@ -224,10 +226,10 @@ namespace Diagram
             // DiagramView
             // 
             AllowDrop = true;
-            AutoScaleDimensions = new SizeF(8F, 19F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(511, 498);
+            ClientSize = new Size(511, 524);
             DoubleBuffered = true;
             Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
@@ -251,18 +253,11 @@ namespace Diagram
             MouseMove += DiagramApp_MouseMove;
             MouseUp += DiagramApp_MouseUp;
             MouseWheel += DiagramApp_MouseWheel;
+            Move += DiagramView_Move;
             Resize += DiagramApp_Resize;
-
-            // WINDOW PIN
-            this.Controls.Add(windowPinBox);
-            windowPinBox.Size = new Size(64, 64);
-            windowPinBox.Location = new Point(0, 0);
-            windowPinBox.SizeMode = PictureBoxSizeMode.StretchImage;            
-            windowPinBox.Visible = false;
-
             ResumeLayout(false);
 
-        }       
+        }
 
         /*************************************************************************************************************************/
 
@@ -274,6 +269,8 @@ namespace Diagram
             this.parentView = parentView;
 
             this.InitializeComponent();
+
+            this.colorPickerForm = new(this);
 
             // initialize popup menu
             this.PopupMenu = new Popup(this.components, this);
@@ -379,7 +376,7 @@ namespace Diagram
 
                 this.CenterToScreen();
 
-                
+
             }
 
             // scrollbars
@@ -432,7 +429,8 @@ namespace Diagram
             // top most
             if (this.diagram.options.alwaysOnTop)
             {
-                foreach (DiagramView view in this.diagram.DiagramViews) {
+                foreach (DiagramView view in this.diagram.DiagramViews)
+                {
                     view.TopMost = this.diagram.options.alwaysOnTop;
                 }
 
@@ -458,6 +456,7 @@ namespace Diagram
         // FORM CLOSE UID2411004144
         private void DiagramView_FormClosed(object sender, FormClosedEventArgs e)
         {
+            this.colorPickerForm.allowClose = true;
             this.diagram.CloseView(this);
         }
 
@@ -762,7 +761,8 @@ namespace Diagram
 
         public void RefreshBackgroundImage()
         {
-            if (this.diagram.options.backgroundImage == null) {
+            if (this.diagram.options.backgroundImage == null)
+            {
                 this.BackgroundImage = null;
                 return;
             }
@@ -1744,10 +1744,12 @@ namespace Diagram
                 && this.sourceNode == TargetNode
                 && this.stateSourceNodeAlreadySelected)
             {
-                if (!TargetNode.isImage) {
+                if (!TargetNode.isImage)
+                {
                     this.Rename(); //UID3101342400
                 }
-                else {
+                else
+                {
                     this.TransformImage();
                 }
 
@@ -2040,7 +2042,8 @@ namespace Diagram
         // EVENT Shortcuts UID1444131132
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)                           // [KEYBOARD] [EVENT]
         {
-            if (!imageTransformer.disabled) {
+            if (!imageTransformer.disabled)
+            {
                 return imageTransformer.ProcessCmdKey(msg, keyData);
             }
 
@@ -3972,7 +3975,15 @@ namespace Diagram
                         gfx.TranslateTransform(imageRec.X + (imageRec.Width / 2), imageRec.Y + (imageRec.Height / 2));
                         gfx.RotateTransform(Calc.GetAngleInDegrees(new Point(0, 0), new Point(rec.transformationRotateX, rec.transformationRotateY)));
                         gfx.TranslateTransform(-(imageRec.X + (imageRec.Width / 2)), -(imageRec.Y + (imageRec.Height / 2)));
-                        gfx.DrawImage(rec.image.Image, imageRec);
+                        try
+                        {
+                            if (!rec.image.InvalidImage) {
+                                gfx.DrawImage(rec.image.Image, imageRec);
+                            }
+                        } catch (Exception ex) {
+                            rec.image.InvalidImage = true;
+                            Program.log.Write("DrawNodes error: " + ex.ToString());
+                        }
                         gfx.ResetTransform();
 
                         if (rec.selected && !export)
@@ -4158,7 +4169,7 @@ namespace Diagram
                             if (1 < size && size < 200) //check if is not to small after zoom or too big
                             {
 
-                                if (rec.isImageTransformed) 
+                                if (rec.isImageTransformed)
                                 {
                                     gfx.TranslateTransform(rect2.X + (rect2.Width / 2), rect2.Y + (rect2.Height / 2));
                                     gfx.RotateTransform(Calc.GetAngleInDegrees(new Point(0, 0), new Point(rec.transformationRotateX, rec.transformationRotateY)));
@@ -4212,7 +4223,7 @@ namespace Diagram
             using var g1 = Graphics.FromImage(tmp);
             var textSize = g1.MeasureString(text, font);
 
-           
+
 
             RectangleF rect1 = new(
                 0,
@@ -4403,7 +4414,8 @@ namespace Diagram
 
             this.Invalidate();
 
-            if (this.windowIsPinned) {
+            if (this.windowIsPinned)
+            {
                 this.windowIsPinned = false;
                 this.windowPinBox.Visible = false;
                 this.FormBorderStyle = this.windowBorderStyleBeforePin;
@@ -5002,7 +5014,7 @@ namespace Diagram
                     colorPickerForm.Top = screen.Bounds.Height - colorPickerForm.Height;
                 }
 
-                colorPickerForm.ShowDialog();
+                colorPickerForm.Show();
             }
         }
 
@@ -5132,7 +5144,8 @@ namespace Diagram
         public void AddImage()
         {
 
-            if (this.diagram.IsReadOnly()) { 
+            if (this.diagram.IsReadOnly())
+            {
                 return;
             }
 
@@ -5428,7 +5441,8 @@ namespace Diagram
                         Node newrec = this.CreateNode(position);
 
                         ImageEntry imageEntry = diagram.imageManager.AddImage((Bitmap)data.GetData(DataFormats.Bitmap, true));
-                        if (imageEntry != null) {
+                        if (imageEntry != null)
+                        {
                             newrec.image = imageEntry;
                             newrec.height = newrec.image.Image.Height;
                             newrec.width = newrec.image.Image.Width;
@@ -6639,7 +6653,8 @@ namespace Diagram
         // IMAGE TRANSFORMATION start
         public void TransformImage()
         {
-            if (this.selectedNodes.Count == 1 && this.selectedNodes[0].isImage) {
+            if (this.selectedNodes.Count == 1 && this.selectedNodes[0].isImage)
+            {
                 this.Diable();
                 imageTransformer.Form_Init(this.selectedNodes[0]);
             }
@@ -6698,7 +6713,8 @@ namespace Diagram
         // IMAGE TRANSFORMATION end
         public void TransformImageFinish(bool isModified = false, Node prevNode = null)
         {
-            if (isModified) {
+            if (isModified)
+            {
                 this.diagram.undoOperations.Add("edit", [prevNode], null, this.shift, this.currentLayer.id);
             }
 
@@ -6716,6 +6732,7 @@ namespace Diagram
             this.diagram.InvalidateDiagram();
         }
 
+        // IMAGE TRANSFORMATION enable all components
         public void Enable()
         {
             this.disabled = false;
@@ -6725,5 +6742,23 @@ namespace Diagram
             this.diagram.InvalidateDiagram();
         }
 
+        void UpdateToolbarPosition()
+        {
+            if (this.colorPickerForm == null || colorPickerForm.IsDisposed || !colorPickerForm.Visible) return;
+            if (WindowState == FormWindowState.Minimized) return;
+
+            int x = this.Left - colorPickerForm.relativeOffset.X;
+            int y = this.Top - colorPickerForm.relativeOffset.Y;
+
+            colorPickerForm.allowMoveEvent = false;
+            colorPickerForm.Location = new Point(x, y);
+            colorPickerForm.allowMoveEvent = true;
+        }
+
+
+        private void DiagramView_Move(object sender, EventArgs e)
+        {
+            UpdateToolbarPosition();
+        }
     }
 }

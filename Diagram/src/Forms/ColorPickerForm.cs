@@ -1,5 +1,8 @@
 ﻿#nullable disable
 
+using System.Runtime.InteropServices;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+
 namespace Diagram
 {
     public partial class ColorPickerForm : Form //UID2354438225
@@ -13,11 +16,40 @@ namespace Diagram
         private int scrollState = 0;
         private readonly List<Bitmap> bitmaps = [];
 
-        bool selecting = false;
+        public bool allowClose = false;
+        public bool allowMoveEvent = true;
 
+        bool selecting = false;
         bool keyshift = false;
 
         private PictureBox pictureBox1;
+
+        public DiagramView diagramView;
+
+        public Point relativeOffset = new Point(0, 0);
+
+
+        public ColorPickerForm(DiagramView diagramView)
+        {
+
+            this.diagramView = diagramView;
+            Owner = diagramView;
+
+            InitializeComponent();
+
+            // draw image into box
+            Render();
+            pictureBox1.Image = this.bitmaps[actualBitmap];
+
+            // create scrollbar
+            pictureBox1.Width = 256;
+            pictureBox1.Height = 256;
+            this.Width = 256 + 16;
+            this.Height = 256 + 39;
+
+            this.Left = Screen.FromControl(this).Bounds.Width / 2 - this.Width / 2;
+            this.Top = Screen.FromControl(this).Bounds.Height - this.Height - 100;
+        }
 
         /// <summary>
         /// Required method for Designer support - do not modify
@@ -35,7 +67,7 @@ namespace Diagram
             pictureBox1.Location = new Point(0, 0);
             pictureBox1.Margin = new Padding(5, 4, 5, 4);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(521, 624);
+            pictureBox1.Size = new Size(521, 382);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             pictureBox1.MouseDown += ColorPickerForm_MouseDown;
@@ -45,24 +77,41 @@ namespace Diagram
             // 
             // ColorPickerForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 19F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
-            ClientSize = new Size(1122, 362);
+            ClientSize = new Size(542, 381);
             Controls.Add(pictureBox1);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(5, 4, 5, 4);
             MaximizeBox = false;
             Name = "ColorPickerForm";
+            ShowInTaskbar = false;
             Text = "Color";
+            FormClosing += ColorPickerForm_FormClosing;
             FormClosed += ColorPickerForm_FormClosed;
             Load += ColorPickerForm_Load;
             KeyDown += ColorPickerForm_KeyDown;
             KeyUp += ColorPickerForm_KeyUp;
+            Move += ColorPickerForm_Move;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
 
+        }
+
+        private void ColorPickerForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ColorPickerForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!allowClose)
+            {
+                e.Cancel = true;
+                Hide();
+            }
         }
 
         private void ColorPickerForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -91,7 +140,7 @@ namespace Diagram
 
             for (int i = 0; i < 64; i++)
             {
-                Bitmap bmp = new(256, 256);                
+                Bitmap bmp = new(256, 256);
                 Graphics g = Graphics.FromImage(bmp);
 
                 cb = i * 4;
@@ -114,23 +163,7 @@ namespace Diagram
             }
         }
 
-        public ColorPickerForm()
-        {
-            InitializeComponent();
 
-            // draw image into box
-            Render();
-            pictureBox1.Image = this.bitmaps[actualBitmap];
-
-            // create scrollbar
-            pictureBox1.Width = 256;
-            pictureBox1.Height = 256;
-            this.Width = 256+16;
-            this.Height = 256 + 39;
-
-            this.Left = Screen.FromControl(this).Bounds.Width / 2 - this.Width / 2;
-            this.Top = Screen.FromControl(this).Bounds.Height - this.Height - 100;
-        }
 
         private void ColorPickerForm_MouseUp(object sender, MouseEventArgs e)
         {
@@ -141,7 +174,9 @@ namespace Diagram
                 try
                 {
                     this.color.Set(this.bitmaps[actualBitmap].GetPixel(e.X, e.Y));
-                } catch(Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     Program.log.Write("Colorpicker error: " + ex.Message);
                 }
             }
@@ -153,6 +188,7 @@ namespace Diagram
         {
             selecting = true;
         }
+
 
         private void ColorPickerForm_MouseMove(object sender, MouseEventArgs e)
         {
@@ -174,17 +210,15 @@ namespace Diagram
             }
         }
 
-        private void ColorPickerForm_Load(object sender, EventArgs e)
-        {
 
-        }
 
         private void PictureBox1_MouseWhell(object sender, MouseEventArgs e)
         {
 
             int speed = 4;
 
-            if (this.keyshift) {
+            if (this.keyshift)
+            {
                 speed = 1;
             }
 
@@ -210,10 +244,13 @@ namespace Diagram
             }
 
 
-            if (0 <= scrollState && scrollState <64) {
+            if (0 <= scrollState && scrollState < 64)
+            {
                 actualBitmap = scrollState;
 
-            } if (64<= scrollState && scrollState < 128) {
+            }
+            if (64 <= scrollState && scrollState < 128)
+            {
                 actualBitmap = 127 - scrollState;
             }
 
@@ -233,6 +270,17 @@ namespace Diagram
         private void ColorPickerForm_KeyUp(object sender, KeyEventArgs e)
         {
             this.keyshift = false;
+        }
+
+
+
+        private void ColorPickerForm_Move(object sender, EventArgs e)
+        {
+            if (allowMoveEvent)
+            {
+                relativeOffset = new Point(diagramView.Left - this.Left, diagramView.Top - this.Top);
+            }
+            
         }
     }
 }

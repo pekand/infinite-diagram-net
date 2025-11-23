@@ -37,6 +37,8 @@ namespace Diagram
                 return null;
             }
 
+            string fileExtension = Os.GetExtension(filePath);
+
             byte[] data = File.ReadAllBytes(filePath);
             string hash = ComputeHash(data);
 
