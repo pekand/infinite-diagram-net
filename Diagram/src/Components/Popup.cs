@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+﻿using Diagram.src.Forms;
+using System.ComponentModel;
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 #nullable disable
 
@@ -156,6 +158,7 @@ namespace Diagram
             this.CreateMenuItem("optionTheme", "Theme and Colors", "optionItem", null);
             this.CreateMenuItem("optionImages", "Images", "optionItem", null);
             this.CreateMenuItem("optionSecurity", "Security", "optionItem", null);
+            this.CreateMenuItem("settingsItem", "Settings", "optionItem", this.SettingsItem_Click);
 
             // diagramOptionsItem
             this.CreateMenuItem("readonlyItem", "Read only", "diagramOptionsItem", this.ReadonlyItem_Click);
@@ -912,6 +915,11 @@ namespace Diagram
         // OPTIONS
 
         // MENU Images
+
+        private void SettingsItem_Click(object sender, EventArgs e)
+        {
+            this.diagramView.diagram.ShowSettings(this.diagramView);
+        }
 
         private void LinkImage_Click(object sender, EventArgs e)
         {

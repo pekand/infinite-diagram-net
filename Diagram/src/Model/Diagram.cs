@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using Diagram.src.Forms;
+using System.Drawing;
 using System.Security;
 using System.Text;
 using System.Xml;
@@ -70,6 +71,11 @@ namespace Diagram
         /*************************************************************************************************************************/
         // IMAGE MANAGER
         public ImageManager imageManager = new();
+
+
+        /*************************************************************************************************************************/
+        // FORM SETTINGS
+        Settings settings = null;
 
         /*************************************************************************************************************************/
         // CONSTRUCTORS
@@ -412,17 +418,17 @@ namespace Diagram
 
                     if (elementName == "shiftx")
                     {
-                        this.options.homePosition.x = Converter.StringToDecimal(el.Value);
+                        this.options.homePosition.x = Converter.StringToDecimal(el.Value) ?? 0;
                     }
 
                     if (elementName == "shifty")
                     {
-                        this.options.homePosition.y = Converter.StringToDecimal(el.Value);
+                        this.options.homePosition.y = Converter.StringToDecimal(el.Value) ?? 0;
                     }
 
                     if (elementName == "scale")
                     {
-                        this.options.homeScale = Converter.StringToDecimal(el.Value);
+                        this.options.homeScale = Converter.StringToDecimal(el.Value) ?? 0;
                     }
 
                     if (elementName == "homelayer")
@@ -437,27 +443,27 @@ namespace Diagram
 
                     if (elementName == "endPositionx")
                     {
-                        this.options.endPosition.x = Converter.StringToDecimal(el.Value);
+                        this.options.endPosition.x = Converter.StringToDecimal(el.Value) ?? 0;
                     }
 
                     if (elementName == "endPositiony")
                     {
-                        this.options.endPosition.y = Converter.StringToDecimal(el.Value);
+                        this.options.endPosition.y = Converter.StringToDecimal(el.Value) ?? 0;
                     }
 
                     if (elementName == "endScale")
                     {
-                        this.options.homeScale = Converter.StringToDecimal(el.Value);
+                        this.options.homeScale = Converter.StringToDecimal(el.Value) ?? 0;
                     }
 
                     if (elementName == "startShiftX")
                     {
-                        options.homePosition.x = Converter.StringToDecimal(el.Value);
+                        options.homePosition.x = Converter.StringToDecimal(el.Value) ?? 0;
                     }
 
                     if (elementName == "startShiftY")
                     {
-                        options.homePosition.y = Converter.StringToDecimal(el.Value);
+                        options.homePosition.y = Converter.StringToDecimal(el.Value) ?? 0;
                     }
 
                     if (elementName == "diagramreadonly")
@@ -497,17 +503,17 @@ namespace Diagram
 
                     if (elementName == "firstLayereShift.x")
                     {
-                        this.options.firstLayerShift.x = Converter.StringToDecimal(el.Value);
+                        this.options.firstLayerShift.x = Converter.StringToDecimal(el.Value) ?? 0;
                     }
 
                     if (elementName == "firstLayereShift.y")
                     {
-                        this.options.firstLayerShift.y = Converter.StringToDecimal(el.Value);
+                        this.options.firstLayerShift.y = Converter.StringToDecimal(el.Value) ?? 0;
                     }
 
                     if (elementName == "firstLayereScale")
                     {
-                        this.options.firstLayerScale = Converter.StringToDecimal(el.Value);
+                        this.options.firstLayerScale = Converter.StringToDecimal(el.Value) ?? 0;
                     }
 
                     if (elementName == "alwaysOnTop")
@@ -622,6 +628,21 @@ namespace Diagram
                     {
                         this.options.copyImagesPath = el.Value;
                     }
+
+                    if (elementName == "currentMaxZoom")
+                    {
+                        this.options.currentMaxZoom = Converter.StringToDecimal(el.Value) ?? this.options.maxZoom;
+                    }
+
+                    if (elementName == "currentMinZoom")
+                    {
+                        this.options.currentMinZoom = Converter.StringToDecimal(el.Value) ?? this.options.minZoom;
+                    }
+
+                    if (elementName == "currentZoomStep")
+                    {
+                        this.options.currentZoomStep = Converter.StringToDecimal(el.Value) ?? this.options.defaultZoomStep;
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -722,42 +743,42 @@ namespace Diagram
 
                             if (elementName == "layershiftx")
                             {
-                                R.layerShift.x = Converter.StringToDecimal(el.Value);
+                                R.layerShift.x = Converter.StringToDecimal(el.Value) ?? 0;
                             }
 
                             if (elementName == "layershifty")
                             {
-                                R.layerShift.y = Converter.StringToDecimal(el.Value);
+                                R.layerShift.y = Converter.StringToDecimal(el.Value) ?? 0;
                             }
 
                             if (elementName == "layerscale")
                             {
-                                R.layerScale = Converter.StringToDecimal(el.Value);
+                                R.layerScale = Converter.StringToDecimal(el.Value) ?? 0;
                             }
 
                             if (elementName == "x")
                             {
-                                R.position.x = Converter.StringToDecimal(el.Value);
+                                R.position.x = Converter.StringToDecimal(el.Value) ?? 0;
                             }
 
                             if (elementName == "y")
                             {
-                                R.position.y = Converter.StringToDecimal(el.Value);
+                                R.position.y = Converter.StringToDecimal(el.Value) ?? 0;
                             }
 
                             if (elementName == "width")
                             {
-                                R.width = Converter.StringToDecimal(el.Value);
+                                R.width = Converter.StringToDecimal(el.Value) ?? 100;
                             }
 
                             if (elementName == "height")
                             {
-                                R.height = Converter.StringToDecimal(el.Value);
+                                R.height = Converter.StringToDecimal(el.Value) ?? 50;
                             }
 
                             if (elementName == "scale")
                             {
-                                R.scale = Converter.StringToDecimal(el.Value);
+                                R.scale = Converter.StringToDecimal(el.Value) ?? 0;
                             }
 
                             if (elementName == "color")
@@ -893,7 +914,7 @@ namespace Diagram
 
                             if (elementName == "scale")
                             {
-                                L.scale = Converter.StringToDecimal(el.Value);
+                                L.scale = Converter.StringToDecimal(el.Value) ?? 0;
                             }
 
                             if (elementName == "arrow")
@@ -1141,6 +1162,9 @@ namespace Diagram
             option.Add(new XElement("embedImages", this.options.embedImages));
             option.Add(new XElement("copyImages", this.options.copyImages));
             option.Add(new XElement("copyImagesPath", this.options.copyImagesPath));
+            option.Add(new XElement("currentMaxZoom", this.options.currentMaxZoom));
+            option.Add(new XElement("currentMinZoom", this.options.currentMinZoom));
+            option.Add(new XElement("currentZoomStep", this.options.currentZoomStep));
 
             if (this.options.icon != "")
             {
@@ -3189,6 +3213,23 @@ namespace Diagram
         public bool IsSigned()
         {
             return this.signed;
+        }
+
+        // FORM SETTINGS OPEN
+        internal void ShowSettings(DiagramView diagramView)
+        {
+            if (settings == null || settings.IsDisposed)
+            {
+                settings = new Settings(this);
+                Window.CenterForm(diagramView, settings);
+                settings.Show();
+            }
+            else {
+                if (!settings.Visible) {
+                    settings.Show();
+                }
+                settings.BringToFront();
+            }
         }
     }
 }

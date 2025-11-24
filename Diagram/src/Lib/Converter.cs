@@ -53,18 +53,52 @@ namespace Diagram
 
         /// <summary>
         /// converst string to decimal </summary>
-        public static decimal StringToDecimal(string text)
+        public static decimal? StringToDecimal(string text)
         {
-            return decimal.Parse(
-                text,
-                NumberStyles.AllowParentheses |
+            decimal result;
+
+            if (decimal.TryParse(text, NumberStyles.AllowParentheses |
                 NumberStyles.AllowLeadingWhite |
                 NumberStyles.AllowTrailingWhite |
                 NumberStyles.AllowThousands |
                 NumberStyles.AllowDecimalPoint |
                 NumberStyles.AllowLeadingSign,
-                NumberFormatInfo.InvariantInfo
-            );
+                NumberFormatInfo.InvariantInfo, out result))
+            {
+                return result;
+            } 
+
+            return null;
+        }
+
+        public static Color ColorFromHexString(string hexColor)
+        {
+
+            Color defaultColor = Color.White;
+
+            if (hexColor.StartsWith("#"))
+            {
+                hexColor = hexColor.Substring(1);
+            }
+
+            if (hexColor.Length != 6)
+            {
+                return defaultColor;
+            }
+
+            try
+            {
+                int r = int.Parse(hexColor.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
+                int g = int.Parse(hexColor.Substring(2, 2), System.Globalization.NumberStyles.HexNumber);
+                int b = int.Parse(hexColor.Substring(4, 2), System.Globalization.NumberStyles.HexNumber);
+                return Color.FromArgb(r, g, b);
+            }
+            catch (FormatException)
+            {
+
+            }
+
+            return defaultColor;
         }
 
     }

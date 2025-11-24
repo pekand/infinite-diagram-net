@@ -82,5 +82,15 @@ namespace Diagram
         public bool copyImages = false;
         public string copyImagesPath = "";
 
+        /*************************************************************************************************************************/
+        // ZOOM
+        public decimal maxZoom = 80;
+        public decimal minZoom = -80;
+        public decimal defaultZoomStep = 0.5M;
+
+        public decimal currentMaxZoom = 5;
+        public decimal currentMinZoom = -5;
+        public decimal currentZoomStep = 0.1M;
+
     }
 }

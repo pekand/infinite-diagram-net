@@ -43,11 +43,19 @@
     <Compile Update="src\Forms\PasswordForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="src\Forms\Settings.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="src\Forms\TextForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="src\Forms\UpdateForm.cs">
       <SubType>Form</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="src\Forms\AboutForm.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

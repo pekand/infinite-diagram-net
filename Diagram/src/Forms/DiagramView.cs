@@ -1944,11 +1944,11 @@ namespace Diagram
                     Position m = this.GetMousePosition();
                     Position r = m.Clone().Scale(Calc.GetScale(this.scale)).Subtract(this.shift);
 
-                    newScale = this.scale + 0.5m;
+                    newScale = this.scale + this.diagram.options.currentZoomStep;
 
-                    if (newScale > 80)
+                    if (newScale > this.diagram.options.currentMaxZoom)
                     {
-                        newScale = 80;
+                        newScale = this.diagram.options.currentMaxZoom;
                     }
 
                     Position sh = m.Scale(Calc.GetScale(newScale)).Subtract(r);
@@ -1980,11 +1980,11 @@ namespace Diagram
                     Position m = this.GetMousePosition();
                     Position r = m.Clone().Scale(Calc.GetScale(this.scale)).Subtract(this.shift);
 
-                    newScale = this.scale - 0.5m;
+                    newScale = this.scale - this.diagram.options.currentZoomStep;
 
-                    if (newScale < -80)
+                    if (newScale < this.diagram.options.currentMinZoom)
                     {
-                        newScale = -80;
+                        newScale = this.diagram.options.currentMinZoom;
                     }
 
                     Position sh = m.Scale(Calc.GetScale(newScale)).Subtract(r);
