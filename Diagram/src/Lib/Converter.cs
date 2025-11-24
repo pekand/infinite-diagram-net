@@ -71,10 +71,13 @@ namespace Diagram
             return null;
         }
 
-        public static Color ColorFromHexString(string hexColor)
+        public static Color ColorFromHexString(string hexColor, Color defaultColor = default(Color))
         {
 
-            Color defaultColor = Color.White;
+            if (defaultColor.IsEmpty)
+            {
+                defaultColor = Color.White;
+            }
 
             if (hexColor.StartsWith("#"))
             {

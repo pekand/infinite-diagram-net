@@ -132,6 +132,7 @@ namespace Diagram
         private int animationTimerCounter = 0;
 
         // ZOOMTIMER
+        private int zoomTmerTime = 0;
         private readonly TimerTimer zoomTimer = new(); //zooming animation
         public double zoomTimerScale = 1;
         public double zoomTimerStep = 0;
@@ -161,7 +162,6 @@ namespace Diagram
         public int windowHeightBeforePin = 0;
         public FormBorderStyle windowBorderStyleBeforePin;
         public PictureBox windowPinBox = new();
-
 
         // IMAGE TRANSFORMATION
         private bool disabled = false;
@@ -258,6 +258,20 @@ namespace Diagram
             ResumeLayout(false);
 
         }
+
+        /*************************************************************************************************************************/
+
+#if DEBUG
+        // DEBUG log event to output console and prevent duplicate events display
+        public void LogEvent(string lastEvetMessage = "")
+        {
+            if (this.lastEvent != lastEvetMessage)
+            {
+                Debug.WriteLine(lastEvetMessage);
+                this.lastEvent = lastEvetMessage;
+            }
+        }
+#endif
 
         /*************************************************************************************************************************/
 
@@ -712,14 +726,14 @@ namespace Diagram
             openIconDialog.Dispose();
         }
 
-        // FORM set icon
+        // FORM 
         public void SetBackgroundColor(Color color)
         {
             this.BackColor = color;
             this.Invalidate();
         }
 
-        // FORM set icon
+        // FORM 
         public void SetBackgroundImage()
         {
             OpenFileDialog openIconDialog = new()
@@ -759,6 +773,7 @@ namespace Diagram
             openIconDialog.Dispose();
         }
 
+        // FORM 
         public void RefreshBackgroundImage()
         {
             if (this.diagram.options.backgroundImage == null)
@@ -841,9 +856,7 @@ namespace Diagram
         }
 
         /*************************************************************************************************************************/
-
-        // EVENTS
-
+        
         // EVENT Paint UID5225221692                                                                   // [PAINT] [EVENT]
         public void DiagramApp_Paint(object sender, PaintEventArgs e)
         {
@@ -1923,7 +1936,7 @@ namespace Diagram
             this.ResetStates();
         }
 
-        // EVENT Mouse Whell UID1111344210
+        // EVENT Mouse Whell
         public void DiagramApp_MouseWheel(object sender, MouseEventArgs e)                             // [MOUSE] [WHELL] [EVENT]
         {
 
@@ -2024,7 +2037,7 @@ namespace Diagram
             }
         }
 
-        // EVENT revert states to default UID5045070650
+        // EVENT revert states to default
         private void ResetStates()
         {
             this.MoveTimer.Enabled = false;
@@ -2039,7 +2052,7 @@ namespace Diagram
             this.stateCoping = false;
         }
 
-        // EVENT Shortcuts UID1444131132
+        // EVENT Shortcuts
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)                           // [KEYBOARD] [EVENT]
         {
             if (!imageTransformer.disabled)
@@ -2471,7 +2484,7 @@ namespace Diagram
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        // EVENT Key down UID3114212444
+        // EVENT Key down
         public void DiagramApp_KeyDown(object sender, KeyEventArgs e)                                  // [KEYBOARD] [DOWN] [EVENT]
         {
 
@@ -2538,7 +2551,7 @@ namespace Diagram
 
         }
 
-        // EVENT Key up UID4343244331
+        // EVENT Key up
         public void DiagramApp_KeyUp(object sender, KeyEventArgs e)
         {
 
@@ -2586,7 +2599,7 @@ namespace Diagram
             }
         }                                 // [KEYBOARD] [UP] [EVENT]
 
-        // EVENT Keypress UID1343430442
+        // EVENT Keypress
         public void DiagramApp_KeyPress(object sender, KeyPressEventArgs e) // [KEYBOARD] [PRESS] [EVENT]
         {
 
@@ -2625,7 +2638,7 @@ namespace Diagram
 
         }
 
-        // EVENT DROP file UID3440232213
+        // EVENT DROP file
         public void DiagramApp_DragDrop(object sender, DragEventArgs e)                                // [DROP] [DROP-FILE] [EVENT]
         {
 
@@ -2754,7 +2767,7 @@ namespace Diagram
             }
         }
 
-        // EVENT DROP drag enter UID0040214033
+        // EVENT DROP drag enter
         public void DiagramApp_DragEnter(object sender, DragEventArgs e)                               // [DRAG] [EVENT]
         {
 
@@ -2770,7 +2783,7 @@ namespace Diagram
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
         }
 
-        // EVENT Resize UID2004324112
+        // EVENT Resize
         public void DiagramApp_Resize(object sender, EventArgs e)                                      // [RESIZE] [EVENT]
         {
 
@@ -2949,6 +2962,12 @@ namespace Diagram
             }
         }
 
+        // EVENT MOVE move form
+        private void DiagramView_Move(object sender, EventArgs e)
+        {
+            UpdateToolbarPosition();
+        }
+
         /*************************************************************************************************************************/
 
         // LAYER layer in or open edit form UID4538903767
@@ -3046,7 +3065,6 @@ namespace Diagram
             return false;
         }
 
-
         // LAYER HISTORY Buld laier history from UID3310785252
         public void BuildLayerHistory(long id)
         {
@@ -3137,13 +3155,7 @@ namespace Diagram
             this.stateSearching = true;
         }
 
-        /// <summary>
-        ///  SEARCH FIRST
-        ///
-        /// Build array of search results and then select first Node.
-        ///
-        /// </summary>
-        /// <param name="find">Search string</param>
+        // SEARCH FIRST
         public void SearchFirst(string find) //UID1194762485
         {
 
@@ -3234,11 +3246,7 @@ namespace Diagram
 
         }
 
-        /// <summary>
-        /// SEARCH NEXT
-        ///
-        /// Search node in cycle. Find first in array or start in begining of array
-        /// </summary>
+        // SEARCH NEXT
         public void SearchNext() //UID2131053451
         {
             Node node = null;
@@ -3485,6 +3493,7 @@ namespace Diagram
             MoveScreenVertical(e.GetPosition());
         }
 
+        // SCROLLBAR
         public void SetScrollbarColor(ColorType color)
         {
             this.rightScrollBar.SetColor(color.Get());
@@ -4185,6 +4194,7 @@ namespace Diagram
             nodeMarkBorder.Dispose();
         }
 
+        // DRAW
         public Bitmap DrawTextWithBackground(Node rec)
         {
             decimal s = Calc.GetScale(this.scale);
@@ -6475,6 +6485,8 @@ namespace Diagram
             return isvisible;
         }
 
+        /*************************************************************************************************************************/
+
         // LINE change color of lines
         public void ChangeLineColor()
         {
@@ -6598,7 +6610,7 @@ namespace Diagram
             this.diagram.InvalidateDiagram();
         }
 
-        int zoomTmerTime = 0;
+        /*************************************************************************************************************************/
 
         // ZOOM TIMER zoom animation
         public void ZoomTimer_Tick(object sender, EventArgs e)
@@ -6614,19 +6626,6 @@ namespace Diagram
             }
 
         }
-
-        /*************************************************************************************************************************/
-#if DEBUG
-        // DEBUG log event to output console and prevent duplicate events display
-        public void LogEvent(string lastEvetMessage = "")
-        {
-            if (this.lastEvent != lastEvetMessage)
-            {
-                Debug.WriteLine(lastEvetMessage);
-                this.lastEvent = lastEvetMessage;
-            }
-        }
-#endif
 
         /*************************************************************************************************************************/
 
@@ -6722,6 +6721,9 @@ namespace Diagram
             this.diagram.InvalidateDiagram();
         }
 
+        /*************************************************************************************************************************/
+
+        // TOOLBAR COLORPICKER FORM 
         void UpdateToolbarPosition()
         {
             if (this.colorPickerForm == null || colorPickerForm.IsDisposed || !colorPickerForm.Visible) return;
@@ -6735,10 +6737,6 @@ namespace Diagram
             colorPickerForm.allowMoveEvent = true;
         }
 
-
-        private void DiagramView_Move(object sender, EventArgs e)
-        {
-            UpdateToolbarPosition();
-        }
+        
     }
 }

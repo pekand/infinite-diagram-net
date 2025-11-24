@@ -88,9 +88,8 @@ namespace Diagram
         }
 
         /*************************************************************************************************************************/
-        // LOAD DIAGRAM
 
-        // open file. If file is invalid return false UID4610064109
+        // OPEN open file. If file is invalid return false UID4610064109
         public bool OpenFile(string FileName)
         {
             if (Os.FileExists(FileName))
@@ -131,7 +130,7 @@ namespace Diagram
             return false;
         }
 
-        // XML LOAD If file is invalid return false UID9397528693
+        // OPEN  XML LOAD If file is invalid return false UID9397528693
         public bool LoadXML(string xml)
         {
 
@@ -322,7 +321,7 @@ namespace Diagram
             return true;
         }
 
-        // XML LOAD inner part of diagram file. If file is invalid return false UID3586094034
+        // OPEN  XML LOAD inner part of diagram file. If file is invalid return false UID3586094034
         public bool LoadInnerXML(XElement root)
         {
             string FontDefaultString = Fonts.FontToString(this.FontDefault);
@@ -408,6 +407,7 @@ namespace Diagram
             return true;
         }
 
+        // OPEN 
         public void LoadInnerXmlOptions(XElement diagram, string FontDefaultString)
         {
             foreach (XElement el in diagram.Descendants())
@@ -651,6 +651,7 @@ namespace Diagram
             }
         }
 
+        // OPEN 
         public void LoadInnerXmlRectangles(Nodes nodes, XElement diagram, string FontDefaultString)
         {
             foreach (XElement block in diagram.Descendants())
@@ -885,6 +886,7 @@ namespace Diagram
             }
         }
 
+        // OPEN 
         public void LoadInnerXmlLines(Lines lines, Nodes nodes, XElement diagram)
         {
             foreach (XElement block in diagram.Descendants())
@@ -984,9 +986,8 @@ namespace Diagram
         }
 
         /*************************************************************************************************************************/
-        // SAVE DIAGRAM
 
-        // save diagram
+        // SAVE save diagram
         public bool Save() //UID8354947577
         {
             if (this.IsReadOnly())
@@ -1007,7 +1008,7 @@ namespace Diagram
             return true;
         }
 
-        // save diagram as
+        // SAVE save diagram as
         public void Saveas(string FileName) //UID9358805584
         {
             if (this.IsReadOnly())
@@ -1029,7 +1030,7 @@ namespace Diagram
             this.SetTitle();
         }
 
-        // XML SAVE file or encrypted file
+        // SAVE XML SAVE file or encrypted file
         public void SaveXMLFile(string FileName) //UID6023051509
         {
             XElement root = new("diagram");
@@ -1094,7 +1095,7 @@ namespace Diagram
             }
         }
 
-        // XML SAVE create xml from current diagram file state
+        // SAVE XML SAVE create xml from current diagram file state
         public XElement SaveInnerXMLFile() //UID8716692347
         {
             XElement diagram = new("diagram");
@@ -1122,6 +1123,7 @@ namespace Diagram
             return diagram;
         }
 
+        // SAVE
         public XElement SaveInnerXmlOptions() //UID8029528026
         {
             // [options] [config]
@@ -1182,7 +1184,8 @@ namespace Diagram
             
             return option;
         }
-        
+
+        // SAVE
         public XElement SaveInnerXmlNodes(Nodes nodes) //UID0137352615
         {
             XElement rectangles = new("rectangles");
@@ -1252,7 +1255,8 @@ namespace Diagram
             
             return rectangles;
         }
-        
+
+        // SAVE
         public XElement SaveInnerXmlLines(Lines lines) //UID2182227651
         {
             XElement xLines = new("lines");
@@ -1273,6 +1277,7 @@ namespace Diagram
             return xLines;
         }
 
+        // SAVE
         public string XmlToString(XElement root) //UID8716692347
         {
             try
@@ -1300,6 +1305,7 @@ namespace Diagram
             return "";
         }
 
+        // SAVE
         public XElement StringToXml(string xml) //UID8716692347
         {
             try
@@ -1321,10 +1327,9 @@ namespace Diagram
         }
 
 
-        /*************************************************************************************************************************/
-        // CLOSE DIAGRAM
+        /*************************************************************************************************************************/       
 
-        // set default options for file like new file 
+        // CLOSE set default options for file like new file 
         public void ResetDefaultValuesForNewFile() //UID3849853197
         {
             // Prednadstavenie atributov
@@ -1344,35 +1349,36 @@ namespace Diagram
         }
 
         /*************************************************************************************************************************/
-        // STATES
 
-        // check if file is empty
+        // STATES check if file is empty
         public bool IsNew()
         {
             return (this.FileName == "" && this.NewFile && this.SavedFile);
         }
 
-        // check if file is empty
+        // STATES check if file is empty
         public bool IsReadOnly()
         {
             return this.options.readOnly || this.locked;
         }
 
         /*************************************************************************************************************************/
-        // UNSAVE
 
+        // UNDO 
         public void Unsave(string type, Node node, Position position = null, decimal scale = 0, long layer = 0)
         {
             Nodes nodes = [ node ];
             this.Unsave(type, nodes, null, position, scale, layer);
         }
 
+        // UNDO 
         public void Unsave(string type, Line line, Position position = null, decimal scale = 0, long layer = 0)
         {
             Lines lines = [ line ];
             this.Unsave(type, null, lines, position, scale, layer);
         }
 
+        // UNDO 
         public void Unsave(string type, Node node, Line line, Position position = null, decimal scale = 0, long layer = 0)
         {
             Nodes nodes = [ node  ];
@@ -1380,6 +1386,7 @@ namespace Diagram
             this.Unsave(type, nodes, lines, position, scale, layer);
         }
 
+        // UNDO 
         public void Unsave(string type, Nodes nodes = null, Lines lines = null, Position position = null, decimal scale = 0, long layer = 0)
         {
             this.undoOperations.RememberSave();
@@ -1387,6 +1394,7 @@ namespace Diagram
             this.Unsave();
         }
 
+        // UNDO 
         public void Unsave()
         {
             this.SavedFile = false;
@@ -1395,6 +1403,7 @@ namespace Diagram
             this.InvalidateDiagram();
         }
 
+        // UNDO 
         public void Restoresave()
         {
             this.SavedFile = true;
@@ -1403,23 +1412,19 @@ namespace Diagram
             this.InvalidateDiagram();
         }
 
-        /*************************************************************************************************************************/
-        // UNDO
-
-        // undo
+        // UNDO make undo
         public void DoUndo(DiagramView view = null)
         {
             this.undoOperations.DoUndo(view);
         }
 
-        // redo
+        // UNDO make redo
         public void DoRedo(DiagramView view = null)
         {
             this.undoOperations.DoRedo(view);
         }
 
         /*************************************************************************************************************************/
-        // NODES SELECT
 
         // NODE find node by id
         public Node GetNodeByID(long id)
@@ -1441,11 +1446,13 @@ namespace Diagram
             return null;
         }
 
+        // NODE get all nodes from all layers
         public Nodes GetAllNodes()
         {
             return this.layers.GetAllNodes();
         }
 
+        // NODE get all lines from all layers
         public Lines GetAllLines()
         {
             return this.layers.GetAllLines();
@@ -1476,11 +1483,17 @@ namespace Diagram
             return null;
         }
 
+        // NODE  check if diagram has nodes
+        private bool IsEmptyDiagram()
+        {
+            Nodes nodes = this.GetAllNodes();
+
+            return nodes.Count == 0;
+        }
 
         /*************************************************************************************************************************/
-        // NODES DELETE
 
-        // NODE delete all nodes which is not in layer history UID0424081301
+        // NODE DELETE delete all nodes which is not in layer history
         public bool CanDeleteNode(Node node)
         {
             // sub node is viewed
@@ -1495,8 +1508,8 @@ namespace Diagram
             return true;
         }
 
-        // NODE delete node
-        public void DeleteNode(Node rec) //UID6856126776
+        // NODE DELETE delete node
+        public void DeleteNode(Node rec) 
         {
             if (rec != null && !this.IsReadOnly())
             {
@@ -1521,7 +1534,7 @@ namespace Diagram
             }
         }
 
-        // NODE delete multiple nodes and set undo operation UID3218416151
+        // NODE DELETE delete multiple nodes and set undo operation
         public void DeleteNodes(Nodes nodes, Position position = null, long layer = 0)
         {
             bool canDelete = false;
@@ -1554,9 +1567,8 @@ namespace Diagram
         }
 
         /*************************************************************************************************************************/
-        // NODES EDIT
 
-        // NODE Editovanie vlastnosti nody
+        // EDIT 
         public TextForm EditNode(Node rec)
         {
             bool found = false;
@@ -1586,7 +1598,7 @@ namespace Diagram
             return null;
         }
 
-        // NODE Editovanie vlastnosti nody
+        // EDIT 
         public void EditNodeClose(Node rec)
         {
             for (int i = TextWindows.Count - 1; i >= 0; i--) // Loop through List with foreach
@@ -1599,16 +1611,10 @@ namespace Diagram
         }
 
         /*************************************************************************************************************************/
-        // NODES CREATE
 
         // NODE Create Rectangle on point
-        public Node CreateNode(
-            Position position,
-            string name = "",
-            long layer = 0,
-            ColorType color = null,
-            System.Drawing.Font font = null
-        ) {
+        public Node CreateNode(Position position, string name = "", long layer = 0, ColorType color = null, System.Drawing.Font font = null) 
+        {
             var rec = new Node();
             if (font == null)
             {
@@ -1648,7 +1654,6 @@ namespace Diagram
         }
 
         /*************************************************************************************************************************/
-        // LINES SELECT
 
         // LINE HASLINE check if line exist between two nodes
         public bool HasConnection(Node a, Node b)
@@ -1657,11 +1662,13 @@ namespace Diagram
             return line != null;
         }
 
+        // LINE
         public Line GetLine(Node a, Node b)
         {
             return this.layers.GetLine(a, b);
         }
 
+        // LINE
         public Line GetLine(long a, long b)
         {
             return this.layers.GetLine(a, b);
@@ -1751,9 +1758,8 @@ namespace Diagram
         }
 
         /*************************************************************************************************************************/
-        // ALIGN
 
-        // align to line
+        // ALIGN align to line
         public void AlignToLine(Nodes Nodes)
         {
             if (Nodes.Count > 0)
@@ -1776,7 +1782,7 @@ namespace Diagram
             }
         }
 
-        // align node to top element and create constant space between nodes
+        // ALIGN align node to top element and create constant space between nodes
         public void AlignCompact(Nodes nodes)
         {
             if (nodes.Count > 0)
@@ -1810,7 +1816,7 @@ namespace Diagram
             }
         }
 
-        // NODES ALIGN to column
+        // ALIGN align to column
         public void AlignToColumn(Nodes Nodes)
         {
             if (Nodes.Count > 0)
@@ -1835,7 +1841,7 @@ namespace Diagram
             }
         }
 
-        // align node to most left node and create constant space between nodes
+        // ALIGN align node to most left node and create constant space between nodes
         public void AlignCompactLine(Nodes nodes)
         {
             if (nodes.Count > 0)
@@ -1869,7 +1875,7 @@ namespace Diagram
             }
         }
 
-        // align left
+        // ALIGN align right
         public void AlignRight(Nodes Nodes)
         {
             if (Nodes.Count > 0)
@@ -1892,7 +1898,7 @@ namespace Diagram
             }
         }
 
-        // align left
+        // ALIGN align left
         public void AlignLeft(Nodes Nodes)
         {
             if (Nodes.Count > 0)
@@ -1913,7 +1919,7 @@ namespace Diagram
             }
         }
 
-        // align node to top element and create constant space between nodes and sort items
+        // ALIGN SORT align node to top element and create constant space between nodes and sort items
         public void SortNodes(Nodes nodes)
         {
             if (nodes.Count > 0)
@@ -1966,6 +1972,7 @@ namespace Diagram
             }
         }
 
+        // ALIGN SORT
         public void SortNodesAsc(Nodes nodes)
         {
             if (nodes.Count > 0)
@@ -2000,6 +2007,7 @@ namespace Diagram
             }
         }
 
+        // ALIGN SORT
         public void SortNodesDesc(Nodes nodes)
         {
             if (nodes.Count > 0)
@@ -2034,7 +2042,7 @@ namespace Diagram
             }
         }
 
-        // split node to lines
+        // ALIGN SPLIT node to lines
         public Nodes SplitNode(Nodes nodes)
         {
             if (nodes.Count > 0)
@@ -2067,21 +2075,21 @@ namespace Diagram
         }
 
         /*************************************************************************************************************************/
-        // SHORTCUTS
 
-        // remove shortcut
+        // SHORTCUTS remove shortcut
         public void RemoveShortcut(Node node)
         {
             if (node.shortcut > 0) node.shortcut = 0;
         }
 
-        // remove mark
+        // SHORTCUTS  remove mark
         public void RemoveMark(Node node)
         {
             if (node.mark) node.mark = false;
         }
 
         /*************************************************************************************************************************/
+        
         // OPTIONS
         public void SetLineColor()
         {
@@ -2098,6 +2106,7 @@ namespace Diagram
             }
         }
 
+        // OPTIONS
         public void SetNodeColor()
         {
 
@@ -2114,6 +2123,7 @@ namespace Diagram
             }
         }
 
+        // OPTIONS
         public void SetSelectedNodeColor()
         {
 
@@ -2130,6 +2140,7 @@ namespace Diagram
             }
         }
 
+        // OPTIONS
         public void SetBackgroundColor()
         {
 
@@ -2152,6 +2163,7 @@ namespace Diagram
             }
         }
 
+        // OPTIONS
         public void SetGridColor()
         {
 
@@ -2173,6 +2185,7 @@ namespace Diagram
             }
         }
 
+        // OPTIONS
         public void SetScrollbarColor()
         {
 
@@ -2195,6 +2208,7 @@ namespace Diagram
             }
         }
 
+        // OPTIONS
         public void SetSelectionColor()
         {
 
@@ -2212,9 +2226,8 @@ namespace Diagram
         }
 
         /*************************************************************************************************************************/
-        // TOOLS
 
-        // FILE Open diagram directory if diagram is already saved
+        // TOOLS FILE Open diagram directory if diagram is already saved
         public void OpenDiagramDirectory()
         {
             if (!this.NewFile && Os.FileExists(this.FileName))
@@ -2223,10 +2236,9 @@ namespace Diagram
             }
         }
 
-        /*************************************************************************************************************************/
-        // NODE FONTS
+        /*************************************************************************************************************************/        
 
-        // NODE Reset font to default font for group of nodes
+        // FONT Reset font to default font for group of nodes
         public void ResetFont(Nodes nodes, Position position = null, long layer = 0)
         {
             if (nodes.Count>0) {
@@ -2242,9 +2254,8 @@ namespace Diagram
         }
 
         /*************************************************************************************************************************/
-        // IMAGE
 
-        // set image
+        // IMAGE set image
         public void SetImage(Node rec, string file)
         {
             try
@@ -2287,7 +2298,7 @@ namespace Diagram
             }
         }
 
-        // remove image
+        // IMAGE remove image
         public void RemoveImage(Node rec)
         {
             rec.isImage = false;
@@ -2297,7 +2308,7 @@ namespace Diagram
             rec.Resize();
         }
 
-        // set image embedded
+        // IMAGE set image embedded
         public void SetImageEmbedded(Node rec)
         {
             if (rec.isImage)
@@ -2306,7 +2317,7 @@ namespace Diagram
             }
         }
 
-        // Convert Embed Image To Files 
+        // IMAGE Convert Embed Image To Files 
         public void ConvertEmbedImageToFiles()
         {
 
@@ -2346,9 +2357,8 @@ namespace Diagram
         }
 
         /*************************************************************************************************************************/
-        // LAYERS
 
-        // LAYER MOVE move layer recursively and nodes OBSOLATE
+        // LAYERS MOVE move layer recursively and nodes OBSOLATE
         public void MoveLayer(Node rec, Position vector)
         {
             if (rec != null)
@@ -2370,9 +2380,8 @@ namespace Diagram
         }
 
         /*************************************************************************************************************************/
-        // VIEW
 
-        // open new view on diagram
+        // VIEW open new view on diagram
         public DiagramView OpenDiagramView(DiagramView parent = null, Layer layer = null) //UID8210770134
         {
             DiagramView diagramview = new(this.main, this, parent);
@@ -2388,7 +2397,7 @@ namespace Diagram
             return diagramview;
         }
 
-        // invalidate all opened views
+        // VIEW invalidate all opened views
         public void InvalidateDiagram()
         {
             foreach (DiagramView DiagramView in this.DiagramViews)
@@ -2400,7 +2409,7 @@ namespace Diagram
             }
         }
 
-        // close view UID2584689730
+        // VIEW close view UID2584689730
         public void CloseView(DiagramView view)
         {
             this.DiagramViews.Remove(view);
@@ -2415,14 +2424,7 @@ namespace Diagram
             this.CloseDiagram();
         }
 
-        private bool IsEmptyDiagram()
-        {
-            Nodes nodes = this.GetAllNodes();
-
-            return nodes.Count == 0;
-        }
-
-        // UID3110763859
+        // VIEW 
         public bool CloseDiagramViewWithDialog(DiagramView diagramView)
         {
 
@@ -2487,7 +2489,7 @@ namespace Diagram
             return false;
         }
 
-        // close diagram UID4103426891
+        // VIEW close diagram
         public void CloseDiagram()
         {
             bool canclose = true;
@@ -2505,7 +2507,7 @@ namespace Diagram
             }
         }
 
-        // change title
+        // VIEW change title
         public void SetTitle()
         {
             foreach (DiagramView DiagramView in this.DiagramViews)
@@ -2514,7 +2516,7 @@ namespace Diagram
             }
         }
 
-        // refresh - refresh items depends on external resources like images
+        // VIEW refresh - refresh items depends on external resources like images
         public void RefreshAll()
         {
             foreach (Node node in this.layers.GetAllNodes())
@@ -2547,7 +2549,7 @@ namespace Diagram
             this.InvalidateDiagram();
         }
 
-        // refresh nodes- refresh items depends on external resources like images or hyperlinks names
+        // VIEW  refresh nodes- refresh items depends on external resources like images or hyperlinks names
         public void RefreshNodes(Nodes nodes)
         {
             foreach (Node node in nodes)
@@ -2577,7 +2579,7 @@ namespace Diagram
             this.InvalidateDiagram();
         }
 
-        // refresh background image after background image change
+        // VIEW  refresh background image after background image change
         public void RefreshBackgroundImages()
         {
             foreach (DiagramView DiagramView in this.DiagramViews)
@@ -2586,7 +2588,7 @@ namespace Diagram
             }
         }
 
-        // check if view to diagram exist and show diagram view
+        // VIEW check if view to diagram exist and show diagram view
         public bool FocusToView()
         {
             Program.log.Write("window get focus");
@@ -2607,17 +2609,15 @@ namespace Diagram
 
         /*************************************************************************************************************************/
 
-        // TextForm
+        // TEXTFORM remove textform from list
         public void RemoveTextForm(TextForm textForm)
         {
            this.TextWindows.Remove(textForm);
         }
 
-
         /*************************************************************************************************************************/
-        // CLIPBOARD
 
-        // paste part of diagram from clipboard UID4178168001
+        // CLIPBOARD  paste part of diagram from clipboard
         public DiagramBlock AddDiagramPart(string DiagramXml, Position position, long layer, decimal scale = 0)
         {
             string FontDefaultString = Fonts.FontToString(this.FontDefault);
@@ -2785,7 +2785,7 @@ namespace Diagram
             return new DiagramBlock(NewNodes, createdLines);
         }
 
-        // 
+        // CLIPBOARD
         private void NodesReorderNodes(long layer, Node parent, Nodes nodesIn, Nodes nodesOut)
         {
             foreach (Node node in nodesIn)
@@ -2803,7 +2803,7 @@ namespace Diagram
             }
         }
 
-        // Get all layers nodes
+        // CLIPBOARD Get all layers nodes
         public void GetLayerNodes(Node node, Nodes nodes)
         {
             if (node.hasLayer) {
@@ -2819,7 +2819,7 @@ namespace Diagram
             }
         }
 
-        // copy part of diagram to text xml string UID4762897496
+        // CLIPBOARD copy part of diagram to text xml string UID4762897496
         public string GetDiagramPart(Nodes nodes)
         {
             string copyxml = null;
@@ -2930,6 +2930,7 @@ namespace Diagram
             return copyxml;
         }
 
+        // CLIPBOARD 
         public DiagramBlock GetPartOfDiagram(Nodes nodes)
         {
             Nodes allNodes = [];
@@ -2975,6 +2976,7 @@ namespace Diagram
             return new DiagramBlock(allNodes, lines);
         }
 
+        // CLIPBOARD 
         public DiagramBlock DuplicatePartOfDiagram(Nodes nodes, long layer = 0)
         {
             // get part of diagram for duplicate
@@ -3083,9 +3085,8 @@ namespace Diagram
         }
 
         /*************************************************************************************************************************/
-        // SECURITY
-
-        // encrypt diagram 
+  
+        // SECURITY encrypt diagram 
         public bool SetPassword(string password = null)
         {
             string newPassword;
@@ -3130,7 +3131,7 @@ namespace Diagram
             return false;
         }
 
-        // change password
+        // SECURITY CHANGE PASSWORD
         public bool ChangePassword()
         {
             string newPassword = this.main.ChangePassword(this.password);
@@ -3142,19 +3143,19 @@ namespace Diagram
             return false;
         }
 
-        // check if password is set
+        // SECURITY ISENCRYPTED check if password is set
         public bool IsEncrypted()
         {
             return this.encrypted;
         }
 
-        // check if diagram is locked
+        // SECURITY ISLOCK check if diagram is locked
         public bool IsLocked()
         {
             return this.locked;
         }
 
-        // lock diagram - forgot password
+        // SECURITY LOCK DIAGRAM  - forgot password
         public void LockDiagram() //UID9013092575
         {
             if (this.encrypted && !this.locked)
@@ -3169,7 +3170,7 @@ namespace Diagram
             }
         }
 
-        // unlock diagram - prompt for new password
+        // SECURITY UNLOCKL DIAGRAM - prompt for new password
         public bool UnlockDiagram()
         {
             if (this.encrypted && this.locked)
@@ -3197,6 +3198,7 @@ namespace Diagram
             return false;
         }
 
+        // SECURITY TAKEOWNERSHIP
         public void TakeOwnership(bool showDialog = false)
         {
 
@@ -3210,12 +3212,15 @@ namespace Diagram
             } 
         }
 
+        // SECURITY ISSIGNED
         public bool IsSigned()
         {
             return this.signed;
         }
 
-        // FORM SETTINGS OPEN
+        /*************************************************************************************************************************/
+
+        // SETTINGS FORM OPEN
         internal void ShowSettings(DiagramView diagramView)
         {
             if (settings == null || settings.IsDisposed)
