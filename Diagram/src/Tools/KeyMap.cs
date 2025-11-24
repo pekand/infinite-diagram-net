@@ -4,7 +4,7 @@ namespace Diagram
 {
     /// <summary>
     /// key shortcuts table </summary>
-    public class KeyMap //UID6078031921
+    public class KeyMap 
     {
         public const string selectAllElements = "CTRL+A";
         public const string alignToLine = "CTRL+L";

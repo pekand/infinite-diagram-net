@@ -2,7 +2,7 @@
 
 namespace Diagram
 {
-    public partial class MainForm : Form //UID2589432679
+    public partial class MainForm : Form 
     {
         // parent
         public Main main = null;
@@ -44,14 +44,14 @@ namespace Diagram
             }));
         }
 
-        public void OpenDiagram(String Message) //UID0515997503
+        public void OpenDiagram(String Message) 
         {
             main.OpenDiagram(Message);
         }
 
         /// <summary>
         /// close application if not form is open</summary>
-        public void TerminateApplication() //UID4213278976
+        public void TerminateApplication() 
         {
             main.TerminateApplication();
         }

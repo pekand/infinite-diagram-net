@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Plugin
 {
-    public partial class ScriptingPlugin : INodeOpenPlugin, IKeyPressPlugin //UID0290845814
+    public partial class ScriptingPlugin : INodeOpenPlugin, IKeyPressPlugin 
     {
 
         public string Name

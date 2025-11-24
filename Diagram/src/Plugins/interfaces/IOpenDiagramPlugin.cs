@@ -2,7 +2,7 @@
 
 namespace Diagram 
 {
-    public interface IOpenDiagramPlugin : IDiagramPlugin  //UID0290845812
+    public interface IOpenDiagramPlugin : IDiagramPlugin  
     {
         void OpenDiagramAction(Diagram diagram);
     }

@@ -8,7 +8,7 @@ namespace Diagram
 {
     /// <summary>
     /// load plugins</summary>
-    public class Plugins //UID8736657869
+    public class Plugins 
     {
         public List<IDiagramPlugin> plugins = [];
         public List<INodeOpenPlugin> nodeOpenPlugins = [];
@@ -189,7 +189,7 @@ namespace Diagram
                 {
                     try
                     {
-                        stopNextAction = plugin.ClickOnNodeAction(diagram, diagramView, node); //UID6935831875
+                        stopNextAction = plugin.ClickOnNodeAction(diagram, diagramView, node); 
                         if (stopNextAction)
                         {
                             break;

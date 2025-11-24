@@ -122,7 +122,7 @@ namespace Plugin
     /// Tools.setClipboard('text')
     /// a = Tools.getClipboard()
     /// </example>
-    public class Tools(Script script) //UID6975866488
+    public class Tools(Script script) 
     {
         private readonly Script script = script;
 
@@ -292,7 +292,7 @@ namespace Plugin
     ///     Program.log.write("evaluation error: " + ex.Message);
     /// }
     /// </example>
-    public class Script //UID6870742772
+    public class Script 
     {
         private ScriptEngine pyEngine = null;
         private dynamic pyScope = null;

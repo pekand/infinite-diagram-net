@@ -10,7 +10,7 @@ namespace Diagram
     /// <summary>
     /// message server between running processes
     /// </summary>
-    public class Server(Main main) //UID0876993960
+    public class Server(Main main) 
     {
         /*************************************************************************************************************************/
         
@@ -83,7 +83,7 @@ namespace Diagram
             return false;   
         }
 
-        // start server loop UID8117850972
+        // start server loop 
         public void ListenForClients()
         {
             try
@@ -110,7 +110,7 @@ namespace Diagram
             }
         }
 
-        // process message cached from server UID1561149138
+        // process message cached from server 
         private void HandleClientCommunication(object client)
         {
             try
@@ -160,7 +160,7 @@ namespace Diagram
         /*************************************************************************************************************************/
         // MESSAGES
 
-        // send message to server UID8096061355
+        // send message to server 
         public bool SendMessage(String Message)
         {
 			Program.log.Write("Server: SendMessage: " + Message);
@@ -221,7 +221,7 @@ namespace Diagram
             return false;
         }
 
-        // parse message from server UID9190377024
+        // parse message from server 
         public bool ParseMessage(String Message)
         {
             // send message
@@ -232,16 +232,16 @@ namespace Diagram
                 return true;
             }
             else
-            if (Message == "close") //UID5024907634
+            if (Message == "close") 
             {
                 main.mainForm.Invoke(new Action(() => main.mainForm.TerminateApplication()));
                 return true;
             }
             else
             {
-                string FileName = Patterns.GetOpenCommand(Message);//UID0548148814
+                string FileName = Patterns.GetOpenCommand(Message);
                 if (FileName != null) {
-                    main.mainForm.Invoke(new Action(() => main.mainForm.OpenDiagram(FileName))); //UID7984925616
+                    main.mainForm.Invoke(new Action(() => main.mainForm.OpenDiagram(FileName))); 
                     return true;
                 }
             }
@@ -249,7 +249,7 @@ namespace Diagram
             return false;
         }
 
-        // send close message to server UID3713513860
+        // send close message to server 
         public void RequestStop()
         {
             _shouldStop = true;

@@ -2,7 +2,7 @@
 
 namespace Diagram
 {
-    public partial class LineWidthForm : Form //UID4672738884
+    public partial class LineWidthForm : Form 
     {
         public delegate void LineWidthFormTrackbarChangedEventHandler(int value);
         public event LineWidthFormTrackbarChangedEventHandler TrackbarStateChanged;

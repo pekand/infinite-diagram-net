@@ -2,7 +2,7 @@
 
 namespace Diagram
 {
-    public partial class PasswordForm : Form //UID8255589531
+    public partial class PasswordForm : Form 
     {
         public Main main = null;
 

@@ -5,7 +5,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Diagram
 {
-    public partial class ColorPickerForm : Form //UID2354438225
+    public partial class ColorPickerForm : Form 
     {
         public delegate void ColorPickerFormChangeColor(ColorType color);
         public event ColorPickerFormChangeColor ChangeColor;

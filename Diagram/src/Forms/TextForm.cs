@@ -2,7 +2,7 @@
 
 namespace Diagram
 {
-    public class TextForm : Form //UID6772159546
+    public class TextForm : Form 
     {
         public Main main = null;
 

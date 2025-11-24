@@ -23,7 +23,7 @@ using System.Diagnostics;
 namespace Diagram
 {
 
-    public partial class DiagramView : Form //UID5701725971
+    public partial class DiagramView : Form 
     {
         public Main main = null;
         public DiagramView parentView = null;
@@ -167,7 +167,7 @@ namespace Diagram
         private bool disabled = false;
         public ImageTransformer imageTransformer;
 
-        private void InitializeComponent() //UID4012344444
+        private void InitializeComponent() 
         {
             components = new Container();
             ComponentResourceManager resources = new ComponentResourceManager(typeof(DiagramView));
@@ -275,7 +275,7 @@ namespace Diagram
 
         /*************************************************************************************************************************/
 
-        // FORM Constructor UID0302011231
+        // FORM Constructor 
         public DiagramView(Main main, Diagram diagram, DiagramView parentView = null)
         {
             this.main = main;
@@ -344,7 +344,7 @@ namespace Diagram
             WinProcess.SetId();
         }
 
-        // FORM Load event - UID0112423443
+        // FORM Load event - 
         public void DiagramViewLoad(object sender, EventArgs e)
         {
             // predefined window position
@@ -455,7 +455,7 @@ namespace Diagram
         }
 
         // FORM Quit Close
-        public void DiagramApp_FormClosing(object sender, FormClosingEventArgs e) //UID8741811919
+        public void DiagramApp_FormClosing(object sender, FormClosingEventArgs e) 
         {
             bool close = this.diagram.CloseDiagramViewWithDialog(this);
 
@@ -467,7 +467,7 @@ namespace Diagram
             e.Cancel = !close;
         }
 
-        // FORM CLOSE UID2411004144
+        // FORM CLOSE 
         private void DiagramView_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.colorPickerForm.allowClose = true;
@@ -499,7 +499,7 @@ namespace Diagram
             }
         }
 
-        // FORM go to home position - center window to home position UID5474632736
+        // FORM go to home position - center window to home position 
         public void GoToHome()
         {
             Nodes nodes = this.diagram.layers.SearchInAllNodes("@home");
@@ -529,7 +529,7 @@ namespace Diagram
         }
 
         // FORM open view and go to home position
-        public void OpenViewAndGoToHome() //UID2147390186
+        public void OpenViewAndGoToHome() 
         {
             DiagramView child = this.diagram.OpenDiagramView(this);
             child.GoToHome();
@@ -576,7 +576,7 @@ namespace Diagram
         }
 
         // FORM open view and go to home position
-        public void OpenViewAndGoToEnd() //UID0905369008
+        public void OpenViewAndGoToEnd() 
         {
             DiagramView child = this.diagram.OpenDiagramView(this);
             child.GoToEnd();
@@ -801,7 +801,7 @@ namespace Diagram
             }
         }
 
-        // SELECTION Remove Node from  selection UID2688115953
+        // SELECTION Remove Node from  selection 
         public void RemoveNodeFromSelection(Node a)
         {
             if (this.selectedNodes.Count > 0 && a != null) // odstranenie mulitvyberu
@@ -857,7 +857,7 @@ namespace Diagram
 
         /*************************************************************************************************************************/
         
-        // EVENT Paint UID5225221692                                                                   // [PAINT] [EVENT]
+        // EVENT Paint                                                                    // [PAINT] [EVENT]
         public void DiagramApp_Paint(object sender, PaintEventArgs e)
         {
             this.DrawDiagram(e.Graphics);
@@ -865,8 +865,8 @@ namespace Diagram
             this.imageTransformer.Form_Paint(sender, e);
         }
 
-        // EVENT Mouse DoubleClick UID5891984730
-        public void DiagramApp_MouseDoubleClick(object sender, MouseEventArgs e)                       // [MOUSE] [DBLCLICK] [EVENT] UID3769224705
+        // EVENT Mouse DoubleClick 
+        public void DiagramApp_MouseDoubleClick(object sender, MouseEventArgs e)                       // [MOUSE] [DBLCLICK] [EVENT] 
         {
 
 #if DEBUG
@@ -876,7 +876,7 @@ namespace Diagram
             this.stateDblclick = true;
         }
 
-        // EVENT Mouse Down UID3419722424                                                              // [MOUSE] [DOWN] [EVENT]
+        // EVENT Mouse Down                                                               // [MOUSE] [DOWN] [EVENT]
         public void DiagramApp_MouseDown(object sender, MouseEventArgs e)
         {
             this.imageTransformer.Form_MouseDown(sender, e);
@@ -1055,7 +1055,7 @@ namespace Diagram
             this.diagram.InvalidateDiagram();
         }
 
-        // EVENT Mouse move UID3677213415                                                              // [MOUSE] [MOVE] [EVENT]
+        // EVENT Mouse move                                                               // [MOUSE] [MOVE] [EVENT]
         public void DiagramApp_MouseMove(object sender, MouseEventArgs e)
         {
 
@@ -1096,7 +1096,7 @@ namespace Diagram
             }
         }
 
-        // EVENT Mouse Up UID3026627853                                                                // [MOUSE] [UP] [EVENT]
+        // EVENT Mouse Up                                                                 // [MOUSE] [UP] [EVENT]
         public void DiagramApp_MouseUp(object sender, MouseEventArgs e)
         {
             this.imageTransformer.Form_MouseUp(sender, e);
@@ -1168,7 +1168,7 @@ namespace Diagram
                 this.diagram.InvalidateDiagram();
             }
 
-            // KEY DRAG+MLEFT select nodes with selection rectangle UID0351799057
+            // KEY DRAG+MLEFT select nodes with selection rectangle 
             if (finishselecting && mousemove)
             {
                 Position a = this.startMousePosInDiagram.Clone();
@@ -1469,7 +1469,7 @@ namespace Diagram
                 return;
             }
 
-            // KEY DBLCLICK open link or edit window after double click on node [dblclick] [open] [edit] //UID8515606919
+            // KEY DBLCLICK open link or edit window after double click on node [dblclick] [open] [edit] 
             if (buttonleft
                 && dblclick
                 && this.sourceNode != null
@@ -1576,7 +1576,7 @@ namespace Diagram
                 return;
             }
 
-            // KEY DBLCLICK create new node UID6734640900
+            // KEY DBLCLICK create new node 
             if (buttonleft
                 && !isreadonly
                 && dblclick
@@ -1759,7 +1759,7 @@ namespace Diagram
             {
                 if (!TargetNode.isImage)
                 {
-                    this.Rename(); //UID3101342400
+                    this.Rename(); 
                 }
                 else
                 {
@@ -2075,7 +2075,7 @@ namespace Diagram
             }
 
             bool isreadonly = this.diagram.IsReadOnly();
-            bool stopNextAction = this.main.plugins.KeyPressAction(this.diagram, this, keyData); //UID0290845814
+            bool stopNextAction = this.main.plugins.KeyPressAction(this.diagram, this, keyData); 
 
             /*
              * order : ProcessCmdKey, DiagramApp_KeyDown, DiagramApp_KeyPress, DiagramApp_KeyUp;
@@ -2205,19 +2205,19 @@ namespace Diagram
                 return true;
             }
 
-            if (!isreadonly && KeyMap.ParseKey(KeyMap.save, keyData))  // [KEY] [CTRL+S] save diagram UID4672553712
+            if (!isreadonly && KeyMap.ParseKey(KeyMap.save, keyData))  // [KEY] [CTRL+S] save diagram 
             {
                 this.Save();
                 return true;
             }
 
-            if (KeyMap.ParseKey(KeyMap.open, keyData))  // [KEY] [CTRL+O] open diagram dialog window UID7674842403
+            if (KeyMap.ParseKey(KeyMap.open, keyData))  // [KEY] [CTRL+O] open diagram dialog window 
             {
                 this.OpenFileDialog();
                 return true;
             }
 
-            if (KeyMap.ParseKey(KeyMap.search, keyData))  // [KEY] [CTRL+F] Search form UID0886546362
+            if (KeyMap.ParseKey(KeyMap.search, keyData))  // [KEY] [CTRL+F] Search form 
             {
                 this.ShowSearchPanel();
                 return true;
@@ -2377,7 +2377,7 @@ namespace Diagram
                 return false;
             }
 
-            if (KeyMap.ParseKey(KeyMap.editOrLayerIn, keyData)) // [KEY] [ENTER] open edit form or layer in UID6919250456
+            if (KeyMap.ParseKey(KeyMap.editOrLayerIn, keyData)) // [KEY] [ENTER] open edit form or layer in 
             {
                 this.LayerInOrEdit();
                 return true;
@@ -2472,7 +2472,7 @@ namespace Diagram
                 return true;
             }
 
-            if (KeyMap.ParseKey(KeyMap.switchSecurityLock, keyData)) // [KEY] [CTRL+ALT+L] lock encrypted diagram UID6442152339
+            if (KeyMap.ParseKey(KeyMap.switchSecurityLock, keyData)) // [KEY] [CTRL+ALT+L] lock encrypted diagram 
             {
                 if (this.diagram.IsEncrypted())
                 {
@@ -2834,7 +2834,7 @@ namespace Diagram
             }
         }
 
-        // EVENT MOVE TIMER for move view when node is draged to window edge UID2144001341
+        // EVENT MOVE TIMER for move view when node is draged to window edge 
         public void MoveTimer_Tick(object sender, EventArgs e)
         {
 
@@ -2916,7 +2916,7 @@ namespace Diagram
             }
         }                                      // [MOVE] [TIMER] [EVENT]
 
-        // EVENT Deactivate - lost focus UID0104120032
+        // EVENT Deactivate - lost focus 
         public void DiagramApp_Deactivate(object sender, EventArgs e)                                  // [FOCUS]
         {
 
@@ -2970,7 +2970,7 @@ namespace Diagram
 
         /*************************************************************************************************************************/
 
-        // LAYER layer in or open edit form UID4538903767
+        // LAYER layer in or open edit form 
         public void LayerInOrEdit()
         {
             if (this.selectedNodes.Count == 1)
@@ -2986,7 +2986,7 @@ namespace Diagram
             }
         }
 
-        // LAYER layer in UID5010004621
+        // LAYER layer in 
         public void LayerIn()
         {
             if (this.selectedNodes.Count == 1)
@@ -2995,7 +2995,7 @@ namespace Diagram
             }
         }
 
-        // LAYER IN UID3904383109                                                                     // [LAYER]
+        // LAYER IN                                                                      // [LAYER]
         public void LayerIn(Node node)
         {
             if (this.currentLayer.parentNode == null)
@@ -3019,7 +3019,7 @@ namespace Diagram
             this.diagram.InvalidateDiagram();
         }
 
-        // LAYER OUT UID4661843385
+        // LAYER OUT 
         public void LayerOut()
         {
             if (this.currentLayer.parentLayer != null)
@@ -3065,7 +3065,7 @@ namespace Diagram
             return false;
         }
 
-        // LAYER HISTORY Buld laier history from UID3310785252
+        // LAYER HISTORY Buld laier history from 
         public void BuildLayerHistory(long id)
         {
             Layer layer = this.diagram.layers.GetLayer(id);
@@ -3091,7 +3091,7 @@ namespace Diagram
             this.breadcrumbs.Update();
         }
 
-        // LAYER check if node is parent trought layer history UID4653357181
+        // LAYER check if node is parent trought layer history 
         public bool IsNodeInLayerHistory(Node rec)
         {
             foreach (Layer layer in this.layersHistory)
@@ -3107,7 +3107,7 @@ namespace Diagram
 
         /*************************************************************************************************************************/
 
-        // SEARCHPANEL action UID7186033387
+        // SEARCHPANEL action 
         public void SearchPanelChanged(string action, string search)
         {
             if (action == "search")
@@ -3136,7 +3136,7 @@ namespace Diagram
             }
         }
 
-        // SEARCHPANEL SHOW UID3966468665
+        // SEARCHPANEL SHOW 
         private void ShowSearchPanel()
         {
             if (searhPanel == null)
@@ -3156,7 +3156,7 @@ namespace Diagram
         }
 
         // SEARCH FIRST
-        public void SearchFirst(string find) //UID1194762485
+        public void SearchFirst(string find) 
         {
 
             Nodes foundNodes = [];
@@ -3247,7 +3247,7 @@ namespace Diagram
         }
 
         // SEARCH NEXT
-        public void SearchNext() //UID2131053451
+        public void SearchNext() 
         {
             Node node = null;
 
@@ -3291,7 +3291,7 @@ namespace Diagram
         }
 
         // SEARCH PREV
-        public void SearchPrev() //UID5583938471
+        public void SearchPrev() 
         {
             Node node = null;
 
@@ -3503,7 +3503,7 @@ namespace Diagram
         /*************************************************************************************************************************/
 
         // FILE Save - Save diagram
-        public void Save() //UID1784785672
+        public void Save() 
         {
             if (!this.diagram.IsLocked())
             {
@@ -3515,7 +3515,7 @@ namespace Diagram
         }
 
         // FILE SAVEAS - Save as diagram 
-        public bool Saveas() //UID4040264682
+        public bool Saveas() 
         {
             if (this.DSave.ShowDialog() != DialogResult.OK)
             {
@@ -3527,7 +3527,7 @@ namespace Diagram
             return true;
         }
 
-        // FILE Open - Open diagram dialog UID5922343203
+        // FILE Open - Open diagram dialog 
         public void OpenFileDialog()
         {
             if (DOpen.ShowDialog() == DialogResult.OK)
@@ -3546,7 +3546,7 @@ namespace Diagram
             }
         }
 
-        // FILE Open - Open diagram UID4892447333
+        // FILE Open - Open diagram 
         public void OpenDiagramFromFile(string path)
         {
             if (Os.FileExists(path))
@@ -3647,7 +3647,7 @@ namespace Diagram
 
         /*************************************************************************************************************************/
 
-        // DRAW UID4637488042                                                                                     // [DRAW]
+        // DRAW                                                                                      // [DRAW]
         private void DrawDiagram(Graphics gfx, Position correction = null, bool export = false)
         {
             gfx.SmoothingMode = SmoothingMode.AntiAlias;
@@ -3716,7 +3716,7 @@ namespace Diagram
             }
         }
 
-        // DRAW grid UID7187365714
+        // DRAW grid 
         private void DrawGrid(Graphics gfx)
         {
             decimal s = Calc.GetScale(this.scale);
@@ -3777,7 +3777,7 @@ namespace Diagram
             }
         }
 
-        // DRAW lock screen  UID7187365714
+        // DRAW lock screen  
         private void DrawLockScreen(Graphics gfx)
         {
             if (lockImage == null)
@@ -3790,7 +3790,7 @@ namespace Diagram
             gfx.DrawImage(this.lockImage, new Point(X, Y));
         }
 
-        // DRAW diagram mini screen in zoom mode UID9733202717
+        // DRAW diagram mini screen in zoom mode 
         private void DrawMiniScreen(Graphics gfx)
         {
             decimal s = Calc.GetScale(this.scale);
@@ -3811,7 +3811,7 @@ namespace Diagram
             );
         }
 
-        // DRAW coordinates for debuging UID7119976091
+        // DRAW coordinates for debuging 
         private void DrawCoordinates(Graphics gfx)
         {
             decimal s = Calc.GetScale(this.scale);
@@ -3830,7 +3830,7 @@ namespace Diagram
             );
         }
 
-        // DRAW draw info if zooming UID4537424673
+        // DRAW draw info if zooming 
         private void DrawZoomScaleInfo(Graphics gfx)
         {
             string text = this.scale.ToString();
@@ -3845,7 +3845,7 @@ namespace Diagram
             );
         }
 
-        // DRAW select node by mouse drag (blue rectangle) UID1806594258
+        // DRAW select node by mouse drag (blue rectangle) 
         private void DrawNodesSelectArea(Graphics gfx)
         {
             SolidBrush brush = new(Color.FromArgb(200, this.diagram.options.selectionColor.Get()));
@@ -3869,7 +3869,7 @@ namespace Diagram
             gfx.FillRectangle(brush, rect);
         }
 
-        // DRAW add new node by drag UID3527460113
+        // DRAW add new node by drag 
         private void DrawAddNode(Graphics gfx)
         {
             Pen myPen = new(this.diagram.options.lineColor.Get(), 1);
@@ -3912,7 +3912,7 @@ namespace Diagram
             }
         }
 
-        // DRAW nodes UID4202302087
+        // DRAW nodes 
         private void DrawNodes(Graphics gfx, Nodes nodes, Position correction = null, bool export = false)
         {
             decimal s = Calc.GetScale(this.scale);
@@ -4243,7 +4243,7 @@ namespace Diagram
             return bmp;
         }
 
-        // DRAW lines UID4936881338
+        // DRAW lines 
         private void DrawLines(Graphics gfx, Lines lines, Position correction = null, bool export = false)
         {
             bool isvisible; // drawonly visible elements
@@ -4393,7 +4393,7 @@ namespace Diagram
 
         /*************************************************************************************************************************/
 
-        // VIEW REFRESH UID0421401402
+        // VIEW REFRESH 
         private void DiagramView_Activated(object sender, EventArgs e)
         {
             /*if (this.diagram.isLocked())
@@ -4465,7 +4465,7 @@ namespace Diagram
         }
 
         // VIEW full screen
-        public void LockView() //UID1708360605
+        public void LockView() 
         {
             if (editPanel != null && editPanel.Visible)
             {
@@ -4612,7 +4612,7 @@ namespace Diagram
             }
         }
 
-        // NODES DELETE SELECTION UID6677508921
+        // NODES DELETE SELECTION 
         public void DeleteSelectedNodes(DiagramView DiagramView)
         {
             if (!this.diagram.IsReadOnly())
@@ -4625,7 +4625,7 @@ namespace Diagram
             }
         }
 
-        // NODE Go to node position UID0896814291
+        // NODE Go to node position 
         public void GoToNode(Node rec)
         {
             if (rec != null)
@@ -4678,7 +4678,7 @@ namespace Diagram
             }
         }
 
-        // NODE Go to node layer UID5640777236
+        // NODE Go to node layer 
         public void GoToLayer(long layer = 0)
         {
             Layer l = this.diagram.layers.GetLayer(layer);
@@ -4737,7 +4737,7 @@ namespace Diagram
         }
 
         // NODE Open Link
-        public void OpenLink(Node rec) //UID9292140736
+        public void OpenLink(Node rec) 
         {
             if (rec == null) // prevent execution of scripts when curent user is not owner of document
             {
@@ -4746,7 +4746,7 @@ namespace Diagram
 
             if (rec.hasLayer)
             {
-                if (this.diagram.options.openLayerInNewView) //UID1964118363
+                if (this.diagram.options.openLayerInNewView) 
                 {
                     this.diagram.OpenDiagramView(
                         this,
@@ -4803,7 +4803,7 @@ namespace Diagram
 
             if (this.diagram.IsSigned())
             {
-                bool stopNextAction = this.main.plugins.ClickOnNodeAction(this.diagram, this, rec); //UID0290845815
+                bool stopNextAction = this.main.plugins.ClickOnNodeAction(this.diagram, this, rec); 
 
                 if (stopNextAction)
                 {
@@ -4950,7 +4950,7 @@ namespace Diagram
                             await Os.RunCommandWithTimeout(cmd, Os.GetFileDirectory(this.diagram.FileName));
                         });
 
-                        //Os.RunCommand(cmd, Os.GetFileDirectory(this.diagram.FileName)); // RUN COMMAND UID5087096741
+                        //Os.RunCommand(cmd, Os.GetFileDirectory(this.diagram.FileName)); // RUN COMMAND 
 
                         return;
                     }
@@ -5251,7 +5251,7 @@ namespace Diagram
             }
         }
 
-        // NODE copy UID4434132203
+        // NODE copy 
         public bool Copy()
         {
             if (this.selectedNodes.Count > 0)
@@ -5281,7 +5281,7 @@ namespace Diagram
             return false;
         }
 
-        // NODE cut UID4343312404
+        // NODE cut 
         public bool Cut()
         {
             if (this.selectedNodes.Count > 0)  // kopirovanie textu objektu
@@ -5295,7 +5295,7 @@ namespace Diagram
             return true;
         }
 
-        // NODE paste UID3240032142
+        // NODE paste 
         public bool Paste(Position position)
         {
             DataObject retrievedData = (DataObject)Clipboard.GetDataObject();
@@ -5895,7 +5895,7 @@ namespace Diagram
         }
 
         // NODE rename
-        public void Rename() //UID1498635893
+        public void Rename() 
         {
             if (this.selectedNodes.Count == 1)
             {
@@ -6557,7 +6557,7 @@ namespace Diagram
 
         /*************************************************************************************************************************/
 
-        // MOVE TIMER Go to node position UID7284214377
+        // MOVE TIMER Go to node position 
         public void GoToNodeWithAnimation(Node node)
         {
             if (node != null)

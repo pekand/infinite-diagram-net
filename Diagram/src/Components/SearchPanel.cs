@@ -2,7 +2,7 @@
 
 namespace Diagram
 {
-    public class SearchPanel : Panel //UID1308094022
+    public class SearchPanel : Panel 
     {
         public DiagramView diagramView = null;
 
@@ -126,7 +126,7 @@ namespace Diagram
             this.CenterPanel();
         }
 
-        public void SearchNext() //UID3222624449
+        public void SearchNext() 
         {
             if (this.disabled)
             {

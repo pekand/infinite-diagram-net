@@ -4,7 +4,7 @@
 
 namespace Diagram
 {
-	public class Converter //UID8493692592
+	public class Converter 
 	{
         /// <summary>
         /// converst string to DateTime</summary>

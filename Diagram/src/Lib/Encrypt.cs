@@ -9,7 +9,7 @@ namespace Diagram
 
     /// <summary>
     /// repository for encryption related functions</summary>
-    public class Encrypt //UID5102459625
+    public class Encrypt 
     {
         /*************************************************************************************************************************/
         // HASHES

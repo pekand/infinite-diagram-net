@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace Plugin
 {
-    public partial class FindUidPlugin : INodeOpenPlugin, IOpenDiagramPlugin //UID0290845813
+    public partial class FindUidPlugin : INodeOpenPlugin, IOpenDiagramPlugin 
     {
         public string Name
         {

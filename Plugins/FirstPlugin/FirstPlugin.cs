@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 namespace Plugin
 {
-    // example of plugin UID0290845814
+    // example of plugin 
     public class FirstPlugin : IDropPlugin, IKeyPressPlugin, ILoadPlugin, INodeOpenPlugin, IOpenDiagramPlugin, IPopupPlugin, ISavePlugin
     {
         private int counter = 0;

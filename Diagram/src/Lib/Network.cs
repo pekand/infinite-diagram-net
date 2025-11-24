@@ -8,7 +8,7 @@ namespace Diagram
 {
     /// <summary>
     /// repository of network and web related functions</summary>
-    public class Network //UID6787833981
+    public class Network 
     {
         /*************************************************************************************************************************/
         // GET CONTENT

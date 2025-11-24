@@ -2,7 +2,7 @@
 
 namespace Diagram
 {
-    public partial class Console : Form //UID4944902991
+    public partial class Console : Form 
     {
         private TabControl tabControl1;
         private TabPage tabConsole;

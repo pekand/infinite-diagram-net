@@ -4,7 +4,7 @@ namespace Diagram
 {
     /// <summary>
     /// Node in diagram</summary>
-    public class Node //UID6202169477
+    public class Node 
     {
         public long id = 0; // node unique id
 

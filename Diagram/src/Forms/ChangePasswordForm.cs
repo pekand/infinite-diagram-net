@@ -4,7 +4,7 @@
 
 namespace Diagram
 {
-    public class ChangePasswordForm : Form //UID9355910334
+    public class ChangePasswordForm : Form 
     {
         public Main main = null;
 

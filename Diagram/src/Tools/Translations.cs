@@ -4,7 +4,7 @@ namespace Diagram
 {
     /// <summary>
     /// text translation table</summary> 
-    public static class Translations //UID1436834852
+    public static class Translations 
     {
         public const string V = "Save before open file?";
         public const string saveBeforeOpenFile = V;

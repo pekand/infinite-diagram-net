@@ -5,7 +5,7 @@ namespace Diagram
     /// <summary>
     /// Time and timers functions repository
     /// </summary>
-    public class Tick //UID9091710163
+    public class Tick 
     {
         /// <summary>
         /// Create timer 

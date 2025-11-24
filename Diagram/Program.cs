@@ -12,7 +12,7 @@ namespace Diagram
 {
     /// <summary>
     /// Application entry point</summary>
-    public static class Program //UID2573216529
+    public static class Program 
     {
         public static SynchronizationContext context;
 
@@ -39,7 +39,7 @@ namespace Diagram
         // MAIN APPLICATION START        
 
         [STAThread]
-        private static void Main() //UID4670767500
+        private static void Main() 
         {
             try
             {

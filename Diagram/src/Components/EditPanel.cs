@@ -2,7 +2,7 @@
 
 namespace Diagram
 {
-    public class EditPanel : Panel //UID2281296902
+    public class EditPanel : Panel 
     {
         public DiagramView diagramView = null;       
 

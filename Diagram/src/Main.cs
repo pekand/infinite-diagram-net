@@ -11,7 +11,7 @@ namespace Diagram
     /// Processing command line arguments.
     /// Create mainForm
     /// </summary>
-    public class Main //UID7118462915
+    public class Main 
     {
 
         /*************************************************************************************************************************/
@@ -111,7 +111,7 @@ namespace Diagram
 
         /// <summary>
         /// parse command line arguments and open forms</summary>
-        public Main() //UID8239288102
+        public Main() 
         {
             Program.log.Write("Program: Main");
 
@@ -141,7 +141,7 @@ namespace Diagram
 
         /// <summary>
         /// load options from global configuration files</summary>
-        public void LoadProgramOptionFiles() //UID3013916734
+        public void LoadProgramOptionFiles() 
         {
             this.programOptions = new ProgramOptions();
             programOptionsFile = new ProgramOptionsFile(this.programOptions);
@@ -163,7 +163,7 @@ namespace Diagram
         {
             try
             {
-                // load external plugins UID9841812564
+                // load external plugins 
                 plugins = new Plugins();
 
                 // load plugins from current application directory (portable mode)
@@ -197,7 +197,7 @@ namespace Diagram
         /// load server</summary>
         public void LoadServer()
         {
-            // create local server for communication between local instances UID2964640610
+            // create local server for communication between local instances 
             server = new Server(this);
 
             server.StartServer();
@@ -219,7 +219,7 @@ namespace Diagram
 
         /// <summary>
         /// process command line arguments</summary>
-        public void ParseCommandLineArguments(string[] args) // [PARSE] [COMMAND LINE] UID5172911205
+        public void ParseCommandLineArguments(string[] args) // [PARSE] [COMMAND LINE] 
         {
             // options - create new file with given name if not exist
             bool CommandLineCreateIfNotExistFile = false;
@@ -296,11 +296,11 @@ namespace Diagram
                 }
                 else if (this.programOptions.openLastFile && this.programOptions.recentFiles.Count > 0 && Os.FileExists(this.programOptions.recentFiles[0]))
                 {
-                    this.OpenDiagram(this.programOptions.recentFiles[0]); // open last file if user option is enabled UID2130542088
+                    this.OpenDiagram(this.programOptions.recentFiles[0]); // open last file if user option is enabled 
                 }
                 else
                 {
-                    this.OpenDiagram(); //open empty diagram UID5981683893
+                    this.OpenDiagram(); //open empty diagram 
                 }
 
                 return;
@@ -325,7 +325,7 @@ namespace Diagram
 
                 if (Os.FileExists(file))
                 {
-                    this.OpenDiagram(file); //UID2130542088
+                    this.OpenDiagram(file); 
                 }
             }
 
@@ -340,13 +340,13 @@ namespace Diagram
         /// register power save event </summary>
         public void RegisterPowerChangeEvent()
         {
-            // sleep or hibernate event UID7641650028
+            // sleep or hibernate event 
             SystemEvents.PowerModeChanged += OnPowerChange;
         }
 
         /// <summary>
         /// lock encrypted diagrams if computer go to sleep or hibernation</summary>
-        private void OnPowerChange(object s, PowerModeChangedEventArgs e) // UID1864495676
+        private void OnPowerChange(object s, PowerModeChangedEventArgs e) // 
         {
             switch (e.Mode)
             {
@@ -360,7 +360,7 @@ namespace Diagram
 
         /// <summary>
         /// forgot password if diagram is encrypted</summary>
-        public void LockDiagrams() //UID6105963009
+        public void LockDiagrams() 
         {
             foreach (Diagram diagram in Diagrams)
             {
@@ -391,7 +391,7 @@ namespace Diagram
 
         /// <summary>
         /// remove diagram from list of all diagrams</summary>
-        public void RemoveDiagram(Diagram diagram) //UID1434097522
+        public void RemoveDiagram(Diagram diagram) 
         {
             this.Diagrams.Remove(diagram);
         }
@@ -399,7 +399,7 @@ namespace Diagram
         /// <summary>
         /// open existing diagram or create new empty diagram
         /// Create diagram model and then open diagram view on this model</summary>
-        public bool OpenDiagram(String FilePath = "") //UID1771511767
+        public bool OpenDiagram(String FilePath = "") 
         {
             Program.log.Write("Program : OpenDiagram: " + FilePath);
 
@@ -440,7 +440,7 @@ namespace Diagram
             if (!server.mainProcess)
             {
                 FilePath = Os.GetFullPath(FilePath);
-                server.SendMessage("open:" + FilePath); //UID1105610325
+                server.SendMessage("open:" + FilePath); 
                 return false;
             }  
 
@@ -466,7 +466,7 @@ namespace Diagram
                 return false;
             }
             
-            Diagram diagram = new(this); //UID8780020416
+            Diagram diagram = new(this); 
             lock (diagram)
             {
                 // create new model
@@ -483,12 +483,12 @@ namespace Diagram
 
                 Diagrams.Add(diagram);
                 // open diagram view on diagram model
-                DiagramView newDiagram = diagram.OpenDiagramView(); //UID3015837184
+                DiagramView newDiagram = diagram.OpenDiagramView(); 
 
-                this.plugins.OpenDiagramAction(diagram); //UID0290845816
+                this.plugins.OpenDiagramAction(diagram); 
 
                 Program.log.Write("bring focus");
-                Media.BringToFront(newDiagram); //UID4510272263
+                Media.BringToFront(newDiagram); 
             }
 
             return true;
@@ -513,7 +513,7 @@ namespace Diagram
 
         /// <summary>
         /// hide diagram views except diagramView</summary>
-        public void SwitchViews(DiagramView diagramView = null) //UID9164062779
+        public void SwitchViews(DiagramView diagramView = null) 
         {
             bool someIsHidden = false;
             foreach (DiagramView view in DiagramViews)
@@ -537,7 +537,7 @@ namespace Diagram
 
         /// <summary>
         /// show views if last visible view is closed</summary>
-        public void ShowFirstHiddenView(DiagramView diagramView = null) //UID3969703093
+        public void ShowFirstHiddenView(DiagramView diagramView = null) 
         {
             foreach (DiagramView view in DiagramViews)
             {
@@ -551,7 +551,7 @@ namespace Diagram
 
         /// <summary>
         /// show diagram views</summary>
-        public void ShowAllViews() //UID5230996149
+        public void ShowAllViews() 
         {
             foreach (DiagramView view in DiagramViews)
             {
@@ -564,7 +564,7 @@ namespace Diagram
 
         /// <summary>
         /// hide diagram views</summary>
-        public void HideViews(DiagramView diagramView = null) //UID3131107610
+        public void HideViews(DiagramView diagramView = null) 
         {
             foreach (DiagramView view in DiagramViews)
             {
@@ -706,7 +706,7 @@ namespace Diagram
 
         /// <summary>
         /// close application if not diagram view or node edit form is open </summary>
-        public void CloseEmptyApplication() //UID0787891060
+        public void CloseEmptyApplication() 
         {
             Program.log.Write("Program : CloseApplication");
 
@@ -733,7 +733,7 @@ namespace Diagram
 
         /// <summary>
         /// force close application</summary>
-        public void ExitApplication() //UID0090378181
+        public void ExitApplication() 
         {
             Program.log.Write("Program : ExitApplication");
 
@@ -754,7 +754,7 @@ namespace Diagram
             }
         }
 
-        public void TerminateApplication() //UID4067187261
+        public void TerminateApplication() 
         {
             try
             {                

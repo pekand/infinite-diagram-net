@@ -5,7 +5,7 @@
 namespace Plugin
 {
 
-    public class Tools(Diagram.Diagram diagram, DiagramView diagramView, Node node, string clipboard = "") //UID6975866488
+    public class Tools(Diagram.Diagram diagram, DiagramView diagramView, Node node, string clipboard = "") 
     {
         private readonly Diagram.Diagram diagram = diagram;
         private readonly DiagramView diagramView = diagramView;

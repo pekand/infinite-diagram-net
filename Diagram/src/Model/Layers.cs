@@ -4,7 +4,7 @@ namespace Diagram
 {
     /// <summary>
     /// collection of layers</summary>
-    public class Layers //UID6548243626
+    public class Layers 
     {
         private long maxId = 0;                    // last used node id
 
@@ -204,7 +204,7 @@ namespace Diagram
             return lines;
         }      
 
-        // all nodes contain nodes and all sublayer nodes, allLines contain all node lines and all sublayer lines UID4508113260
+        // all nodes contain nodes and all sublayer nodes, allLines contain all node lines and all sublayer lines 
         public void GetAllNodesAndLines(Nodes nodes, ref Nodes allNodes, ref Lines allLines)
         {
             foreach (Node node in nodes)
@@ -271,7 +271,7 @@ namespace Diagram
             return lines;
         }
 
-        public Lines GetAllLinesFromNode(Node node) //UID1353555007
+        public Lines GetAllLinesFromNode(Node node) 
         {
             Lines lines = [];
 
@@ -415,7 +415,7 @@ namespace Diagram
             }
         }
 
-        public void RemoveNode(Node node) //UID6631907739
+        public void RemoveNode(Node node) 
         {
             this.allNodes.Remove(node.id);
 

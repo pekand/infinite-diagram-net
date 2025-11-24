@@ -3,7 +3,7 @@
 namespace Diagram
 {
     // map node structure for copy paste operation
-    public class BreadcrumbItem //UID0790776066
+    public class BreadcrumbItem 
     {
         public long layerId;
         public long left;
@@ -35,7 +35,7 @@ namespace Diagram
         private long height = 0;
         private readonly long itemSpace = 5;
 
-        public void Update() //UID2139429132
+        public void Update() 
         {
             this.width = 0;
             this.height = 0;
@@ -97,7 +97,7 @@ namespace Diagram
             }
         }
 
-        // EVENT Paint UID1441007106                                                                                
+        // EVENT Paint                                                                                 
         public void Draw(Graphics g)
         {
             if (!this.isVisible)

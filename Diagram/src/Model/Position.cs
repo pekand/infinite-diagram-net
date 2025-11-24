@@ -5,7 +5,7 @@ namespace Diagram
 
     /// <summary>
     /// Point position in canvas</summary>
-    public class Position //UID0604640560
+    public class Position 
     {
         public decimal x = 0;
         public decimal y = 0;

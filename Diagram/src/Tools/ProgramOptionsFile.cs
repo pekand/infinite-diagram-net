@@ -8,7 +8,7 @@ namespace Diagram
 {
     /// <summary>    
     /// </summary>
-    public class ProgramOptionsFile //UID8285897740
+    public class ProgramOptionsFile 
     {
         /*************************************************************************************************************************/
         public String configFileDirectory = "InfiniteDiagram"; // name of directory for save global configuration file

@@ -24,7 +24,7 @@ namespace Diagram
 
     /// <summary>
     /// repository for compression related functions</summary>
-    public class Compress //UID4089400971
+    public class Compress 
     {
         /*************************************************************************************************************************/
         // ZIP STRING

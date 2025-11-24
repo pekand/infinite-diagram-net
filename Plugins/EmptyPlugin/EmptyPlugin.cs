@@ -2,7 +2,7 @@
 
 namespace Plugin
 {
-    // example of plugin UID0290845814
+    // example of plugin 
     public class EmptyPlugin : INodeOpenPlugin
     {
         

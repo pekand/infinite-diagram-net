@@ -10,7 +10,7 @@ namespace Diagram
 {
     /// <summary>
     /// OS and path related functions repository</summary>
-    public class Os //UID8599434163
+    public class Os 
     {
 
         /*************************************************************************************************************************/

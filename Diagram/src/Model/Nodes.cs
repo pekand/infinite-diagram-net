@@ -4,7 +4,7 @@ namespace Diagram
 {
     /// <summary>
     /// collection of nodes</summary>
-    public class Nodes : List<Node> //UID2727152862
+    public class Nodes : List<Node> 
     {
         /*************************************************************************************************************************/
         // CONSTRUCTORS

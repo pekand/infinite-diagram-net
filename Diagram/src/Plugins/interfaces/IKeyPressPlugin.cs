@@ -2,7 +2,7 @@
 
 namespace Diagram 
 {
-    public interface IKeyPressPlugin : IDiagramPlugin  //UID0290945802
+    public interface IKeyPressPlugin : IDiagramPlugin  
     {
         bool KeyPressAction(Diagram diagram, DiagramView diagramView, Keys keyData);
     }

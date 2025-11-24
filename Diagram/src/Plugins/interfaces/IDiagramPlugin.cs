@@ -2,7 +2,7 @@
 
 namespace Diagram
 {
-    public interface IDiagramPlugin //UID0454615899
+    public interface IDiagramPlugin 
     {
         // name for identification plugin
         string Name { get; }

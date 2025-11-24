@@ -14,7 +14,7 @@ namespace Plugin
         public Tools Script { get; set; }
     }
 
-    public class CScriptingPlugin : INodeOpenPlugin, IKeyPressPlugin //UID0290845814
+    public class CScriptingPlugin : INodeOpenPlugin, IKeyPressPlugin 
     {
         public string Name
         {

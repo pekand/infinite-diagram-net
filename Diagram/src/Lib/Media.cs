@@ -7,7 +7,7 @@ namespace Diagram
 
     /// <summary>
     /// repository for screen and images related functions</summary>
-    public class Media //UID0928056661
+    public class Media 
     {
         /*************************************************************************************************************************/
         // SCREEN
@@ -155,7 +155,7 @@ namespace Diagram
 
         /// <summary>
         /// bring form to foreground </summary>
-        public static void BringToFront(Form form)   // [focus] UID0703915427
+        public static void BringToFront(Form form)   // [focus] 
         {
             Program.log.Write("bringToFront");
             Tick.Timer(1000, (t, args) =>

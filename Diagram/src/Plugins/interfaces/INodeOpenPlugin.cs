@@ -2,7 +2,7 @@
 
 namespace Diagram 
 {
-    public interface INodeOpenPlugin : IDiagramPlugin  //UID0290945800
+    public interface INodeOpenPlugin : IDiagramPlugin  
     {
         bool ClickOnNodeAction(Diagram diagram, DiagramView diagramView, Node node);
     }

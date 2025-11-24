@@ -16,7 +16,7 @@ namespace Diagram
         public Node newNode;
     }
 
-    public class Diagram //UID2487098516
+    public class Diagram 
     {
         private readonly Main main = null;                 // reference to main form
 
@@ -89,7 +89,7 @@ namespace Diagram
 
         /*************************************************************************************************************************/
 
-        // OPEN open file. If file is invalid return false UID4610064109
+        // OPEN open file. If file is invalid return false 
         public bool OpenFile(string FileName)
         {
             if (Os.FileExists(FileName))
@@ -130,7 +130,7 @@ namespace Diagram
             return false;
         }
 
-        // OPEN  XML LOAD If file is invalid return false UID9397528693
+        // OPEN  XML LOAD If file is invalid return false 
         public bool LoadXML(string xml)
         {
 
@@ -321,7 +321,7 @@ namespace Diagram
             return true;
         }
 
-        // OPEN  XML LOAD inner part of diagram file. If file is invalid return false UID3586094034
+        // OPEN  XML LOAD inner part of diagram file. If file is invalid return false 
         public bool LoadInnerXML(XElement root)
         {
             string FontDefaultString = Fonts.FontToString(this.FontDefault);
@@ -988,7 +988,7 @@ namespace Diagram
         /*************************************************************************************************************************/
 
         // SAVE save diagram
-        public bool Save() //UID8354947577
+        public bool Save() 
         {
             if (this.IsReadOnly())
             {
@@ -1009,7 +1009,7 @@ namespace Diagram
         }
 
         // SAVE save diagram as
-        public void Saveas(string FileName) //UID9358805584
+        public void Saveas(string FileName) 
         {
             if (this.IsReadOnly())
             {
@@ -1031,7 +1031,7 @@ namespace Diagram
         }
 
         // SAVE XML SAVE file or encrypted file
-        public void SaveXMLFile(string FileName) //UID6023051509
+        public void SaveXMLFile(string FileName) 
         {
             XElement root = new("diagram");
             root.Add(new XElement("version", "3"));
@@ -1096,7 +1096,7 @@ namespace Diagram
         }
 
         // SAVE XML SAVE create xml from current diagram file state
-        public XElement SaveInnerXMLFile() //UID8716692347
+        public XElement SaveInnerXMLFile() 
         {
             XElement diagram = new("diagram");
             diagram.Add(new XElement("version", "1"));
@@ -1124,7 +1124,7 @@ namespace Diagram
         }
 
         // SAVE
-        public XElement SaveInnerXmlOptions() //UID8029528026
+        public XElement SaveInnerXmlOptions() 
         {
             // [options] [config]
             XElement option = new("option");
@@ -1186,7 +1186,7 @@ namespace Diagram
         }
 
         // SAVE
-        public XElement SaveInnerXmlNodes(Nodes nodes) //UID0137352615
+        public XElement SaveInnerXmlNodes(Nodes nodes) 
         {
             XElement rectangles = new("rectangles");
             foreach (Node rec in nodes)
@@ -1257,7 +1257,7 @@ namespace Diagram
         }
 
         // SAVE
-        public XElement SaveInnerXmlLines(Lines lines) //UID2182227651
+        public XElement SaveInnerXmlLines(Lines lines) 
         {
             XElement xLines = new("lines");
             foreach (Line lin in lines)
@@ -1278,7 +1278,7 @@ namespace Diagram
         }
 
         // SAVE
-        public string XmlToString(XElement root) //UID8716692347
+        public string XmlToString(XElement root) 
         {
             try
             {
@@ -1306,7 +1306,7 @@ namespace Diagram
         }
 
         // SAVE
-        public XElement StringToXml(string xml) //UID8716692347
+        public XElement StringToXml(string xml) 
         {
             try
             {
@@ -1330,7 +1330,7 @@ namespace Diagram
         /*************************************************************************************************************************/       
 
         // CLOSE set default options for file like new file 
-        public void ResetDefaultValuesForNewFile() //UID3849853197
+        public void ResetDefaultValuesForNewFile() 
         {
             // Prednadstavenie atributov
             this.NewFile = true;
@@ -2382,7 +2382,7 @@ namespace Diagram
         /*************************************************************************************************************************/
 
         // VIEW open new view on diagram
-        public DiagramView OpenDiagramView(DiagramView parent = null, Layer layer = null) //UID8210770134
+        public DiagramView OpenDiagramView(DiagramView parent = null, Layer layer = null) 
         {
             DiagramView diagramview = new(this.main, this, parent);
             diagramview.SetDiagram(this);
@@ -2409,7 +2409,7 @@ namespace Diagram
             }
         }
 
-        // VIEW close view UID2584689730
+        // VIEW close view 
         public void CloseView(DiagramView view)
         {
             this.DiagramViews.Remove(view);
@@ -2597,7 +2597,7 @@ namespace Diagram
             if (this.DiagramViews.Count != 0)
             {
                 this.DiagramViews[0].Show();
-                this.DiagramViews[0].RestoreFormWindowState(); //UID4510272262
+                this.DiagramViews[0].RestoreFormWindowState(); 
                 return true;
             }
 
@@ -2819,7 +2819,7 @@ namespace Diagram
             }
         }
 
-        // CLIPBOARD copy part of diagram to text xml string UID4762897496
+        // CLIPBOARD copy part of diagram to text xml string 
         public string GetDiagramPart(Nodes nodes)
         {
             string copyxml = null;
@@ -3156,7 +3156,7 @@ namespace Diagram
         }
 
         // SECURITY LOCK DIAGRAM  - forgot password
-        public void LockDiagram() //UID9013092575
+        public void LockDiagram() 
         {
             if (this.encrypted && !this.locked)
             {

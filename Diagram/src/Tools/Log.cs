@@ -5,7 +5,7 @@ namespace Diagram
     /// <summary>
     /// Class for catch log information.
     /// This information can be show in console form </summary>
-    public class Log //UID8455348623
+    public class Log 
     {
 
         public delegate void logUpdate(string log);
