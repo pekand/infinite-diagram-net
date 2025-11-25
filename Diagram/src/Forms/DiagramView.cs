@@ -884,6 +884,22 @@ namespace Diagram
         {
             this.imageTransformer.Form_MouseDown(sender, e);
 
+            if (this.IsEditing())
+            {
+                this.ActiveControl = null;
+            }
+
+            if (this.editPanel.editing) // close edit panel after mouse click to form
+            {
+                bool selectNode = false;
+                this.editPanel.SaveNodeNamePanel(selectNode);
+            }
+            else
+            if (this.editLinkPanel.editing) // close link edit panel after mouse click to form
+            {
+                bool selectNode = false;
+                this.editLinkPanel.SaveNodeLinkPanel(selectNode);
+            }
 
             if (this.disabled)
             {
@@ -912,22 +928,7 @@ namespace Diagram
 
             this.Focus();
 
-            if (this.IsEditing())
-            {
-                this.ActiveControl = null;
-            }
-
-            if (this.editPanel.editing) // close edit panel after mouse click to form
-            {
-                bool selectNode = false;
-                this.editPanel.SaveNodeNamePanel(selectNode);
-            }
-            else
-            if (this.editLinkPanel.editing) // close link edit panel after mouse click to form
-            {
-                bool selectNode = false;
-                this.editLinkPanel.SaveNodeLinkPanel(selectNode);
-            }
+            
 
             this.startMousePos.Set(this.actualMousePos);  // starting mouse position
             this.startMousePosInDiagram.Set(this.MouseToDiagramPosition(this.actualMousePos));  // starting mouse position in diagram coordinates
@@ -4115,6 +4116,7 @@ namespace Diagram
                                         (float)((rec.height) / (s / Calc.GetScale(rec.scale)))
                                     );
 
+
                                     Bitmap cachedImage = this.DrawTextWithBackground(rec);
                                     gfx.TranslateTransform(rect2.X + (rect2.Width / 2), rect2.Y + (rect2.Height / 2));
                                     gfx.RotateTransform(Calc.GetAngleInDegrees(new Point(0, 0), new Point(rec.transformationRotateX, rec.transformationRotateY)));
@@ -4264,9 +4266,10 @@ namespace Diagram
                 g.Clear(rec.color.color);
                 g.FillRectangle(new SolidBrush(rec.color.color), rect1);
             }
-            else {
+            else
+            {
                 g.TextRenderingHint = TextRenderingHint.AntiAlias;
-                g.Clear(Color.Transparent);                
+                g.Clear(Color.Transparent);
             }
 
             g.DrawString(
@@ -6489,7 +6492,16 @@ namespace Diagram
         public bool NodeIsVisible(Node rec)
         {
 
+
+
             decimal s = Calc.GetScale(this.scale);
+
+            RectangleF imageRec = new(
+                    (float)((this.shift.x + rec.position.x) / s),
+                    (float)((this.shift.y + rec.position.y) / s),
+                    (float)((rec.width) / (s / Calc.GetScale(rec.scale))),
+                    (float)((rec.height) / (s / Calc.GetScale(rec.scale)))
+            );
 
             bool isvisible = true; ;
 
@@ -6498,22 +6510,22 @@ namespace Diagram
                 isvisible = false;
             }
             else
-            if (0 + this.ClientSize.Width <= (this.shift.x + rec.position.x) / s)
+            if (0 + this.ClientSize.Width <= imageRec.X)
             {
                 isvisible = false;
             }
             else
-            if ((this.shift.x + rec.position.x + rec.width) / s <= 0)
+            if (imageRec.X+imageRec.Width <= 0)
+            {
+                isvisible = false; //mark1
+            }
+            else
+            if (0 + this.ClientSize.Height <= imageRec.Y)
             {
                 isvisible = false;
             }
             else
-            if (0 + this.ClientSize.Height <= (this.shift.y + rec.position.y) / s)
-            {
-                isvisible = false;
-            }
-            else
-            if ((this.shift.y + rec.position.y + rec.height) / s <= 0)
+            if (imageRec.Y + imageRec.Height <= 0)
             {
                 isvisible = false;
             }
@@ -6670,7 +6682,7 @@ namespace Diagram
         {
             if (this.selectedNodes.Count == 1 && this.selectedNodes[0].isImage)
             {
-                this.Diable();
+                this.Disable();
                 imageTransformer.Form_Init(this.selectedNodes[0]);
             }
         }
@@ -6680,7 +6692,7 @@ namespace Diagram
         {
             if (this.selectedNodes.Count == 1)
             {
-                this.Diable();
+                this.Disable();
                 imageTransformer.Form_Init(this.selectedNodes[0]);
             }
         }
@@ -6737,7 +6749,7 @@ namespace Diagram
         }
 
         // IMAGE TRANSFORMATION disable all components
-        public void Diable()
+        public void Disable()
         {
             this.disabled = true;
             this.bottomScrollBar.Diable();

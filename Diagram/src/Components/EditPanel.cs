@@ -63,8 +63,10 @@ namespace Diagram
         public void ShowEditPanel(Position currentPosition, char FirstKey = ' ', bool addKey = true)
         {
             if (!this.Visible)
-            {
+            {            
                 int padding = Node.NodePadding;
+
+                this.diagramView.Disable();
 
                 this.Left = (int)currentPosition.x;
                 this.Top = (int)currentPosition.y;
@@ -102,6 +104,8 @@ namespace Diagram
             if (!this.Visible)
             {
                 int padding = Node.NodePadding;
+
+                this.diagramView.Disable();
 
                 this.editedNode = editedNode;
                 this.editedNode.visible = false;
@@ -161,6 +165,8 @@ namespace Diagram
             editing = false;
             this.diagramView.diagram.InvalidateDiagram();
             this.diagramView.Focus();
+
+            this.diagramView.Enable();
 
             if (!selectNode)
             {
