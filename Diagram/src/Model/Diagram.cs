@@ -21,28 +21,28 @@ namespace Diagram
         private readonly Main main = null;                 // reference to main form
 
         /*************************************************************************************************************************/
+        
         // COOLECTIONS
-
         public Layers layers = new();
         public List<DiagramView> DiagramViews = []; // all views forms to diagram
         public List<TextForm> TextWindows = [];   // opened text forms for this diagram
 
         /*************************************************************************************************************************/
+        
         // ATTRIBUTES OPTIONS
-
         public Options options = new();  // diagram options saved to xml file        
 
         /*************************************************************************************************************************/
+        
         // FILE
-
         public bool NewFile = true;              // flag for new unsaved file without name
         public bool SavedFile = true;            // flag for saved diagram with name
         public string FileName = "";             // path to diagram file        
         public string DiagramName = "";          // short diagram name
 
         /*************************************************************************************************************************/
+        
         // ATTRIBUTES ENCRYPTION
-
         private bool encrypted = false;           // flag for encrypted file
         private bool locked = false;              // flag for encrypted file
         private SecureString password = null;     // password for encrypted file
@@ -50,36 +50,38 @@ namespace Diagram
         private byte[] salt = null;               // salt
 
         /*************************************************************************************************************************/
+        
         // ATTRIBUTES SIGNATURE
         private bool signed = true;              // check if diagram is written by current user 
 
         /*************************************************************************************************************************/
+        
         // UNDO
-
         public UndoOperations undoOperations = null;  // undo operations repository        
 
         /*************************************************************************************************************************/
+        
         // RESOURCES
-
         public Font FontDefault = null; // default font
 
         /*************************************************************************************************************************/
+        
         // PLUGINS
-
         public DataStorage dataStorage = new();
 
         /*************************************************************************************************************************/
+        
         // IMAGE MANAGER
         public ImageManager imageManager = new();
 
-
         /*************************************************************************************************************************/
+        
         // FORM SETTINGS
         Settings settings = null;
 
         /*************************************************************************************************************************/
+        
         // CONSTRUCTORS
-
         public Diagram(Main main = null)
         {
             this.main = main;
@@ -1325,7 +1327,6 @@ namespace Diagram
 
             return null;
         }
-
 
         /*************************************************************************************************************************/       
 

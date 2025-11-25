@@ -438,6 +438,7 @@ namespace Diagram
             afterShownTimer.Start();
         }
 
+        // TIMER 
         private void AfterShownTick(object sender, EventArgs e)
         {
             // top most
@@ -3960,19 +3961,42 @@ namespace Diagram
                             imageRec.Height = -imageRec.Height;
                         }
 
-                        gfx.TranslateTransform(imageRec.X + (imageRec.Width / 2), imageRec.Y + (imageRec.Height / 2));
-                        gfx.RotateTransform(Calc.GetAngleInDegrees(new Point(0, 0), new Point(rec.transformationRotateX, rec.transformationRotateY)));
-                        gfx.TranslateTransform(-(imageRec.X + (imageRec.Width / 2)), -(imageRec.Y + (imageRec.Height / 2)));
-                        try
+                        if (rec.isImageTransformed)
                         {
-                            if (!rec.image.InvalidImage) {
-                                gfx.DrawImage(rec.image.Image, imageRec);
+                            gfx.TranslateTransform(imageRec.X + (imageRec.Width / 2), imageRec.Y + (imageRec.Height / 2));
+                            gfx.RotateTransform(Calc.GetAngleInDegrees(new Point(0, 0), new Point(rec.transformationRotateX, rec.transformationRotateY)));
+                            gfx.TranslateTransform(-(imageRec.X + (imageRec.Width / 2)), -(imageRec.Y + (imageRec.Height / 2)));
+
+                            try
+                            {
+                                if (!rec.image.InvalidImage)
+                                {
+                                    gfx.DrawImage(rec.image.Image, imageRec);
+                                }
                             }
-                        } catch (Exception ex) {
-                            rec.image.InvalidImage = true;
-                            Program.log.Write("DrawNodes error: " + ex.ToString());
+                            catch (Exception ex)
+                            {
+                                rec.image.InvalidImage = true;
+                                Program.log.Write("DrawNodes error: " + ex.ToString());
+                            }
+                            gfx.ResetTransform();
+
                         }
-                        gfx.ResetTransform();
+                        else 
+                        {
+                            try
+                            {
+                                if (!rec.image.InvalidImage)
+                                {
+                                    gfx.DrawImage(rec.image.Image, imageRec);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                rec.image.InvalidImage = true;
+                                Program.log.Write("DrawNodes error: " + ex.ToString());
+                            }
+                        }
 
                         if (rec.selected && !export)
                         {
@@ -3990,7 +4014,6 @@ namespace Diagram
                                 rects
                             );
                         }
-
                     }
                     else
                     {
@@ -4017,9 +4040,7 @@ namespace Diagram
                             }
                         }
 
-
                         // DRAW border
-
                         if (rec.name.Trim() == "") // draw empty point
                         {
                             if (!rec.transparent) // draw fill point
@@ -4078,31 +4099,76 @@ namespace Diagram
                         }
                         else
                         {
-                            // draw filled node rectangle
-                            if (!rec.transparent)
+                            decimal size = (decimal)rec.font.Size / (s / Calc.GetScale(rec.scale));
+                            if (1 < size && size < 200) //check if is not to small after zoom or too big
                             {
-                                RectangleF rect1 = new(
-                                    (float)((this.shift.x + cx + rec.position.x) / s),
-                                    (float)((this.shift.y + cy + rec.position.y) / s),
-                                    (float)((rec.width) / (s / Calc.GetScale(rec.scale))),
-                                    (float)((rec.height) / (s / Calc.GetScale(rec.scale)))
-                                );
-
-                                RectangleF[] rects = [rect1];
 
                                 if (rec.isImageTransformed)
                                 {
-                                    gfx.TranslateTransform(rect1.X + (rect1.Width / 2), rect1.Y + (rect1.Height / 2));
+                                    // DRAW text
+                                    RectangleF rect2 = new(
+                                        (float)((this.shift.x + cx + rec.position.x) / s),
+                                        (float)((this.shift.y + cy + rec.position.y) / s),
+                                        (float)((rec.width) / (s / Calc.GetScale(rec.scale))),
+                                        (float)((rec.height) / (s / Calc.GetScale(rec.scale)))
+                                    );
+
+                                    gfx.TranslateTransform(rect2.X + (rect2.Width / 2), rect2.Y + (rect2.Height / 2));
                                     gfx.RotateTransform(Calc.GetAngleInDegrees(new Point(0, 0), new Point(rec.transformationRotateX, rec.transformationRotateY)));
-                                    gfx.TranslateTransform(-(rect1.X + (rect1.Width / 2)), -(rect1.Y + (rect1.Height / 2)));
-                                }
-
-                                gfx.FillRectangle(new SolidBrush(rec.color.color), rect1);
-                                if (this.diagram.options.borders) gfx.DrawRectangles(nodeBorder, rects);
-
-                                if (rec.isImageTransformed)
-                                {
+                                    gfx.TranslateTransform(-(rect2.X + (rect2.Width / 2)), -(rect2.Y + (rect2.Height / 2)));
+                                    gfx.DrawImage(this.DrawTextWithBackground(rec), rect2);
                                     gfx.ResetTransform();
+                                }
+                                else
+                                {
+                                    // DRAW filled node rectangle
+                                    if (!rec.transparent)
+                                    {
+                                        RectangleF rect1 = new(
+                                            (float)((this.shift.x + cx + rec.position.x) / s),
+                                            (float)((this.shift.y + cy + rec.position.y) / s),
+                                            (float)((rec.width) / (s / Calc.GetScale(rec.scale))),
+                                            (float)((rec.height) / (s / Calc.GetScale(rec.scale)))
+                                        );
+
+                                        RectangleF[] rects = [rect1];
+
+                                        if (rec.isImageTransformed)
+                                        {
+                                            gfx.TranslateTransform(rect1.X + (rect1.Width / 2), rect1.Y + (rect1.Height / 2));
+                                            gfx.RotateTransform(Calc.GetAngleInDegrees(new Point(0, 0), new Point(rec.transformationRotateX, rec.transformationRotateY)));
+                                            gfx.TranslateTransform(-(rect1.X + (rect1.Width / 2)), -(rect1.Y + (rect1.Height / 2)));
+                                        }
+
+                                        gfx.FillRectangle(new SolidBrush(rec.color.color), rect1);
+                                        if (this.diagram.options.borders) gfx.DrawRectangles(nodeBorder, rects);
+
+                                        if (rec.isImageTransformed)
+                                        {
+                                            gfx.ResetTransform();
+                                        }
+                                    }
+
+                                    // DRAW text
+                                    RectangleF rect2 = new(
+                                        (float)((this.shift.x + cx + rec.position.x + (Node.NodePadding * Calc.GetScale(rec.scale))) / s),
+                                        (float)((this.shift.y + cy + rec.position.y + (Node.NodePadding * Calc.GetScale(rec.scale))) / s),
+                                        (float)((rec.width - Node.NodePadding) / (s / Calc.GetScale(rec.scale))),
+                                        (float)((rec.height - Node.NodePadding) / (s / Calc.GetScale(rec.scale)))
+                                    );
+
+                                    gfx.DrawString(
+                                        (rec.protect) ? Node.protectedName : rec.name,
+                                        new System.Drawing.Font(
+                                            rec.font.FontFamily,
+                                            (float)size,
+                                            rec.font.Style,
+                                            GraphicsUnit.Point,
+                                            ((byte)(0))
+                                        ),
+                                        new SolidBrush(rec.fontColor.color),
+                                        rect2
+                                    );
                                 }
                             }
 
@@ -4143,45 +4209,6 @@ namespace Diagram
                                     rects
                                 );
                             }
-
-
-                            // DRAW text
-                            RectangleF rect2 = new(
-                                (float)((this.shift.x + cx + rec.position.x + (Node.NodePadding * Calc.GetScale(rec.scale))) / s),
-                                (float)((this.shift.y + cy + rec.position.y + (Node.NodePadding * Calc.GetScale(rec.scale))) / s),
-                                (float)((rec.width - Node.NodePadding) / (s / Calc.GetScale(rec.scale))),
-                                (float)((rec.height - Node.NodePadding) / (s / Calc.GetScale(rec.scale)))
-                            );
-
-                            decimal size = (decimal)rec.font.Size / (s / Calc.GetScale(rec.scale));
-                            if (1 < size && size < 200) //check if is not to small after zoom or too big
-                            {
-
-                                if (rec.isImageTransformed)
-                                {
-                                    gfx.TranslateTransform(rect2.X + (rect2.Width / 2), rect2.Y + (rect2.Height / 2));
-                                    gfx.RotateTransform(Calc.GetAngleInDegrees(new Point(0, 0), new Point(rec.transformationRotateX, rec.transformationRotateY)));
-                                    gfx.TranslateTransform(-(rect2.X + (rect2.Width / 2)), -(rect2.Y + (rect2.Height / 2)));
-                                }
-
-                                gfx.DrawString(
-                                    (rec.protect) ? Node.protectedName : rec.name,
-                                    new System.Drawing.Font(
-                                        rec.font.FontFamily,
-                                        (float)size,
-                                        rec.font.Style,
-                                        GraphicsUnit.Point,
-                                        ((byte)(0))
-                                    ),
-                                    new SolidBrush(rec.fontColor.color),
-                                    rect2
-                                );
-
-                                if (rec.isImageTransformed)
-                                {
-                                    gfx.ResetTransform();
-                                }
-                            }
                         }
                     }
                 }
@@ -4200,6 +4227,7 @@ namespace Diagram
             decimal s = Calc.GetScale(this.scale);
             decimal size = (decimal)rec.font.Size / (s / Calc.GetScale(rec.scale));
             string text = (rec.protect) ? Node.protectedName : rec.name;
+
             Font font = new System.Drawing.Font(
                     rec.font.FontFamily,
                     (float)size,
@@ -4211,8 +4239,6 @@ namespace Diagram
             using var tmp = new Bitmap(1, 1);
             using var g1 = Graphics.FromImage(tmp);
             var textSize = g1.MeasureString(text, font);
-
-
 
             RectangleF rect1 = new(
                 0,

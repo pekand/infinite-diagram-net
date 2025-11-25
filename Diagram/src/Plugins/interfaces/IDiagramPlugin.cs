@@ -10,7 +10,7 @@ namespace Diagram
         // plugin version
         string Version { get; }
 
-        // plugin location for resource mapping
+        // plugin dll location path for resource mapping
         void SetLocation(string location);
 
         // connection to program debug console
