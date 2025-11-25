@@ -9,51 +9,51 @@ namespace Diagram
         public long id = 0; // node unique id
 
         /*************************************************************************************************************************/
+        
         // SIZE AND POSITION
-
         public Position position = new(); // node position in canvas
         public decimal width = 0; // node size counted from current font
         public decimal height = 0;
         public decimal scale = 0;
 
         /*************************************************************************************************************************/
+        
         // FLAGS
-
         public bool selected = false; // node is selected by mouse
         public bool visible = true;
 
         /*************************************************************************************************************************/
+        
         // STYLES
-
         public ColorType color = new("#FFFFB8"); // node color
         public Font font = null; // node name font
         public ColorType fontColor = new(); // node name ext color
         public bool transparent = false; // node is transparent, color is turn off
 
         /*************************************************************************************************************************/
+        
         // TEXT
-
         public string name = ""; // node name
         public string note = ""; // node note
         public string link = ""; // node link to external source
 
         /*************************************************************************************************************************/
+       
         // LAYER
-
         public long layer = 0; // layer id or parent node id
         public bool hasLayer = false; // nose has one or more children
         public Position layerShift = new(); // last position in layer
         public decimal layerScale = 0;
 
         /*************************************************************************************************************************/
+        
         // SHORTCUT
-
         public long shortcut = 0; // node id which is linked with this node
         public bool mark = false; // mark node position for navigation history
 
         /*************************************************************************************************************************/
+        
         // IMAGE
-
         public bool isImage = false; // show node as image instead of text
         public bool embeddedImage = false; // image is imported to xml file as string
         public string imagePath = ""; // path to node image
@@ -62,6 +62,7 @@ namespace Diagram
         public long iHeight = 0;
 
         /*************************************************************************************************************************/
+        
         // IMAGE TRANSFORMATION
         public bool isImageTransformed = false;
         public int transformationRotateX = 0;
@@ -70,31 +71,31 @@ namespace Diagram
         public bool transformationFlipY = false;
 
         /*************************************************************************************************************************/
+        
         // ATTACHMENT
-
         public string attachment = ""; // compressed file attachment
 
         /*************************************************************************************************************************/
+        
         // TIME
-
         public string timeCreate = ""; // node creation time
         public string timeModify = ""; // node modification time
 
         /*************************************************************************************************************************/
+        
         // SCRIPT
-
         public string scriptId = ""; // node text id for in script search
 
         /*************************************************************************************************************************/
+        
         // PADDING
-
         public const int NodePadding = 10;             // node padding around node name text
         public const int EmptyNodePadding = 20;        // node padding for empty node circle
         public const string protectedName = "*****";   // name for protected node
         
         /*************************************************************************************************************************/
+       
         // SECURITY
-
         public bool protect = false; // protect sensitive data like password in node name (show asterisk instead of name)
 
         /*************************************************************************************************************************/

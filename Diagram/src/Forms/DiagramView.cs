@@ -9,6 +9,8 @@ using System.Xml.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Windows.Forms;
 using System.Drawing.Printing;
+using System.Drawing.Text;
+
 
 
 
@@ -867,7 +869,7 @@ namespace Diagram
         }
 
         // EVENT Mouse DoubleClick 
-        public void DiagramApp_MouseDoubleClick(object sender, MouseEventArgs e)                       // [MOUSE] [DBLCLICK] [EVENT] 
+        public void DiagramApp_MouseDoubleClick(object sender, MouseEventArgs e)          // [MOUSE] [DBLCLICK] [EVENT] 
         {
 
 #if DEBUG
@@ -1938,7 +1940,7 @@ namespace Diagram
         }
 
         // EVENT Mouse Whell
-        public void DiagramApp_MouseWheel(object sender, MouseEventArgs e)                             // [MOUSE] [WHELL] [EVENT]
+        public void DiagramApp_MouseWheel(object sender, MouseEventArgs e)                // [MOUSE] [WHELL] [EVENT]
         {
 
             if (this.disabled)
@@ -2054,7 +2056,7 @@ namespace Diagram
         }
 
         // EVENT Shortcuts
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)                           // [KEYBOARD] [EVENT]
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)              // [KEYBOARD] [EVENT]
         {
             if (!imageTransformer.disabled)
             {
@@ -2486,7 +2488,7 @@ namespace Diagram
         }
 
         // EVENT Key down
-        public void DiagramApp_KeyDown(object sender, KeyEventArgs e)                                  // [KEYBOARD] [DOWN] [EVENT]
+        public void DiagramApp_KeyDown(object sender, KeyEventArgs e)                     // [KEYBOARD] [DOWN] [EVENT]
         {
 
             if (this.disabled)
@@ -2598,10 +2600,10 @@ namespace Diagram
 
                 this.diagram.InvalidateDiagram();
             }
-        }                                 // [KEYBOARD] [UP] [EVENT]
+        }                    // [KEYBOARD] [UP] [EVENT]
 
         // EVENT Keypress
-        public void DiagramApp_KeyPress(object sender, KeyPressEventArgs e) // [KEYBOARD] [PRESS] [EVENT]
+        public void DiagramApp_KeyPress(object sender, KeyPressEventArgs e)               // [KEYBOARD] [PRESS] [EVENT]
         {
 
             if (this.disabled)
@@ -2640,7 +2642,7 @@ namespace Diagram
         }
 
         // EVENT DROP file
-        public void DiagramApp_DragDrop(object sender, DragEventArgs e)                                // [DROP] [DROP-FILE] [EVENT]
+        public void DiagramApp_DragDrop(object sender, DragEventArgs e)                   // [DROP] [DROP-FILE] [EVENT]
         {
 
             if (this.disabled)
@@ -2769,7 +2771,7 @@ namespace Diagram
         }
 
         // EVENT DROP drag enter
-        public void DiagramApp_DragEnter(object sender, DragEventArgs e)                               // [DRAG] [EVENT]
+        public void DiagramApp_DragEnter(object sender, DragEventArgs e)                  // [DRAG] [EVENT]
         {
 
             if (this.disabled)
@@ -2785,7 +2787,7 @@ namespace Diagram
         }
 
         // EVENT Resize
-        public void DiagramApp_Resize(object sender, EventArgs e)                                      // [RESIZE] [EVENT]
+        public void DiagramApp_Resize(object sender, EventArgs e)                         // [RESIZE] [EVENT]
         {
 
 #if DEBUG
@@ -2915,10 +2917,10 @@ namespace Diagram
 
                 if (changed) this.diagram.InvalidateDiagram();
             }
-        }                                      // [MOVE] [TIMER] [EVENT]
+        }                         // [MOVE] [TIMER] [EVENT]
 
         // EVENT Deactivate - lost focus 
-        public void DiagramApp_Deactivate(object sender, EventArgs e)                                  // [FOCUS]
+        public void DiagramApp_Deactivate(object sender, EventArgs e)                     // [FOCUS]
         {
 
 #if DEBUG
@@ -2996,7 +2998,7 @@ namespace Diagram
             }
         }
 
-        // LAYER IN                                                                      // [LAYER]
+        // LAYER IN                                                                        // [LAYER]
         public void LayerIn(Node node)
         {
             if (this.currentLayer.parentNode == null)
@@ -4103,7 +4105,7 @@ namespace Diagram
                             if (1 < size && size < 200) //check if is not to small after zoom or too big
                             {
 
-                                if (rec.isImageTransformed)
+                                if (rec.isImageTransformed) // DRAW 
                                 {
                                     // DRAW text
                                     RectangleF rect2 = new(
@@ -4113,15 +4115,16 @@ namespace Diagram
                                         (float)((rec.height) / (s / Calc.GetScale(rec.scale)))
                                     );
 
+                                    Bitmap cachedImage = this.DrawTextWithBackground(rec);
                                     gfx.TranslateTransform(rect2.X + (rect2.Width / 2), rect2.Y + (rect2.Height / 2));
                                     gfx.RotateTransform(Calc.GetAngleInDegrees(new Point(0, 0), new Point(rec.transformationRotateX, rec.transformationRotateY)));
                                     gfx.TranslateTransform(-(rect2.X + (rect2.Width / 2)), -(rect2.Y + (rect2.Height / 2)));
-                                    gfx.DrawImage(this.DrawTextWithBackground(rec), rect2);
+                                    gfx.DrawImage(cachedImage, rect2);
                                     gfx.ResetTransform();
                                 }
                                 else
                                 {
-                                    // DRAW filled node rectangle
+                                    // DRAW filled node rectangle (background rectangle)
                                     if (!rec.transparent)
                                     {
                                         RectangleF rect1 = new(
@@ -4141,6 +4144,7 @@ namespace Diagram
                                         }
 
                                         gfx.FillRectangle(new SolidBrush(rec.color.color), rect1);
+
                                         if (this.diagram.options.borders) gfx.DrawRectangles(nodeBorder, rects);
 
                                         if (rec.isImageTransformed)
@@ -4202,7 +4206,7 @@ namespace Diagram
                                         (float)((rec.width) / (s / Calc.GetScale(rec.scale))),
                                         (float)((rec.height) / (s / Calc.GetScale(rec.scale)))
                                     )
-                                 ];
+                                ];
 
                                 gfx.DrawRectangles(
                                     (rec.link != "") ? nodeLinkBorder : ((rec.mark) ? nodeMarkBorder : nodeSelectBorder),
@@ -4236,9 +4240,7 @@ namespace Diagram
                     ((byte)(0))
                 );
 
-            using var tmp = new Bitmap(1, 1);
-            using var g1 = Graphics.FromImage(tmp);
-            var textSize = g1.MeasureString(text, font);
+            var textSize = Fonts.MeasureString(text, font);
 
             RectangleF rect1 = new(
                 0,
@@ -4257,8 +4259,16 @@ namespace Diagram
             var bmp = new Bitmap((int)rect1.Width, (int)rect1.Height);
             using var g = Graphics.FromImage(bmp);
 
-            g.Clear(Color.White);
-            g.FillRectangle(new SolidBrush(rec.color.color), rect1);
+            if (!rec.transparent)
+            {
+                g.Clear(rec.color.color);
+                g.FillRectangle(new SolidBrush(rec.color.color), rect1);
+            }
+            else {
+                g.TextRenderingHint = TextRenderingHint.AntiAlias;
+                g.Clear(Color.Transparent);                
+            }
+
             g.DrawString(
                 text,
                 font,
@@ -6752,11 +6762,44 @@ namespace Diagram
         // TOOLBAR COLORPICKER FORM 
         void UpdateToolbarPosition()
         {
-            if (this.colorPickerForm == null || colorPickerForm.IsDisposed || !colorPickerForm.Visible) return;
-            if (WindowState == FormWindowState.Minimized) return;
+            if (this.colorPickerForm == null || colorPickerForm.IsDisposed || !colorPickerForm.Visible)
+            {
+                return;
+            }
+
+            if (WindowState == FormWindowState.Minimized)
+            {
+                return;
+            }
 
             int x = this.Left - colorPickerForm.relativeOffset.X;
             int y = this.Top - colorPickerForm.relativeOffset.Y;
+
+            Screen screenContainingCurrentForm = Screen.FromControl(this);
+            Rectangle totalScreenBounds = screenContainingCurrentForm.Bounds;
+
+            int screenTopLeftXCoordinate = totalScreenBounds.X;
+            int screenTopLeftYCoordinate = totalScreenBounds.Y;
+
+            Rectangle fullResolutionBounds = screenContainingCurrentForm.Bounds;
+
+            if (x + colorPickerForm.Width > screenTopLeftXCoordinate + fullResolutionBounds.Width)
+            {
+                x = screenTopLeftXCoordinate + fullResolutionBounds.Width - colorPickerForm.Width;
+            }
+
+            if (x < screenTopLeftXCoordinate) {
+                x = screenTopLeftXCoordinate;
+            }
+
+            if (y + colorPickerForm.Height > screenTopLeftYCoordinate + fullResolutionBounds.Height) {
+                y = screenTopLeftYCoordinate + fullResolutionBounds.Height - colorPickerForm.Height;
+            }
+
+            if (y < screenTopLeftYCoordinate)
+            {
+                y = screenTopLeftYCoordinate;
+            }
 
             colorPickerForm.allowMoveEvent = false;
             colorPickerForm.Location = new Point(x, y);

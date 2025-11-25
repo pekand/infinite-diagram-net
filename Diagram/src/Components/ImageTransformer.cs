@@ -4,7 +4,7 @@ namespace Diagram
 {
     public class ImageTransformerData
     {
-        public Image image;
+        public Bitmap image;
 
         public int imageX = 0;
         public int imageY = 0;
@@ -78,9 +78,11 @@ namespace Diagram
             this.prevNode = node.Clone();
             this.node.visible = false;
 
+            data.image = null;
+
             if (node.isImage)
             {
-                data.image = node.image.Image;
+                data.image = ImageManager.CloneBitmap(node.image.Image);
                 canRotate = true;
                 canResize = true;
                 canMove = true;
@@ -722,8 +724,6 @@ namespace Diagram
 
         public void TransformationFinish() 
         {
-
-
             RectangleD rectangle =  this.diagramView.RecatanglePositionFromViewToDiagram(
                 this.data.imageX, 
                 this.data.imageY, 
@@ -731,9 +731,6 @@ namespace Diagram
                 (decimal)(this.data.imageHeight * this.data.imageScaleY),
                 this.node.scale
             );
-
-            Position inDiagram = this.diagramView.MouseToDiagramPosition(new Position(this.data.imageX, this.data.imageY));
-
 
             bool isModified = false;
             if (
@@ -765,7 +762,12 @@ namespace Diagram
             this.disabled = true;
             this.node.visible = true;
 
-            this.diagramView.TransformImageFinish(isModified, this.prevNode);
+            data.image.Dispose();
+            data.image = null;
+
+            this.Diable();
+
+            this.diagramView.TransformImageFinish(isModified, this.prevNode);          
         }
 
         public void Diable()

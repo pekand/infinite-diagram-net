@@ -75,7 +75,7 @@ namespace Diagram
         public ImageManager imageManager = new();
 
         /*************************************************************************************************************************/
-        
+
         // FORM SETTINGS
         Settings settings = null;
 

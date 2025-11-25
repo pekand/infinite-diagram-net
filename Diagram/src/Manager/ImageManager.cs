@@ -9,7 +9,7 @@ namespace Diagram
 
         private readonly Dictionary<string, ImageEntry> images = [];
 
-        private string ComputeHash(byte[] data)
+        public static string ComputeHash(byte[] data)
         {
             byte[] hashBytes = SHA256.HashData(data);
             return Convert.ToHexStringLower(hashBytes);
@@ -73,21 +73,35 @@ namespace Diagram
             return null;
         }
 
-        public ImageEntry? AddImage(Bitmap image, bool cloneImage = false)
+        public static string GetBitmapHash(Bitmap image)
         {
             using var ms = new MemoryStream();
-
             image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
             byte[] data = ms.ToArray();
-            string hash = ComputeHash(data);
+            string hash = ImageManager.ComputeHash(data);
+            return hash;
+        }
+
+        public static Bitmap CloneBitmap(Bitmap image)
+        {
+            using var ms = new MemoryStream();
+            image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+            byte[] data = ms.ToArray();
+            using var msClone = new MemoryStream(data);
+            image = (Bitmap)Bitmap.FromStream(msClone);
+            return image;
+        }
+
+        public ImageEntry? AddImage(Bitmap image, bool cloneImage = false)
+        {
+            string hash = GetBitmapHash(image);
 
             if (images.TryGetValue(hash, out ImageEntry? value))
                 return value;
 
             if (cloneImage)
             {
-                using var msClone = new MemoryStream(data);
-                image = (Bitmap)Bitmap.FromStream(msClone);
+                image = CloneBitmap(image);
             }
 
             images[hash] = new ImageEntry
@@ -124,16 +138,8 @@ namespace Diagram
 
         public bool RemoveImageByInstance(Bitmap image)
         {
-            foreach (var kvp in images)
-            {
-                if (object.ReferenceEquals(kvp.Value.Image, image))
-                {
-                    kvp.Value.Image.Dispose();
-                    images.Remove(kvp.Key);
-                    return true;
-                }
-            }
-            return false;
+            string hash = GetBitmapHash(image);
+            return images.Remove(hash); ;
         }
 
         public bool RemoveImageEntry(ImageEntry imageEntry)

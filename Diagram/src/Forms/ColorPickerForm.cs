@@ -28,7 +28,6 @@ namespace Diagram
 
         public Point relativeOffset = new Point(0, 0);
 
-
         public ColorPickerForm(DiagramView diagramView)
         {
 
@@ -51,10 +50,6 @@ namespace Diagram
             this.Top = Screen.FromControl(this).Bounds.Height - this.Height - 100;
         }
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ColorPickerForm));
@@ -119,52 +114,6 @@ namespace Diagram
 
         }
 
-        private SolidBrush Br(int r, int g, int b)
-        {
-            return new SolidBrush(Color.FromArgb(r, g, b));
-        }
-
-        private void Rc(Graphics gr, int r, int g, int b, int x, int y)
-        {
-            gr.FillRectangle(Br(r, g, b), x, y, 5, 5);
-        }
-
-
-        public void Render()
-        {
-            int cr;
-            int cg;
-            int cb;
-
-            int px = 0;
-
-            for (int i = 0; i < 64; i++)
-            {
-                Bitmap bmp = new(256, 256);
-                Graphics g = Graphics.FromImage(bmp);
-
-                cb = i * 4;
-                for (int j = 0; j < 64; j++)
-                {
-                    cg = j * 4;
-                    for (int k = 0; k < 64; k++)
-                    {
-                        cr = k * 4;
-                        Rc(g,
-                            cr, cg, cb,
-                            k * 4,
-                            j * 4
-                        );
-                    }
-                }
-                px += 256;
-                g.Flush();
-                this.bitmaps.Add(bmp);
-            }
-        }
-
-
-
         private void ColorPickerForm_MouseUp(object sender, MouseEventArgs e)
         {
             selecting = false;
@@ -189,7 +138,6 @@ namespace Diagram
             selecting = true;
         }
 
-
         private void ColorPickerForm_MouseMove(object sender, MouseEventArgs e)
         {
             if (selecting)
@@ -209,8 +157,6 @@ namespace Diagram
                 this.ChangeColor?.Invoke(this.color);
             }
         }
-
-
 
         private void PictureBox1_MouseWhell(object sender, MouseEventArgs e)
         {
@@ -272,8 +218,6 @@ namespace Diagram
             this.keyshift = false;
         }
 
-
-
         private void ColorPickerForm_Move(object sender, EventArgs e)
         {
             if (allowMoveEvent)
@@ -281,6 +225,49 @@ namespace Diagram
                 relativeOffset = new Point(diagramView.Left - this.Left, diagramView.Top - this.Top);
             }
             
+        }
+
+        private SolidBrush Br(int r, int g, int b)
+        {
+            return new SolidBrush(Color.FromArgb(r, g, b));
+        }
+
+        private void Rc(Graphics gr, int r, int g, int b, int x, int y)
+        {
+            gr.FillRectangle(Br(r, g, b), x, y, 5, 5);
+        }
+
+        public void Render()
+        {
+            int cr;
+            int cg;
+            int cb;
+
+            int px = 0;
+
+            for (int i = 0; i < 64; i++)
+            {
+                Bitmap bmp = new(256, 256);
+                Graphics g = Graphics.FromImage(bmp);
+
+                cb = i * 4;
+                for (int j = 0; j < 64; j++)
+                {
+                    cg = j * 4;
+                    for (int k = 0; k < 64; k++)
+                    {
+                        cr = k * 4;
+                        Rc(g,
+                            cr, cg, cb,
+                            k * 4,
+                            j * 4
+                        );
+                    }
+                }
+                px += 256;
+                g.Flush();
+                this.bitmaps.Add(bmp);
+            }
         }
     }
 }

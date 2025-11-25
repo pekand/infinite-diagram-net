@@ -26,7 +26,9 @@ namespace Diagram
                 g = Graphics.FromImage(bitmap);
             }
 
-            return g.MeasureString(s, font);
+            SizeF size = g.MeasureString(s, font);
+
+            return size;
         }
 
        

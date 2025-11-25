@@ -71,7 +71,5 @@
 
         private Panel panel;
         private Button buttonOk;
-        private Label label1;
-        private TextBox textBox1;
     }
 }
