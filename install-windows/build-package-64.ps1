@@ -17,6 +17,31 @@ function Copy-WithFullPath {
     # Copy the file and overwrite if necessary
     Copy-Item -Path $Source -Destination $Destination -Force
 }
+########################################
+
+function New-SHA256Checksum {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$FilePath
+    )
+
+    if (-not (Test-Path -Path $FilePath -PathType Leaf)) {
+        throw "Súbor nenájdený: $FilePath"
+    }
+
+    $h = Get-FileHash -Path $FilePath -Algorithm SHA256
+    $hex = $h.Hash.ToLower()
+
+    $fileName = [System.IO.Path]::GetFileName($FilePath)
+
+    $outPath = "$FilePath.SHA256"
+
+    $line = "{0}  {1}" -f $hex, $fileName
+
+    $line | Out-File -FilePath $outPath -Encoding Ascii -Force
+
+    return $outPath
+}
 
 ########################################
 
@@ -125,7 +150,6 @@ $TARGET1="install-windows\Output\infinite-diagram-install.exe"
 & $signtoolPath sign /fd SHA256 /f "$CERT_CODE" /p $CERT_PWD /tr http://timestamp.digicert.com /td sha256 /v "$TARGET1"
 & $signtoolPath verify /pa /v "$TARGET1"
 
-$hash = Get-FileHash -Path $TARGET1 -Algorithm SHA256
-$hash.Hash | Out-File -FilePath "install-windows\Output\infinite-diagram-install.exe.SHA256"
+New-SHA256Checksum -FilePath $TARGET1 
 
 Read-Host "Press Enter to continue"

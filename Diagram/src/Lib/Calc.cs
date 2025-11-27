@@ -25,5 +25,33 @@ namespace Diagram
 
             return (float)((degrees + 360.0) % 360.0);
         }
+
+        public static bool IsPointInsideRotatedRectangle(
+        decimal rectangleX, decimal rectangleY, decimal rectangleWidth, decimal rectangleHeight,
+        decimal rotationVectorX, decimal rotationVectorY,
+        decimal mouseX, decimal mouseY)
+        {
+            decimal centerX = rectangleX + (rectangleWidth / 2.0m);
+            decimal centerY = rectangleY + (rectangleHeight / 2.0m);
+
+            decimal rotationAngleRadians = (decimal)Math.Atan2((double)rotationVectorY, (double)rotationVectorX);
+
+            decimal translatedMouseX = mouseX - centerX;
+            decimal translatedMouseY = mouseY - centerY;
+
+            decimal cosTheta = (decimal)Math.Cos((double)(-rotationAngleRadians));
+            decimal sinTheta = (decimal)Math.Sin((double)(-rotationAngleRadians));
+
+            decimal rotatedMouseX = (translatedMouseX * cosTheta) - (translatedMouseY * sinTheta);
+            decimal rotatedMouseY = (translatedMouseX * sinTheta) + (translatedMouseY * cosTheta);
+
+            decimal halfWidth = rectangleWidth / 2.0m;
+            decimal halfHeight = rectangleHeight / 2.0m;
+
+            bool hitOnWidthAxis = (rotatedMouseX >= -halfWidth) && (rotatedMouseX <= halfWidth);
+            bool hitOnHeightAxis = (rotatedMouseY >= -halfHeight) && (rotatedMouseY <= halfHeight);
+
+            return hitOnWidthAxis && hitOnHeightAxis;
+        }
     }
 }

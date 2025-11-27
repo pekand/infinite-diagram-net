@@ -1,15 +1,17 @@
-﻿using System.Collections.Specialized;
+﻿using Microsoft.VisualBasic.Devices;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.Security.Policy;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Windows.Forms;
 using System.Drawing.Printing;
 using System.Drawing.Text;
+using System.Security.Policy;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using System.Xml.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 
@@ -46,10 +48,8 @@ namespace Diagram
 
         /*************************************************************************************************************************/
 
-#if DEBUG
         // DEBUG TOOLS
         private string lastEvent = ""; // remember last event in console (for remove duplicate events)
-#endif
 
         // ATRIBUTES SCREEN
         public Position shift = new();                   // left corner position
@@ -263,17 +263,19 @@ namespace Diagram
 
         /*************************************************************************************************************************/
 
-#if DEBUG
+
         // DEBUG log event to output console and prevent duplicate events display
         public void LogEvent(string lastEvetMessage = "")
         {
-            if (this.lastEvent != lastEvetMessage)
+            if (Program.Debug())
             {
-                Debug.WriteLine(lastEvetMessage);
-                this.lastEvent = lastEvetMessage;
+                if (this.lastEvent != lastEvetMessage)
+                {
+                    Debug.WriteLine(lastEvetMessage);
+                    this.lastEvent = lastEvetMessage;
+                }
             }
         }
-#endif
 
         /*************************************************************************************************************************/
 
@@ -2951,8 +2953,6 @@ namespace Diagram
                 this.Height > 64)
             {
 
-
-
                 windowIsPinned = true;
                 windowWidthBeforePin = this.Width;
                 windowHeightBeforePin = this.Height;
@@ -4003,19 +4003,21 @@ namespace Diagram
 
                         if (rec.selected && !export)
                         {
-                            RectangleF rectBorder = new(
-                                (float)((this.shift.x + cx + rec.position.x) / s),
-                                (float)((this.shift.y + cy + rec.position.y) / s),
-                                (float)((rec.width) / (s / Calc.GetScale(rec.scale))),
-                                (float)((rec.height) / (s / Calc.GetScale(rec.scale)))
-                            );
+                            RectangleF rect3 = new(
+                                    (float)((this.shift.x + cx + rec.position.x) / s),
+                                    (float)((this.shift.y + cy + rec.position.y) / s),
+                                    (float)((rec.width) / (s / Calc.GetScale(rec.scale))),
+                                    (float)((rec.height) / (s / Calc.GetScale(rec.scale)))
+                                );
 
-                            RectangleF[] rects = [rectBorder];
-
-                            gfx.DrawRectangles(
-                                nodeSelectBorder,
-                                rects
+                            gfx.TranslateTransform(rect3.X + (rect3.Width / 2), rect3.Y + (rect3.Height / 2));
+                            gfx.RotateTransform(Calc.GetAngleInDegrees(new Point(0, 0), new Point(rec.transformationRotateX, rec.transformationRotateY)));
+                            gfx.TranslateTransform(-(rect3.X + (rect3.Width / 2)), -(rect3.Y + (rect3.Height / 2)));
+                            gfx.DrawRectangle(
+                                (rec.link != "") ? nodeLinkBorder : ((rec.mark) ? nodeMarkBorder : nodeSelectBorder),
+                                rect3
                             );
+                            gfx.ResetTransform();
                         }
                     }
                     else
@@ -4200,20 +4202,21 @@ namespace Diagram
                             // draw selected node border
                             if (rec.selected && !export)
                             {
-                                RectangleF[] rects =
-                                [
-                                     new(
-                                        (float)((this.shift.x + cx + rec.position.x) / s),
-                                        (float)((this.shift.y + cy + rec.position.y) / s),
-                                        (float)((rec.width) / (s / Calc.GetScale(rec.scale))),
-                                        (float)((rec.height) / (s / Calc.GetScale(rec.scale)))
-                                    )
-                                ];
-
-                                gfx.DrawRectangles(
-                                    (rec.link != "") ? nodeLinkBorder : ((rec.mark) ? nodeMarkBorder : nodeSelectBorder),
-                                    rects
+                                RectangleF rect3 = new(
+                                    (float)((this.shift.x + cx + rec.position.x) / s),
+                                    (float)((this.shift.y + cy + rec.position.y) / s),
+                                    (float)((rec.width) / (s / Calc.GetScale(rec.scale))),
+                                    (float)((rec.height) / (s / Calc.GetScale(rec.scale)))
                                 );
+
+                                gfx.TranslateTransform(rect3.X + (rect3.Width / 2), rect3.Y + (rect3.Height / 2));
+                                gfx.RotateTransform(Calc.GetAngleInDegrees(new Point(0, 0), new Point(rec.transformationRotateX, rec.transformationRotateY)));
+                                gfx.TranslateTransform(-(rect3.X + (rect3.Width / 2)), -(rect3.Y + (rect3.Height / 2)));
+                                gfx.DrawRectangle(
+                                    (rec.link != "") ? nodeLinkBorder : ((rec.mark) ? nodeMarkBorder : nodeSelectBorder),
+                                    rect3
+                                );
+                                gfx.ResetTransform();
                             }
                         }
                     }
@@ -4761,8 +4764,12 @@ namespace Diagram
                             }
                             else if
                             (
-                                node.position.x <= position.x && position.x <= node.position.x + (node.width * scale) &&
-                                node.position.y <= position.y && position.y <= node.position.y + (node.height * scale)
+                                Calc.IsPointInsideRotatedRectangle(
+                                node.position.x, node.position.y,
+                                node.width * scale, node.height * scale,
+                                node.transformationRotateX, node.transformationRotateY,
+                                position.x, position.y
+                                )
                             )
                             {
                                 return node;
@@ -6492,8 +6499,6 @@ namespace Diagram
         public bool NodeIsVisible(Node rec)
         {
 
-
-
             decimal s = Calc.GetScale(this.scale);
 
             RectangleF imageRec = new(
@@ -6517,7 +6522,7 @@ namespace Diagram
             else
             if (imageRec.X+imageRec.Width <= 0)
             {
-                isvisible = false; //mark1
+                isvisible = false;
             }
             else
             if (0 + this.ClientSize.Height <= imageRec.Y)

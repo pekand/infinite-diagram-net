@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 #nullable disable
@@ -35,6 +36,15 @@ namespace Diagram
             Environment.Exit(1);
         }
 
+        public static bool Debug() {
+#if DEBUG
+            return true;
+#else
+            return false;
+#endif
+
+        }
+
         /*************************************************************************************************************************/
         // MAIN APPLICATION START        
 
@@ -48,11 +58,14 @@ namespace Diagram
                 Program.log.Write("Start application: " + Os.GetThisAssemblyLocation());
 
                 Program.log.Write("Version : " + Os.GetThisAssemblyVersion());
-#if DEBUG
-                Program.log.Write("Debug mode");
-#else
-                Program.log.Write("Production mode");
-#endif
+
+                if (Program.Debug()) {
+                    Program.log.Write("Debug mode");
+                } else {
+
+                    Program.log.Write("Production mode");
+                }
+
                 // application default settings
                 Application.SetHighDpiMode(HighDpiMode.SystemAware);
                 Application.EnableVisualStyles();
